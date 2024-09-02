@@ -241,6 +241,10 @@ contains
     value_ = self%get_real_array(string_t(key), mold)
   end procedure
 
+  module procedure get_double_precision_array_with_character_key
+    value_ = self%get_double_precision_array(string_t(key), mold)
+  end procedure
+
   module procedure get_real_array
     character(len=:), allocatable :: raw_line
     real, allocatable :: real_array(:)
@@ -257,6 +261,30 @@ contains
               allocate(real_array(num_inputs))
               read(raw_line(opening_bracket+1:closing_bracket-1), fmt=*) real_array
               value_ = real_array
+            end associate
+          end associate
+        end associate
+      end associate
+    end associate
+
+  end procedure
+
+  module procedure get_double_precision_array
+    character(len=:), allocatable :: raw_line
+    double precision, allocatable :: double_precision_array(:)
+    integer i
+
+    call assert(key==self%get_json_key(), "string_s(get_{double precision,integer}_array): key==self%get_json_key()", key)
+
+    raw_line = self%string()
+    associate(colon => index(raw_line, ":"))
+      associate(opening_bracket => colon + index(raw_line(colon+1:), "["))
+        associate(closing_bracket => opening_bracket + index(raw_line(opening_bracket+1:), "]"))
+          associate(commas => count("," == [(raw_line(i:i), i=opening_bracket+1,closing_bracket-1)]))
+            associate(num_inputs => commas + 1)
+              allocate(double_precision_array(num_inputs))
+              read(raw_line(opening_bracket+1:closing_bracket-1), fmt=*) double_precision_array
+              value_ = double_precision_array
             end associate
           end associate
         end associate
