@@ -18,6 +18,8 @@ contains
         select type(mold)
           type is(complex)
             format_string = complex_prefix // separator // suffix
+          type is(double precision)
+            format_string = prefix // separator // suffix
           type is(real)
             format_string = prefix // separator // suffix
           type is(integer)
@@ -42,6 +44,8 @@ contains
     select type(mold)
       type is(complex)
         format_string = complex_prefix // separator // suffix
+      type is(double precision)
+        format_string = prefix // separator // suffix
       type is(real)
         format_string = prefix // separator // suffix
       type is(integer)
