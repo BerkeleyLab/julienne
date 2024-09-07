@@ -5,14 +5,18 @@ submodule(julienne_test_m) julienne_test_s
   use julienne_command_line_m, only : command_line_t
   implicit none
 
+#if defined(__flang__)
+  #define NO_MULTI_IMAGE_SUPPORT
+#endif
+
 contains
 
   module procedure report
-#ifndef __flang__
-    associate(me => this_image())
-#else
+#ifdef NO_MULTI_IMAGE_SUPPORT
     integer me
     me = 1
+#else
+    associate(me => this_image())
 #endif
 
 
@@ -36,7 +40,7 @@ contains
 
       end if
 
-#ifndef __flang__
+#ifndef NO_MULTI_IMAGE_SUPPORT
       call co_broadcast(test_description_substring, source_image=1)
 #endif
       
@@ -55,7 +59,7 @@ contains
           block 
             logical, allocatable :: passing_tests(:)
             passing_tests = test_results%passed()
-#ifndef __flang__
+#ifndef NO_MULTI_IMAGE_SUPPORT
             call co_all(passing_tests)
 #endif
             associate(num_passes => count(passing_tests))

@@ -4,13 +4,16 @@
 !     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
 !     contract # NRC-HQ-60-17-C-0007
 !
+#ifdef __flang__
+  #define NO_MULTI_IMAGE_SUPPORT
+#endif
 submodule(julienne_user_defined_collectives_m) julienne_user_defined_collectives_s
   implicit none
 
 contains
 
   module procedure co_all
-#ifndef __flang__
+#ifndef NO_MULTI_IMAGE_SUPPORT
     call co_reduce(boolean, both)
 #endif
   contains
