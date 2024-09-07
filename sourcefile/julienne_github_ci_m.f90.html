@@ -1,0 +1,373 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A standalone, minimal unit-testing and string/command-line-handling utility.">
+    <meta name="author" content="Berkeley Lab" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>julienne_github_ci_m.f90 &ndash; Julienne</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">Julienne </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>julienne_github_ci_m.f90
+      <small>Source File</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.6% of total for source files.">7 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/julienne_github_ci_m.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+            <li class="breadcrumb-item active" aria-current="page">julienne_github_ci_m.f90</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#mods-0"
+         aria-expanded="false" aria-controls="mods-0">
+         <h4 class="card-header bg-primary text-white">Modules</h4>
+      </a>
+      <div id="mods-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/julienne_github_ci_m.html">julienne_github_ci_m</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../sourcefile/julienne_github_ci_m.f90.html#src">julienne_github_ci_m.f90</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Files dependent on this one</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~julienne_github_ci_m.f90~~AfferentGraph Pages: 1 -->
+<svg id="sourcefilejulienne_github_ci_mf90AfferentGraph" width="566pt" height="116pt"
+ viewBox="0.00 0.00 566.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~julienne_github_ci_m.f90~~AfferentGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>sourcefile~~julienne_github_ci_m.f90~~AfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 562,-112 562,4 -4,4"/>
+<!-- sourcefile~julienne_github_ci_m.f90 -->
+<g id="sourcefile~~julienne_github_ci_m.f90~~AfferentGraph_node1" class="node">
+<title>sourcefile~julienne_github_ci_m.f90</title>
+<polygon fill="none" stroke="black" points="145,-87 0,-87 0,-63 145,-63 145,-87"/>
+<text text-anchor="middle" x="72.5" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50">julienne_github_ci_m.f90</text>
+</g>
+<!-- sourcefile~julienne_github_ci_s.f90 -->
+<g id="sourcefile~~julienne_github_ci_m.f90~~AfferentGraph_node2" class="node">
+<title>sourcefile~julienne_github_ci_s.f90</title>
+<g id="a_sourcefile~~julienne_github_ci_m.f90~~AfferentGraph_node2"><a xlink:href="../sourcefile/julienne_github_ci_s.f90.html" xlink:title="julienne_github_ci_s.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="320,-108 181,-108 181,-84 320,-84 320,-108"/>
+<text text-anchor="middle" x="250.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_github_ci_s.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_github_ci_s.f90&#45;&gt;sourcefile~julienne_github_ci_m.f90 -->
+<g id="sourcefile~~julienne_github_ci_m.f90~~AfferentGraph_edge1" class="edge">
+<title>sourcefile~julienne_github_ci_s.f90&#45;&gt;sourcefile~julienne_github_ci_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M180.95,-87.82C172.49,-86.81 163.77,-85.77 155.14,-84.74"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="155.4,-81.25 145.06,-83.54 154.57,-88.2 155.4,-81.25"/>
+</g>
+<!-- sourcefile~julienne_m.f90 -->
+<g id="sourcefile~~julienne_github_ci_m.f90~~AfferentGraph_node3" class="node">
+<title>sourcefile~julienne_m.f90</title>
+<g id="a_sourcefile~~julienne_github_ci_m.f90~~AfferentGraph_node3"><a xlink:href="../sourcefile/julienne_m.f90.html" xlink:title="julienne_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="296,-66 205,-66 205,-42 296,-42 296,-66"/>
+<text text-anchor="middle" x="250.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_github_ci_m.f90 -->
+<g id="sourcefile~~julienne_github_ci_m.f90~~AfferentGraph_edge2" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_github_ci_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M204.63,-59.35C189.56,-61.15 172.25,-63.22 155.25,-65.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="154.82,-61.77 145.3,-66.43 155.65,-68.72 154.82,-61.77"/>
+</g>
+<!-- sourcefile~check&#45;command&#45;line&#45;argument.f90 -->
+<g id="sourcefile~~julienne_github_ci_m.f90~~AfferentGraph_node4" class="node">
+<title>sourcefile~check&#45;command&#45;line&#45;argument.f90</title>
+<g id="a_sourcefile~~julienne_github_ci_m.f90~~AfferentGraph_node4"><a xlink:href="../sourcefile/check-command-line-argument.f90.html" xlink:title="check&#45;command&#45;line&#45;argument.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="558,-108 356,-108 356,-84 558,-84 558,-108"/>
+<text text-anchor="middle" x="457" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">check&#45;command&#45;line&#45;argument.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~check&#45;command&#45;line&#45;argument.f90&#45;&gt;sourcefile~julienne_m.f90 -->
+<g id="sourcefile~~julienne_github_ci_m.f90~~AfferentGraph_edge3" class="edge">
+<title>sourcefile~check&#45;command&#45;line&#45;argument.f90&#45;&gt;sourcefile~julienne_m.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M397.4,-83.96C368.7,-78.07 334.36,-71.02 306.2,-65.23"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="306.63,-61.75 296.13,-63.17 305.22,-68.61 306.63,-61.75"/>
+</g>
+<!-- sourcefile~get&#45;flag&#45;value.f90 -->
+<g id="sourcefile~~julienne_github_ci_m.f90~~AfferentGraph_node5" class="node">
+<title>sourcefile~get&#45;flag&#45;value.f90</title>
+<g id="a_sourcefile~~julienne_github_ci_m.f90~~AfferentGraph_node5"><a xlink:href="../sourcefile/get-flag-value.f90.html" xlink:title="get&#45;flag&#45;value.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="510.5,-66 403.5,-66 403.5,-42 510.5,-42 510.5,-66"/>
+<text text-anchor="middle" x="457" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get&#45;flag&#45;value.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~get&#45;flag&#45;value.f90&#45;&gt;sourcefile~julienne_m.f90 -->
+<g id="sourcefile~~julienne_github_ci_m.f90~~AfferentGraph_edge4" class="edge">
+<title>sourcefile~get&#45;flag&#45;value.f90&#45;&gt;sourcefile~julienne_m.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M403.34,-54C373.59,-54 336.45,-54 306.35,-54"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="306.03,-50.5 296.03,-54 306.03,-57.5 306.03,-50.5"/>
+</g>
+<!-- sourcefile~handle&#45;missing&#45;flag.f90 -->
+<g id="sourcefile~~julienne_github_ci_m.f90~~AfferentGraph_node6" class="node">
+<title>sourcefile~handle&#45;missing&#45;flag.f90</title>
+<g id="a_sourcefile~~julienne_github_ci_m.f90~~AfferentGraph_node6"><a xlink:href="../sourcefile/handle-missing-flag.f90.html" xlink:title="handle&#45;missing&#45;flag.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="526,-24 388,-24 388,0 526,0 526,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">handle&#45;missing&#45;flag.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~handle&#45;missing&#45;flag.f90&#45;&gt;sourcefile~julienne_m.f90 -->
+<g id="sourcefile~~julienne_github_ci_m.f90~~AfferentGraph_edge5" class="edge">
+<title>sourcefile~handle&#45;missing&#45;flag.f90&#45;&gt;sourcefile~julienne_m.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M397.4,-24.04C368.7,-29.93 334.36,-36.98 306.2,-42.77"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="305.22,-39.39 296.13,-44.83 306.63,-46.25 305.22,-39.39"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#AfferentGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="AfferentGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="202pt" height="32pt"
+ viewBox="0.00 0.00 201.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 197.5,-28 197.5,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="193.5,-24 88.5,-24 88.5,0 193.5,0 193.5,-24"/>
+<text text-anchor="middle" x="141" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a file to a file which it depends on. A file
+is dependent upon another if the latter must be compiled before the former
+can be.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+<br>
+      <section>
+        <h2><span class="anchor" id="src"></span>Source Code</h2>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="c">! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute</span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">! Terms of use are as specified in LICENSE.txt</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="k">module </span><span class="n">julienne_github_ci_m</span>
+<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="w">  </span><span class="c">!! Detect whether a program is running in GitHub Continuous Integration (CI)</span>
+<a id="ln-5" name="ln-5" href="#ln-5"></a><span class="w">  </span><span class="k">implicit none</span>
+<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="k">   </span>
+<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="k">  interface</span>
+<a id="ln-8" name="ln-8" href="#ln-8"></a>
+<a id="ln-9" name="ln-9" href="#ln-9"></a><span class="k">    </span><span class="kt">logical </span><span class="k">module function </span><span class="n">GitHub_CI</span><span class="p">()</span>
+<a id="ln-10" name="ln-10" href="#ln-10"></a><span class="w">      </span><span class="c">!! The result is true if the environment variable named &quot;CI&quot; is set to the string &quot;true&quot;</span>
+<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="w">    </span><span class="k">end function</span>
+<a id="ln-12" name="ln-12" href="#ln-12"></a>
+<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="k">  end interface</span>
+<a id="ln-14" name="ln-14" href="#ln-14"></a>
+<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="k">end module</span>
+</pre></div>
+
+      </section>
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              Julienne
+ was developed by Berkeley Lab<br>              &copy; 2024 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2024-09-07 21:22              </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>

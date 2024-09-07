@@ -24,9 +24,10 @@ module julienne_test_description_m
     procedure(test_function_i), pointer, nopass :: test_function_ => null()
   contains
     procedure run
-    procedure contains_text
+    generic :: contains_text => contains_string_t, contains_characters
+    procedure, private ::       contains_string_t, contains_characters
     generic :: operator(==) => equals
-    procedure, private :: equals
+    procedure, private ::      equals
   end type
 
   interface test_description_t
@@ -58,11 +59,19 @@ module julienne_test_description_m
       type(test_result_t) test_result
     end function
 
-    impure elemental module function contains_text(self, substring) result(match)
-      !! The result is .true. if the test description includes the value of substring 
+    impure elemental module function contains_string_t(self, substring) result(match)
+      !! The result is .true. if the test description includes the value of substring
       implicit none
       class(test_description_t), intent(in) :: self
       type(string_t), intent(in) :: substring
+      logical match
+    end function
+
+    impure elemental module function contains_characters(self, substring) result(match)
+      !! The result is .true. if the test description includes the value of substring
+      implicit none
+      class(test_description_t), intent(in) :: self
+      character(len=*), intent(in) :: substring
       logical match
     end function
 

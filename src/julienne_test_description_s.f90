@@ -17,8 +17,12 @@ contains
       test_result = test_result_t(self%description_, self%test_function_())
     end procedure
 
-    module procedure contains_text
+    module procedure contains_string_t
       match = index(self%description_%string(), substring%string()) /= 0
+    end procedure
+
+    module procedure contains_characters
+      match = index(self%description_%string(), substring) /= 0
     end procedure
 
     module procedure equals

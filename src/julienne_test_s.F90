@@ -68,7 +68,7 @@ contains
             end associate
           end block
         end associate
-#ifndef __flang__
+#ifndef NO_MULTI_IMAGE_SUPPORT
       end associate
 #endif
 
