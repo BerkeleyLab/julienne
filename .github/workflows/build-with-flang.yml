@@ -16,9 +16,9 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
-    - uses: fortran-lang/setup-fpm@v4
+    - uses: fortran-lang/setup-fpm@v6.0.1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -28,4 +28,5 @@ jobs:
         fpm --version
         $FC --version
         export FPM_FC=$FC
-        fpm test --flag "-mmlir -allow-assumed-rank -O3"
+        export FPM_FFLAGS="-mmlir -allow-assumed-rank -O3"
+        fpm test

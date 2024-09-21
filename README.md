@@ -25,11 +25,12 @@ fpm test --compiler nagfor --flag -fpp
 ```
 
 ### LLVM Flang
-**Experimental**
 ```
-fpm test --compiler flang-new --flag "-mmlir -allow-assumed-rank"
+FPM_FC=flang-new
+FPM_FFLAGS="-mmlir -allow-assumed-rank"
+fpm test # Warning: Do not override the FPM_FC or FPM_FFLAGS variables with --compiler or --flag
 ```
-where the flags `-mmlir -allow-assumed-rank` turn on LLVM Flang's experimental support for Fortran's assumed-rank dummy arguments.
+where the flags turn on LLVM Flang's experimental support for Fortran assumed-rank dummy arguments.
 Flang's capabilities are evolving rapidly so we recommend building a recent version of the main branch of llvm-project.
 A script that might be helpful for doing so is in the [handy-dandy] repository.
 
