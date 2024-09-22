@@ -1,9 +1,12 @@
 ! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
+
+#include "language-support.F90"
+
 module bin_test_m
   !! Check data partitioning across bins
   use julienne_m, only : bin_t, test_t, test_result_t, test_description_t, test_description_substring, string_t
-#ifdef __GFORTRAN__
+#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
   use julienne_m, only : test_function_i
 #endif
   use assert_m, only : assert
@@ -29,7 +32,7 @@ contains
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
 
-#ifndef __GFORTRAN__
+#if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_descriptions = [ & 
       test_description_t(string_t("partitioning items nearly evenly across bins"), check_block_partitioning), &
       test_description_t(string_t("partitioning all item across all bins without item loss"), check_all_items_partitioned) &

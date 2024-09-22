@@ -1,8 +1,11 @@
 ! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
+
+#include "language-support.F90"
+
 module string_test_m
   use julienne_m, only : test_t, test_result_t, string_t, operator(.cat.), test_description_t, test_description_substring
-#ifdef __GFORTRAN__
+#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
   use julienne_m, only : test_function_i
 #endif
   implicit none
@@ -27,7 +30,7 @@ contains
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
 
-#ifndef __GFORTRAN__
+#if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_descriptions = [ & 
       test_description_t &
         (string_t("is_allocated() result .true. if & only if the string_t component(s) is/are allocated"), check_allocation), &

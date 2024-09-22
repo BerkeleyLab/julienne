@@ -1,9 +1,12 @@
 ! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
+
+#include "language-support.F90" 
+
 module test_result_test_m
   !! Verify test_result_t object behavior
   use julienne_m, only : string_t, test_result_t, test_description_t, test_t, test_description_substring
-#ifdef __GFORTRAN__
+#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
   use julienne_m, only : test_function_i
 #endif
   implicit none
@@ -28,7 +31,7 @@ contains
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
 
-#ifndef __GFORTRAN__
+#if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_descriptions = [ &
       test_description_t(string_t("constructing an array of test_result_t objects elementally"), check_array_result_construction), &
       test_description_t(string_t("reporting failure if the test fails on one image"), check_single_image_failure) &
@@ -61,11 +64,13 @@ contains
     type(test_result_t), allocatable :: test_result
     logical passed
 
-#ifndef __flang__
+#if HAVE_MULTI_IMAGE_SUPPORT
     if (this_image()==1) then
 #endif
+
       test_result = test_result_t("image 1 fails", .false.)
-#ifndef __flang__
+
+#if HAVE_MULTI_IMAGE_SUPPORT
     else
       test_result = test_result_t("all images other than 1 pass", .true.)
     end if

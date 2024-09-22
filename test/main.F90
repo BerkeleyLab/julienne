@@ -1,9 +1,7 @@
 ! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
-#if defined(__flang__)
-  #define NO_MULTI_IMAGE_SUPPORT
-#endif
+#include "language-support.F90"
 
 program main
   !! Julienne unit tests driver
@@ -51,10 +49,17 @@ program main
   call vector_test_description_test%report(passes,tests)
   if (.not. GitHub_CI())  call command_line_test%report(passes, tests)
 
-#ifndef NO_MULTI_IMAGE_SUPPORT
-  if (this_image()==1) &
+#if HAVE_MULTI_IMAGE_SUPPORT
+  if (this_image()==1) then
 #endif
-  print *, new_line('a'), "_________ In total, ",passes," of ",tests, " tests pass. _________"
-  if (passes /= tests) error stop
+
+    print *
+    print '(*(a,:,g0))', "_________ In total, ",passes," of ",tests, " tests pass. _________"
+
+    if (passes /= tests) error stop "Some tests failed."
+
+#if HAVE_MULTI_IMAGE_SUPPORT
+  end if
+#endif
 
 end program

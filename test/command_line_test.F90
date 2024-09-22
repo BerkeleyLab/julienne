@@ -1,9 +1,12 @@
 ! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
+
+#include "language-support.F90"
+
 module command_line_test_m
   !! Verify object pattern asbtract parent
   use julienne_m, only : test_t, test_result_t, command_line_t, test_description_substring, string_t, test_description_t
-#ifdef __GFORTRAN__
+#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
   use julienne_m, only : test_function_i
 #endif
     
@@ -28,7 +31,7 @@ contains
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
-#ifndef __GFORTRAN__
+#if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_descriptions = [ & 
       test_description_t(string_t("returning the value passed after a command-line flag"), check_flag_value), &
       test_description_t(string_t("returning an empty string when a flag value is missing"), handle_missing_flag_value), &

@@ -1,9 +1,12 @@
 ! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
+
+#include "language-support.F90"
+
 module test_description_test_m
   !! Verify test_description_t object behavior
   use julienne_m, only : string_t, test_result_t, test_description_t, test_t, test_description_substring
-#ifdef __GFORTRAN__
+#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
   use julienne_m, only : test_function_i
 #endif
   implicit none
@@ -28,7 +31,7 @@ contains
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
 
-#ifndef __GFORTRAN__
+#if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_descriptions = [ &
       test_description_t("identical construction from string_t or character arguments", check_character_constructor) &
     ]
@@ -51,7 +54,7 @@ contains
 
   function check_character_constructor() result(passed)
     logical passed
-#ifndef __GFORTRAN__
+#if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     passed = test_description_t("foo", tautology) == test_description_t(string_t("foo"), tautology)
 #else
     procedure(test_function_i), pointer :: test_function_ptr
