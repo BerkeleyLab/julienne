@@ -54,7 +54,7 @@ program main
 #endif
 
     print *
-    print '(*(a,:,i))', "_________ In total, ",passes," of ",tests, " tests pass. _________"
+    print '(*(a,:,g0))', "_________ In total, ",passes," of ",tests, " tests pass. _________"
 
     if (passes /= tests) error stop "Some tests failed."
 
