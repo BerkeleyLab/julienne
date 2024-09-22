@@ -28,11 +28,12 @@ contains
             type(command_line_t) command_line
             test_description_substring = command_line%flag_value("--contains")
           end block
+          print *
           if (len(test_description_substring)==0) then
-            print*,"Running all tests."
-            print*,"(Add '-- --contains <string>' to run only tests with subjects or descriptions containing the specified string.)"
+            print '(a)',"Running all tests."
+            print '(a)',"(Add '-- --contains <string>' to run only tests with subjects or descriptions containing the specified string.)"
           else
-            print *,"Running only tests with subjects or descriptions containing '", test_description_substring,"'."
+            print '(*(a))',"Running only tests with subjects or descriptions containing '", test_description_substring,"'."
           end if
         end if first_report
 
@@ -52,7 +53,7 @@ contains
             block
               integer i
               do i=1,num_tests
-                if (me==1) print *,"   ",test_results(i)%characterize()
+                if (me==1) print '(3x,a)', test_results(i)%characterize()
               end do
             end block
           end if
@@ -83,7 +84,7 @@ contains
           tests = tests + num_tests
           if (me==1) then
             do i=1,num_tests
-              if (me==1) print *,"   ",test_results(i)%characterize()
+              if (me==1) print '(3x,a)', test_results(i)%characterize()
             end do
           end if
           passing_tests = test_results%passed()

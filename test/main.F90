@@ -54,7 +54,8 @@ program main
 #ifndef NO_MULTI_IMAGE_SUPPORT
   if (this_image()==1) &
 #endif
-  print *, new_line('a'), "_________ In total, ",passes," of ",tests, " tests pass. _________"
+  print *
+  print '(*(a,:,i))', "_________ In total, ",passes," of ",tests, " tests pass. _________"
   if (passes /= tests) error stop
 
 end program
