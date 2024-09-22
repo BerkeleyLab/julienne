@@ -4,10 +4,6 @@ submodule(julienne_test_result_m) julienne_test_result_s
   use julienne_user_defined_collectives_m, only : co_all
   implicit none
 
-#ifdef __flang__
-  #define NO_MULTI_IMAGE_SUPPORT
-#endif
-
 contains
 
     module procedure construct_from_character
@@ -26,9 +22,7 @@ contains
 
     module procedure passed
       test_passed = self%passed_
-#ifndef NO_MULTI_IMAGE_SUPPORT
       call co_all(test_passed)
-#endif
     end procedure
 
     module procedure description_contains
