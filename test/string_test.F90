@@ -65,6 +65,8 @@ contains
       test_description_t &
         (string_t("extracting an integer array value from a colon-separated key/value pair"), extracts_integer_array_value), &
       test_description_t &
+        (string_t("extracting a string_t array value from a colon-separated key/value pair"), extracts_string_array_value), &
+      test_description_t &
         (string_t("extracting an real array value from a colon-separated key/value pair"), extracts_real_array_value), &
       test_description_t &
         (string_t("extracting a double-precision array value from a colon-separated key/value pair"), extracts_dp_array_value), &
@@ -81,8 +83,8 @@ contains
       check_allocation_ptr, supports_equivalence_ptr, supports_non_equivalence_ptr, supports_concatenation_ptr, &
       assigns_string_ptr, assigns_character_ptr, constructs_from_integer_ptr, constructs_from_real_ptr, concatenates_ptr, &
       extracts_key_ptr, extracts_real_ptr, extracts_string_ptr, extracts_logical_ptr, extracts_integer_array_ptr, &
-      extracts_real_array_ptr, extracts_integer_ptr, extracts_file_base_ptr, extracts_file_name_ptr, extracts_character_ptr, &
-      extracts_double_precision_value_ptr, extracts_dp_array_value_ptr
+      extracts_string_array_ptr, extracts_real_array_ptr, extracts_integer_ptr, extracts_file_base_ptr, extracts_file_name_ptr, &
+      extracts_character_ptr, extracts_double_precision_value_ptr, extracts_dp_array_value_ptr
 
     check_allocation_ptr => check_allocation
     supports_equivalence_ptr => supports_equivalence_operator
@@ -100,6 +102,7 @@ contains
     extracts_character_ptr => extracts_character_value
     extracts_logical_ptr => extracts_logical_value
     extracts_integer_array_ptr  => extracts_integer_array_value
+    extracts_string_array_ptr  => extracts_string_array_value
     extracts_real_array_ptr => extracts_real_array_value
     extracts_dp_array_value_ptr => extracts_dp_array_value
     extracts_integer_ptr => extracts_integer_value
@@ -128,6 +131,8 @@ contains
       test_description_t(string_t("extracting a logical value from a colon-separated key/value pair"), extracts_logical_ptr), &
       test_description_t( &
         string_t("extracting an integer array value from a colon-separated key/value pair"), extracts_integer_array_ptr), &
+      test_description_t( &
+        string_t("extracting an string array value from a colon-separated key/value pair"), extracts_string_array_ptr), &
       test_description_t( &
         string_t("extracting an real array value from a colon-separated key/value pair"), extracts_real_array_ptr), &
       test_description_t( &
@@ -287,6 +292,26 @@ contains
       true_too = trailing_comma%get_json_value(key=string_t("trailing comma"), mold=.true.)
 
       passed = true .and. true_too .and. .not. false
+    end block
+#endif
+  end function
+
+  function extracts_string_array_value() result(passed)
+    logical passed
+
+#ifndef _CRAYFTN
+    associate(key_string_array_pair => string_t('"lead singer" : ["stevie", "ray", "vaughn"],'))
+      associate(string_array => key_string_array_pair%get_json_value(key=string_t("lead singer"), mold=[string_t::]))
+        passed = all(string_array == [string_t("stevie"), string_t("ray"), string_t("vaughn")])
+      end associate
+    end associate
+#else
+    block
+      type(string_t) key_string_array_pair
+      type(string_t), allocatable :: string_array(:)
+      key_string_array_pair = string_t('"lead singer" : ["ella", "fitzgerald"],')
+      string_array = key_string_array_pair%get_json_value(key=string_t("lead singer"), mold=[string_t::])
+      passed = all(string_array == [string_t("ella"), string_t("fitzgerald")])
     end block
 #endif
   end function
