@@ -1,7 +1,7 @@
 ! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 submodule(julienne_string_m) julienne_string_s
-  use assert_m, only : assert
+  use assert_m, only : assert, intrinsic_array_t
   implicit none
   
 contains
@@ -157,6 +157,35 @@ contains
   module procedure get_character_with_character_key
     associate(string_value => self%get_string(string_t(key), string_t(mold)))
       value_ = string_value%string()
+    end associate
+  end procedure
+
+  module procedure get_string_t_array
+
+    character(len=:), allocatable :: raw_line
+    integer i, comma, opening_quotes, closing_quotes
+
+    call assert(key==self%get_json_key(), "key==self%get_string_json()", key)
+
+    raw_line = self%string()
+
+    associate(colon => index(raw_line, ':'))
+      associate(opening_bracket => colon + index(raw_line(colon+1:), '['))
+        associate(closing_bracket => opening_bracket + index(raw_line(opening_bracket+1:), ']'))
+          associate(commas => count("," == [(raw_line(i:i), i = opening_bracket+1, closing_bracket-1)]))
+            allocate(value_(commas+1))
+            opening_quotes = opening_bracket + index(raw_line(opening_bracket+1:), '"')
+            closing_quotes = opening_quotes + index(raw_line(opening_quotes+1:), '"')
+            value_(1) = raw_line(opening_quotes+1:closing_quotes-1)
+            do i = 1, commas
+              comma = closing_quotes + index(raw_line(closing_quotes+1:), ',')
+              opening_quotes = comma + index(raw_line(comma+1:), '"')
+              closing_quotes = opening_quotes + index(raw_line(opening_quotes+1:), '"')
+              value_(i+1) = raw_line(opening_quotes+1:closing_quotes-1)
+            end do
+          end associate
+        end associate
+      end associate
     end associate
   end procedure
 
