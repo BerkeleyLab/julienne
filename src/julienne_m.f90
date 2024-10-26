@@ -12,22 +12,5 @@ module julienne_m
   use julienne_test_description_m, only : test_description_t, test_function_i
   use julienne_test_result_m, only : test_result_t
   use julienne_vector_test_description_m, only : vector_test_description_t, vector_function_strategy_t
-
   implicit none
-  private
-  public :: bin_t
-  public :: csv
-  public :: command_line_t
-  public :: operator(.cat.)
-  public :: file_t
-  public :: github_ci
-  public :: separated_values
-  public :: string_t
-  public :: test_t
-  public :: test_description_t
-  public :: test_description_substring
-  public :: test_function_i
-  public :: test_result_t
-  public :: vector_function_strategy_t
-  public :: vector_test_description_t
 end module julienne_m
