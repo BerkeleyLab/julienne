@@ -75,7 +75,9 @@ contains
       test_description_t &
         (string_t('extracting a file base name'), extracts_file_base_name), &
       test_description_t &
-        (string_t('extracting a file name extension'), extracts_file_name_extension) &
+        (string_t('extracting a file name extension'), extracts_file_name_extension), &
+      test_description_t &
+        (string_t('constructing a bracketed string'), brackets_strings) &
     ]
 #else
     ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
@@ -86,7 +88,8 @@ contains
       extracts_real_array_ptr, extracts_integer_ptr, extracts_file_base_ptr, extracts_file_name_ptr, &
       ! Remove code that exposes a gfortran compiler bug:
       ! extracts_string_array_ptr, &
-      extracts_character_ptr, extracts_double_precision_value_ptr, extracts_dp_array_value_ptr
+      extracts_character_ptr, extracts_double_precision_value_ptr, extracts_dp_array_value_ptr, &
+      bracket_a_string
 
     check_allocation_ptr => check_allocation
     supports_equivalence_ptr => supports_equivalence_operator
@@ -111,6 +114,7 @@ contains
     extracts_integer_ptr => extracts_integer_value
     extracts_file_base_ptr => extracts_file_base_name
     extracts_file_name_ptr => extracts_file_name_extension
+    brackets_strings_ptr => brackets_strings
 
     test_descriptions = [ & 
       test_description_t( &
@@ -143,7 +147,8 @@ contains
         string_t("extracting an double-precision array value from a colon-separated key/value pair"), extracts_dp_array_value_ptr), &
       test_description_t(string_t("extracting an integer value from a colon-separated key/value pair"), extracts_integer_ptr), &
       test_description_t(string_t('extracting a file base name'), extracts_file_base_ptr), &
-      test_description_t(string_t('extracting a file name extension'), extracts_file_name_ptr) &
+      test_description_t(string_t('extracting a file name extension'), extracts_file_name_ptr), &
+      test_description_t(string_t('constructing a bracketed string'), brackets_strings) &
     ]   
 #endif
     test_descriptions = pack(test_descriptions, &
@@ -509,6 +514,24 @@ contains
   function concatenates_elements() result(passed)
     logical passed
     passed = (.cat. [string_t("foo"), string_t("bar")]) == "foobar"
+  end function
+
+  function brackets_strings() result(passed)
+    logical passed
+
+    associate( &
+      scalar => string_t("abcdefg"), &
+      array  => [string_t("do"), string_t("ray"), string_t("me")] &
+    )
+      associate( &
+         brackets_a_scalar           => scalar%bracket()       == string_t("[abcdefg]") &
+        ,defaults_to_square          => all(array%bracket()        == [string_t("[do]"), string_t("[ray]"), string_t("[me]")]) &
+        ,defaults_closing_to_opening => all(array%bracket('"')     == [string_t('"do"'), string_t('"ray"'), string_t('"me"')]) &
+        ,handles_both_args_present   => all(array%bracket("{","}") == [string_t('{do}'), string_t('{ray}'), string_t('{me}')]) &
+      )
+        passed = brackets_a_scalar .and. defaults_to_square .and. defaults_closing_to_opening .and. handles_both_args_present
+      end associate
+    end associate
   end function
 
 end module string_test_m

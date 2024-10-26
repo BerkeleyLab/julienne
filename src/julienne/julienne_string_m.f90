@@ -19,6 +19,7 @@ module julienne_string_m
     procedure :: get_json_key
     procedure :: file_extension
     procedure :: base_name
+    procedure :: bracket
     generic :: operator(//)   => string_t_cat_string_t, string_t_cat_character, character_cat_string_t
     generic :: operator(/=)   => string_t_ne_string_t, string_t_ne_character, character_ne_string_t
     generic :: operator(==)   => string_t_eq_string_t, string_t_eq_character, character_eq_string_t
@@ -323,6 +324,13 @@ module julienne_string_m
       class(string_t), intent(in) :: rhs
       character(len=:), intent(out), allocatable :: lhs
     end subroutine
+
+    elemental module function bracket(self, opening, closing) result(bracketed_self)
+      implicit none
+      class(string_t), intent(in) :: self
+      character(len=*), intent(in), optional :: opening, closing
+      type(string_t) bracketed_self
+    end function
 
   end interface
   
