@@ -1,3 +1,5 @@
+! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
+! Terms of use are as specified in LICENSE.txt
 submodule(julienne_bin_m) julienne_bin_s
   use assert_m, only : assert, intrinsic_array_t
   implicit none

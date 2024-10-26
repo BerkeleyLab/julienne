@@ -1,3 +1,5 @@
+! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
+! Terms of use are as specified in LICENSE.txt
 submodule(julienne_vector_test_description_m) julienne_vector_test_description_s
   use assert_m, only : assert
   implicit none
