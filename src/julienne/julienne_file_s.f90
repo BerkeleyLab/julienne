@@ -1,3 +1,5 @@
+! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
+! Terms of use are as specified in LICENSE.txt
 submodule(julienne_file_m) julienne_file_s
   use iso_fortran_env, only : iostat_end, iostat_eor, output_unit
   use assert_m, only : assert
