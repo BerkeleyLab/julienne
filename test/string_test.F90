@@ -103,7 +103,7 @@ contains
       ! Remove code that exposes a gfortran compiler bug:
       ! extracts_string_array_ptr, &
       extracts_character_ptr, extracts_double_precision_value_ptr, extracts_dp_array_value_ptr, &
-      bracket_a_string, constructs_separated_values
+      brackets_strings_ptr, constructs_separated_values_ptr
         
     check_allocation_ptr => check_allocation
     supports_equivalence_ptr => supports_equivalence_operator
@@ -535,18 +535,22 @@ contains
   function brackets_strings() result(passed)
     logical passed
 
+#ifdef __GFORTRAN__
+    type(string_t), allocatable :: array(:)
+    array  = string_t(["do", "re", "mi"])
+#endif
+
     associate( &
-      scalar => string_t("do re mi"), &
-      array  => [string_t("do"), string_t("re"), string_t("mi")] &
+       scalar => string_t("do re mi") &
+#ifndef __GFORTRAN__
+      ,array  => string_t(["do", "re", "mi"]) &
+#endif
     )
-      associate( &
-         brackets_a_scalar           => scalar%bracket()           == string_t("[do re mi]") &
-        ,defaults_to_square          => all(array%bracket()        == [string_t("[do]"), string_t("[re]"), string_t("[mi]")]) &
-        ,defaults_closing_to_opening => all(array%bracket('"')     == [string_t('"do"'), string_t('"re"'), string_t('"mi"')]) &
-        ,handles_both_args_present   => all(array%bracket("{","}") == [string_t('{do}'), string_t('{re}'), string_t('{mi}')]) &
-      )
-        passed = brackets_a_scalar .and. defaults_to_square .and. defaults_closing_to_opening .and. handles_both_args_present
-      end associate
+      passed = &
+                 scalar%bracket()        == string_t("[do re mi]")                                  &
+        .and. all(array%bracket()        == [string_t("[do]"), string_t("[re]"), string_t("[mi]")]) &
+        .and. all(array%bracket('"')     == [string_t('"do"'), string_t('"re"'), string_t('"mi"')]) &
+        .and. all(array%bracket("{","}") == [string_t('{do}'), string_t('{re}'), string_t('{mi}')])
     end associate
   end function
 
