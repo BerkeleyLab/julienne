@@ -29,7 +29,7 @@ contains
     end if
 
     do l = 1, size(self%lines_)
-      write(file_unit, *) self%lines_(l)%string()
+      write(file_unit, '(a)') self%lines_(l)%string()
     end do
 
     if (present(file_name)) close(file_unit)
