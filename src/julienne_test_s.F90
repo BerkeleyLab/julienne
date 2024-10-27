@@ -35,7 +35,7 @@ contains
           end if
         end if first_report
 
-        print *, new_line('a'), test%subject()
+        print '(*(a))', new_line('a'), test%subject()
 
       end if
 
