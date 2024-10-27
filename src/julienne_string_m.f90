@@ -7,7 +7,9 @@ module julienne_string_m
   private
   public :: string_t
   public :: array_of_strings
-  public :: operator(.cat.) ! element-wise concatenation operator
+  public :: operator(.cat.) ! element-wise concatenation unary operator
+  public :: operator(.csv.) ! comma-separated values unary operator
+  public :: operator(.sv.)  ! separated-values binary operator
 
   type, extends(characterizable_t) :: string_t
     private
@@ -19,6 +21,7 @@ module julienne_string_m
     procedure :: get_json_key
     procedure :: file_extension
     procedure :: base_name
+    procedure :: bracket
     generic :: operator(//)   => string_t_cat_string_t, string_t_cat_character, character_cat_string_t
     generic :: operator(/=)   => string_t_ne_string_t, string_t_ne_character, character_ne_string_t
     generic :: operator(==)   => string_t_eq_string_t, string_t_eq_character, character_eq_string_t
@@ -83,7 +86,54 @@ module julienne_string_m
 
   end interface
 
+  interface operator(.csv.)
+
+    pure module function strings_with_comma_separator(strings) result(csv)
+      implicit none
+      type(string_t), intent(in) :: strings(:)
+      type(string_t) csv
+    end function
+
+    pure module function characters_with_comma_separator(strings) result(csv)
+      implicit none
+      character(len=*), intent(in) :: strings(:)
+      type(string_t) csv
+    end function
+
+  end interface
+
+  interface operator(.sv.)
+
+    pure module function strings_with_character_separator(strings, separator) result(sv)
+      implicit none
+      type(string_t)  , intent(in) :: strings(:)
+      character(len=*), intent(in) :: separator
+      type(string_t) sv
+    end function
+
+    pure module function characters_with_character_separator(strings, separator) result(sv)
+      implicit none
+      character(len=*), intent(in) :: strings(:), separator
+      type(string_t) sv
+    end function
+
+    pure module function characters_with_string_separator(strings, separator) result(sv)
+      implicit none
+      character(len=*), intent(in) :: strings(:)
+      type(string_t)  , intent(in) :: separator
+      type(string_t) sv
+    end function
+
+    pure module function strings_with_string_t_separator(strings, separator) result(sv)
+      implicit none
+      type(string_t), intent(in) :: strings(:), separator
+      type(string_t) sv 
+    end function
+
+  end interface
+
   interface
+
     pure module function as_character(self) result(raw_string)
       implicit none
       class(string_t), intent(in) :: self
@@ -323,6 +373,13 @@ module julienne_string_m
       class(string_t), intent(in) :: rhs
       character(len=:), intent(out), allocatable :: lhs
     end subroutine
+
+    elemental module function bracket(self, opening, closing) result(bracketed_self)
+      implicit none
+      class(string_t), intent(in) :: self
+      character(len=*), intent(in), optional :: opening, closing
+      type(string_t) bracketed_self
+    end function
 
   end interface
   
