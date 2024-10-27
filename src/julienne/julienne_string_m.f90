@@ -7,7 +7,9 @@ module julienne_string_m
   private
   public :: string_t
   public :: array_of_strings
-  public :: operator(.cat.) ! element-wise concatenation operator
+  public :: operator(.cat.) ! element-wise concatenation unary operator
+  public :: operator(.csv.) ! comma-separated values unary operator
+  public :: operator(.sv.)  ! separated-values binary operator
 
   type, extends(characterizable_t) :: string_t
     private
@@ -84,7 +86,54 @@ module julienne_string_m
 
   end interface
 
+  interface operator(.csv.)
+
+    pure module function strings_with_comma_separator(strings) result(csv)
+      implicit none
+      type(string_t), intent(in) :: strings(:)
+      type(string_t) csv
+    end function
+
+    pure module function characters_with_comma_separator(strings) result(csv)
+      implicit none
+      character(len=*), intent(in) :: strings(:)
+      type(string_t) csv
+    end function
+
+  end interface
+
+  interface operator(.sv.)
+
+    pure module function strings_with_character_separator(strings, separator) result(sv)
+      implicit none
+      type(string_t)  , intent(in) :: strings(:)
+      character(len=*), intent(in) :: separator
+      type(string_t) sv
+    end function
+
+    pure module function characters_with_character_separator(strings, separator) result(sv)
+      implicit none
+      character(len=*), intent(in) :: strings(:), separator
+      type(string_t) sv
+    end function
+
+    pure module function characters_with_string_separator(strings, separator) result(sv)
+      implicit none
+      character(len=*), intent(in) :: strings(:)
+      type(string_t)  , intent(in) :: separator
+      type(string_t) sv
+    end function
+
+    pure module function strings_with_string_t_separator(strings, separator) result(sv)
+      implicit none
+      type(string_t), intent(in) :: strings(:), separator
+      type(string_t) sv 
+    end function
+
+  end interface
+
   interface
+
     pure module function as_character(self) result(raw_string)
       implicit none
       class(string_t), intent(in) :: self

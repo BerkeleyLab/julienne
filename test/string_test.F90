@@ -4,10 +4,22 @@
 #include "language-support.F90"
 
 module string_test_m
-  use julienne_m, only : test_t, test_result_t, string_t, operator(.cat.), test_description_t, test_description_substring
+  use assert_m, only : assert
+
+  use julienne_m, only : &
+     test_t &
+    ,test_result_t &
+    ,test_description_t &
+    ,test_description_substring &
+    ,string_t &
+    ,operator(.cat.) &
+    ,operator(.csv.) &
+    ,operator(.sv.)
+
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
   use julienne_m, only : test_function_i
 #endif
+
   implicit none
 
   private
@@ -77,7 +89,9 @@ contains
       test_description_t &
         (string_t('extracting a file name extension'), extracts_file_name_extension), &
       test_description_t &
-        (string_t('constructing a bracketed string'), brackets_strings) &
+        (string_t('constructing a bracketed string'), brackets_strings), &
+      test_description_t &
+        (string_t('constructing (comma-)separated values from character or string_t arrays'), constructs_separated_values) &
     ]
 #else
     ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
@@ -89,8 +103,8 @@ contains
       ! Remove code that exposes a gfortran compiler bug:
       ! extracts_string_array_ptr, &
       extracts_character_ptr, extracts_double_precision_value_ptr, extracts_dp_array_value_ptr, &
-      bracket_a_string
-
+      bracket_a_string, constructs_separated_values
+        
     check_allocation_ptr => check_allocation
     supports_equivalence_ptr => supports_equivalence_operator
     supports_non_equivalence_ptr => supports_non_equivalence_operator
@@ -115,6 +129,7 @@ contains
     extracts_file_base_ptr => extracts_file_base_name
     extracts_file_name_ptr => extracts_file_name_extension
     brackets_strings_ptr => brackets_strings
+    constructs_separated_values_ptr => constructs_separated_values
 
     test_descriptions = [ & 
       test_description_t( &
@@ -148,7 +163,8 @@ contains
       test_description_t(string_t("extracting an integer value from a colon-separated key/value pair"), extracts_integer_ptr), &
       test_description_t(string_t('extracting a file base name'), extracts_file_base_ptr), &
       test_description_t(string_t('extracting a file name extension'), extracts_file_name_ptr), &
-      test_description_t(string_t('constructing a bracketed string'), brackets_strings) &
+      test_description_t(string_t('constructing a bracketed string'), brackets_strings_ptr),&
+      test_description_t(string_t('constructing (comma-)separated values from string_t arrays'), constructs_separated_values_ptr) &
     ]   
 #endif
     test_descriptions = pack(test_descriptions, &
@@ -520,18 +536,29 @@ contains
     logical passed
 
     associate( &
-      scalar => string_t("abcdefg"), &
-      array  => [string_t("do"), string_t("ray"), string_t("me")] &
+      scalar => string_t("do re mi"), &
+      array  => [string_t("do"), string_t("re"), string_t("mi")] &
     )
       associate( &
-         brackets_a_scalar           => scalar%bracket()       == string_t("[abcdefg]") &
-        ,defaults_to_square          => all(array%bracket()        == [string_t("[do]"), string_t("[ray]"), string_t("[me]")]) &
-        ,defaults_closing_to_opening => all(array%bracket('"')     == [string_t('"do"'), string_t('"ray"'), string_t('"me"')]) &
-        ,handles_both_args_present   => all(array%bracket("{","}") == [string_t('{do}'), string_t('{ray}'), string_t('{me}')]) &
+         brackets_a_scalar           => scalar%bracket()           == string_t("[do re mi]") &
+        ,defaults_to_square          => all(array%bracket()        == [string_t("[do]"), string_t("[re]"), string_t("[mi]")]) &
+        ,defaults_closing_to_opening => all(array%bracket('"')     == [string_t('"do"'), string_t('"re"'), string_t('"mi"')]) &
+        ,handles_both_args_present   => all(array%bracket("{","}") == [string_t('{do}'), string_t('{re}'), string_t('{mi}')]) &
       )
         passed = brackets_a_scalar .and. defaults_to_square .and. defaults_closing_to_opening .and. handles_both_args_present
       end associate
     end associate
+  end function
+
+  function constructs_separated_values() result(passed)
+    logical passed
+    passed = &
+            "a,bc,def" == .csv. [string_t("a"), string_t("bc"), string_t("def")]    &
+      .and. "abc,def"  == .csv. ["abc", "def"]                                      &
+      .and. "do|re|mi" == (string_t(["do", "re", "mi"])         .sv.          "|" ) &
+      .and. "dore|mi"  == (([string_t("dore"), string_t("mi")]) .sv. string_t("|")) &
+      .and. "do|re|mi" == (         ["do", "re", "mi"]          .sv.          "|" ) &
+      .and. "do|re|mi" == (         ["do", "re", "mi"]          .sv. string_t("|"))
   end function
 
 end module string_test_m
