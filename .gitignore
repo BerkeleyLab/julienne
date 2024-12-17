@@ -1,3 +1,4 @@
+*.smod
 *.mod
 *.o
 a.out
