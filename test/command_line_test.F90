@@ -39,14 +39,14 @@ contains
     ]   
 #else
     ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
-    procedure(test_function_i), pointer :: check_flag_ptr, handle_missing_value_ptr, check_command_ptr
+    procedure(test_function_i), pointer :: check_flag_ptr, handle_missing_value_ptr, check_argument_present_ptr
     check_flag_ptr => check_flag_value 
     handle_missing_value_ptr => handle_missing_flag_value
-    check_command_ptr => check_command_line_argument
+    check_argument_present_ptr => check_argument_present
     test_descriptions = [ & 
       test_description_t(string_t("returning the value passed after a command-line flag"), check_flag_ptr), &
       test_description_t(string_t("returning an empty string when a flag value is missing"), handle_missing_value_ptr), &
-      test_description_t(string_t("detecting a present command-line argument"), check_command_ptr) &
+      test_description_t(string_t("detecting a present command-line argument"), check_argument_present_ptr) &
     ]   
 #endif
     test_descriptions = pack(test_descriptions, &
