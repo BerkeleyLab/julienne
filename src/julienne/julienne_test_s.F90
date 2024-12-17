@@ -1,16 +1,12 @@
 ! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
-
-#include "language-support.F90"
-
 submodule(julienne_test_m) julienne_test_s
-  use julienne_user_defined_collectives_m, only : co_all
-  use julienne_command_line_m, only : command_line_t
   implicit none
 
 contains
 
   module procedure report
+
 #if HAVE_MULTI_IMAGE_SUPPORT
     associate(me => this_image())
 #else
@@ -22,7 +18,7 @@ contains
 
         first_report: &
         if (.not. allocated(test_description_substring)) then
-          block 
+          block
             type(command_line_t) command_line
             test_description_substring = command_line%flag_value("--contains")
           end block
@@ -42,7 +38,7 @@ contains
 #if HAVE_MULTI_IMAGE_SUPPORT
       call co_broadcast(test_description_substring, source_image=1)
 #endif
-      
+
 #ifndef _CRAYFTN
       associate(test_results => test%results())
         associate(num_tests => size(test_results))
@@ -55,7 +51,7 @@ contains
               end do
             end block
           end if
-          block 
+          block
             logical, allocatable :: passing_tests(:)
             passing_tests = test_results%passed()
             call co_all(passing_tests)

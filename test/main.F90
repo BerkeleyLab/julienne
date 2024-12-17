@@ -41,6 +41,8 @@ program main
 
   if (command_line%argument_present([character(len=len("--help"))::"--help","-h"])) stop usage
 
+  print "(a)", new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
+
   call bin_test%report(passes, tests)
   call formats_test%report(passes, tests)
   call string_test%report(passes, tests)
