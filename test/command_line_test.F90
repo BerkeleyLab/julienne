@@ -35,7 +35,7 @@ contains
     test_descriptions = [ & 
       test_description_t(string_t("returning the value passed after a command-line flag"), check_flag_value), &
       test_description_t(string_t("returning an empty string when a flag value is missing"), handle_missing_flag_value), &
-      test_description_t(string_t("detecting a present command-line argument"), check_command_line_argument) &
+      test_description_t(string_t("detecting a present command-line argument"), check_argument_present) &
     ]   
 #else
     ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
@@ -57,38 +57,20 @@ contains
 
   function check_flag_value() result(test_passes)
     logical test_passes
-    integer exit_status, command_status
-    character(len=132) command_message
-
-    call execute_command_line( &
-      command = "fpm run --example get-flag-value -- --input-file some_file_name", &
-      wait = .true., exitstat = exit_status, cmdstat = command_status, cmdmsg = command_message &
-    )   
-    test_passes = exit_status == 0 
+    type(command_line_t) command_line
+    test_passes = command_line%flag_value("--test") == "command_line_t"
   end function
 
   function handle_missing_flag_value() result(test_passes)
     logical test_passes
-    integer exit_status, command_status
-    character(len=132) command_message
-
-    call execute_command_line( &
-      command = "fpm run --example handle-missing-flag -- --empty-flag", &
-      wait = .true., exitstat = exit_status, cmdstat = command_status, cmdmsg = command_message &
-    )   
-    test_passes = exit_status == 0 
+    type(command_line_t) command_line
+    test_passes = command_line%flag_value("--type") == ""
   end function
 
-  function check_command_line_argument() result(test_passes)
+  function check_argument_present() result(test_passes)
     logical test_passes
-    integer exit_status, command_status
-    character(len=132) command_message
-
-    call execute_command_line( &
-      command = "fpm run --example check-command-line-argument -- --some-argument", &
-      wait = .true., exitstat = exit_status, cmdstat = command_status, cmdmsg = command_message &
-    )
-    test_passes = exit_status == 0
+    type(command_line_t) command_line
+    test_passes = command_line%argument_present(["--type"])
   end function
 
 end module command_line_test_m
