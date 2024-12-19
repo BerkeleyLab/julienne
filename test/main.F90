@@ -27,19 +27,21 @@ program main
   type(test_description_test_t) test_description_test
   type(vector_test_description_test_t) vector_test_description_test
 
+  type(command_line_t) command_line
+
   integer :: passes=0, tests=0
 
-  block 
-    type(command_line_t) command_line
-    character(len=*), parameter :: usage = &
-      new_line('') // new_line('') // &
-      'Usage: fpm test -- [--help] | [--contains <substring>]' // &
-      new_line('') // new_line('') // &
-      'where square brackets ([]) denote optional arguments, a pipe (|) separates alternative arguments,' // new_line('') // &
-      'angular brackets (<>) denote a user-provided value, and passing a substring limits execution to' // new_line('') // &
-      'the tests with test subjects or test descriptions containing the user-specified substring.' // new_line('') 
-    if (command_line%argument_present([character(len=len("--help"))::"--help","-h"])) stop usage
-  end block
+  character(len=*), parameter :: usage = &
+    new_line('') // new_line('') // &
+    'Usage: fpm test -- [--help] | [--contains <substring>]' // &
+    new_line('') // new_line('') // &
+    'where square brackets ([]) denote optional arguments, a pipe (|) separates alternative arguments,' // new_line('') // &
+    'angular brackets (<>) denote a user-provided value, and passing a substring limits execution to' // new_line('') // &
+    'the tests with test subjects or test descriptions containing the user-specified substring.' // new_line('') 
+
+  if (command_line%argument_present([character(len=len("--help"))::"--help","-h"])) stop usage
+
+  print "(a)", new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
 
   call bin_test%report(passes, tests)
   call formats_test%report(passes, tests)
@@ -47,7 +49,18 @@ program main
   call test_result_test%report(passes, tests)
   call test_description_test%report(passes, tests)
   call vector_test_description_test%report(passes,tests)
-  if (.not. GitHub_CI())  call command_line_test%report(passes, tests)
+
+  if (.not. GitHub_CI())  then
+    if (command_line%argument_present(["--test"])) then
+      call command_line_test%report(passes, tests)
+    else
+      write(*,"(a)")  &
+      new_line("") // &
+      "To also test Julienne's command_line_t type, append the following to your fpm test command:" // &
+      new_line("") // &
+      "-- --test command_line_t --type"
+    end if
+  end if
 
 #if HAVE_MULTI_IMAGE_SUPPORT
   if (this_image()==1) then

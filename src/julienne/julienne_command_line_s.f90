@@ -18,8 +18,6 @@ contains
 
     associate(acceptable_length => [(len(trim(acceptable_argument(i))), i = 1, size(acceptable_argument))])
 
-      found = .false.
-
       do argnum = 1,command_argument_count()
 
         call get_command_argument(argnum, arg, arglen)
@@ -28,42 +26,34 @@ contains
           [(arg==acceptable_argument(i) .and. arglen==acceptable_length(i), i = 1, size(acceptable_argument))] &
         )) then
           found = .true.
+          return
         end if
 
       end do
+
+      found = .false.
 
     end associate
 
   end procedure
 
   module procedure flag_value
-
     integer argnum, arglen, flag_value_length
     character(len=:), allocatable :: arg
 
-    associate(argcount => command_argument_count())
-      if (argcount==0) then
-        flag_value=""
-      else
-        flag_search: &
-        do argnum = 1,argcount
-
-          if (allocated(arg)) deallocate(arg)
-
-          call get_command_argument(argnum, length=arglen)
-          allocate(character(len=arglen) :: arg)
-          call get_command_argument(argnum, arg)
-
-          if (arg==flag) then
-            call get_command_argument(argnum+1, length=flag_value_length)
-            allocate(character(len=flag_value_length) :: flag_value)
-            call get_command_argument(argnum+1, flag_value)
-            exit flag_search
-          end if
-        end do flag_search
+    do argnum = 1,command_argument_count()-1
+      call get_command_argument(argnum, length=arglen)
+      allocate(character(len=arglen) :: arg)
+      call get_command_argument(argnum, arg)
+      if (arg==flag) then
+        call get_command_argument(argnum+1, length=flag_value_length)
+        allocate(character(len=flag_value_length) :: flag_value)
+        call get_command_argument(argnum+1, flag_value)
+        return
       end if
-    end associate
-
+      deallocate(arg)
+    end do
+    flag_value=""
   end procedure
 
 end submodule
