@@ -26,7 +26,8 @@ module julienne_command_line_m
     end function
 
     module function flag_value(flag)
-      !! result is the value passed adjacent to a command-line flag
+      !! result = { the value passed immediately after a command-line flag if the flag is present or
+      !!          { an empty string otherwise.
       implicit none
       character(len=*), intent(in) :: flag
       character(len=:), allocatable :: flag_value

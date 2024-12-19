@@ -1,10 +1,16 @@
 ! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
+
+#include "language-support.F90"
+
 module julienne_test_m
   !! Define an abstract test_t type with deferred bindings ("subject" and "results")
   !! used by a type-bound procedure ("report") for reporting test results.  The "report"
   !! procedure thus represents an implementation of the Template Method pattern.
   use julienne_test_result_m, only : test_result_t
+  use julienne_user_defined_collectives_m, only : co_all
+  use julienne_command_line_m, only : command_line_t
+
   implicit none
 
   private
