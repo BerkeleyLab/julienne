@@ -25,8 +25,12 @@ contains
       call co_all(test_passed)
     end procedure
 
-    module procedure description_contains
+    module procedure description_contains_string
       substring_found = index(self%description_, substring%string()) /= 0
+    end procedure
+
+    module procedure description_contains_characters
+      substring_found = index(self%description_, substring) /= 0
     end procedure
 
 end submodule julienne_test_result_s
