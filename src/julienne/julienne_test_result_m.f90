@@ -11,7 +11,7 @@ module julienne_test_result_m
   type test_result_t
     !! Encapsulate test descriptions and outcomes
     private
-    type(string_t) description_
+    character(len=:), allocatable :: description_
     logical passed_ 
   contains
     procedure :: characterize

@@ -17,7 +17,7 @@ contains
     end procedure
 
     module procedure characterize
-      characterization = trim(merge("passes on ", "FAILS on  ", self%passed_)) // " " // trim(self%description_%string()) // "."
+      characterization = trim(merge("passes on ", "FAILS on  ", self%passed_)) // " " // trim(self%description_) // "."
     end procedure
 
     module procedure passed
@@ -26,7 +26,7 @@ contains
     end procedure
 
     module procedure description_contains
-      substring_found = index(self%description_%string(), substring%string()) /= 0
+      substring_found = index(self%description_, substring%string()) /= 0
     end procedure
 
 end submodule julienne_test_result_s
