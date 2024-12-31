@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.8% of total for source files.">23 statements</a>
+                 title=" 2.0% of total for source files.">26 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -294,7 +294,7 @@ large graphs.</div>
 <a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">    </span><span class="k">end procedure</span>
 <a id="ln-18" name="ln-18" href="#ln-18"></a>
 <a id="ln-19" name="ln-19" href="#ln-19"></a><span class="k">    module procedure </span><span class="n">characterize</span>
-<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="w">      </span><span class="n">characterization</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="nb">merge</span><span class="p">(</span><span class="s2">&quot;passes on &quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;FAILS on  &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">passed_</span><span class="p">))</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">self</span><span class="p">%</span><span class="n">description_</span><span class="p">%</span><span class="n">string</span><span class="p">())</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;.&quot;</span>
+<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="w">      </span><span class="n">characterization</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="nb">merge</span><span class="p">(</span><span class="s2">&quot;passes on &quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;FAILS on  &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">passed_</span><span class="p">))</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">self</span><span class="p">%</span><span class="n">description_</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;.&quot;</span>
 <a id="ln-21" name="ln-21" href="#ln-21"></a><span class="w">    </span><span class="k">end procedure</span>
 <a id="ln-22" name="ln-22" href="#ln-22"></a>
 <a id="ln-23" name="ln-23" href="#ln-23"></a><span class="k">    module procedure </span><span class="n">passed</span>
@@ -302,11 +302,15 @@ large graphs.</div>
 <a id="ln-25" name="ln-25" href="#ln-25"></a><span class="w">      </span><span class="k">call </span><span class="n">co_all</span><span class="p">(</span><span class="n">test_passed</span><span class="p">)</span>
 <a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">    </span><span class="k">end procedure</span>
 <a id="ln-27" name="ln-27" href="#ln-27"></a>
-<a id="ln-28" name="ln-28" href="#ln-28"></a><span class="k">    module procedure </span><span class="n">description_contains</span>
-<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="w">      </span><span class="n">substring_found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="n">self</span><span class="p">%</span><span class="n">description_</span><span class="p">%</span><span class="n">string</span><span class="p">(),</span><span class="w"> </span><span class="n">substring</span><span class="p">%</span><span class="n">string</span><span class="p">())</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span>
+<a id="ln-28" name="ln-28" href="#ln-28"></a><span class="k">    module procedure </span><span class="n">description_contains_string</span>
+<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="w">      </span><span class="n">substring_found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="n">self</span><span class="p">%</span><span class="n">description_</span><span class="p">,</span><span class="w"> </span><span class="n">substring</span><span class="p">%</span><span class="n">string</span><span class="p">())</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span>
 <a id="ln-30" name="ln-30" href="#ln-30"></a><span class="w">    </span><span class="k">end procedure</span>
 <a id="ln-31" name="ln-31" href="#ln-31"></a>
-<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="k">end submodule </span><span class="n">julienne_test_result_s</span>
+<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="k">    module procedure </span><span class="n">description_contains_characters</span>
+<a id="ln-33" name="ln-33" href="#ln-33"></a><span class="w">      </span><span class="n">substring_found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="n">self</span><span class="p">%</span><span class="n">description_</span><span class="p">,</span><span class="w"> </span><span class="n">substring</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span>
+<a id="ln-34" name="ln-34" href="#ln-34"></a><span class="w">    </span><span class="k">end procedure</span>
+<a id="ln-35" name="ln-35" href="#ln-35"></a>
+<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="k">end submodule </span><span class="n">julienne_test_result_s</span>
 </pre></div>
 
       </section>
@@ -328,7 +332,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-12-19 06:53 +0000             </p>
+ on 2024-12-31 02:20 +0000             </p>
           </div>
         </div>
         <br>
