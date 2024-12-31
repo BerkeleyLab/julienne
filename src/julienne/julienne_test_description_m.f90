@@ -20,7 +20,7 @@ module julienne_test_description_m
   type test_description_t
     !! Encapsulate test descriptions and test-functions
     private
-    type(string_t) description_
+    character(len=:), allocatable :: description_
     procedure(test_function_i), pointer, nopass :: test_function_ => null()
   contains
     procedure run

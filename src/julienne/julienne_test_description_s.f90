@@ -18,11 +18,11 @@ contains
     end procedure
 
     module procedure contains_string_t
-      match = index(self%description_%string(), substring%string()) /= 0
+      match = index(self%description_, substring%string()) /= 0
     end procedure
 
     module procedure contains_characters
-      match = index(self%description_%string(), substring) /= 0
+      match = index(self%description_, substring) /= 0
     end procedure
 
     module procedure equals
