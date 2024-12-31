@@ -11,12 +11,14 @@ module julienne_test_result_m
   type test_result_t
     !! Encapsulate test descriptions and outcomes
     private
-    type(string_t) description_
+    character(len=:), allocatable :: description_
     logical passed_ 
   contains
     procedure :: characterize
     procedure :: passed
-    procedure :: description_contains
+    generic :: description_contains => description_contains_string, description_contains_characters
+    procedure, private :: description_contains_string
+    procedure, private :: description_contains_characters
   end type
 
   interface test_result_t
@@ -55,11 +57,19 @@ module julienne_test_result_m
       logical test_passed
     end function
 
-    elemental module function description_contains(self, substring) result(substring_found)
+    elemental module function description_contains_string(self, substring) result(substring_found)
       !! The result is true if and only if the test description contains the substring
       implicit none
       class(test_result_t), intent(in) :: self
       type(string_t), intent(in) :: substring
+      logical substring_found
+    end function
+
+    elemental module function description_contains_characters(self, substring) result(substring_found)
+      !! The result is true if and only if the test description contains the substring
+      implicit none
+      class(test_result_t), intent(in) :: self
+      character(len=*), intent(in) :: substring
       logical substring_found
     end function
 
