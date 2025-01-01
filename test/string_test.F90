@@ -59,7 +59,9 @@ contains
       test_description_t &
         (string_t('constructing from a default integer'), constructs_from_default_integer), &
       test_description_t &
-        (string_t('constructing from a real value'), constructs_from_real), &
+        (string_t('constructing from a default real value'), constructs_from_default_real), &
+      test_description_t &
+        (string_t('constructing from a double precision value'), constructs_from_double_precision), &
       test_description_t &
         (string_t('supporting unary operator(.cat.) for array arguments'), concatenates_elements), &
       test_description_t &
@@ -97,8 +99,8 @@ contains
     ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
     procedure(test_function_i), pointer :: &
       check_allocation_ptr, supports_equivalence_ptr, supports_non_equivalence_ptr, supports_concatenation_ptr, &
-      assigns_string_ptr, assigns_character_ptr, constructs_from_integer_ptr, constructs_from_real_ptr, concatenates_ptr, &
-      extracts_key_ptr, extracts_real_ptr, extracts_string_ptr, extracts_logical_ptr, extracts_integer_array_ptr, &
+      assigns_string_ptr, assigns_character_ptr, constructs_from_integer_ptr, constructs_from_default_real_ptr, constructs_from_double_precision_ptr, &
+      concatenates_ptr, extracts_key_ptr, extracts_real_ptr, extracts_string_ptr, extracts_logical_ptr, extracts_integer_array_ptr, &
       extracts_real_array_ptr, extracts_integer_ptr, extracts_file_base_ptr, extracts_file_name_ptr, &
       ! Remove code that exposes a gfortran compiler bug:
       ! extracts_string_array_ptr, &
@@ -112,7 +114,8 @@ contains
     assigns_string_ptr => assigns_string_t_to_character
     assigns_character_ptr => assigns_character_to_string_t
     constructs_from_integer_ptr => constructs_from_default_integer
-    constructs_from_real_ptr => constructs_from_real
+    constructs_from_double_precision_ptr => constructs_from_double_precision
+    constructs_from_default_real_ptr => constructs_from_default_real
     concatenates_ptr => concatenates_elements
     extracts_key_ptr => extracts_key
     extracts_real_ptr => extracts_real_value
@@ -142,7 +145,8 @@ contains
       test_description_t(string_t('assigning a string_t object to a character variable'), assigns_string_ptr), &
       test_description_t(string_t('assigning a character variable to a string_t object'), assigns_character_ptr), &
       test_description_t(string_t('constructing from a default integer'), constructs_from_integer_ptr), &
-      test_description_t(string_t('constructing from a real value'), constructs_from_real_ptr), &
+      test_description_t(string_t('constructing from a default real value'), constructs_from_default_real_ptr), &
+      test_description_t(string_t('constructing from a double precision value'), constructs_from_double_precision_ptr), &
       test_description_t(string_t('supporting unary operator(.cat.) for array arguments'), concatenates_ptr), &
       test_description_t(string_t("extracting a key string from a colon-separated key/value pair"), extracts_key_ptr), &
       test_description_t(string_t("extracting a real value from a colon-separated key/value pair"), extracts_real_ptr), &
@@ -471,7 +475,7 @@ contains
 #endif
   end function
 
-  function constructs_from_real() result(passed)
+  function constructs_from_default_real() result(passed)
     logical passed
     real, parameter :: real_value = -1./1024. ! use a negative power of 2 an exactly representable rational number
     real read_value
@@ -492,7 +496,29 @@ contains
       passed = read_value == real_value
     end block
 #endif
+  end function
 
+  function constructs_from_double_precision() result(passed)
+    logical passed
+    double precision, parameter :: real_value = -1./1024. ! use a negative power of 2 an exactly representable rational number
+    real read_value
+    character(len=:), allocatable :: character_representation
+
+#ifndef _CRAYFTN
+    associate(string => string_t(real_value))
+      character_representation = string%string()
+      read(character_representation, *) read_value
+      passed = read_value == real_value
+    end associate
+#else
+    block
+      type(string_t) string
+      string = string_t(real_value)
+      character_representation = string%string()
+      read(character_representation, *) read_value
+      passed = read_value == real_value
+    end block
+#endif
   end function
 
   function extracts_file_base_name() result(passed)

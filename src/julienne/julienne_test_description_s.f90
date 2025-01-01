@@ -1,5 +1,8 @@
 ! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
+
+#include "assert_macros.h"
+
 submodule(julienne_test_description_m) julienne_test_description_s
   implicit none
 contains
@@ -14,7 +17,14 @@ contains
     end procedure
 
     module procedure run
-      test_result = test_result_t(self%description_, self%test_function_())
+      associate(testing => associated(self%test_function_), diagnosing => associated(self%diagnostic_function_))
+        call_assert(count([testing, diagnosing])==1)     
+        if (testing) then
+          test_result = test_result_t(self%description_, self%test_function_())
+        else
+          test_result = test_result_t(self%description_, self%diagnostic_function_())
+        end if
+      end associate
     end procedure
 
     module procedure contains_string_t

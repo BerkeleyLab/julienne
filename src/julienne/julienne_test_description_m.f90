@@ -4,17 +4,27 @@ module julienne_test_description_m
   !! Define an abstraction for describing test intentions and test functions
   use julienne_string_m, only : string_t
   use julienne_test_result_m, only : test_result_t
+  use julienne_diagnosis_m, only : diagnosis_t
   implicit none
 
   private
   public :: test_description_t
   public :: test_function_i
+  public :: diagnostic_function_i
 
   abstract interface
+
     function test_function_i() result(passes)
       implicit none
       logical passes
     end function
+
+    function diagnostic_function_i() result(diagnosis)
+      import diagnosis_t
+      implicit none
+      type(diagnosis_t) diagnosis
+    end function
+
   end interface
 
   type test_description_t
@@ -22,6 +32,7 @@ module julienne_test_description_m
     private
     character(len=:), allocatable :: description_
     procedure(test_function_i), pointer, nopass :: test_function_ => null()
+    procedure(diagnostic_function_i), pointer, nopass :: diagnostic_function_ => null()
   contains
     procedure run
     generic :: contains_text => contains_string_t, contains_characters

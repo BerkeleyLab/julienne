@@ -3,6 +3,7 @@
 module julienne_test_result_m
   !! Define an abstraction for describing test intentions and results
   use julienne_string_m, only : string_t
+  use julienne_diagnosis_m, only : diagnosis_t
   implicit none
 
   private
@@ -11,7 +12,7 @@ module julienne_test_result_m
   type test_result_t
     !! Encapsulate test descriptions and outcomes
     private
-    character(len=:), allocatable :: description_
+    character(len=:), allocatable :: description_, diagnostics_
     logical passed_ 
   contains
     procedure :: characterize
@@ -36,6 +37,14 @@ module julienne_test_result_m
       implicit none
       type(string_t), intent(in) :: description
       logical, intent(in) :: passed
+      type(test_result_t) test_result 
+    end function
+
+    elemental module function construct_from_diagnosis(description, diagnosis) result(test_result)
+      !! The result is a test_result_t object with the components defined by the dummy arguments
+      implicit none
+      character(len=*), intent(in) :: description
+      type(diagnosis_t), intent(in) :: diagnosis
       type(test_result_t) test_result 
     end function
 
