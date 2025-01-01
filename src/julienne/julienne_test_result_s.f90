@@ -18,8 +18,8 @@ contains
 
     module procedure construct_from_test_diagnosis
       test_result%description_ = description
-      test_result%passed_      = test_diagnosis%passed()
-      test_result%diagnostics_ = test_diagnosis%diagnostics()
+      test_result%passed_      = test_diagnosis%test_passed()
+      test_result%diagnostics_ = test_diagnosis%diagnostics_string()
     end procedure
 
     module procedure characterize

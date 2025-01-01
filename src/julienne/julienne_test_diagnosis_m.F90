@@ -11,28 +11,28 @@ module julienne_test_diagnosis_m
   type test_diagnosis_t
     !! Encapsulate test outcome and diagnostic information
     private
-    logical passed_
-    character(len=:), allocatable :: diagnostics_
+    logical test_passed_
+    character(len=:), allocatable :: diagnostics_string_
   contains
-    procedure passed
-    procedure diagnostics
+    procedure test_passed
+    procedure diagnostics_string
   end type
 
   interface test_diagnosis_t
 
-    elemental module function construct_from_string_t(passed, diagnostics) result(test_diagnosis)
+    elemental module function construct_from_string_t(test_passed, diagnostics_string) result(test_diagnosis)
       !! The result is a test_diagnosis_t object with the components defined by the dummy arguments
       implicit none
-      logical, intent(in) :: passed
-      type(string_t), intent(in) :: diagnostics
+      logical, intent(in) :: test_passed
+      type(string_t), intent(in) :: diagnostics_string
       type(test_diagnosis_t) test_diagnosis
     end function
 
-    elemental module function construct_from_character(passed, diagnostics) result(test_diagnosis)
+    elemental module function construct_from_character(test_passed, diagnostics_string) result(test_diagnosis)
       !! The result is a test_diagnosis_t object with the components defined by the dummy arguments
       implicit none
-      logical, intent(in) :: passed
-      character(len=*), intent(in) :: diagnostics
+      logical, intent(in) :: test_passed
+      character(len=*), intent(in) :: diagnostics_string
       type(test_diagnosis_t) test_diagnosis
     end function
 
@@ -40,18 +40,18 @@ module julienne_test_diagnosis_m
 
   interface
 
-    elemental module function passed(self) result(test_passed)
-      !! The result is .true. if the test passed
+    elemental module function test_passed(self) result(passed)
+      !! The result is .true. if the test passed and false otherwise
       implicit none
       class(test_diagnosis_t), intent(in) :: self
-      logical test_passed
+      logical passed
     end function
 
-    elemental module function diagnostics(self) result(diagnostics_string)
-      !! The result is a diagnostic string describing a failed test or a zero-length string if the test passed
+    elemental module function diagnostics_string(self) result(string)
+      !! The result is a string describing the condition(s) that caused a test failure
       implicit none
       class(test_diagnosis_t), intent(in) :: self
-      type(string_t) diagnostics_string
+      type(string_t) string
     end function
 
   end interface

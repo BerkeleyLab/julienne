@@ -8,21 +8,21 @@ submodule(julienne_test_diagnosis_m) julienne_test_diagnosis_s
   implicit none
 contains
     module procedure construct_from_string_t
-      test_diagnosis%passed_ = passed
-      test_diagnosis%diagnostics_ = diagnostics
+      test_diagnosis%test_passed_ = test_passed
+      test_diagnosis%diagnostics_string_ = diagnostics_string
     end procedure
 
     module procedure construct_from_character
-      test_diagnosis%passed_ = passed
-      test_diagnosis%diagnostics_ = diagnostics
+      test_diagnosis%test_passed_ = test_passed
+      test_diagnosis%diagnostics_string_ = diagnostics_string
     end procedure
 
-    module procedure passed
-      test_passed = self%passed_
+    module procedure test_passed
+      passed = self%test_passed_
     end procedure
 
-    module procedure diagnostics
+    module procedure diagnostics_string
       call_assert(allocated(self%diagnostics_))
-      diagnostics_string = string_t(self%diagnostics_)
+      string = string_t(self%diagnostics_string_)
     end procedure
 end submodule julienne_test_diagnosis_s
