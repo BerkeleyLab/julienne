@@ -14,7 +14,7 @@ module specimen_test_m
     test_description_substring, &
     test_diagnosis_t
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-  use julienne_m, only : test_diagnosis_function_i ! work around gfortran's missing Fortran 2008 feature
+  use julienne_m, only : diagnosis_function_i ! work around gfortran's missing Fortran 2008 feature
 #endif
     
   implicit none
@@ -45,16 +45,22 @@ contains
     ]   
 #else 
     ! work around gfortran's missing Fortran 2008 feature
-    procedure(test_function_i), pointer :: check_zero
+    procedure(diagnosis_function_i), pointer :: check_zero_ptr
     check_zero_ptr => check_zero
 
     test_descriptions = [ & 
       test_description_t("the type-bound function zero() producing a result of 0", check_zero_ptr) &
     ]   
 #endif
+#ifndef __GFORTRAN__
     associate(test_subset => pack(test_descriptions, test_descriptions%contains_text(test_description_substring) .or. index(subject(), test_description_substring)/=0))
       test_results = test_subset%run()
     end associate
+#else 
+    
+    test_descriptions = pack(test_descriptions, test_descriptions%contains_text(test_description_substring) .or. index(subject(), test_description_substring)/=0)
+    test_results = test_descriptions%run()
+#endif
 
   end function
 
