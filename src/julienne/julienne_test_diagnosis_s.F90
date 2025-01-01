@@ -3,18 +3,18 @@
 
 #include "assert_macros.h"
 
-submodule(julienne_diagnosis_m) julienne_diagnosis_s
+submodule(julienne_test_diagnosis_m) julienne_test_diagnosis_s
   use assert_m
   implicit none
 contains
     module procedure construct_from_string_t
-      diagnosis%passed_ = passed
-      diagnosis%diagnostics_ = diagnostics
+      test_diagnosis%passed_ = passed
+      test_diagnosis%diagnostics_ = diagnostics
     end procedure
 
     module procedure construct_from_character
-      diagnosis%passed_ = passed
-      diagnosis%diagnostics_ = diagnostics
+      test_diagnosis%passed_ = passed
+      test_diagnosis%diagnostics_ = diagnostics
     end procedure
 
     module procedure passed
@@ -25,4 +25,4 @@ contains
       call_assert(allocated(self%diagnostics_))
       diagnostics_string = string_t(self%diagnostics_)
     end procedure
-end submodule julienne_diagnosis_s
+end submodule julienne_test_diagnosis_s

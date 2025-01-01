@@ -1,14 +1,14 @@
 ! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
-module julienne_diagnosis_m
+module julienne_test_diagnosis_m
   !! Define an abstraction for describing test outcomes and diagnostic information
   use julienne_string_m, only : string_t
   implicit none
 
   private
-  public :: diagnosis_t
+  public :: test_diagnosis_t
 
-  type diagnosis_t
+  type test_diagnosis_t
     !! Encapsulate test outcome and diagnostic information
     private
     logical passed_
@@ -18,22 +18,22 @@ module julienne_diagnosis_m
     procedure diagnostics
   end type
 
-  interface diagnosis_t
+  interface test_diagnosis_t
 
-    elemental module function construct_from_string_t(passed, diagnostics) result(diagnosis)
-      !! The result is a diagnosis_t object with the components defined by the dummy arguments
+    elemental module function construct_from_string_t(passed, diagnostics) result(test_diagnosis)
+      !! The result is a test_diagnosis_t object with the components defined by the dummy arguments
       implicit none
       logical, intent(in) :: passed
       type(string_t), intent(in) :: diagnostics
-      type(diagnosis_t) diagnosis
+      type(test_diagnosis_t) test_diagnosis
     end function
 
-    elemental module function construct_from_character(passed, diagnostics) result(diagnosis)
-      !! The result is a diagnosis_t object with the components defined by the dummy arguments
+    elemental module function construct_from_character(passed, diagnostics) result(test_diagnosis)
+      !! The result is a test_diagnosis_t object with the components defined by the dummy arguments
       implicit none
       logical, intent(in) :: passed
       character(len=*), intent(in) :: diagnostics
-      type(diagnosis_t) diagnosis
+      type(test_diagnosis_t) test_diagnosis
     end function
 
   end interface
@@ -43,17 +43,17 @@ module julienne_diagnosis_m
     elemental module function passed(self) result(test_passed)
       !! The result is .true. if the test passed
       implicit none
-      class(diagnosis_t), intent(in) :: self
+      class(test_diagnosis_t), intent(in) :: self
       logical test_passed
     end function
 
     elemental module function diagnostics(self) result(diagnostics_string)
       !! The result is a diagnostic string describing a failed test or a zero-length string if the test passed
       implicit none
-      class(diagnosis_t), intent(in) :: self
+      class(test_diagnosis_t), intent(in) :: self
       type(string_t) diagnostics_string
     end function
 
   end interface
 
-end module julienne_diagnosis_m
+end module julienne_test_diagnosis_m

@@ -16,10 +16,10 @@ contains
       test_result%passed_ = passed
     end procedure
 
-    module procedure construct_from_diagnosis
+    module procedure construct_from_test_diagnosis
       test_result%description_ = description
-      test_result%passed_      = diagnosis%passed()
-      test_result%diagnostics_ = diagnosis%diagnostics()
+      test_result%passed_      = test_diagnosis%passed()
+      test_result%diagnostics_ = test_diagnosis%diagnostics()
     end procedure
 
     module procedure characterize

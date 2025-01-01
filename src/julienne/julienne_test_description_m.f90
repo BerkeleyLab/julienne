@@ -4,7 +4,7 @@ module julienne_test_description_m
   !! Define an abstraction for describing test intentions and test functions
   use julienne_string_m, only : string_t
   use julienne_test_result_m, only : test_result_t
-  use julienne_diagnosis_m, only : diagnosis_t
+  use julienne_test_diagnosis_m, only : test_diagnosis_t
   implicit none
 
   private
@@ -19,10 +19,10 @@ module julienne_test_description_m
       logical passes
     end function
 
-    function diagnostic_function_i() result(diagnosis)
-      import diagnosis_t
+    function diagnostic_function_i() result(test_diagnosis)
+      import test_diagnosis_t
       implicit none
-      type(diagnosis_t) diagnosis
+      type(test_diagnosis_t) test_diagnosis
     end function
 
   end interface
