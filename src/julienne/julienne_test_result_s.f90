@@ -25,7 +25,7 @@ contains
     module procedure characterize
       characterization = trim(merge("passes on ", "FAILS on  ", self%passed_)) // " " // trim(self%description_) // "."
       if (allocated(self%diagnostics_) .and. .not. self%passed_) &
-        characterization = characterization // new_line('') // " diagnostics: " // self%diagnostics_
+        characterization = characterization // new_line('') // "      diagnostics: " // self%diagnostics_
     end procedure
 
     module procedure passed
