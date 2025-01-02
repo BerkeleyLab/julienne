@@ -23,11 +23,6 @@ jobs:
         sudo apt update
         sudo apt install -y build-essential gfortran-14 g++-14
 
-    - name: Install Dependencies on macOS
-      if: contains(matrix.os, 'macos')
-      run: |
-        brew install gfortran
-
     - name: Build and Run unit tests
       run: |
         fpm test --compiler gfortran-14

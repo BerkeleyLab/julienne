@@ -16,8 +16,16 @@ contains
       test_result%passed_ = passed
     end procedure
 
+    module procedure construct_from_test_diagnosis
+      test_result%description_ = description
+      test_result%passed_      = test_diagnosis%test_passed()
+      test_result%diagnostics_ = test_diagnosis%diagnostics_string()
+    end procedure
+
     module procedure characterize
       characterization = trim(merge("passes on ", "FAILS on  ", self%passed_)) // " " // trim(self%description_) // "."
+      if (allocated(self%diagnostics_) .and. .not. self%passed_) &
+        characterization = characterization // new_line('') // "      diagnostics: " // self%diagnostics_
     end procedure
 
     module procedure passed

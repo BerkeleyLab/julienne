@@ -12,7 +12,8 @@ module test_description_test_m
     ,test_t &
     ,test_description_substring &
     ,vector_test_description_t &
-    ,vector_function_strategy_t
+    ,vector_function_strategy_t &
+    ,diagnosis_function_i
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
   use julienne_m, only : test_function_i
 #endif
@@ -117,33 +118,21 @@ contains
   function check_substring_search() result(tests_pass)
     logical, allocatable :: tests_pass(:)
     type(test_description_t), allocatable :: test_descriptions(:)
-
-#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-
-    procedure(test_function_i), pointer :: null_ptr
-    null_ptr => null()
+    procedure(diagnosis_function_i), pointer :: unused
+    unused => null()
 
     test_descriptions = [ &
-       test_description_t("an example substring"     , null_ptr) &
-      ,test_description_t("another example substring", null_ptr) &
-      ,test_description_t("moving right along"       , null_ptr) &
-      ,test_description_t("nothing to see here"      , null_ptr) &
+       test_description_t("an example substring"     , unused) &
+      ,test_description_t("another example substring", unused) &
+      ,test_description_t("moving right along"       , unused) &
+      ,test_description_t("nothing to see here"      , unused) &
     ]
-#else
-
-    test_descriptions = [ &
-       test_description_t("an example substring"     , null()) &
-      ,test_description_t("another example substring", null()) &
-      ,test_description_t("moving right along"       , null()) &
-      ,test_description_t("nothing to see here"      , null()) &
+    tests_pass = [ &
+             test_descriptions(1)%contains_text(string_t("example")       ) &
+      ,      test_descriptions(2)%contains_text(         "example"        ) &
+      ,.not. test_descriptions(3)%contains_text(string_t("missing string")) &
+      ,.not. test_descriptions(4)%contains_text(         "missing string" ) &
     ]
-#endif
-      tests_pass = [ &
-               test_descriptions(1)%contains_text(string_t("example")       ) &
-        ,      test_descriptions(2)%contains_text(         "example"        ) &
-        ,.not. test_descriptions(3)%contains_text(string_t("missing string")) &
-        ,.not. test_descriptions(4)%contains_text(         "missing string" ) &
-      ]
   end function
 
 end module test_description_test_m

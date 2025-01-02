@@ -28,9 +28,9 @@ module julienne_test_m
 
   abstract interface
 
-    pure function subject_interface() result(specimen)
+    pure function subject_interface() result(specimen_description)
       !! The result is the name of the test specimen (the subject of testing)
-      character(len=:), allocatable :: specimen
+      character(len=:), allocatable :: specimen_description
     end function
 
     function results_interface() result(test_results)
