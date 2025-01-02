@@ -10,9 +10,9 @@ class test_diagnosis_t
 
 class test_t{
   <<abstract>>
-    + subject() character
+    + subject() character(len=:)
     + results() test_result_t
-    + report()
+    + report(passes : integer, tests : integer)
 }
 class vector_test_description_t{
   <<abstract>>
