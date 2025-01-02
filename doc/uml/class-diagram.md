@@ -1,8 +1,3 @@
----
-  config:
-    class:
-      hideEmptyMembersBox: true
-
 Julienne Unit Testing Classes
 -----------------------------
 
