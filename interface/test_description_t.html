@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.2% of total for procedures.</p>Including implementation: 14 statements,  0.2% of total for procedures.">14 statements</a>
+                 title="<p> 0.3% of total for procedures.</p>Including implementation: 26 statements,  0.3% of total for procedures.">26 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -129,8 +129,10 @@
       </a>
       <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/test_description_t.html#proc-construct_from_character~2">construct_from_character</a>
-            <a class="list-group-item" href="../interface/test_description_t.html#proc-construct_from_string_t">construct_from_string_t</a>
+            <a class="list-group-item" href="../interface/test_description_t.html#proc-construct_from_character_and_diagnosis_function">construct_from_character_and_diagnosis_function</a>
+            <a class="list-group-item" href="../interface/test_description_t.html#proc-construct_from_character_and_test_function">construct_from_character_and_test_function</a>
+            <a class="list-group-item" href="../interface/test_description_t.html#proc-construct_from_string_t_and_diagnosis_function">construct_from_string_t_and_diagnosis_function</a>
+            <a class="list-group-item" href="../interface/test_description_t.html#proc-construct_from_string_t_and_test_function">construct_from_string_t_and_test_function</a>
         </div>
       </div>
     </div>
@@ -155,8 +157,8 @@
 
         <h2>Functions</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_character~2"></span> <h3>private module function construct_from_character(description, test_function) result(test_description)  
-    <a href="../proc/construct_from_character~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_character_and_diagnosis_function"></span> <h3>private module function construct_from_character_and_diagnosis_function(description, diagnosis_function) result(test_description)  
+    <a href="../proc/construct_from_character_and_diagnosis_function.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3></div>
     <div class="card-body">
         <p>The result is a test_description_t object with the components defined by the dummy arguments</p>
@@ -174,7 +176,67 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-description~4"></span>
+              <span class="anchor" id="variable-description~7"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>description</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diagnosis_function~2"></span>
+              procedure(<a href='diagnosis_function_i.html'>diagnosis_function_i</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              pointer
+            </td>
+            <td>::</td>
+            <td><strong>diagnosis_function</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/test_description_t.html'>test_description_t</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_character_and_test_function"></span> <h3>private module function construct_from_character_and_test_function(description, test_function) result(test_description)  
+    <a href="../proc/construct_from_character_and_test_function.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+        <p>The result is a test_description_t object with the components defined by the dummy arguments</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-description~5"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -215,8 +277,8 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_string_t"></span> <h3>private module function construct_from_string_t(description, test_function) result(test_description)  
-    <a href="../proc/construct_from_string_t.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_string_t_and_diagnosis_function"></span> <h3>private module function construct_from_string_t_and_diagnosis_function(description, diagnosis_function) result(test_description)  
+    <a href="../proc/construct_from_string_t_and_diagnosis_function.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3></div>
     <div class="card-body">
         <p>The result is a test_description_t object with the components defined by the dummy arguments</p>
@@ -234,7 +296,67 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-description~3"></span>
+              <span class="anchor" id="variable-description~6"></span>
+              type(<a href='../type/string_t.html'>string_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>description</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diagnosis_function"></span>
+              procedure(<a href='diagnosis_function_i.html'>diagnosis_function_i</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              pointer
+            </td>
+            <td>::</td>
+            <td><strong>diagnosis_function</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/test_description_t.html'>test_description_t</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_string_t_and_test_function"></span> <h3>private module function construct_from_string_t_and_test_function(description, test_function) result(test_description)  
+    <a href="../proc/construct_from_string_t_and_test_function.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+        <p>The result is a test_description_t object with the components defined by the dummy arguments</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-description~4"></span>
               type(<a href='../type/string_t.html'>string_t</a>),
             </td>
 <td>intent(in)</td>
@@ -286,14 +408,14 @@
           <div class="col">
             <p>
               Julienne
- was developed by Berkeley Lab<br>              &copy; 2024 
+ was developed by Berkeley Lab<br>              &copy; 2025 
 </p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-12-31 02:20 +0000             </p>
+ on 2025-01-02 15:56 +0000             </p>
           </div>
         </div>
         <br>

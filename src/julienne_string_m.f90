@@ -68,9 +68,15 @@ module julienne_string_m
       type(string_t) string
     end function
 
-    elemental module function from_real(x) result(string)
+    elemental module function from_default_real(x) result(string)
       implicit none
       real, intent(in) :: x
+      type(string_t) string
+    end function
+
+    elemental module function from_double_precision(x) result(string)
+      implicit none
+      double precision, intent(in) :: x
       type(string_t) string
     end function
 

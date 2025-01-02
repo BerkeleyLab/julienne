@@ -4,24 +4,35 @@ module julienne_test_description_m
   !! Define an abstraction for describing test intentions and test functions
   use julienne_string_m, only : string_t
   use julienne_test_result_m, only : test_result_t
+  use julienne_test_diagnosis_m, only : test_diagnosis_t
   implicit none
 
   private
   public :: test_description_t
   public :: test_function_i
+  public :: diagnosis_function_i
 
   abstract interface
-    function test_function_i() result(passes)
+
+    function test_function_i() result(passed)
       implicit none
-      logical passes
+      logical passed
     end function
+
+    function diagnosis_function_i() result(test_diagnosis)
+      import test_diagnosis_t
+      implicit none
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
   end interface
 
   type test_description_t
     !! Encapsulate test descriptions and test-functions
     private
-    type(string_t) description_
+    character(len=:), allocatable :: description_
     procedure(test_function_i), pointer, nopass :: test_function_ => null()
+    procedure(diagnosis_function_i), pointer, nopass :: diagnosis_function_ => null()
   contains
     procedure run
     generic :: contains_text => contains_string_t, contains_characters
@@ -32,7 +43,7 @@ module julienne_test_description_m
 
   interface test_description_t
 
-    module function construct_from_string_t(description, test_function) result(test_description)
+    module function construct_from_string_t_and_test_function(description, test_function) result(test_description)
       !! The result is a test_description_t object with the components defined by the dummy arguments
       implicit none
       type(string_t), intent(in) :: description
@@ -40,11 +51,27 @@ module julienne_test_description_m
       type(test_description_t) test_description
     end function
 
-    module function construct_from_character(description, test_function) result(test_description)
+    module function construct_from_character_and_test_function(description, test_function) result(test_description)
       !! The result is a test_description_t object with the components defined by the dummy arguments
       implicit none
       character(len=*), intent(in) :: description
       procedure(test_function_i), intent(in), pointer :: test_function
+      type(test_description_t) test_description
+    end function
+
+    module function construct_from_string_t_and_diagnosis_function(description, diagnosis_function) result(test_description)
+      !! The result is a test_description_t object with the components defined by the dummy arguments
+      implicit none
+      type(string_t), intent(in) :: description
+      procedure(diagnosis_function_i), intent(in), pointer :: diagnosis_function
+      type(test_description_t) test_description
+    end function
+
+    module function construct_from_character_and_diagnosis_function(description, diagnosis_function) result(test_description)
+      !! The result is a test_description_t object with the components defined by the dummy arguments
+      implicit none
+      character(len=*), intent(in) :: description
+      procedure(diagnosis_function_i), intent(in), pointer :: diagnosis_function
       type(test_description_t) test_description
     end function
 

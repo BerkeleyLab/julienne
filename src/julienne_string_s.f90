@@ -19,14 +19,19 @@ contains
   end procedure
 
   module procedure from_default_integer
-    integer, parameter :: sign_width = 1, digits_width = range(i) + 1
-    character(len = digits_width + sign_width) characters
-    write(characters, '(i0)') i
+    character(len=11) characters
+    write(characters, '(g0)') i
     string = string_t(trim(characters))
   end procedure
 
-  module procedure from_real
-    character(len=100) characters
+  module procedure from_default_real
+    character(len=16) characters
+    write(characters, '(g0)') x
+    string = string_t(trim(characters))
+  end procedure
+
+  module procedure from_double_precision
+    character(len=24) characters
     write(characters, '(g0)') x
     string = string_t(trim(characters))
   end procedure
