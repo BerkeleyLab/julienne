@@ -1,5 +1,11 @@
 Julienne Unit Testing Classes
 -----------------------------
+
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
 ```mermaid
 classDiagram
 
