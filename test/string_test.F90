@@ -5,6 +5,7 @@
 
 module string_test_m
   use assert_m, only : assert
+  use iso_c_binding, only : c_bool
 
   use julienne_m, only : &
      test_t &
@@ -61,7 +62,15 @@ contains
       test_description_t &
         (string_t('constructing from a default real value'), constructs_from_default_real), &
       test_description_t &
-        (string_t('constructing from a double precision value'), constructs_from_double_precision), &
+        (string_t('constructing from a double-precision value'), constructs_from_double_precision), &
+      test_description_t &
+        (string_t('constructing from a default-kind logical value'), constructs_from_default_logical), &
+      test_description_t &
+        (string_t('constructing from a logical(c_bool) value'), constructs_from_logical_c_bool), &
+      test_description_t &
+        (string_t('constructing from a default-precision complex value'), constructs_from_default_complex), &
+      test_description_t &
+        (string_t('constructing from a double-precision complex value'), constructs_from_double_precision_complex), &
       test_description_t &
         (string_t('supporting unary operator(.cat.) for array arguments'), concatenates_elements), &
       test_description_t &
@@ -100,6 +109,8 @@ contains
     procedure(test_function_i), pointer :: &
       check_allocation_ptr, supports_equivalence_ptr, supports_non_equivalence_ptr, supports_concatenation_ptr, &
       assigns_string_ptr, assigns_character_ptr, constructs_from_integer_ptr, constructs_from_default_real_ptr, constructs_from_double_precision_ptr, &
+      constructs_from_default_logical_ptr, constructs_from_logical_c_bool_ptr, constructs_from_default_complex_ptr, &
+      constructs_from_double_precision_complex_ptr, &
       concatenates_ptr, extracts_key_ptr, extracts_real_ptr, extracts_string_ptr, extracts_logical_ptr, extracts_integer_array_ptr, &
       extracts_real_array_ptr, extracts_integer_ptr, extracts_file_base_ptr, extracts_file_name_ptr, &
       ! Remove code that exposes a gfortran compiler bug:
@@ -116,6 +127,10 @@ contains
     constructs_from_integer_ptr => constructs_from_default_integer
     constructs_from_double_precision_ptr => constructs_from_double_precision
     constructs_from_default_real_ptr => constructs_from_default_real
+    constructs_from_default_logical_ptr => constructs_from_default_logical
+    constructs_from_logical_c_bool_ptr => constructs_from_logical_c_bool
+    constructs_from_default_complex_ptr => constructs_from_default_complex
+    constructs_from_double_precision_complex_ptr => constructs_from_double_precision_complex
     concatenates_ptr => concatenates_elements
     extracts_key_ptr => extracts_key
     extracts_real_ptr => extracts_real_value
@@ -146,7 +161,11 @@ contains
       test_description_t(string_t('assigning a character variable to a string_t object'), assigns_character_ptr), &
       test_description_t(string_t('constructing from a default integer'), constructs_from_integer_ptr), &
       test_description_t(string_t('constructing from a default real value'), constructs_from_default_real_ptr), &
-      test_description_t(string_t('constructing from a double precision value'), constructs_from_double_precision_ptr), &
+      test_description_t(string_t('constructing from a double-precision value'), constructs_from_double_precision_ptr), &
+      test_description_t(string_t('constructing from a default-kind logical value'), constructs_from_default_logical_ptr), &
+      test_description_t(string_t('constructing from a logical(c_bool) value'), constructs_from_logical_c_bool_ptr), &
+      test_description_t(string_t('constructing from a default-precision complex value'), constructs_from_default_complex_ptr), &
+      test_description_t(string_t('constructing from a double-precision complex value'), constructs_from_double_precision_complex_ptr), &
       test_description_t(string_t('supporting unary operator(.cat.) for array arguments'), concatenates_ptr), &
       test_description_t(string_t("extracting a key string from a colon-separated key/value pair"), extracts_key_ptr), &
       test_description_t(string_t("extracting a real value from a colon-separated key/value pair"), extracts_real_ptr), &
@@ -517,6 +536,86 @@ contains
       character_representation = string%string()
       read(character_representation, *) read_value
       passed = read_value == real_value
+    end block
+#endif
+  end function
+
+  function constructs_from_default_complex() result(passed)
+    logical passed
+    complex, parameter :: z = (-1.23456789E-11, -9.87654321E-11)
+    complex read_value
+    character(len=:), allocatable :: character_representation
+
+#ifndef _CRAYFTN
+    associate(string => string_t(z))
+      character_representation = string%string()
+      read(character_representation, *) read_value
+      passed = read_value == z
+    end associate
+#else
+    block
+      type(string_t) string
+      string = string_t(z)
+      character_representation = string%string()
+      read(character_representation, *) read_value
+      passed = read_value == z
+    end block
+#endif
+  end function
+
+  function constructs_from_double_precision_complex() result(passed)
+    logical passed
+    complex(kind(1D0)), parameter :: z = (-1.234567890123456789D-11, -9.87654320123456789D-11)
+    complex(kind(1D0)) read_value
+    character(len=:), allocatable :: character_representation
+
+#ifndef _CRAYFTN
+    associate(string => string_t(z))
+      character_representation = string%string()
+      read(character_representation, *) read_value
+      passed = read_value == z
+    end associate
+#else
+    block
+      type(string_t) string
+      string = string_t(z)
+      character_representation = string%string()
+      read(character_representation, *) read_value
+      passed = read_value == z
+    end block
+#endif
+  end function
+
+  function constructs_from_default_logical() result(passed)
+    logical passed
+
+#ifndef _CRAYFTN
+    associate(true => string_t(.true.), false => string_t(.false.))
+      passed = true%string() == "T" .and. false%string() == "F"
+    end associate
+#else
+    block
+      type(string_t) true, false
+      true = string_t(.true.)
+      false = string_t(.false.)
+      passed = string%string() == "T" .and. false%string() == "F"
+    end block
+#endif
+  end function
+
+  function constructs_from_logical_c_bool() result(passed)
+    logical passed
+
+#ifndef _CRAYFTN
+    associate(true => string_t(.true._c_bool), false => string_t(.false._c_bool))
+      passed = true%string() == "T" .and. false%string() == "F"
+    end associate
+#else
+    block
+      type(string_t) true, false
+      true = string_t(.true._c_bool)
+      false = string_t(.false._c_bool)
+      passed = string%string() == "T" .and. false%string() == "F"
     end block
 #endif
   end function

@@ -2,6 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 module julienne_string_m
   use assert_m, only : characterizable_t
+  use iso_c_binding, only : c_bool
   implicit none
   
   private
@@ -56,7 +57,7 @@ module julienne_string_m
 
   interface string_t
 
-    elemental module function construct(string) result(new_string)
+    elemental module function from_characters(string) result(new_string)
       implicit none
       character(len=*), intent(in) :: string
       type(string_t) new_string
@@ -77,6 +78,30 @@ module julienne_string_m
     elemental module function from_double_precision(x) result(string)
       implicit none
       double precision, intent(in) :: x
+      type(string_t) string
+    end function
+
+    elemental module function from_default_logical(b) result(string)
+      implicit none
+      logical, intent(in) :: b
+      type(string_t) string
+    end function
+
+    elemental module function from_logical_c_bool(b) result(string)
+      implicit none
+      logical(c_bool), intent(in) :: b
+      type(string_t) string
+    end function
+
+    elemental module function from_default_complex(z) result(string)
+      implicit none
+      complex, intent(in) :: z
+      type(string_t) string
+    end function
+
+    elemental module function from_double_precision_complex(z) result(string)
+      implicit none
+      complex(kind=kind(1D0)), intent(in) :: z
       type(string_t) string
     end function
 
