@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p>25.0% of total for derived types.</p>Including implementation: 34 statements, 25.8% of total for derived types.">56 statements</a>
+                 title="<p>31.1% of total for derived types.</p>Including implementation: 34 statements, 25.8% of total for derived types.">76 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -167,8 +167,8 @@
             <a class="list-group-item" href="../type/string_t.html#boundprocedure-is_allocated">is_allocated</a>
             <a class="list-group-item" href="../type/string_t.html#boundprocedure-operator%28SLASHSLASH%29">operator(//)</a>
             <a class="list-group-item" href="../type/string_t.html#boundprocedure-operator%28SLASH%3D%29">operator(/=)</a>
-            <a class="list-group-item" href="../type/string_t.html#boundprocedure-operator%28%3D%3D%29~2">operator(==)</a>
-            <a class="list-group-item" href="../type/string_t.html#boundprocedure-string~2">string</a>
+            <a class="list-group-item" href="../type/string_t.html#boundprocedure-operator%28%3D%3D%29">operator(==)</a>
+            <a class="list-group-item" href="../type/string_t.html#boundprocedure-string">string</a>
             <a class="list-group-item" href="../type/string_t.html#boundprocedure-assign_character_to_string_t">assign_character_to_string_t</a>
             <a class="list-group-item" href="../type/string_t.html#boundprocedure-assign_string_t_to_character">assign_string_t_to_character</a>
             <a class="list-group-item" href="../type/string_t.html#boundprocedure-character_cat_string_t">character_cat_string_t</a>
@@ -456,8 +456,8 @@ large graphs.</div>
     <ul class="list-group">
           <li class="list-group-item">
                 <h3>
-    private elemental module function construct(string) result(new_string)  
-    <a href="../proc/construct~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private elemental module function from_characters(string) result(new_string)  
+    <a href="../proc/from_characters.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -475,7 +475,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~3"></span>
+              <span class="anchor" id="variable-string~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -484,6 +484,50 @@ large graphs.</div>
             </td>
             <td>::</td>
             <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='string_t.html'>string_t</a>)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental module function from_default_complex(z) result(string)  
+    <a href="../proc/from_default_complex.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-z"></span>
+              complex,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>z</strong></td>
             <td>
                 
             </td>
@@ -519,7 +563,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~6"></span>
+              <span class="anchor" id="variable-i~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -528,6 +572,50 @@ large graphs.</div>
             </td>
             <td>::</td>
             <td><strong>i</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='string_t.html'>string_t</a>)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental module function from_default_logical(b) result(string)  
+    <a href="../proc/from_default_logical.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
             <td>
                 
             </td>
@@ -616,6 +704,94 @@ large graphs.</div>
             </td>
             <td>::</td>
             <td><strong>x</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='string_t.html'>string_t</a>)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental module function from_double_precision_complex(z) result(string)  
+    <a href="../proc/from_double_precision_complex.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-z~2"></span>
+              complex(kind=kind(1D0)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>z</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='string_t.html'>string_t</a>)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental module function from_logical_c_bool(b) result(string)  
+    <a href="../proc/from_logical_c_bool.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~2"></span>
+              logical(kind=c_bool),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
             <td>
                 
             </td>
@@ -1404,7 +1580,7 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-operator%28%3D%3D%29~2"></span>
+      <span class="anchor" id="boundprocedure-operator%28%3D%3D%29"></span>
       <h3>
           generic, public ::
   <strong>operator(==)</strong> => <a href='/home/runner/work/julienne/julienne/doc/html/type/string_t.html#boundprocedure-string_t_eq_string_t'>string_t_eq_string_t</a>, <a href='/home/runner/work/julienne/julienne/doc/html/type/string_t.html#boundprocedure-string_t_eq_character'>string_t_eq_character</a>, <a href='/home/runner/work/julienne/julienne/doc/html/type/string_t.html#boundprocedure-character_eq_string_t'>character_eq_string_t</a>
@@ -1455,7 +1631,7 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-string~2"></span>
+      <span class="anchor" id="boundprocedure-string"></span>
       <h3>
           generic, public ::
   <strong>string</strong> => <a href='/home/runner/work/julienne/julienne/doc/html/type/string_t.html#boundprocedure-as_character'>as_character</a>
@@ -3935,7 +4111,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-01-02 15:56 +0000             </p>
+ on 2025-01-04 22:30 +0000             </p>
           </div>
         </div>
         <br>

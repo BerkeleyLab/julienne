@@ -3,12 +3,11 @@
 submodule(julienne_string_m) julienne_string_s
   use assert_m, only : assert, intrinsic_array_t
   implicit none
+
+  integer, parameter :: integer_width_supremum = 11, default_real_width_supremum = 18, double_precision_width_supremum = 25
+  integer, parameter :: logical_width=2, comma_width = 1, parenthesis_width = 1, space=1
   
 contains
-
-  module procedure construct
-    new_string%string_ = string
-  end procedure
 
   module procedure as_character
     raw_string = self%string_
@@ -18,22 +17,50 @@ contains
     string_allocated = allocated(self%string_)
   end procedure
 
+  module procedure from_characters
+    new_string%string_ = string
+  end procedure
+
   module procedure from_default_integer
-    character(len=11) characters
-    write(characters, '(g0)') i
-    string = string_t(trim(characters))
+    allocate(character(len=integer_width_supremum) :: string%string_)
+    write(string%string_, '(g0)') i
+    string%string_ = trim(adjustl(string%string_))
   end procedure
 
   module procedure from_default_real
-    character(len=16) characters
-    write(characters, '(g0)') x
-    string = string_t(trim(characters))
+    allocate(character(len=double_precision_width_supremum) :: string%string_)
+    write(string%string_, '(g0)') x
+    string%string_ = trim(adjustl(string%string_))
   end procedure
 
   module procedure from_double_precision
-    character(len=24) characters
-    write(characters, '(g0)') x
-    string = string_t(trim(characters))
+    allocate(character(len=double_precision_width_supremum) :: string%string_)
+    write(string%string_, '(g0)') x
+    string%string_ = trim(adjustl(string%string_))
+  end procedure
+
+  module procedure from_default_logical
+    allocate(character(len=logical_width) :: string%string_)
+    write(string%string_, '(g0)') b
+    string%string_ = trim(adjustl(string%string_))
+  end procedure
+
+  module procedure from_logical_c_bool
+    allocate(character(len=logical_width) :: string%string_)
+    write(string%string_, '(g0)') b
+    string%string_ = trim(adjustl(string%string_))
+  end procedure
+
+  module procedure from_default_complex
+    allocate(character(len=2*default_real_width_supremum + 2*parenthesis_width + comma_width) :: string%string_)
+    write(string%string_, *) z
+    string%string_ = trim(adjustl(string%string_))
+  end procedure
+
+  module procedure from_double_precision_complex
+    allocate(character(len=space + 2*double_precision_width_supremum + 2*parenthesis_width + comma_width) :: string%string_)
+    write(string%string_, *) z
+    string%string_ = trim(adjustl(string%string_))
   end procedure
 
   module procedure concatenate_elements
