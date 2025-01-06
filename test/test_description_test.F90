@@ -128,10 +128,14 @@ contains
       ,test_description_t("nothing to see here"      , unused) &
     ]
     tests_pass = [ &
-             test_descriptions(1)%contains_text(string_t("example")       ) &
-      ,      test_descriptions(2)%contains_text(         "example"        ) &
-      ,.not. test_descriptions(3)%contains_text(string_t("missing string")) &
-      ,.not. test_descriptions(4)%contains_text(         "missing string" ) &
+#ifndef NAGFOR
+             test_descriptions(1)%contains_text(string_t("example")       ), &
+#endif
+             test_descriptions(2)%contains_text(         "example"        ), &
+#ifndef NAGFOR
+       .not. test_descriptions(3)%contains_text(string_t("missing string")), &
+#endif
+       .not. test_descriptions(4)%contains_text(         "missing string" ) &
     ]
   end function
 
