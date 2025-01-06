@@ -10,7 +10,7 @@ The string-handling and command-line parsing capabilities are included primarily
 
 Examples
 --------
-For examples of how to use Julienne, please see the [examples](./examples) subdirectory.
+For examples of how to use Julienne, please see the [example](./example) subdirectory.
 
 Building and Testing
 --------------------
