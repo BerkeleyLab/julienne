@@ -268,7 +268,8 @@ module julienne_string_m
 
     pure module function get_string_t_array(self, key, mold) result(value_)
       implicit none
-      class(string_t), intent(in) :: self, key
+      class(string_t), intent(in) :: self
+      character(len=*), intent(in) :: key
       type(string_t), intent(in) :: mold(:)
       type(string_t), allocatable :: value_(:)
     end function

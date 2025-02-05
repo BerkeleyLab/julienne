@@ -242,7 +242,7 @@ contains
     associate(colon => index(raw_line, ':'))
       associate(opening_bracket => colon + index(raw_line(colon+1:), '['))
         associate(closing_bracket => opening_bracket + index(raw_line(opening_bracket+1:), ']'))
-          associate(commas => count("," == [(raw_line(i:i), i = opening_bracket+1, closing_bracket-1)]))
+          associate(commas => count([(raw_line(i:i)==",", i = opening_bracket+1, closing_bracket-1)]))
             allocate(value_(commas+1))
             opening_quotes = opening_bracket + index(raw_line(opening_bracket+1:), '"')
             closing_quotes = opening_quotes + index(raw_line(opening_quotes+1:), '"')
