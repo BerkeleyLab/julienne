@@ -352,7 +352,7 @@ contains
 #endif
           passed = all(string_array == [string_t("stevie"), string_t("ray"), string_t("vaughn")])
 #ifndef __GFORTRAN__
-                  & .and. all(string_array_ == [string_t("stevie"), string_t("ray"), string_t("vaughn")])
+          passed = passed .and. all(string_array_ == [string_t("stevie"), string_t("ray"), string_t("vaughn")])
         end associate
 #endif
       end associate
