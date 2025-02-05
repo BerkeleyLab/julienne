@@ -27,7 +27,7 @@ module julienne_string_m
     generic :: operator(/=)   => string_t_ne_string_t, string_t_ne_character, character_ne_string_t
     generic :: operator(==)   => string_t_eq_string_t, string_t_eq_character, character_eq_string_t
     generic :: assignment(= ) => assign_string_t_to_character, assign_character_to_string_t
-    generic :: get_json_value => get_string, get_string_t_array &
+    generic :: get_json_value => get_string, get_string_t_array_with_character_key, get_string_t_array_with_string_t_key &
                                 ,get_real, get_real_with_character_key &
                                 ,get_character, get_character_with_character_key &
                                 ,get_logical, get_logical_with_character_key  &
@@ -37,7 +37,7 @@ module julienne_string_m
                                 ,get_double_precision, get_double_precision_with_character_key &
                                 ,get_double_precision_array, get_double_precision_array_with_character_key
     procedure, private :: get_real, get_real_with_character_key
-    procedure, private :: get_string, get_string_t_array
+    procedure, private :: get_string, get_string_t_array_with_character_key, get_string_t_array_with_string_t_key
     procedure, private :: get_logical, get_logical_with_character_key
     procedure, private :: get_integer, get_integer_with_character_key
     procedure, private :: get_real_array, get_real_array_with_character_key
@@ -266,7 +266,14 @@ module julienne_string_m
       type(string_t) :: value_
     end function
 
-    pure module function get_string_t_array(self, key, mold) result(value_)
+    pure module function get_string_t_array_with_string_t_key(self, key, mold) result(value_)
+      implicit none
+      class(string_t), intent(in) :: self
+      type(string_t), intent(in) :: key, mold(:)
+      type(string_t), allocatable :: value_(:)
+    end function
+
+    pure module function get_string_t_array_with_character_key(self, key, mold) result(value_)
       implicit none
       class(string_t), intent(in) :: self
       character(len=*), intent(in) :: key

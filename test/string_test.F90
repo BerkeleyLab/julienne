@@ -347,7 +347,14 @@ contains
 #ifndef _CRAYFTN
     associate(key_string_array_pair => string_t('"lead singer" : ["stevie", "ray", "vaughn"],'))
       associate(string_array => key_string_array_pair%get_json_value(key="lead singer", mold=[string_t::]))
-        passed = all(string_array == [string_t("stevie"), string_t("ray"), string_t("vaughn")])
+#ifndef __GFORTRAN__
+        associate(string_array_ => key_string_array_pair%get_json_value(key=string_t("lead singer"), mold=[string_t::]))
+#endif
+          passed = all(string_array == [string_t("stevie"), string_t("ray"), string_t("vaughn")])
+#ifndef __GFORTRAN__
+                  & .and. all(string_array_ == [string_t("stevie"), string_t("ray"), string_t("vaughn")])
+        end associate
+#endif
       end associate
     end associate
 #else

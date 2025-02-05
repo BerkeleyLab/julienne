@@ -230,7 +230,11 @@ contains
     end associate
   end procedure
 
-  module procedure get_string_t_array
+  module procedure get_string_t_array_with_string_t_key
+    value_ = self%get_string_t_array_with_character_key(key%string(), mold)
+  end procedure
+
+  module procedure get_string_t_array_with_character_key
 
     character(len=:), allocatable :: raw_line
     integer i, comma, opening_quotes, closing_quotes
