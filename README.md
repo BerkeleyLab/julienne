@@ -19,19 +19,30 @@ Building and Testing
 fpm test
 ```
 
+### Intel (`ifx`) 2025.4 Build 20241205 tested
+```
+fpm test --compiler ifx --flag "-fpp -O3" --profile release
+```
+
 ### NAG (`nagfor`)
 ```
 fpm test --compiler nagfor --flag -fpp
 ```
 
 ### LLVM Flang
+#### LLVM 20 or later:
 ```
 export FPM_FC=flang-new
-export FPM_FFLAGS="-mmlir -allow-assumed-rank"
-fpm test # Warning: Do not override the FPM_FC or FPM_FFLAGS variables with --compiler or --flag
+fpm test
 ```
-where the flags turn on LLVM Flang's experimental support for Fortran assumed-rank dummy arguments.
-Flang's capabilities are evolving rapidly so we recommend building a recent version of the main branch of llvm-project.
+#### LLVM 19:
+Add the following command before the `fpm` command recommended above for LLVM 20 or later:
+```
+export FPM_FFLAGS="-mmlir -allow-assumed-rank"
+```
+where this `FPM_FFLAGS` setting turns on the support for Fortran's assumed-rank dummy arguments.
+
+If you do not have access to LLVM 19 or 20, we recommend building the main branch of llvm-project from source.
 A script that might be helpful for doing so is in the [handy-dandy] repository.
 
 Documentation
