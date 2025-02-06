@@ -4,7 +4,7 @@ submodule(julienne_string_m) julienne_string_s
   use assert_m, only : assert, intrinsic_array_t
   implicit none
 
-  integer, parameter :: integer_width_supremum = 11, default_real_width_supremum = 18, double_precision_width_supremum = 25
+  integer, parameter :: integer_width_supremum = 11, default_real_width_supremum = 20, double_precision_width_supremum = 25
   integer, parameter :: logical_width=2, comma_width = 1, parenthesis_width = 1, space=1
   
 contains
@@ -29,13 +29,13 @@ contains
 
   module procedure from_default_real
     allocate(character(len=double_precision_width_supremum) :: string%string_)
-    write(string%string_, '(g0)') x
+    write(string%string_, '(g20.13)') x
     string%string_ = trim(adjustl(string%string_))
   end procedure
 
   module procedure from_double_precision
     allocate(character(len=double_precision_width_supremum) :: string%string_)
-    write(string%string_, '(g0)') x
+    write(string%string_, '(g20.13)') x
     string%string_ = trim(adjustl(string%string_))
   end procedure
 
@@ -53,13 +53,13 @@ contains
 
   module procedure from_default_complex
     allocate(character(len=2*default_real_width_supremum + 2*parenthesis_width + comma_width) :: string%string_)
-    write(string%string_, *) z
+    write(string%string_, '("(",g20.13,",",g20.13,")")') z
     string%string_ = trim(adjustl(string%string_))
   end procedure
 
   module procedure from_double_precision_complex
     allocate(character(len=space + 2*double_precision_width_supremum + 2*parenthesis_width + comma_width) :: string%string_)
-    write(string%string_, *) z
+    write(string%string_, '("(",g20.13,",",g20.13,")")') z
     string%string_ = trim(adjustl(string%string_))
   end procedure
 
