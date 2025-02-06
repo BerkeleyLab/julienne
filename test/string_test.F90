@@ -498,7 +498,7 @@ contains
 
   function constructs_from_default_real() result(passed)
     logical passed
-    real, parameter :: real_value = -1./1024. ! use a negative power of 2 an exactly representable rational number
+    real, parameter :: real_value = -1./1024. ! use a negative power of 2 for an exactly representable rational number
     real read_value
     character(len=:), allocatable :: character_representation
 
@@ -521,15 +521,15 @@ contains
 
   function constructs_from_double_precision() result(passed)
     logical passed
-    double precision, parameter :: real_value = -1./1024. ! use a negative power of 2 an exactly representable rational number
+    double precision, parameter :: double_precision_value = -1D0/1024D0 ! use a negative power of 2 for an exactly representable rational number
     real read_value
     character(len=:), allocatable :: character_representation
 
 #ifndef _CRAYFTN
-    associate(string => string_t(real_value))
+    associate(string => string_t(double_precision_value))
       character_representation = string%string()
       read(character_representation, *) read_value
-      passed = read_value == real_value
+      passed = read_value == double_precision_value
     end associate
 #else
     block
@@ -544,7 +544,8 @@ contains
 
   function constructs_from_default_complex() result(passed)
     logical passed
-    complex, parameter :: z = (-1.23456789E-11, -9.87654321E-11)
+    real, parameter :: real_value = -1./1024. ! use a negative power of 2 for an exactly representable rational number
+    complex, parameter :: z = (real_value, real_value)
     complex read_value
     character(len=:), allocatable :: character_representation
 
@@ -567,7 +568,8 @@ contains
 
   function constructs_from_double_precision_complex() result(passed)
     logical passed
-    complex(kind(1D0)), parameter :: z = (-1.234567890123456789D-11, -9.87654320123456789D-11)
+    double precision, parameter :: double_precision_value = -1D0/1024D0 ! use a negative power of 2 for an exactly representable rational number
+    complex(kind(1D0)), parameter :: z = (double_precision_value, double_precision_value)
     complex(kind(1D0)) read_value
     character(len=:), allocatable :: character_representation
 
