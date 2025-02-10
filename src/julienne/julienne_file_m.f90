@@ -35,6 +35,12 @@ module julienne_file_m
       type(file_t) file_object
     end function
 
+    pure module function from_character_array(lines) result(file_object)
+      implicit none
+      character(len=*), intent(in) :: lines(:)
+      type(file_t) file_object
+    end function
+
   end interface
 
   interface
