@@ -6,7 +6,7 @@ maintainer = "rouson@lbl.gov"
 copyright = "Copyright 2024, Sourcery Institute and Berkeley Lab"
 
 [dependencies]
-assert = {git = "https://github.com/sourceryinstitute/assert", tag = "2.0.1"}
+assert = {git = "https://github.com/berkeleylab/assert", tag = "2.0.1"}
 
 [install]
 library = true
