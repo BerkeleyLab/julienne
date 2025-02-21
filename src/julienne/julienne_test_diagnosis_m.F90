@@ -47,11 +47,11 @@ module julienne_test_diagnosis_m
       logical passed
     end function
 
-    elemental module function diagnostics_string(self) result(string)
+    elemental module function diagnostics_string(self) result(string_)
       !! The result is a string describing the condition(s) that caused a test failure
       implicit none
       class(test_diagnosis_t), intent(in) :: self
-      type(string_t) string
+      type(string_t) string_
     end function
 
   end interface

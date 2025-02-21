@@ -23,6 +23,6 @@ contains
 
     module procedure diagnostics_string
       call_assert(allocated(self%diagnostics_string_))
-      string = string_t(self%diagnostics_string_)
+      string_ = string_t(self%diagnostics_string_)
     end procedure
 end submodule julienne_test_diagnosis_s
