@@ -11,6 +11,10 @@ contains
     file_object%lines_ = lines
   end procedure
 
+  module procedure from_character_array
+    file_object%lines_ = lines
+  end procedure
+
   module procedure lines
     my_lines = self%lines_
   end procedure

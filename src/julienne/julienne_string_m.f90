@@ -401,7 +401,7 @@ module julienne_string_m
       type(string_t) lhs_cat_rhs
     end function
 
-    pure module subroutine assign_character_to_string_t(lhs, rhs)
+    elemental module subroutine assign_character_to_string_t(lhs, rhs)
       implicit none
       class(string_t), intent(inout) :: lhs
       character(len=*), intent(in) :: rhs

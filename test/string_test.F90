@@ -58,6 +58,8 @@ contains
       test_description_t &
         (string_t('assigning a character variable to a string_t object'), assigns_character_to_string_t), &
       test_description_t &
+        (string_t('assigning a character array to a string_t array'), assigns_character_array_to_string_array), &
+      test_description_t &
         (string_t('constructing from a default integer'), constructs_from_default_integer), &
       test_description_t &
         (string_t('constructing from a default real value'), constructs_from_default_real), &
@@ -108,7 +110,8 @@ contains
     ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
     procedure(test_function_i), pointer :: &
       check_allocation_ptr, supports_equivalence_ptr, supports_non_equivalence_ptr, supports_concatenation_ptr, &
-      assigns_string_ptr, assigns_character_ptr, constructs_from_integer_ptr, constructs_from_default_real_ptr, constructs_from_double_precision_ptr, &
+      assigns_string_ptr, assigns_character_ptr, assigns_character_array_ptr, &
+      constructs_from_integer_ptr, constructs_from_default_real_ptr, constructs_from_double_precision_ptr, &
       constructs_from_default_logical_ptr, constructs_from_logical_c_bool_ptr, constructs_from_default_complex_ptr, &
       constructs_from_double_precision_complex_ptr, &
       concatenates_ptr, extracts_key_ptr, extracts_real_ptr, extracts_string_ptr, extracts_logical_ptr, extracts_integer_array_ptr, &
@@ -123,6 +126,7 @@ contains
     supports_concatenation_ptr => supports_concatenation_operator
     assigns_string_ptr => assigns_string_t_to_character
     assigns_character_ptr => assigns_character_to_string_t
+    assigns_character_array_ptr => assigns_character_array_to_string_array
     constructs_from_integer_ptr => constructs_from_default_integer
     constructs_from_double_precision_ptr => constructs_from_double_precision
     constructs_from_default_real_ptr => constructs_from_default_real
@@ -157,6 +161,7 @@ contains
         string_t('supporting operator(//) for string_t and character operands'), supports_concatenation_ptr), &
       test_description_t(string_t('assigning a string_t object to a character variable'), assigns_string_ptr), &
       test_description_t(string_t('assigning a character variable to a string_t object'), assigns_character_ptr), &
+      test_description_t (string_t('assigning a character array to a string_t array'), assigns_character_array_ptr), &
       test_description_t(string_t('constructing from a default integer'), constructs_from_integer_ptr), &
       test_description_t(string_t('constructing from a default real value'), constructs_from_default_real_ptr), &
       test_description_t(string_t('constructing from a double-precision value'), constructs_from_double_precision_ptr), &
@@ -461,6 +466,19 @@ contains
 
     lhs = rhs
     passed = lhs == rhs
+  end function
+
+  function assigns_character_array_to_string_array() result(passed)
+    logical passed
+    character(len=*), parameter :: rhs(*) = [ &
+       "here we go       " &
+      ,"there we went    " &
+      ,"are we there yet?" &
+    ]
+    type(string_t), allocatable :: lhs(:)
+
+    lhs = rhs
+    passed = all(lhs == rhs)
   end function
 
   function supports_concatenation_operator() result(passed)
