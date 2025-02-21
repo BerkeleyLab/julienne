@@ -1,8 +1,11 @@
 ! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
+
+#include "assert_macros.h"
+
 submodule(julienne_file_m) julienne_file_s
   use iso_fortran_env, only : iostat_end, iostat_eor, output_unit
-  use assert_m, only : assert
+  use assert_m
   implicit none
 
 contains
@@ -19,11 +22,11 @@ contains
 
     integer file_unit, io_status, l
 
-    call assert(allocated(self%lines_), "file_t%write_lines: allocated(self%lines_)")
+    call_assert(allocated(self%lines_))
 
     if (present(file_name)) then
       open(newunit=file_unit, file=file_name%string(), form='formatted', status='unknown', iostat=io_status, action='write')
-      call assert(io_status==0,"write_lines: io_status==0 after 'open' statement", file_name%string())
+      call_assert_diagnose(io_status==0,"write_lines: io_status==0 after 'open' statement", file_name%string())
     else
       file_unit = output_unit
     end if
@@ -48,7 +51,7 @@ contains
     integer, allocatable :: lengths(:)
 
     open(newunit=file_unit, file=file_name%string(), form='formatted', status='old', iostat=io_status, action='read')
-    call assert(io_status==0,"from_file_with_string_name: io_status==0 after 'open' statement", file_name%string())
+    call_assert_diagnose(io_status==0,"from_file_with_string_name: io_status==0 after 'open' statement", file_name%string())
 
     lengths = line_lengths(file_unit)
 

@@ -1,7 +1,10 @@
 ! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
+
+#include "assert_macros.h"
+
 submodule(julienne_vector_test_description_m) julienne_vector_test_description_s
-  use assert_m, only : assert
+  use assert_m
   implicit none
 
 contains
@@ -23,7 +26,7 @@ contains
 
   module procedure run
     associate(vector_result => self%vector_function_strategy_%vector_function())
-      call assert(size(self%description_vector_)==size(vector_result), "julienne_vector_test_description_s: size match")
+      call_assert(size(self%description_vector_)==size(vector_result))
       test_results = test_result_t(self%description_vector_, vector_result)
     end associate
   end procedure

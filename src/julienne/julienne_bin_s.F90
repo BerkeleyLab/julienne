@@ -1,14 +1,17 @@
 ! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
+
+#include "assert_macros.h"
+
 submodule(julienne_bin_m) julienne_bin_s
-  use assert_m, only : assert, intrinsic_array_t
+  use assert_m
   implicit none
 
 contains
 
   module procedure construct
 
-      call assert( num_items>=num_bins, "bin_s(construct): num_items>=num_bins", intrinsic_array_t([num_items,num_bins]))
+      call_assert_diagnose( num_items>=num_bins, "bin_s(construct): num_items>=num_bins", intrinsic_array_t([num_items,num_bins]))
 
       associate( remainder => mod(num_items, num_bins), items_per_bin => num_items/num_bins)
 
