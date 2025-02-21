@@ -4,6 +4,7 @@
 #include "assert_macros.h"
 
 submodule(julienne_test_description_m) julienne_test_description_s
+  use assert_m
   implicit none
 contains
     module procedure construct_from_character_and_test_function
