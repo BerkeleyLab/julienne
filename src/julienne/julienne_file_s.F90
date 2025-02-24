@@ -18,7 +18,11 @@ contains
     my_lines = self%lines_
   end procedure
 
-  module procedure write_lines
+  module procedure to_file_with_character_file_name
+    call self%write_lines(string_t(file_name))
+  end procedure
+
+  module procedure to_file_with_string_t_file_name
 
     integer file_unit, io_status, l
 
