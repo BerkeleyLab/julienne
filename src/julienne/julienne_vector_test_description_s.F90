@@ -26,7 +26,11 @@ contains
 
   module procedure run
     associate(vector_result => self%vector_function_strategy_%vector_function())
-      call_assert(size(self%description_vector_)==size(vector_result))
+#ifdef ASSERTIONS
+      associate(description_size => size(self%description_vector_), result_size => size(vector_result))
+        call_assert_diagnose(description_size==result_size, "description/result size match", intrinsic_array_t([description_size, result_size]))
+      end associate
+#endif
       test_results = test_result_t(self%description_vector_, vector_result)
     end associate
   end procedure
