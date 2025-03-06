@@ -63,17 +63,18 @@ contains
         end do
       else ! substring not found in subject
         allocate(substring_in_description(num_descriptions))
+        num_matches = 0
         do i = 1, num_descriptions
           substring_in_description(i) = test_descriptions(i)%contains_text(test_description_substring)
+          if (substring_in_description(i)) num_matches = num_matches + 1
         end do
-        num_matches = count(substring_in_description)
         allocate(test_results(num_matches))
         m = 0
         do i = 1, num_descriptions
           if (m==num_matches) exit
           if (substring_in_description(i)) then
             m = m + 1
-            test_results(m) = test_descriptions(m)%run()
+            test_results(m) = test_descriptions(i)%run()
           end if
         end do
       end if
