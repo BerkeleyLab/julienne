@@ -53,21 +53,31 @@ contains
     !    .or. test_descriptions%contains_text(string_t(test_description_substring)) &
     !  )
     block
-      integer i
-      logical substring_in_subject
+      integer i, m, num_descriptions, num_matches
       logical, allocatable :: substring_in_description(:)
-
-      substring_in_subject = index(subject(), test_description_substring) /= 0
-
-      allocate(substring_in_description(size(test_descriptions)))
-
-      do i = 1, size(test_descriptions)
-        substring_in_description(i) = test_descriptions(i)%contains_text(test_description_substring)
-      end do
-
-      test_descriptions = pack(test_descriptions, substring_in_subject .or. substring_in_description)
+      num_descriptions = size(test_descriptions)
+      if (index(subject(), test_description_substring) /= 0) then 
+        allocate(test_results(num_descriptions))
+        do i = 1, num_descriptions
+         test_results = test_descriptions%run()
+        end do
+      else ! substring not found in subject
+        allocate(substring_in_description(num_descriptions))
+        do i = 1, num_descriptions
+          substring_in_description(i) = test_descriptions(i)%contains_text(test_description_substring)
+        end do
+        num_matches = count(substring_in_description)
+        allocate(test_results(num_matches))
+        m = 0
+        do i = 1, num_descriptions
+          if (m==num_matches) exit
+          if (substring_in_description(i)) then
+            m = m + 1
+            test_results(m) = test_descriptions(m)%run()
+          end if
+        end do
+      end if
     end block
-    test_results = test_descriptions%run()
   end function
 
   function check_block_partitioning() result(test_passes)
