@@ -54,10 +54,13 @@ contains
     !  )
     block
       integer i
+      logical substring_in_subject
+
+      substring_in_subject = index(subject(), test_description_substring) /= 0
 
       test_descriptions = &
         pack(test_descriptions, &
-          index(subject(), test_description_substring) /= 0 &
+           substring_in_subject &
           .or. [( test_descriptions(i)%contains_text(string_t(test_description_substring)), i = 1, size(test_descriptions) )] &
         )
     end block
