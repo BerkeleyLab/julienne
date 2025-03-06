@@ -61,7 +61,7 @@ contains
       test_descriptions = &
         pack(test_descriptions, &
            substring_in_subject &
-          .or. [( test_descriptions(i)%contains_text(string_t(test_description_substring)), i = 1, size(test_descriptions) )] &
+          .or. [( test_descriptions(i)%contains_text(test_description_substring), i = 1, size(test_descriptions) )] &
         )
     end block
     test_results = test_descriptions%run()
