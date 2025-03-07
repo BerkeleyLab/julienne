@@ -54,9 +54,19 @@ contains
     !  )
     block
       integer i, m, num_descriptions, num_matches
+      logical substring_in_subject
       logical, allocatable :: substring_in_description(:)
+      character(len=:), allocatable :: test_subject
       num_descriptions = size(test_descriptions)
-      if (index(subject(), test_description_substring) /= 0) then 
+      test_subject = subject()
+      substring_in_subject = .false.
+      do i = 1, len(test_subject) - len(test_description_substring) + 1
+        if (test_subject(i:i+len(test_description_substring) - 1) == test_description_substring) then
+          substring_in_subject = .true.
+          exit
+        end if
+      end do
+      if (substring_in_subject) then 
         allocate(test_results(num_descriptions))
         do i = 1, num_descriptions
          test_results = test_descriptions%run()
