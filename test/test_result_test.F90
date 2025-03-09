@@ -5,7 +5,13 @@
 
 module test_result_test_m
   !! Verify test_result_t object behavior
-  use julienne_m, only : string_t, test_result_t, test_description_t, test_t, test_description_substring
+  use julienne_m, only : &
+     string_t &
+    ,test_description_substring &
+    ,test_description_t &
+    ,test_diagnosis_t &
+    ,test_result_t &
+    ,test_t
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
   use julienne_m, only : test_function_i
 #endif
@@ -52,17 +58,24 @@ contains
     test_results = test_descriptions%run()
   end function
 
-  function check_array_result_construction() result(passed)
+  function check_array_result_construction() result(test_diagnosis)
     type(test_result_t), allocatable :: test_results(:)
-    logical passed
+    type(test_diagnosis_t) test_diagnosis
 
     test_results = test_result_t(["foo","bar"], [.true.,.false.])
-    passed = size(test_results)==2
+
+    associate(num_results => size(test_results))
+      test_diagnosis = test_diagnosis_t( &
+         test_passed = num_results == 2 &
+        ,diagnostics_string = "expected 2, actual " // string_t(num_results) &
+      )
+    end associate
   end function
 
-  function check_single_image_failure() result(passed)
+  function check_single_image_failure() result(test_diagnosis)
+    !! verify that failing on a single image results in reporting a test failure even if other images don't fail
     type(test_result_t), allocatable :: test_result
-    logical passed
+    type(test_diagnosis_t) test_diagnosis
 
 #if HAVE_MULTI_IMAGE_SUPPORT
     if (this_image()==1) then
@@ -76,7 +89,12 @@ contains
     end if
 #endif
 
-    passed = .not. test_result%passed()
+    associate(test_result_passed => test_result%passed())
+      test_diagnosis = test_diagnosis_t( &
+         test_passed = .not. test_result_passed &
+        ,diagnostics_string = "expected .false., actual " // string_t(test_result_passed) &
+      )
+    end associate
   end function
 
 end module test_result_test_m
