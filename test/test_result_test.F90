@@ -13,7 +13,7 @@ module test_result_test_m
     ,test_result_t &
     ,test_t
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-  use julienne_m, only : test_function_i
+  use julienne_m, only : diagnosis_function_i
 #endif
   implicit none
 
@@ -44,7 +44,7 @@ contains
     ]
 #else
     ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
-    procedure(test_function_i), pointer :: check_array_ptr, check_single_ptr
+    procedure(diagnosis_function_i), pointer :: check_array_ptr, check_single_ptr
     check_array_ptr => check_array_result_construction
     check_single_ptr => check_single_image_failure
     test_descriptions = [ &
