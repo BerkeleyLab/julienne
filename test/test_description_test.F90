@@ -6,14 +6,15 @@
 module test_description_test_m
   !! Verify test_description_t object behavior
   use julienne_m, only : &
-     string_t &
+     diagnosis_function_i &
+    ,string_t &
     ,test_result_t &
     ,test_description_t &
-    ,test_t &
     ,test_description_substring &
-    ,vector_test_description_t &
+    ,test_diagnosis_t&
+    ,test_t &
     ,vector_function_strategy_t &
-    ,diagnosis_function_i
+    ,vector_test_description_t
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
   use julienne_m, only : test_function_i
 #endif
@@ -100,14 +101,21 @@ contains
 
   end function
 
-  function check_character_constructor() result(passed)
-    logical passed
+  function check_character_constructor() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-    passed = test_description_t("foo", tautology) == test_description_t(string_t("foo"), tautology)
+    test_diagnosis = test_diagnosis_t( &
+       test_passed = test_description_t("foo", tautology) == test_description_t(string_t("foo"), tautology) &
+      ,diagnostics_string = 'test_description_t("foo", tautology) /= test_description_t(string_t("foo"), tautology)' &
+    )
 #else
-    procedure(test_function_i), pointer :: test_function_ptr
-    test_function_ptr => tautology
-    passed = test_description_t("foo", test_function_ptr) == test_description_t(string_t("foo"), test_function_ptr)
+    procedure(diagnosis_function_i), pointer :: tautology_ptr
+    tautology_ptr => tautology
+
+    test_diagnosis = test_diagnosis_t(  &
+       test_passed = test_description_t("foo", test_function_ptr) == test_description_t(string_t("foo"), test_function_ptr) &
+      ,diagnostics_string= 'test_description_t("foo", tautology_ptr) /= test_description_t(string_t("foo"), tautology__ptr)'&
+    )
 #endif
   contains
     logical function tautology()
