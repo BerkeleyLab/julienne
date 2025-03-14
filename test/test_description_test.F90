@@ -11,13 +11,10 @@ module test_description_test_m
     ,test_result_t &
     ,test_description_t &
     ,test_description_substring &
-    ,test_diagnosis_t&
+    ,test_diagnosis_t &
     ,test_t &
     ,vector_function_strategy_t &
     ,vector_test_description_t
-#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-  use julienne_m, only : test_function_i
-#endif
   implicit none
 
   private
@@ -118,8 +115,8 @@ contains
     )
 #endif
   contains
-    logical function tautology()
-      tautology = .true. 
+    type(test_diagnosis_t) function tautology()
+      tautology = test_diagnosis_t(.true.,"")
     end function
   end function
 
