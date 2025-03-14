@@ -44,7 +44,7 @@ contains
     type(test_description_t), allocatable :: test_descriptions(:)
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-    test_descriptions = [ & 
+    test_descriptions = [ &
        test_description_t("is_allocated() result .true. if & only if the string_t component(s) is/are allocated", check_allocation)&
       ,test_description_t("extracting a key string from a colon-separated key/value pair",                            extracts_key)&
       ,test_description_t("extracting double-precision value from colon-separated key/value pair", extracts_double_precision_value)&
@@ -78,85 +78,97 @@ contains
 #else
     ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
     procedure(diagnosis_function_i), pointer :: &
-      check_allocation_ptr, supports_equivalence_ptr, supports_non_equivalence_ptr, supports_concatenation_ptr, &
-      assigns_string_ptr, assigns_character_ptr, constructs_from_integer_ptr, constructs_from_default_real_ptr, constructs_from_double_precision_ptr, &
-      constructs_from_default_logical_ptr, constructs_from_logical_c_bool_ptr, constructs_from_default_complex_ptr, &
-      constructs_from_double_precision_complex_ptr, &
-      concatenates_ptr, extracts_key_ptr, extracts_real_ptr, extracts_string_ptr, extracts_logical_ptr, extracts_integer_array_ptr, &
-      extracts_real_array_ptr, extracts_integer_ptr, extracts_file_base_ptr, extracts_file_name_ptr, &
-      extracts_string_array_ptr, &
-      extracts_character_ptr, extracts_double_precision_value_ptr, extracts_dp_array_value_ptr, &
-      brackets_strings_ptr, constructs_separated_values_ptr
-        
-    check_allocation_ptr => check_allocation
-    supports_equivalence_ptr => supports_equivalence_operator
-    supports_non_equivalence_ptr => supports_non_equivalence_operator
-    supports_concatenation_ptr => supports_concatenation_operator
-    assigns_string_ptr => assigns_string_t_to_character
-    assigns_character_ptr => assigns_character_to_string_t
-    constructs_from_integer_ptr => constructs_from_default_integer
-    constructs_from_double_precision_ptr => constructs_from_double_precision
-    constructs_from_default_real_ptr => constructs_from_default_real
-    constructs_from_default_logical_ptr => constructs_from_default_logical
-    constructs_from_logical_c_bool_ptr => constructs_from_logical_c_bool
-    constructs_from_default_complex_ptr => constructs_from_default_complex
-    constructs_from_double_precision_complex_ptr => constructs_from_double_precision_complex
-    concatenates_ptr => concatenates_elements
-    extracts_key_ptr => extracts_key
-    extracts_real_ptr => extracts_real_value
-    extracts_double_precision_value_ptr => extracts_double_precision_value
-    extracts_string_ptr => extracts_string_value
-    extracts_character_ptr => extracts_character_value
-    extracts_logical_ptr => extracts_logical_value
-    extracts_integer_array_ptr  => extracts_integer_array_value
-    extracts_string_array_ptr  => extracts_string_array_value
-    extracts_real_array_ptr => extracts_real_array_value
-    extracts_dp_array_value_ptr => extracts_dp_array_value
-    extracts_integer_ptr => extracts_integer_value
-    extracts_file_base_ptr => extracts_file_base_name
-    extracts_file_name_ptr => extracts_file_name_extension
-    brackets_strings_ptr => brackets_strings
-    constructs_separated_values_ptr => constructs_separated_values
+       check_allocation_ptr                     &
+      ,extracts_key_ptr                         &
+      ,extracts_double_precision_value_ptr      &
+      ,extracts_real_value_ptr                  &
+      ,extracts_character_value_ptr             &
+      ,extracts_string_value_ptr                &
+      ,extracts_integer_value_ptr               &
+      ,extracts_logical_value_ptr               &
+      ,extracts_integer_array_value_ptr         &
+      ,extracts_real_array_value_ptr            &
+      ,extracts_dp_array_value_ptr              &
+      ,supports_equivalence_operator_ptr        &
+      ,supports_non_equivalence_operator_ptr    &
+      ,assigns_string_t_to_character_ptr        &
+      ,assigns_character_to_string_t_ptr        &
+      ,supports_concatenation_operator_ptr      &
+      ,constructs_from_default_integer_ptr      &
+      ,constructs_from_default_real_ptr         &
+      ,constructs_from_double_precision_ptr     &
+      ,constructs_from_default_complex_ptr      &
+      ,constructs_from_default_logical_ptr      &
+      ,constructs_from_logical_c_bool_ptr       &
+      ,extracts_file_base_name_ptr              &
+      ,extracts_file_name_extension_ptr         &
+      ,concatenates_elements_ptr                &
+      ,brackets_strings_ptr                     &
+      ,extracts_string_array_value_ptr          &
+      ,constructs_separated_values_ptr          &
+      ,constructs_from_double_precision_complex_ptr
 
-    test_descriptions = [ & 
-      test_description_t( &
-        string_t("is_allocated() result .true. if & only if the string_t component(s) is/are allocated"), check_allocation_ptr), &
-      test_description_t(string_t('supporting operator(==) for string_t and character operands'), supports_equivalence_ptr), &
-      test_description_t( &
-        string_t('supporting operator(/=) for string_t and character operands'), supports_non_equivalence_ptr), &
-      test_description_t( &
-        string_t('supporting operator(//) for string_t and character operands'), supports_concatenation_ptr), &
-      test_description_t(string_t('assigning a string_t object to a character variable'), assigns_string_ptr), &
-      test_description_t(string_t('assigning a character variable to a string_t object'), assigns_character_ptr), &
-      test_description_t(string_t('constructing from a default integer'), constructs_from_integer_ptr), &
-      test_description_t(string_t('constructing from a default real value'), constructs_from_default_real_ptr), &
-      test_description_t(string_t('constructing from a double-precision value'), constructs_from_double_precision_ptr), &
-      test_description_t(string_t('constructing from a default-kind logical value'), constructs_from_default_logical_ptr), &
-      test_description_t(string_t('constructing from a logical(c_bool) value'), constructs_from_logical_c_bool_ptr), &
-      test_description_t(string_t('constructing from a default-precision complex value'), constructs_from_default_complex_ptr), &
-      test_description_t(string_t('constructing from a double-precision complex value'), constructs_from_double_precision_complex_ptr), &
-      test_description_t(string_t('supporting unary operator(.cat.) for array arguments'), concatenates_ptr), &
-      test_description_t(string_t("extracting a key string from a colon-separated key/value pair"), extracts_key_ptr), &
-      test_description_t(string_t("extracting a real value from a colon-separated key/value pair"), extracts_real_ptr), &
-      test_description_t( &
-        string_t("extracting a double-precision value from a colon-separated key/value pair"), extracts_double_precision_value_ptr),&
-      test_description_t(string_t("extracting a string value from a colon-separated key/value pair"), extracts_string_ptr), &
-      test_description_t(string_t("extracting a character value from a colon-separated key/value pair"), extracts_character_ptr), &
-      test_description_t(string_t("extracting a logical value from a colon-separated key/value pair"), extracts_logical_ptr), &
-      test_description_t( &
-        string_t("extracting an integer array value from a colon-separated key/value pair"), extracts_integer_array_ptr), &
-      test_description_t( &
-        string_t("extracting an string array value from a colon-separated key/value pair"), extracts_string_array_ptr), &
-      test_description_t( &
-        string_t("extracting an real array value from a colon-separated key/value pair"), extracts_real_array_ptr), &
-      test_description_t( &
-        string_t("extracting an double-precision array value from a colon-separated key/value pair"), extracts_dp_array_value_ptr), &
-      test_description_t(string_t("extracting an integer value from a colon-separated key/value pair"), extracts_integer_ptr), &
-      test_description_t(string_t('extracting a file base name'), extracts_file_base_ptr), &
-      test_description_t(string_t('extracting a file name extension'), extracts_file_name_ptr), &
-      test_description_t(string_t('constructing a bracketed string'), brackets_strings_ptr),&
-      test_description_t(string_t('constructing (comma-)separated values from string_t arrays'), constructs_separated_values_ptr) &
-    ]   
+      check_allocation_ptr                         => check_allocation
+      extracts_key_ptr                             => extracts_key
+      extracts_double_precision_value_ptr          => extracts_double_precision_value
+      extracts_real_value_ptr                      => extracts_real_value
+      extracts_character_value_ptr                 => extracts_character_value
+      extracts_string_value_ptr                    => extracts_string_value
+      extracts_integer_value_ptr                   => extracts_integer_value
+      extracts_logical_value_ptr                   => extracts_logical_value
+      extracts_integer_array_value_ptr             => extracts_integer_array_value
+      extracts_real_array_value_ptr                => extracts_real_array_value
+      extracts_dp_array_value_ptr                  => extracts_dp_array_value
+      supports_equivalence_operator_ptr            => supports_equivalence_operator
+      supports_non_equivalence_operator_ptr        => supports_non_equivalence_operator      
+      assigns_string_t_to_character_ptr            => assigns_string_t_to_character
+      assigns_character_to_string_t_ptr            => assigns_character_to_string_t
+      supports_concatenation_operator_ptr          => supports_concatenation_operator
+      constructs_from_default_integer_ptr          => constructs_from_default_integer
+      constructs_from_default_real_ptr             => constructs_from_default_real
+      constructs_from_double_precision_ptr         => constructs_from_double_precision       
+      constructs_from_default_complex_ptr          => constructs_from_default_complex
+      constructs_from_default_logical_ptr          => constructs_from_default_logical
+      constructs_from_logical_c_bool_ptr           => constructs_from_logical_c_bool
+      extracts_file_base_name_ptr                  => extracts_file_base_name
+      extracts_file_name_extension_ptr             => extracts_file_name_extension           
+      concatenates_elements_ptr                    => concatenates_elements
+      brackets_strings_ptr                         => brackets_strings
+      extracts_string_array_value_ptr              => extracts_string_array_value
+      constructs_separated_values_ptr              => constructs_separated_values
+      constructs_from_double_precision_complex_ptr => constructs_from_double_precision_complex
+
+    test_descriptions = [ &
+       test_description_t("is_allocated() result .true. if & only if the string_t component(s) is/are allocated", check_allocation_ptr)&
+      ,test_description_t("extracting a key string from a colon-separated key/value pair",                            extracts_key_ptr)&
+      ,test_description_t("extracting double-precision value from colon-separated key/value pair", extracts_double_precision_value_ptr)&
+      ,test_description_t("extracting a real value from a colon-separated key/value pair",                     extracts_real_value_ptr)&
+      ,test_description_t("extracting a string value from a colon-separated key/value pair",              extracts_character_value_ptr)&
+      ,test_description_t("extracting a string value from a colon-separated key/value pair",                 extracts_string_value_ptr)&
+      ,test_description_t("extracting an integer value from a colon-separated key/value pair",              extracts_integer_value_ptr)&
+      ,test_description_t("extracting a logical value from a colon-separated key/value pair",               extracts_logical_value_ptr)&
+      ,test_description_t("extracting an integer array value from a colon-separated key/value pair",  extracts_integer_array_value_ptr)&
+      ,test_description_t("extracting an real array value from a colon-separated key/value pair",        extracts_real_array_value_ptr)&
+      ,test_description_t("extracting a double-precision array from a colon-separated key/value pair",     extracts_dp_array_value_ptr)&
+      ,test_description_t('supporting operator(==) for string_t and character operands',             supports_equivalence_operator_ptr)&
+      ,test_description_t('supporting operator(/=) for string_t and character operands',         supports_non_equivalence_operator_ptr)&
+      ,test_description_t('assigning a string_t object to a character variable',                     assigns_string_t_to_character_ptr)&
+      ,test_description_t('assigning a character variable to a string_t object',                     assigns_character_to_string_t_ptr)&
+      ,test_description_t('supporting operator(//) for string_t and character operands',           supports_concatenation_operator_ptr)&
+      ,test_description_t('constructing from a default integer',                                   constructs_from_default_integer_ptr)&
+      ,test_description_t('constructing from a default real value',                                   constructs_from_default_real_ptr)&
+      ,test_description_t('constructing from a double-precision value',                           constructs_from_double_precision_ptr)&
+      ,test_description_t('constructing from a default-precision complex value',                   constructs_from_default_complex_ptr)&
+      ,test_description_t('constructing from a default-kind logical value',                        constructs_from_default_logical_ptr)&
+      ,test_description_t('constructing from a logical(c_bool) value',                              constructs_from_logical_c_bool_ptr)&
+      ,test_description_t('extracting a file base name',                                                   extracts_file_base_name_ptr)&
+      ,test_description_t('extracting a file name extension',                                         extracts_file_name_extension_ptr)&
+      ,test_description_t('supporting unary operator(.cat.) for array arguments',                            concatenates_elements_ptr)&
+      ,test_description_t('constructing bracketed strings',                                                       brackets_strings_ptr)&
+      ,test_description_t("extracting a string_t array value from a colon-separated key/value pair",   extracts_string_array_value_ptr)&
+      ,test_description_t('constructing (comma-)separated values from character or string_t arrays',   constructs_separated_values_ptr)&
+      ,test_description_t('constructing from a double-precision complex value',           constructs_from_double_precision_complex_ptr)&
+    ]
 #endif
     test_descriptions = pack(test_descriptions, &
       index(subject(), test_description_substring) /= 0 .or. &

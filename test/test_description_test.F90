@@ -50,7 +50,7 @@ contains
     ]
 #else
     ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
-    procedure(test_function_i), pointer :: check_character_ptr
+    procedure(diagnosis_function_i), pointer :: check_character_ptr
     check_character_ptr => check_character_constructor
     scalar_test_descriptions = [ &
       test_description_t("identical construction from string_t or character arguments", check_character_ptr) &
@@ -110,7 +110,7 @@ contains
     tautology_ptr => tautology
 
     test_diagnosis = test_diagnosis_t(  &
-       test_passed = test_description_t("foo", test_function_ptr) == test_description_t(string_t("foo"), test_function_ptr) &
+       test_passed = test_description_t("foo", tautology_ptr) == test_description_t(string_t("foo"), tautology_ptr) &
       ,diagnostics_string= 'test_description_t("foo", tautology_ptr) /= test_description_t(string_t("foo"), tautology__ptr)'&
     )
 #endif
