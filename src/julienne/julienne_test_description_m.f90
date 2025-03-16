@@ -63,7 +63,7 @@ module julienne_test_description_m
       type(test_result_t) test_result
     end function
 
-    impure elemental module function contains_string_t(self, substring) result(match)
+    elemental module function contains_string_t(self, substring) result(match)
       !! The result is .true. if the test description includes the value of substring
       implicit none
       class(test_description_t), intent(in) :: self
@@ -71,7 +71,7 @@ module julienne_test_description_m
       logical match
     end function
 
-    impure elemental module function contains_characters(self, substring) result(match)
+    elemental module function contains_characters(self, substring) result(match)
       !! The result is .true. if the test description includes the value of substring
       implicit none
       class(test_description_t), intent(in) :: self

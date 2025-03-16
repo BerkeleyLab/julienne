@@ -4,29 +4,25 @@ module julienne_vector_test_description_m
   !! Define an abstraction for describing test intentions and array-valued test functions
   use julienne_string_m, only : string_t
   use julienne_test_result_m, only : test_result_t
+  use julienne_test_diagnosis_m, only : test_diagnosis_t
   implicit none
 
   private
   public :: vector_test_description_t
-  public :: vector_function_strategy_t
+  public :: vector_diagnosis_function_i
 
   abstract interface
-    function vector_function_i() result(passes)
+    function vector_diagnosis_function_i() result(diagnoses)
+      import test_diagnosis_t
       implicit none
-      logical, allocatable :: passes(:)
+      type(test_diagnosis_t), allocatable :: diagnoses(:)
     end function
   end interface
 
-  type, abstract :: vector_function_strategy_t
-  contains
-    procedure(vector_function_i), deferred, nopass ::  vector_function
-  end type
-
   type vector_test_description_t
-    !! Encapsulate test descriptions and vector-valued test functions
     private
-    type(string_t), allocatable :: description_vector_(:)
-    class(vector_function_strategy_t), allocatable :: vector_function_strategy_
+    type(string_t), allocatable :: descriptions_(:)
+    procedure(vector_diagnosis_function_i), pointer, nopass :: vector_diagnosis_function_
   contains
     procedure run
     procedure contains_text
@@ -34,11 +30,11 @@ module julienne_vector_test_description_m
 
   interface vector_test_description_t
 
-    module function construct(description_vector, vector_function_strategy) result(vector_test_description)
+    module function construct(descriptions, vector_diagnosis_function) result(vector_test_description)
      !! The result is a vector_test_description_t object with the components defined by the dummy arguments
       implicit none
-      type(string_t), intent(in) :: description_vector(:)
-      class(vector_function_strategy_t), intent(in) :: vector_function_strategy
+      type(string_t), intent(in) :: descriptions(:)
+      procedure(vector_diagnosis_function_i), intent(in), pointer :: vector_diagnosis_function
       type(vector_test_description_t) vector_test_description
     end function
 

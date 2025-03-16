@@ -59,42 +59,38 @@ contains
   end function
 
   function check_array_result_construction() result(test_diagnosis)
-    type(test_result_t), allocatable :: test_results(:)
     type(test_diagnosis_t) test_diagnosis
 
-    test_results = test_result_t(["foo","bar"], [.true.,.false.])
-
-    associate(num_results => size(test_results))
-      test_diagnosis = test_diagnosis_t( &
-         test_passed = num_results == 2 &
-        ,diagnostics_string = "expected 2, actual " // string_t(num_results) &
-      )
+    associate(two_test_results => test_result_t(["foo","bar"], [test_diagnosis_t(.true.,""), test_diagnosis_t(.true.,"")]))
+      associate(num_results => size(two_test_results))
+        test_diagnosis = test_diagnosis_t( &
+           test_passed = num_results == 2 &
+          ,diagnostics_string = "expected 2, actual " // string_t(num_results) &
+        )
+      end associate
     end associate
   end function
 
   function check_single_image_failure() result(test_diagnosis)
     !! verify that failing on a single image results in reporting a test failure even if other images don't fail
-    type(test_result_t), allocatable :: test_result
+    type(test_result_t) test_result
     type(test_diagnosis_t) test_diagnosis
 
 #if HAVE_MULTI_IMAGE_SUPPORT
     if (this_image()==1) then
 #endif
-
-      test_result = test_result_t("image 1 fails", .false.)
-
+      test_result = test_result_t(description="image 1 fails", diagnosis=test_diagnosis_t(.false.,""))
 #if HAVE_MULTI_IMAGE_SUPPORT
     else
-      test_result = test_result_t("all images other than 1 pass", .true.)
+      test_result = test_result_t(description="all images other than 1 pass", diagnosis=test_diagnosis_t(.true.,""))
     end if
 #endif
-
-    associate(test_result_passed => test_result%passed())
+    associate(test_passed => test_result%passed())
       test_diagnosis = test_diagnosis_t( &
-         test_passed = .not. test_result_passed &
-        ,diagnostics_string = "expected .false., actual " // string_t(test_result_passed) &
+         test_passed = .not. test_passed &
+        ,diagnostics_string = "expected .false., actual " // string_t(test_passed) &
       )
-    end associate
+   end associate
   end function
 
 end module test_result_test_m

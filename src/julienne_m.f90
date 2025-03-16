@@ -12,6 +12,6 @@ module julienne_m
   use julienne_test_description_m, only : test_description_t, diagnosis_function_i
   use julienne_test_diagnosis_m, only : test_diagnosis_t
   use julienne_test_result_m, only : test_result_t
-  use julienne_vector_test_description_m, only : vector_test_description_t, vector_function_strategy_t
+  use julienne_vector_test_description_m, only : vector_test_description_t, vector_diagnosis_function_i
   implicit none
 end module julienne_m
