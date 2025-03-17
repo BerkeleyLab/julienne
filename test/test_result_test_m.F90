@@ -61,6 +61,7 @@ contains
   function check_array_result_construction() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
 
+#ifndef __GFORTRAN__
     associate(two_test_results => test_result_t(["foo","bar"], [test_diagnosis_t(.true.,""), test_diagnosis_t(.true.,"")]))
       associate(num_results => size(two_test_results))
         test_diagnosis = test_diagnosis_t( &
@@ -69,6 +70,23 @@ contains
         )
       end associate
     end associate
+
+#else
+    block
+      integer num_results
+      type(test_result_t), allocatable :: two_test_results(:)
+
+      two_test_results = test_result_t(["foo","bar"], [test_diagnosis_t(.true.,""), test_diagnosis_t(.true.,"")])
+      num_results = size(two_test_results)
+
+      test_diagnosis = test_diagnosis_t( &
+         test_passed = num_results == 2 &
+        ,diagnostics_string = "expected 2, actual " // string_t(num_results) &
+      )
+    end block
+#endif
+
+
   end function
 
   function check_single_image_failure() result(test_diagnosis)

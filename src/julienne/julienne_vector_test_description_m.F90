@@ -10,6 +10,9 @@ module julienne_vector_test_description_m
   private
   public :: vector_test_description_t
   public :: vector_diagnosis_function_i
+#ifdef __GFORTRAN__
+  public :: run
+#endif
 
   abstract interface
     function vector_diagnosis_function_i() result(diagnoses)
@@ -30,7 +33,7 @@ module julienne_vector_test_description_m
 
   interface vector_test_description_t
 
-    module function construct(descriptions, vector_diagnosis_function) result(vector_test_description)
+    module function construct_from_strings(descriptions, vector_diagnosis_function) result(vector_test_description)
      !! The result is a vector_test_description_t object with the components defined by the dummy arguments
       implicit none
       type(string_t), intent(in) :: descriptions(:)
