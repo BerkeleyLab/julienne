@@ -172,6 +172,9 @@ contains
       ,test_description_t('constructing from a double-precision complex value',           constructs_from_double_precision_complex_ptr)&
     ]
 #endif
+#ifdef __GFORTRAN__
+    print *,"  skips  on testing the bracket() function due to a compiler bug (see https://go.lbl.gov/gcc-bug-119349)."
+#endif
     test_descriptions = pack(test_descriptions, &
       index(subject(), test_description_substring) /= 0 .or. &
       test_descriptions%contains_text(string_t(test_description_substring)))
