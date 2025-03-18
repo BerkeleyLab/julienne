@@ -164,7 +164,9 @@ contains
       ,test_description_t('extracting a file base name',                                                   extracts_file_base_name_ptr)&
       ,test_description_t('extracting a file name extension',                                         extracts_file_name_extension_ptr)&
       ,test_description_t('supporting unary operator(.cat.) for array arguments',                            concatenates_elements_ptr)&
+#ifndef __GFORTRAN__
       ,test_description_t('constructing bracketed strings',                                                       brackets_strings_ptr)&
+#endif
       ,test_description_t("extracting a string_t array value from a colon-separated key/value pair",   extracts_string_array_value_ptr)&
       ,test_description_t('constructing (comma-)separated values from character or string_t arrays',   constructs_separated_values_ptr)&
       ,test_description_t('constructing from a double-precision complex value',           constructs_from_double_precision_complex_ptr)&
