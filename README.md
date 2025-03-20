@@ -14,14 +14,23 @@ For examples of how to use Julienne, please see the [example](./example) subdire
 
 Building and Testing
 --------------------
-### GNU (`gfortran`) 13 or higher required
+### GNU (`gfortran`)
+#### `gfortran` versions 14 or higher
 ```
-fpm test
+fpm test --compiler gfortran --profile release 
 ```
+
+#### `gfortran` versions 13
+```
+fpm test --compiler gfortran --profile release --flag "-ffree-line-length-none"
+```
+where the `-ffree-line-length-none` turns on support for lines exceeding the Fortran 2018 limit of 132 columns.
+(Fortran 2023 expands the allowable line length to 5,000 characters.)
 
 ### Intel (`ifx`) 2025.4 Build 20241205 tested
 ```
-fpm test --compiler ifx --flag "-fpp -O3" --profile release
+fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release
+
 ```
 
 ### NAG (`nagfor`)
@@ -29,13 +38,14 @@ fpm test --compiler ifx --flag "-fpp -O3" --profile release
 fpm test --compiler nagfor --flag -fpp
 ```
 
-### LLVM Flang
-#### LLVM 20 or later:
+### LLVM (`flang-new`)
+#### `flang-new` version 20 or later
 ```
 export FPM_FC=flang-new
 fpm test
 ```
-#### LLVM 19:
+
+#### `flang-new` version 19
 Add the following command before the `fpm` command recommended above for LLVM 20 or later:
 ```
 export FPM_FFLAGS="-mmlir -allow-assumed-rank"
