@@ -5,9 +5,15 @@
 
 module test_result_test_m
   !! Verify test_result_t object behavior
-  use julienne_m, only : string_t, test_result_t, test_description_t, test_t, test_description_substring
+  use julienne_m, only : &
+     string_t &
+    ,test_description_substring &
+    ,test_description_t &
+    ,test_diagnosis_t &
+    ,test_result_t &
+    ,test_t
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-  use julienne_m, only : test_function_i
+  use julienne_m, only : diagnosis_function_i
 #endif
   implicit none
 
@@ -38,7 +44,7 @@ contains
     ]
 #else
     ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
-    procedure(test_function_i), pointer :: check_array_ptr, check_single_ptr
+    procedure(diagnosis_function_i), pointer :: check_array_ptr, check_single_ptr
     check_array_ptr => check_array_result_construction
     check_single_ptr => check_single_image_failure
     test_descriptions = [ &
@@ -52,31 +58,57 @@ contains
     test_results = test_descriptions%run()
   end function
 
-  function check_array_result_construction() result(passed)
-    type(test_result_t), allocatable :: test_results(:)
-    logical passed
+  function check_array_result_construction() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
 
-    test_results = test_result_t(["foo","bar"], [.true.,.false.])
-    passed = size(test_results)==2
+#ifndef __GFORTRAN__
+    associate(two_test_results => test_result_t(["foo","bar"], [test_diagnosis_t(.true.,""), test_diagnosis_t(.true.,"")]))
+      associate(num_results => size(two_test_results))
+        test_diagnosis = test_diagnosis_t( &
+           test_passed = num_results == 2 &
+          ,diagnostics_string = "expected 2, actual " // string_t(num_results) &
+        )
+      end associate
+    end associate
+
+#else
+    block
+      integer num_results
+      type(test_result_t), allocatable :: two_test_results(:)
+
+      two_test_results = test_result_t(["foo","bar"], [test_diagnosis_t(.true.,""), test_diagnosis_t(.true.,"")])
+      num_results = size(two_test_results)
+
+      test_diagnosis = test_diagnosis_t( &
+         test_passed = num_results == 2 &
+        ,diagnostics_string = "expected 2, actual " // string_t(num_results) &
+      )
+    end block
+#endif
+
+
   end function
 
-  function check_single_image_failure() result(passed)
-    type(test_result_t), allocatable :: test_result
-    logical passed
+  function check_single_image_failure() result(test_diagnosis)
+    !! verify that failing on a single image results in reporting a test failure even if other images don't fail
+    type(test_result_t) test_result
+    type(test_diagnosis_t) test_diagnosis
 
 #if HAVE_MULTI_IMAGE_SUPPORT
     if (this_image()==1) then
 #endif
-
-      test_result = test_result_t("image 1 fails", .false.)
-
+      test_result = test_result_t(description="image 1 fails", diagnosis=test_diagnosis_t(.false.,""))
 #if HAVE_MULTI_IMAGE_SUPPORT
     else
-      test_result = test_result_t("all images other than 1 pass", .true.)
+      test_result = test_result_t(description="all images other than 1 pass", diagnosis=test_diagnosis_t(.true.,""))
     end if
 #endif
-
-    passed = .not. test_result%passed()
+    associate(test_passed => test_result%passed())
+      test_diagnosis = test_diagnosis_t( &
+         test_passed = .not. test_passed &
+        ,diagnostics_string = "expected .false., actual " // string_t(test_passed) &
+      )
+   end associate
   end function
 
 end module test_result_test_m
