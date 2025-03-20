@@ -9,15 +9,9 @@ module julienne_test_description_m
 
   private
   public :: test_description_t
-  public :: test_function_i
   public :: diagnosis_function_i
 
   abstract interface
-
-    function test_function_i() result(passed)
-      implicit none
-      logical passed
-    end function
 
     function diagnosis_function_i() result(test_diagnosis)
       import test_diagnosis_t
@@ -31,7 +25,6 @@ module julienne_test_description_m
     !! Encapsulate test descriptions and test-functions
     private
     character(len=:), allocatable :: description_
-    procedure(test_function_i), pointer, nopass :: test_function_ => null()
     procedure(diagnosis_function_i), pointer, nopass :: diagnosis_function_ => null()
   contains
     procedure run
@@ -42,22 +35,6 @@ module julienne_test_description_m
   end type
 
   interface test_description_t
-
-    module function construct_from_string_t_and_test_function(description, test_function) result(test_description)
-      !! The result is a test_description_t object with the components defined by the dummy arguments
-      implicit none
-      type(string_t), intent(in) :: description
-      procedure(test_function_i), intent(in), pointer :: test_function
-      type(test_description_t) test_description
-    end function
-
-    module function construct_from_character_and_test_function(description, test_function) result(test_description)
-      !! The result is a test_description_t object with the components defined by the dummy arguments
-      implicit none
-      character(len=*), intent(in) :: description
-      procedure(test_function_i), intent(in), pointer :: test_function
-      type(test_description_t) test_description
-    end function
 
     module function construct_from_string_t_and_diagnosis_function(description, diagnosis_function) result(test_description)
       !! The result is a test_description_t object with the components defined by the dummy arguments
@@ -86,7 +63,7 @@ module julienne_test_description_m
       type(test_result_t) test_result
     end function
 
-    impure elemental module function contains_string_t(self, substring) result(match)
+    elemental module function contains_string_t(self, substring) result(match)
       !! The result is .true. if the test description includes the value of substring
       implicit none
       class(test_description_t), intent(in) :: self
@@ -94,7 +71,7 @@ module julienne_test_description_m
       logical match
     end function
 
-    impure elemental module function contains_characters(self, substring) result(match)
+    elemental module function contains_characters(self, substring) result(match)
       !! The result is .true. if the test description includes the value of substring
       implicit none
       class(test_description_t), intent(in) :: self

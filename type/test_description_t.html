@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p>15.6% of total for derived types.</p>Including implementation: 12 statements,  9.1% of total for derived types.">38 statements</a>
+                 title="<p>11.1% of total for derived types.</p>Including implementation: 11 statements,  6.5% of total for derived types.">25 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -119,9 +119,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/test_description_t.html#variable-description_">description_</a>
+            <a class="list-group-item" href="../type/test_description_t.html#variable-description_~2">description_</a>
             <a class="list-group-item" href="../type/test_description_t.html#variable-diagnosis_function_">diagnosis_function_</a>
-            <a class="list-group-item" href="../type/test_description_t.html#variable-test_function_">test_function_</a>
         </div>
       </div>
     </div>
@@ -197,7 +196,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-description_"></span>
+              <span class="anchor" id="variable-description_~2"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -223,23 +222,6 @@
             </td>
             <td>::</td>
             <td><strong>diagnosis_function_</strong></td>
-<td>=&gt; </td>
-                <td>null()</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-test_function_"></span>
-              procedure(<a href='../interface/test_function_i.html'>test_function_i</a>),
-            </td>
-              <td>private,</td>
-            <td>
-              pointer, nopass
-            </td>
-            <td>::</td>
-            <td><strong>test_function_</strong></td>
 <td>=&gt; </td>
                 <td>null()</td>
             <td>
@@ -322,65 +304,6 @@
           </li>
           <li class="list-group-item">
                 <h3>
-    private module function construct_from_character_and_test_function(description, test_function) result(test_description)  
-    <a href="../proc/construct_from_character_and_test_function.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  <p>The result is a test_description_t object with the components defined by the dummy arguments</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-description~2"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>description</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-test_function~2"></span>
-              procedure(<a href='../interface/test_function_i.html'>test_function_i</a>),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              pointer
-            </td>
-            <td>::</td>
-            <td><strong>test_function</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='test_description_t.html'>test_description_t</a>)</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
     private module function construct_from_string_t_and_diagnosis_function(description, diagnosis_function) result(test_description)  
     <a href="../proc/construct_from_string_t_and_diagnosis_function.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
@@ -424,65 +347,6 @@
             </td>
             <td>::</td>
             <td><strong>diagnosis_function</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='test_description_t.html'>test_description_t</a>)</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private module function construct_from_string_t_and_test_function(description, test_function) result(test_description)  
-    <a href="../proc/construct_from_string_t_and_test_function.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  <p>The result is a test_description_t object with the components defined by the dummy arguments</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-description"></span>
-              type(<a href='string_t.html'>string_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>description</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-test_function"></span>
-              procedure(<a href='../interface/test_function_i.html'>test_function_i</a>),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              pointer
-            </td>
-            <td>::</td>
-            <td><strong>test_function</strong></td>
             <td>
                 
             </td>
@@ -646,7 +510,7 @@
         <li class="list-group-item">
               <h3>interface </h3>
                   <h3>
-    private impure elemental module function contains_characters(self, substring) result(match)  
+    private elemental module function contains_characters(self, substring) result(match)  
     <a href="../proc/contains_characters.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
@@ -721,7 +585,7 @@
         <li class="list-group-item">
               <h3>interface </h3>
                   <h3>
-    private impure elemental module function contains_string_t(self, substring) result(match)  
+    private elemental module function contains_string_t(self, substring) result(match)  
     <a href="../proc/contains_string_t.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
@@ -878,7 +742,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-03-19 00:51 +0000             </p>
+ on 2025-03-20 06:10 +0000             </p>
           </div>
         </div>
         <br>

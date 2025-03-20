@@ -11,27 +11,37 @@ contains
 
   module procedure contains_text
     integer i
-    associate(num_descriptions => size(self%description_vector_))
-      allocate(match_vector(num_descriptions))
-      do i = 1, num_descriptions
-        match_vector(i) = index(self%description_vector_(i)%string(), substring ) /= 0
-      end do
-    end associate
+    call_assert(allocated(self%descriptions_))
+    match_vector = [(index(self%descriptions_(i)%string(), substring) /= 0, i = 1, size(self%descriptions_))]
   end procedure
 
-  module procedure construct
-    vector_test_description%description_vector_ = description_vector
-    vector_test_description%vector_function_strategy_ = vector_function_strategy
+#ifndef __GFORTRAN__
+
+  module procedure construct_from_strings
+    vector_test_description%descriptions_ = descriptions
+    vector_test_description%vector_diagnosis_function_ => vector_diagnosis_function
   end procedure
+
+#else
+
+  module function construct_from_strings(descriptions, vector_diagnosis_function) result(vector_test_description)
+    type(string_t), intent(in) :: descriptions(:)
+    procedure(vector_diagnosis_function_i), intent(in), pointer :: vector_diagnosis_function
+    type(vector_test_description_t) vector_test_description
+    vector_test_description%descriptions_ = descriptions
+    vector_test_description%vector_diagnosis_function_ => vector_diagnosis_function
+  end function
+
+#endif
 
   module procedure run
-    associate(vector_result => self%vector_function_strategy_%vector_function())
+    associate(diagnoses => self%vector_diagnosis_function_())
 #ifdef ASSERTIONS
-      associate(description_size => size(self%description_vector_), result_size => size(vector_result))
-        call_assert_diagnose(description_size==result_size, "description/result size match", intrinsic_array_t([description_size, result_size]))
+      associate(num_descriptions => size(self%descriptions_), num_results => size(diagnoses))
+        call_assert_diagnose(num_descriptions == num_results, "description/result size match", intrinsic_array_t([num_descriptions, num_results]))
       end associate
 #endif
-      test_results = test_result_t(self%description_vector_, vector_result)
+      test_results = test_result_t(self%descriptions_, self%vector_diagnosis_function_())
     end associate
   end procedure
 

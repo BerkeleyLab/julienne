@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.1% of total for modules and submodules.">32 statements</a>
+                 title=" 1.7% of total for modules and submodules.">27 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -133,9 +133,8 @@
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/julienne_test_result_s.html#proc-characterize">characterize</a>
-            <a class="list-group-item" href="../module/julienne_test_result_s.html#proc-construct_from_character~2">construct_from_character</a>
-            <a class="list-group-item" href="../module/julienne_test_result_s.html#proc-construct_from_string">construct_from_string</a>
-            <a class="list-group-item" href="../module/julienne_test_result_s.html#proc-construct_from_test_diagnosis">construct_from_test_diagnosis</a>
+            <a class="list-group-item" href="../module/julienne_test_result_s.html#proc-construct_from_character_and_diagnosis">construct_from_character_and_diagnosis</a>
+            <a class="list-group-item" href="../module/julienne_test_result_s.html#proc-construct_from_string_and_diagnosis">construct_from_string_and_diagnosis</a>
             <a class="list-group-item" href="../module/julienne_test_result_s.html#proc-description_contains_characters">description_contains_characters</a>
             <a class="list-group-item" href="../module/julienne_test_result_s.html#proc-description_contains_string">description_contains_string</a>
             <a class="list-group-item" href="../module/julienne_test_result_s.html#proc-passed">passed</a>
@@ -400,7 +399,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~37"></span>
+              <span class="anchor" id="variable-self"></span>
               class(<a href='../type/test_result_t.html'>test_result_t</a>),
             </td>
 <td>intent(in)</td>
@@ -426,7 +425,7 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_character~2"></span> <h3>module procedure /home/runner/work/julienne/julienne/doc/html/module/julienne_test_result_s.html <a href='../proc/construct_from_character~2.html'>construct_from_character</a> <small>elemental module function construct_from_character(description, passed) result(test_result)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_character_and_diagnosis"></span> <h3>module procedure /home/runner/work/julienne/julienne/doc/html/module/julienne_test_result_s.html <a href='../proc/construct_from_character_and_diagnosis.html'>construct_from_character_and_diagnosis</a> <small>elemental module function construct_from_character_and_diagnosis(description, diagnosis) result(test_result)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -445,7 +444,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-description~5"></span>
+              <span class="anchor" id="variable-description~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -460,15 +459,15 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-passed~4"></span>
-              logical,
+              <span class="anchor" id="variable-diagnosis~2"></span>
+              type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>passed</strong></td>
+            <td><strong>diagnosis</strong></td>
             <td>
 
             </td>
@@ -486,7 +485,7 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_string"></span> <h3>module procedure /home/runner/work/julienne/julienne/doc/html/module/julienne_test_result_s.html <a href='../proc/construct_from_string.html'>construct_from_string</a> <small>elemental module function construct_from_string(description, passed) result(test_result)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_string_and_diagnosis"></span> <h3>module procedure /home/runner/work/julienne/julienne/doc/html/module/julienne_test_result_s.html <a href='../proc/construct_from_string_and_diagnosis.html'>construct_from_string_and_diagnosis</a> <small>elemental module function construct_from_string_and_diagnosis(description, diagnosis) result(test_result)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -505,7 +504,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-description~6"></span>
+              <span class="anchor" id="variable-description"></span>
               type(<a href='../type/string_t.html'>string_t</a>),
             </td>
 <td>intent(in)</td>
@@ -520,67 +519,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-passed~5"></span>
-              logical,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>passed</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/test_result_t.html'>test_result_t</a>)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_test_diagnosis"></span> <h3>module procedure /home/runner/work/julienne/julienne/doc/html/module/julienne_test_result_s.html <a href='../proc/construct_from_test_diagnosis.html'>construct_from_test_diagnosis</a> <small>elemental module function construct_from_test_diagnosis(description, test_diagnosis) result(test_result)</small>  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-description~7"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>description</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-test_diagnosis~4"></span>
+              <span class="anchor" id="variable-diagnosis"></span>
               type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>),
             </td>
 <td>intent(in)</td>
@@ -588,7 +527,7 @@ large graphs.</div>
               
             </td>
             <td>::</td>
-            <td><strong>test_diagnosis</strong></td>
+            <td><strong>diagnosis</strong></td>
             <td>
 
             </td>
@@ -626,7 +565,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~40"></span>
+              <span class="anchor" id="variable-self~4"></span>
               class(<a href='../type/test_result_t.html'>test_result_t</a>),
             </td>
 <td>intent(in)</td>
@@ -641,7 +580,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~5"></span>
+              <span class="anchor" id="variable-substring~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -687,7 +626,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~39"></span>
+              <span class="anchor" id="variable-self~3"></span>
               class(<a href='../type/test_result_t.html'>test_result_t</a>),
             </td>
 <td>intent(in)</td>
@@ -702,7 +641,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~4"></span>
+              <span class="anchor" id="variable-substring"></span>
               type(<a href='../type/string_t.html'>string_t</a>),
             </td>
 <td>intent(in)</td>
@@ -748,7 +687,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~38"></span>
+              <span class="anchor" id="variable-self~2"></span>
               class(<a href='../type/test_result_t.html'>test_result_t</a>),
             </td>
 <td>intent(in)</td>
@@ -792,7 +731,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-03-19 00:51 +0000             </p>
+ on 2025-03-20 06:10 +0000             </p>
           </div>
         </div>
         <br>
