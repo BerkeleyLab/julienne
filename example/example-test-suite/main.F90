@@ -10,10 +10,10 @@ program main
   implicit none
 
   type(specimen_test_t) specimen_test
-  integer :: passes=0, tests=0
+  integer :: passes=0, tests=0, skips=0
 
   call print_usage_and_stop_if_help_requested
-  call specimen_test%report(passes, tests)
+  call specimen_test%report(passes, tests, skips)
   call report_tally_and_error_stop_if_test_fails
 
 contains
@@ -40,7 +40,7 @@ contains
     if (this_image()==1) then
 #endif
       print *
-      print '(*(a,:,g0))', "_________ In total, ",passes," of ",tests, " tests pass. _________"
+      print '(*(a,:,g0))', "_________ In total, ",passes," of ",tests, " tests pass. ", skips , " tests were skipped _________"
       if (passes /= tests) error stop "Some tests failed."
 #if HAVE_MULTI_IMAGE_SUPPORT
     end if

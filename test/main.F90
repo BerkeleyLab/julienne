@@ -29,7 +29,7 @@ program main
 
   type(command_line_t) command_line
 
-  integer :: passes=0, tests=0
+  integer :: passes=0, tests=0, skips=0
 
   character(len=*), parameter :: usage = &
     new_line('') // new_line('') // &
@@ -43,16 +43,16 @@ program main
 
   print "(a)", new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
 
-  call bin_test%report(passes, tests)
-  call formats_test%report(passes, tests)
-  call string_test%report(passes, tests)
-  call test_result_test%report(passes, tests)
-  call test_description_test%report(passes, tests)
-  call vector_test_description_test%report(passes,tests)
+  call bin_test%report(passes, tests, skips)
+  call formats_test%report(passes, tests, skips)
+  call string_test%report(passes, tests, skips)
+  call test_result_test%report(passes, tests, skips)
+  call test_description_test%report(passes, tests, skips)
+  call vector_test_description_test%report(passes,tests, skips)
 
   if (.not. GitHub_CI())  then
     if (command_line%argument_present(["--test"])) then
-      call command_line_test%report(passes, tests)
+      call command_line_test%report(passes, tests, skips)
     else
       write(*,"(a)")  &
       new_line("") // &
@@ -67,9 +67,9 @@ program main
 #endif
 
     print *
-    print '(*(a,:,g0))', "_________ In total, ",passes," of ",tests, " tests pass. _________"
+    print '(*(a,:,g0))', "_________ In total, ",passes," of ",tests, " tests pass. ", skips, " tests were skipped. _________"
 
-    if (passes /= tests) error stop "Some tests failed."
+    if (passes + skips /= tests) error stop "Some executed tests failed."
 
 #if HAVE_MULTI_IMAGE_SUPPORT
   end if
