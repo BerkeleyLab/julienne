@@ -67,7 +67,7 @@ program main
 #endif
 
     print *
-    print '(*(a,:,g0))', "_________ In total, ",passes," of ",tests, " tests pass. ", skips, " tests were skipped. _________"
+    print '(*(a,:,g0))', "_________ In total, ",passes," of ",tests, " tests pass.  ", skips, " tests were skipped. _________"
 
     if (passes + skips /= tests) error stop "Some executed tests failed."
 

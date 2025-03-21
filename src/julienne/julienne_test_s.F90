@@ -64,7 +64,7 @@ contains
             call co_all(skipped_tests)
 
             associate(num_passes => count(passing_tests), num_skipped => count(skipped_tests))
-              if (me==1) print '(a,3(i0,a))'," ",num_passes," of ", num_tests," tests pass.", num_skipped, " tests skipped."
+              if (me==1) print '(a,3(i0,a))'," ",num_passes," of ", num_tests," tests pass.  ", num_skipped, " tests were skipped."
               passes = passes + num_passes
               skips  = skips  + num_skipped
             end associate
