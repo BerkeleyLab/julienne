@@ -13,7 +13,7 @@ module julienne_test_result_m
     !! Encapsulate test descriptions and outcomes
     private
     type(string_t) :: description_
-    type(test_diagnosis_t)diagnostics_
+    type(test_diagnosis_t), allocatable :: diagnosis_
   contains
     procedure :: characterize
     procedure :: passed
@@ -24,19 +24,19 @@ module julienne_test_result_m
 
   interface test_result_t
 
-    elemental module function construct_from_string_and_diagnosis(description, diagnosis) result(test_result)
+    elemental module function construct_from_string(description, diagnosis) result(test_result)
       !! The result is a test_result_t object with the components defined by the dummy arguments
       implicit none
       type(string_t), intent(in) :: description
-      type(test_diagnosis_t), intent(in) :: diagnosis
+      type(test_diagnosis_t), intent(in), optional :: diagnosis
       type(test_result_t) test_result 
     end function
 
-    elemental module function construct_from_character_and_diagnosis(description, diagnosis) result(test_result)
+    elemental module function construct_from_character(description, diagnosis) result(test_result)
       !! The result is a test_result_t object with the components defined by the dummy arguments
       implicit none
       character(len=*), intent(in) :: description
-      type(test_diagnosis_t), intent(in) :: diagnosis
+      type(test_diagnosis_t), intent(in), optional :: diagnosis
       type(test_result_t) test_result 
     end function
 

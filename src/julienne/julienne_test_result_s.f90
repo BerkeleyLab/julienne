@@ -6,25 +6,34 @@ submodule(julienne_test_result_m) julienne_test_result_s
 
 contains
 
-    module procedure construct_from_string_and_diagnosis
+    module procedure construct_from_string
       test_result%description_ = description
-      test_result%diagnostics_ = diagnosis
+      if (present(diagnosis)) test_result%diagnosis_ = diagnosis
     end procedure
 
-    module procedure construct_from_character_and_diagnosis
+    module procedure construct_from_character
       test_result%description_ = description
-      test_result%diagnostics_ = diagnosis
+      if (present(diagnosis)) test_result%diagnosis_ = diagnosis
     end procedure
 
     module procedure characterize
-      characterization = &
-        trim(merge("passes on ", "FAILS on  ", self%diagnostics_%test_passed())) // " " // trim(self%description_%string()) // "."
-      if (.not. self%diagnostics_%test_passed()) &
-        characterization = characterization // new_line('') // "      diagnostics: " // self%diagnostics_%diagnostics_string()
+      if (.not. allocated(self%diagnosis_)) then
+        characterization = "SKIPS  on  " // trim(self%description_%string()) // "."
+      else
+        associate(test_passed => self%diagnosis_%test_passed())
+          characterization = merge("passes on ", "FAILS  on ", test_passed) // trim(self%description_%string()) // "."
+          if (.not. test_passed) &
+            characterization = characterization // new_line('') // "      diagnostics: " // self%diagnosis_%diagnostics_string()
+        end associate
+      end if
     end procedure
 
     module procedure passed
-      test_passed = self%diagnostics_%test_passed()
+      if (.not. allocated(self%diagnosis_)) then
+        test_passed = .false.
+      else
+        test_passed = self%diagnosis_%test_passed()
+      end if
       call co_all(test_passed)
     end procedure
 

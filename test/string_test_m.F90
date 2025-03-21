@@ -166,14 +166,15 @@ contains
       ,test_description_t('supporting unary operator(.cat.) for array arguments',                            concatenates_elements_ptr)&
 #ifndef __GFORTRAN__
       ,test_description_t('constructing bracketed strings',                                                       brackets_strings_ptr)&
+#else
+      ! Because this test crashes due to a gfortran bug, we construct the test_descriptoin_t object without a test_diagnosis_t
+      ! function, which will cause the test to be skipped and reported as such in test_result_t's "run" function.
+      ,test_description_t('constructing bracketed strings'                                                                            )&
 #endif
       ,test_description_t("extracting a string_t array value from a colon-separated key/value pair",   extracts_string_array_value_ptr)&
       ,test_description_t('constructing (comma-)separated values from character or string_t arrays',   constructs_separated_values_ptr)&
       ,test_description_t('constructing from a double-precision complex value',           constructs_from_double_precision_complex_ptr)&
     ]
-#endif
-#ifdef __GFORTRAN__
-    print *,"  skips  on testing the bracket() function due to a compiler bug (see https://go.lbl.gov/gcc-bug-119349)."
 #endif
     test_descriptions = pack(test_descriptions, &
       index(subject(), test_description_substring) /= 0 .or. &
