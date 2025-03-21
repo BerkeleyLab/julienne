@@ -26,23 +26,27 @@ contains
 
   module function construct_from_strings(descriptions, vector_diagnosis_function) result(vector_test_description)
     type(string_t), intent(in) :: descriptions(:)
-    procedure(vector_diagnosis_function_i), intent(in), pointer :: vector_diagnosis_function
+    procedure(vector_diagnosis_function_i), intent(in), pointer, optional :: vector_diagnosis_function
     type(vector_test_description_t) vector_test_description
     vector_test_description%descriptions_ = descriptions
-    vector_test_description%vector_diagnosis_function_ => vector_diagnosis_function
+    if (present(vector_diagnosis_function)) vector_test_description%vector_diagnosis_function_ => vector_diagnosis_function
   end function
 
 #endif
 
   module procedure run
-    associate(diagnoses => self%vector_diagnosis_function_())
+    if (.not. associated(self%vector_diagnosis_function_)) then
+      test_results = test_result_t(self%descriptions_)
+    else
+      associate(diagnoses => self%vector_diagnosis_function_())
 #ifdef ASSERTIONS
-      associate(num_descriptions => size(self%descriptions_), num_results => size(diagnoses))
-        call_assert_diagnose(num_descriptions == num_results, "description/result size match", intrinsic_array_t([num_descriptions, num_results]))
-      end associate
+        associate(num_descriptions => size(self%descriptions_), num_results => size(diagnoses))
+          call_assert_diagnose(num_descriptions == num_results, "description/result size match", intrinsic_array_t([num_descriptions, num_results]))
+        end associate
 #endif
-      test_results = test_result_t(self%descriptions_, self%vector_diagnosis_function_())
-    end associate
+      test_results = test_result_t(self%descriptions_, diagnoses)
+      end associate
+    end if
   end procedure
 
 end submodule julienne_vector_test_description_s

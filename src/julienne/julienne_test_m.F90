@@ -43,11 +43,11 @@ module julienne_test_m
 
   interface
 
-    module subroutine report(test, passes, tests)
-      !! Print the test results and increment the tallies of passing tests and total tests
+    module subroutine report(test, passes, tests, skips)
+      !! Print the test results and increment the tallies of passing tests, total tests, and skipped tests.
       implicit none
       class(test_t), intent(in) :: test
-      integer, intent(inout) :: passes, tests
+      integer, intent(inout) :: passes, tests, skips
     end subroutine
 
   end interface

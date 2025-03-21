@@ -17,7 +17,7 @@ Building and Testing
 ### GNU (`gfortran`)
 #### `gfortran` versions 14 or higher
 ```
-fpm test --compiler gfortran --profile release 
+fpm test --compiler gfortran --profile release
 ```
 
 #### `gfortran` versions 13

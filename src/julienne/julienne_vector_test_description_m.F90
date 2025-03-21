@@ -25,7 +25,7 @@ module julienne_vector_test_description_m
   type vector_test_description_t
     private
     type(string_t), allocatable :: descriptions_(:)
-    procedure(vector_diagnosis_function_i), pointer, nopass :: vector_diagnosis_function_
+    procedure(vector_diagnosis_function_i), pointer, nopass :: vector_diagnosis_function_ => null()
   contains
     procedure run
     procedure contains_text
@@ -37,7 +37,7 @@ module julienne_vector_test_description_m
      !! The result is a vector_test_description_t object with the components defined by the dummy arguments
       implicit none
       type(string_t), intent(in) :: descriptions(:)
-      procedure(vector_diagnosis_function_i), intent(in), pointer :: vector_diagnosis_function
+      procedure(vector_diagnosis_function_i), intent(in), pointer, optional :: vector_diagnosis_function
       type(vector_test_description_t) vector_test_description
     end function
 
