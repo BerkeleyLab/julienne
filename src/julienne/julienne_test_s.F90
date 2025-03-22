@@ -55,12 +55,18 @@ contains
             end block
           end if
           block
-            logical, allocatable :: passing_tests(:)
+            logical, allocatable :: passing_tests(:), skipped_tests(:)
+
             passing_tests = test_results%passed()
+            skipped_tests = test_results%skipped()
+
             call co_all(passing_tests)
-            associate(num_passes => count(passing_tests))
-              if (me==1) print '(a,2(i0,a))'," ",num_passes," of ", num_tests," tests pass."
+            call co_all(skipped_tests)
+
+            associate(num_passes => count(passing_tests), num_skipped => count(skipped_tests))
+              if (me==1) print '(a,3(i0,a))'," ",num_passes," of ", num_tests," tests pass.  ", num_skipped, " tests were skipped."
               passes = passes + num_passes
+              skips  = skips  + num_skipped
             end associate
           end block
         end associate

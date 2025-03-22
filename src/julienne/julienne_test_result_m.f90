@@ -13,10 +13,11 @@ module julienne_test_result_m
     !! Encapsulate test descriptions and outcomes
     private
     type(string_t) :: description_
-    type(test_diagnosis_t)diagnostics_
+    type(test_diagnosis_t), allocatable :: diagnosis_
   contains
     procedure :: characterize
     procedure :: passed
+    procedure :: skipped
     generic :: description_contains => description_contains_string, description_contains_characters
     procedure, private :: description_contains_string
     procedure, private :: description_contains_characters
@@ -24,19 +25,19 @@ module julienne_test_result_m
 
   interface test_result_t
 
-    elemental module function construct_from_string_and_diagnosis(description, diagnosis) result(test_result)
+    elemental module function construct_from_string(description, diagnosis) result(test_result)
       !! The result is a test_result_t object with the components defined by the dummy arguments
       implicit none
       type(string_t), intent(in) :: description
-      type(test_diagnosis_t), intent(in) :: diagnosis
+      type(test_diagnosis_t), intent(in), optional :: diagnosis
       type(test_result_t) test_result 
     end function
 
-    elemental module function construct_from_character_and_diagnosis(description, diagnosis) result(test_result)
+    elemental module function construct_from_character(description, diagnosis) result(test_result)
       !! The result is a test_result_t object with the components defined by the dummy arguments
       implicit none
       character(len=*), intent(in) :: description
-      type(test_diagnosis_t), intent(in) :: diagnosis
+      type(test_diagnosis_t), intent(in), optional :: diagnosis
       type(test_result_t) test_result 
     end function
 
@@ -56,6 +57,13 @@ module julienne_test_result_m
       implicit none
       class(test_result_t), intent(in) :: self
       logical test_passed
+    end function
+
+    impure elemental module function skipped(self) result(test_skipped)
+      !! The result is true if and only if the test result contains no diagnosis on any image
+      implicit none
+      class(test_result_t), intent(in) :: self
+      logical test_skipped
     end function
 
     elemental module function description_contains_string(self, substring) result(substring_found)

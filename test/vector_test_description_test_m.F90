@@ -48,19 +48,32 @@ contains
         ], check_substring_search &
       )]) 
 #else
-      associate(vector_test_descriptions => [vector_test_description_t::])
-        print '(a)',"  skips  on testing vector_test_description_t due to a compiler bug "
+      block
+       type(vector_test_description_t) vector_test_descriptions(1)
+
+       vector_test_descriptions(1) = &
+         vector_test_description_t( [ &
+            string_t(    "finding a substring in a test description") &
+           ,string_t("not finding a missing substring in a test description") &
+       ])
 #endif
         associate(num_vector_tests => size(vector_test_descriptions))
           block
             integer i
-           
+
             if (substring_in_subject) then
               test_results = [(vector_test_descriptions(i)%run(), i=1,num_vector_tests)]
             else
+#ifndef __GFORTRAN__
               associate(substring_in_description_vector => &
                 [(any(vector_test_descriptions(i)%contains_text(test_description_substring)), i=1,num_vector_tests)] &
               )
+#else
+              block
+                logical, allocatable :: substring_in_description_vector(:)
+                substring_in_description_vector = &
+                  [(any(vector_test_descriptions(i)%contains_text(test_description_substring)), i=1,num_vector_tests)]
+#endif
 #ifndef __GFORTRAN__
                 associate(matching_vector_tests => pack(vector_test_descriptions, substring_in_description_vector))
                   associate(results_with_matches => [(matching_vector_tests(i)%run(), i=1,size(matching_vector_tests))])
@@ -76,11 +89,19 @@ contains
                     test_results = pack(results_with_matches, results_with_matches%description_contains(test_description_substring))
                   end block
 #endif
+#ifndef __GFORTRAN__
               end associate
+#else
+              end block
+#endif
             end if
           end block
         end associate
+#ifndef __GFORTRAN__
       end associate
+#else
+      end block
+#endif
     end associate
   end function
 
