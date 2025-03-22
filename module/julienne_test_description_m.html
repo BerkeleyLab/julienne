@@ -129,7 +129,7 @@
             <a class="list-group-item" href="../module/julienne_test_description_m.html#interface-contains_characters">contains_characters</a>
             <a class="list-group-item" href="../module/julienne_test_description_m.html#interface-contains_string_t">contains_string_t</a>
             <a class="list-group-item" href="../module/julienne_test_description_m.html#interface-equals">equals</a>
-            <a class="list-group-item" href="../module/julienne_test_description_m.html#interface-run~2">run</a>
+            <a class="list-group-item" href="../module/julienne_test_description_m.html#interface-run">run</a>
         </div>
       </div>
     </div>
@@ -181,9 +181,9 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='julienne_test_result_m.html'>julienne_test_result_m</a></li>
-                  <li class="list-inline-item"><a href='julienne_test_diagnosis_m.html'>julienne_test_diagnosis_m</a></li>
                   <li class="list-inline-item"><a href='julienne_string_m.html'>julienne_string_m</a></li>
+                  <li class="list-inline-item"><a href='julienne_test_diagnosis_m.html'>julienne_test_diagnosis_m</a></li>
+                  <li class="list-inline-item"><a href='julienne_test_result_m.html'>julienne_test_result_m</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -631,8 +631,8 @@ large graphs.</div>
     <ul class="list-group">
           <li class="list-group-item">
                 <h3>
-    private module function construct_from_character_and_diagnosis_function(description, diagnosis_function) result(test_description)  
-    <a href="../proc/construct_from_character_and_diagnosis_function.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private module function construct_from_characters(description, diagnosis_function) result(test_description)  
+    <a href="../proc/construct_from_characters.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>The result is a test_description_t object with the components defined by the dummy arguments</p>
@@ -650,7 +650,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-description~4"></span>
+              <span class="anchor" id="variable-description~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -669,7 +669,7 @@ large graphs.</div>
               procedure(<a href='../interface/diagnosis_function_i.html'>diagnosis_function_i</a>),
             </td>
 <td>intent(in),</td>
-              <td></td>            <td>
+              <td>optional,</td>            <td>
               pointer
             </td>
             <td>::</td>
@@ -690,8 +690,8 @@ large graphs.</div>
           </li>
           <li class="list-group-item">
                 <h3>
-    private module function construct_from_string_t_and_diagnosis_function(description, diagnosis_function) result(test_description)  
-    <a href="../proc/construct_from_string_t_and_diagnosis_function.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private module function construct_from_string(description, diagnosis_function) result(test_description)  
+    <a href="../proc/construct_from_string.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>The result is a test_description_t object with the components defined by the dummy arguments</p>
@@ -709,7 +709,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-description~3"></span>
+              <span class="anchor" id="variable-description"></span>
               type(<a href='../type/string_t.html'>string_t</a>),
             </td>
 <td>intent(in)</td>
@@ -728,7 +728,7 @@ large graphs.</div>
               procedure(<a href='../interface/diagnosis_function_i.html'>diagnosis_function_i</a>),
             </td>
 <td>intent(in),</td>
-              <td></td>            <td>
+              <td>optional,</td>            <td>
               pointer
             </td>
             <td>::</td>
@@ -778,7 +778,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~40"></span>
+              <span class="anchor" id="variable-self~28"></span>
               class(<a href='../type/test_description_t.html'>test_description_t</a>),
             </td>
 <td>intent(in)</td>
@@ -793,7 +793,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~5"></span>
+              <span class="anchor" id="variable-substring~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -847,7 +847,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~39"></span>
+              <span class="anchor" id="variable-self~27"></span>
               class(<a href='../type/test_description_t.html'>test_description_t</a>),
             </td>
 <td>intent(in)</td>
@@ -862,7 +862,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~4"></span>
+              <span class="anchor" id="variable-substring"></span>
               type(<a href='../type/string_t.html'>string_t</a>),
             </td>
 <td>intent(in)</td>
@@ -916,7 +916,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~13"></span>
+              <span class="anchor" id="variable-lhs~12"></span>
               class(<a href='../type/test_description_t.html'>test_description_t</a>),
             </td>
 <td>intent(in)</td>
@@ -931,7 +931,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~13"></span>
+              <span class="anchor" id="variable-rhs~12"></span>
               class(<a href='../type/test_description_t.html'>test_description_t</a>),
             </td>
 <td>intent(in)</td>
@@ -959,7 +959,7 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-run~2"></span>
+      <span class="anchor" id="interface-run"></span>
       <h3>        interface
       </h3>
     </div>
@@ -985,7 +985,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~38"></span>
+              <span class="anchor" id="variable-self~26"></span>
               class(<a href='../type/test_description_t.html'>test_description_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1070,7 +1070,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-description_~2"></span>
+              <span class="anchor" id="variable-description_"></span>
               character(len=:),
             </td>
               <td>private,</td>
@@ -1116,7 +1116,7 @@ large graphs.</div>
 
                     module
                     function
-                    <strong>construct_from_character_and_diagnosis_function</strong>
+                    <strong>construct_from_characters</strong>
                     (description, diagnosis_function)
                   </td>
                   <td><p>The result is a test_description_t object with the components defined by the dummy arguments</p></td>
@@ -1127,7 +1127,7 @@ large graphs.</div>
 
                     module
                     function
-                    <strong>construct_from_string_t_and_diagnosis_function</strong>
+                    <strong>construct_from_string</strong>
                     (description, diagnosis_function)
                   </td>
                   <td><p>The result is a test_description_t object with the components defined by the dummy arguments</p></td>
@@ -1141,7 +1141,7 @@ large graphs.</div>
           <tbody>
               <tr>
                 <td>  generic, public ::
-  <strong><a href='../type/test_description_t.html#boundprocedure-contains_text~2'>contains_text</a></strong> => <a href='/home/runner/work/julienne/julienne/doc/html/type/test_description_t.html#boundprocedure-contains_string_t'>contains_string_t</a>, <a href='/home/runner/work/julienne/julienne/doc/html/type/test_description_t.html#boundprocedure-contains_characters'>contains_characters</a></td>
+  <strong><a href='../type/test_description_t.html#boundprocedure-contains_text'>contains_text</a></strong> => <a href='/home/runner/work/julienne/julienne/doc/html/type/test_description_t.html#boundprocedure-contains_string_t'>contains_string_t</a>, <a href='/home/runner/work/julienne/julienne/doc/html/type/test_description_t.html#boundprocedure-contains_characters'>contains_characters</a></td>
                 <td></td>
               </tr>
               <tr>
@@ -1151,7 +1151,7 @@ large graphs.</div>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/test_description_t.html#boundprocedure-run~2'>run</a></strong></td>
+  <strong><a href='../type/test_description_t.html#boundprocedure-run'>run</a></strong></td>
                 <td></td>
               </tr>
               <tr>
@@ -1199,7 +1199,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-03-20 06:10 +0000             </p>
+ on 2025-03-22 22:22 +0000             </p>
           </div>
         </div>
         <br>
