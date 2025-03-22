@@ -49,14 +49,13 @@ contains
       )]) 
 #else
       block
-       type(vector_test_description_t), allocatable :: vector_test_descriptions(:)
+       type(vector_test_description_t) vector_test_descriptions(1)
 
-        vector_test_descriptions = [ &
-          vector_test_description_t( [ &
-             string_t(    "finding a substring in a test description") &
-            ,string_t("not finding a missing substring in a test description") &
-        ])]
-
+       vector_test_descriptions(1) = &
+         vector_test_description_t( [ &
+            string_t(    "finding a substring in a test description") &
+           ,string_t("not finding a missing substring in a test description") &
+       ])
 #endif
         associate(num_vector_tests => size(vector_test_descriptions))
           block
