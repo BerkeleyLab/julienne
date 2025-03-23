@@ -20,7 +20,7 @@ Building and Testing
 fpm test --compiler gfortran --profile release
 ```
 
-#### `gfortran` versions 13
+#### `gfortran` version 13
 ```
 fpm test --compiler gfortran --profile release --flag "-ffree-line-length-none"
 ```
