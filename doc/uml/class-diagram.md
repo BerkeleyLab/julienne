@@ -61,6 +61,3 @@ class vector_test_description_t{
     + contains_text(character) logical
     + contains_text(string_t) logical
 }
-
-class command_line_t{}
-class file_t{}
