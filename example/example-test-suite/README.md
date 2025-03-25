@@ -1,31 +1,12 @@
 Example Test Suite Classes
 ==========================
 
-Supported Compilers 
--------------------
-
-Compiler         | Version(s) Tested        | Known Issues
------------------|--------------------------|-------------
-LLVM `flang-new` | 19, 20                   | none
-Intel `ifx`      | 2025.4                   | none
-NAG `nagfor`     | 7.2 Build 7227           | none
-GCC `gfortran`   | 14.1.0, 14.2.0_1, 15.0.1 | 1-3 below
-
-### GFortran Issues
-Compiler bugs related to the following issues have been reported to the GCC project:
-
-1. The `test_description_t` constructor's `diagnosis_function` actual argument must be a procedure pointer.
-2. Each element of a `vector_test_description_t` array must be defined in a separate program statement.
-3. If executed, the `string_t` type's `bracket` procedure causes a program crash.
-
-Some related `gfortran` fixes have already been developed and pushed to the GCC branches for release with GCC 14.3 and 15.1.0.
-
 Getting Started
 ---------------
 Likely the fastest way to get started with Julienne is to copy the source code in this directory and modify it for your purposes:
 
-1. If you build your project with the Fortran Package Manager ([`fpm`](https://github.com/fotran-lang/fpm)), then you might move the `main.F9` and `specimen_test_.F90` files from this subdiretory to a `test/` subdirectory in the root of your project's source tree.
-2. Rename the `specimen_test_m.F90`, `specimen_test_m`, and `specimen_test_t` file, module, and type, respectively, replacing `specimen` with the name of an entity that you intend to test -- most likely a module containing procedures or derived type with type-bound procedures.
+1. If you build your project with the Fortran Package Manager ([`fpm`](https://github.com/fotran-lang/fpm)), then you might move the `main.F90` and `specimen_test_m.F90` files from this subdirectory to a `test/` subdirectory in the root of your project's source tree.
+2. Rename the `specimen_test_m.F90` file, the `specimen_test_m` module, and the `specimen_test_t` derived type and any references thereto, replacing `specimen` with the name of an entity that you intend to test -- most likely a module containing procedures or derived type with type-bound procedures.
 3. Similarly replace occurrences of `specimen` in the resulting`test/main.F90` file.
 4. Modify the `test_descriptions_t` array constructor in your new `*_test_m.F90` file, adding elements for each test to be performed:
 ```fortran
@@ -33,9 +14,9 @@ Likely the fastest way to get started with Julienne is to copy the source code i
     test_description_t("the type-bound function zero() producing a result of 0", check_zero) &
   ]  
 ```
-5. Replace "the type-bound..." string with a description of a test.  The test output will read most naturally if your description contains a gerund: a noun formed from verb ending in "ing" such as `producing` above.
+5. Replace the above string (`"the type-bound..."`) with a description of your intended test.  The test output will read most naturally if your description contains a gerund: a verb ending in "ing" and used as a noun, such as `producing` above.
 6. Replace the `check_zero` function name with the name of a function that will perform your test. 
-7. Edit the correspondingly-renamed function to perform the test.  The function must take no arguments and define a `test_diagnosis_t` result:
+7. Edit the correspondingly-renamed function to perform the test.  The function must take no arguments and define a `test_diagnosis_t` result. An example result might be the following:
 ```fortran
   test_diagnosis = test_diagnosis_t( &
      test_passed = actual_value == expected_value &
@@ -45,9 +26,9 @@ Likely the fastest way to get started with Julienne is to copy the source code i
 The above `test_diagnosis_t` constructor function invocation demonstrates the recommended pattern for writing tests with Julienne:
 
 * Define the `test_passed` keyword argument by writing an expression that will evaluate to `.true.` if and only if the test succeeds.
-* Define the `diagnostics_string` keyword argument from own strings and `string_t` constructor invocations, all separated by the concatenation operaor `//`.
+* Define the `diagnostics_string` keyword argument from character literal values interspersed with`string_t` constructor, all strung together by instances of the string concatenation operator `//`.
 
-`String_t` is a generic interface to various specific functions, each of takes an argument of a different data type, kind, and rank (TKR) and defines a `string_t` result containing a charater representation of the function argument.
+`String_t` is a generic interface to various specific functions, each of which takes an argument of a different data type, kind, and rank (TKR) and defines a `string_t` result containing a charater representation of the function argument.
 Please see Julienne's online [documentation](https:///berkeleylab.github.io/julienne/) for the currently supported TKR.
 Please submit an issue to request support for additional TKR or submit a pull request to contribute such support.
 
