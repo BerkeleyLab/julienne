@@ -19,8 +19,7 @@ module julienne_test_result_m
     procedure :: passed
     procedure :: skipped
     generic :: description_contains => description_contains_string, description_contains_characters
-    procedure, private :: description_contains_string
-    procedure, private :: description_contains_characters
+    procedure, private ::              description_contains_string, description_contains_characters
   end type
 
   interface test_result_t

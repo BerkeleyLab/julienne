@@ -28,7 +28,8 @@ module julienne_vector_test_description_m
     procedure(vector_diagnosis_function_i), pointer, nopass :: vector_diagnosis_function_ => null()
   contains
     procedure run
-    procedure contains_text
+    generic :: contains_text => contains_string_t, contains_characters
+    procedure, private::        contains_string_t, contains_characters
   end type
 
   interface vector_test_description_t
@@ -52,11 +53,19 @@ module julienne_vector_test_description_m
       type(test_result_t), allocatable :: test_results(:)
     end function
 
-    module function contains_text(self, substring) result(match_vector)
+    module function contains_characters(self, substring) result(match_vector)
       !! The result is .true. if the test description includes the value of substring 
       implicit none
       class(vector_test_description_t), intent(in) :: self
       character(len=*), intent(in) :: substring
+      logical, allocatable :: match_vector(:)
+    end function
+
+    module function contains_string_t(self, substring) result(match_vector)
+      !! The result is .true. if the test description includes the value of substring%string()
+      implicit none
+      class(vector_test_description_t), intent(in) :: self
+      type(string_t), intent(in) :: substring
       logical, allocatable :: match_vector(:)
     end function
 

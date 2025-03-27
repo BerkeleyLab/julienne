@@ -167,7 +167,7 @@ contains
 #ifndef __GFORTRAN__
       ,test_description_t('constructing bracketed strings',                                                       brackets_strings_ptr)&
 #else
-      ! Because this test crashes due to a gfortran bug, we construct the test_descriptoin_t object without a test_diagnosis_t
+      ! Because this test crashes due to a gfortran bug, we construct the test_description_t object without a test_diagnosis_t
       ! function, which will cause the test to be skipped and reported as such in test_result_t's "run" function.
       ,test_description_t('constructing bracketed strings'                                                                            )&
 #endif
