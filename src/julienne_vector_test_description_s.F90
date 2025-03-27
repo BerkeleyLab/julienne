@@ -9,10 +9,14 @@ submodule(julienne_vector_test_description_m) julienne_vector_test_description_s
 
 contains
 
-  module procedure contains_text
+  module procedure contains_characters
     integer i
     call_assert(allocated(self%descriptions_))
     match_vector = [(index(self%descriptions_(i)%string(), substring) /= 0, i = 1, size(self%descriptions_))]
+  end procedure
+
+  module procedure contains_string_t
+    match_vector = self%contains_characters(substring%string())
   end procedure
 
 #ifndef __GFORTRAN__
@@ -44,7 +48,7 @@ contains
           call_assert_diagnose(num_descriptions == num_results, "description/result size match", intrinsic_array_t([num_descriptions, num_results]))
         end associate
 #endif
-      test_results = test_result_t(self%descriptions_, diagnoses)
+        test_results = test_result_t(self%descriptions_, diagnoses)
       end associate
     end if
   end procedure
