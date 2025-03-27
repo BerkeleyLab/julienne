@@ -126,3 +126,52 @@ class test_diagnosis_t{
     test_diagnosis_t(test_passed : logical, diagnostics_string : string_t)
 }
 ```
+
+Skipping Tests
+--------------
+When a test is known to cause a compile-time or runtime crash in a specific scenario, e.g., with a specific compiler or compiler version, including that test will prevent the test suite from building or running to completion.
+It can be useful to skip a test with the problematic compiler but to report the test as skipped and account for the skipped tests in the tally of test results..
+For this purpose, the `test_description_t` and `vector_test_description_t` constructor functions have optional second arguments `diagnosis_function` and `vector_diagnosis_function`, respectively.
+When these arguments are not `present`, the `test_t`'s `report` procedure will report the test as skipped but will terminate normally as long as the sum of the passing tests and skipped tests equals the total number of tests.
+One might accomplish this with the compiler's predefined preprocessor macro:
+```
+#ifndef __GFORTRAN__
+      ,test_description_t('constructing bracketed strings', brackets_strings_ptr) &
+#else
+      ,test_description_t('constructing bracketed strings'                      ) &  
+#endif
+```
+which presently appears in Julienne `test/string_test_m.F90` test in order to work around a runtime crash known to be caused by a `gfortran` bug.
+
+String_t Functions
+------------------
+Because of the central role that `string_t` type-bound procedures play in defining diagnostics strings, we list most of these procedures in the class diagram below.
+
+```mermaid
+classDiagram
+
+class string_t{
+    string_t(integer) string_t
+    string_t(logical) string_t
+    string_t(logical(c_bool)) string_t
+    string_t(real) string_t
+    string_t(double precision) string_t
+    string_t(character(len=*)) string_t
+    string_t(complex) string_t
+    string_t(complex(kind(1D0))) string_t
+
+    operator(//)(string_t, string_t)
+    operator(//)(string_t, character(len=*))
+    operator(//)(character(len=*), string_t)
+
+    operator(.csv.)(string_t) string_t
+    operator(.csv.)(character(len=*)) string_t
+    operator(.sv.)(strings : string_t[1..*], separator : characer(len=*)) string_t
+    operator(.sv.)(strings : character(len=*)[1..*], separator : characer(len=*)) string_t
+    operator(.sv.)(strings : string_t[1..*], separator : string_t) string_t
+
+    array_of_strings(delimited_strings : character(len=*), delimiter : character(len=*))
+    file_extension(string_t) string_t
+    base_name(string_t) string_t
+}
+```
