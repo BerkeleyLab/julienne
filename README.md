@@ -4,15 +4,16 @@ Julienne
 Julienne is a modern-Fortran unit-testing framework that includes utilities for manipulating strings (via Julienne's `string_t` derived type), including command line arguments (via Julienne's `command_line_t` type) and input/output format strings (via Julienne's `formats_m` module).
 Users construct tests by
 
-1. Extending Julienne's `test_t` abstrct derived type,
-2. Constructing an array of `test_description_t` objects, each of which encapsulates
-   a. A string describing what functionality is being tested and
-   b. The reference to a function that produces one or more `test_diagnosis_t` objects, each of which encapsulates
-      i. A `logical` indicator of the test outcome (where `.true.` denotes a pass) and
-      ii. A `character` or `string_t` diagnostics string.
+* Extending Julienne's `test_t` abstract derived type,
+* Constructing an array of `test_description_t` objects, each of which encapsulates
+   * A string describing what functionality is being tested and
+   * The name of a function that performs a test and produces one or more `test_diagnosis_t` result objects, each of which encapsulates
+      * A `logical` indicator of the test outcome (`.true.` denotes a pass) and
+      * A `character` or `string_t` diagnostics string.
    
 Julienne empowers users to customize the diagnostic information that prints when tests fail.
-For this purpose, Julienne's `string_t` constructors convert varios types, kinds, and ranks of data to character data and `string_t` operators support features such as concatenation and delimited lists such as comma-separated value lists.
+For this purpose, Julienne's `string_t` constructors convert various data types, kinds, and ranks to character data.
+Julienne also provides `string_t` operators supporting concatenation and delimited lists such as comma-separated value lists.
 
 Julienne's name derives from the term for vegetables sliced into thin strings: julienned vegetables.
 The [Veggies] unit-testing framework inspired the structure of Julienne's tests and output.
