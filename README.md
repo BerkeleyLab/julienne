@@ -1,12 +1,13 @@
 Julienne
 ========
 
-Spun off from [Sourcery] and inspired by [Veggies], Julienne is a modern-Fortran unit-testing framework and utility for manipulating strings, including command lines and input/output format strings. 
-This repository's name derives from the term for vegetables sliced into thin strings: julienned vegetables.
-This software repository captures the authors' most frequently used thin slice of the Veggies and Sourcery repositories while avoiding certain compiler limitations of the other two repositories.
-Julienne achieves portability across compilers through minimalism and isolation.
-Thus Julienne has only one external dependency and offers limited but widely useful capabilities.
-The string-handling and command-line parsing capabilities are included primarily because they support Julienne's unit-testing code.
+Julienne is a modern-Fortran unit-testing framework that includes utilities for manipulating strings, including command lines and input/output format strings.
+Users construct tests by extending Julienne's `abstract` `test_t` derived type and constructing an array of `test_description_t` objects, each of which encapsulates a description string and the name of a function that produces one or more `test_diagnosis_t` objects, each of which in turn encapsulates a `logical` test outcome and a `diagnostics_string`.
+Julienne empowers users to determine the diagnostic information printed when tests fail.
+To support customized diagnostics output, Julienne provides a `string_t` derived type with corresponding constructor functions and useful operators.
+
+Julienne's name derives from the term for vegetables sliced into thin strings: julienned vegetables.
+The structure of Julienne's tests and output was inspired by the [Veggies] unit-testing framework with the aim of being more lightweight and portable across compilers and compiler versions.
 
 Getting Started
 ---------------
@@ -18,7 +19,7 @@ Supported Compilers
 Compiler         | Version(s) Tested        | Known Issues
 -----------------|--------------------------|-------------
 LLVM `flang-new` | 19, 20                   | none
-Intel `ifx`      | 2025.4                   | none
+Intel `ifx`      | 2025.1                   | none
 NAG `nagfor`     | 7.2 Build 7227           | none
 GCC `gfortran`   | 14.1.0, 14.2.0_1, 15.0.1 | 1-3 below
 
