@@ -1,13 +1,22 @@
 Julienne
 ========
 
-Julienne is a modern-Fortran unit-testing framework that includes utilities for manipulating strings, including command lines and input/output format strings.
-Users construct tests by extending Julienne's `abstract` `test_t` derived type and constructing an array of `test_description_t` objects, each of which encapsulates a description string and the name of a function that produces one or more `test_diagnosis_t` objects, each of which in turn encapsulates a `logical` test outcome and a `diagnostics_string`.
-Julienne empowers users to determine the diagnostic information printed when tests fail.
-To support customized diagnostics output, Julienne provides a `string_t` derived type with corresponding constructor functions and useful operators.
+Julienne is a modern-Fortran unit-testing framework that includes utilities for manipulating strings (via Julienne's `string_t` derived type), including command line arguments (via Julienne's `command_line_t` type) and input/output format strings (via Julienne's `formats_m` module).
+Users construct tests by
+
+1. Extending Julienne's `test_t` abstrct derived type,
+2. Constructing an array of `test_description_t` objects, each of which encapsulates
+   a. A string describing what functionality is being tested and
+   b. The reference to a function that produces one or more `test_diagnosis_t` objects, each of which encapsulates
+      i. A `logical` indicator of the test outcome (where `.true.` denotes a pass) and
+      ii. A `character` or `string_t` diagnostics string.
+   
+Julienne empowers users to customize the diagnostic information that prints when tests fail.
+For this purpose, Julienne's `string_t` constructors convert varios types, kinds, and ranks of data to character data and `string_t` operators support features such as concatenation and delimited lists such as comma-separated value lists.
 
 Julienne's name derives from the term for vegetables sliced into thin strings: julienned vegetables.
-The structure of Julienne's tests and output was inspired by the [Veggies] unit-testing framework with the aim of being more lightweight and portable across compilers and compiler versions.
+The [Veggies] unit-testing framework inspired the structure of Julienne's tests and output.
+Julienne aims to be a more lightweight alternative that is more portable across compilers and compiler versions.
 
 Getting Started
 ---------------
@@ -18,18 +27,19 @@ Supported Compilers
 
 Compiler         | Version(s) Tested        | Known Issues
 -----------------|--------------------------|-------------
+GCC `gfortran`   | 14.1.0, 14.2.0_1, 15.0.1 | items 1-3 below
+Intel `ifx`      | 2025.1                   | item 4 below
 LLVM `flang-new` | 19, 20                   | none
-Intel `ifx`      | 2025.1                   | none
 NAG `nagfor`     | 7.2 Build 7227           | none
-GCC `gfortran`   | 14.1.0, 14.2.0_1, 15.0.1 | 1-3 below
 
 Compiler bugs related to the following issues have been reported to the GCC project:
 
 1. The `test_description_t` constructor's `diagnosis_function` actual argument must be a procedure pointer.
 2. Each element of a `vector_test_description_t` array must be defined in a separate program statement.
 3. If executed, the `string_t` type's `bracket` procedure causes a program crash.
+4. Two `string_t` tests fail as described in issue [#51](https://github.com/BerkeleyLab/julienne/issues/51).
 
-Some related `gfortran` fixes have already been developed and pushed to the GCC branches for release with GCC 14.3 and 15.1.0.
+Some `gfortran` fixes related to items 1-3 above have been pushed to the GCC repository for release with GCC 14.3 and 15.1.0.
 
 Building and Testing
 --------------------
