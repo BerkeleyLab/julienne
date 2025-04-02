@@ -142,10 +142,10 @@
       </a>
       <div id="inters-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/julienne_vector_test_description_m.html#interface-run~2">run</a>
+            <a class="list-group-item" href="../module/julienne_vector_test_description_m.html#interface-run">run</a>
             <a class="list-group-item" href="../module/julienne_vector_test_description_m.html#interface-vector_test_description_t">vector_test_description_t</a>
-            <a class="list-group-item" href="../module/julienne_vector_test_description_m.html#interface-contains_characters~2">contains_characters</a>
-            <a class="list-group-item" href="../module/julienne_vector_test_description_m.html#interface-contains_string_t~2">contains_string_t</a>
+            <a class="list-group-item" href="../module/julienne_vector_test_description_m.html#interface-contains_characters">contains_characters</a>
+            <a class="list-group-item" href="../module/julienne_vector_test_description_m.html#interface-contains_string_t">contains_string_t</a>
         </div>
       </div>
     </div>
@@ -197,9 +197,9 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='julienne_test_result_m.html'>julienne_test_result_m</a></li>
-                  <li class="list-inline-item"><a href='julienne_test_diagnosis_m.html'>julienne_test_diagnosis_m</a></li>
                   <li class="list-inline-item"><a href='julienne_string_m.html'>julienne_string_m</a></li>
+                  <li class="list-inline-item"><a href='julienne_test_diagnosis_m.html'>julienne_test_diagnosis_m</a></li>
+                  <li class="list-inline-item"><a href='julienne_test_result_m.html'>julienne_test_result_m</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -640,7 +640,7 @@ large graphs.</div>
           <h2>Interfaces</h2>
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-run~2"></span>
+      <span class="anchor" id="interface-run"></span>
       <h3>        interface
       </h3>
     </div>
@@ -666,7 +666,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~6"></span>
+              <span class="anchor" id="variable-self~5"></span>
               class(<a href='../type/vector_test_description_t.html'>vector_test_description_t</a>),
             </td>
 <td>intent(in)</td>
@@ -763,7 +763,7 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-contains_characters~2"></span>
+      <span class="anchor" id="interface-contains_characters"></span>
       <h3>        interface
       </h3>
     </div>
@@ -775,6 +775,75 @@ large graphs.</div>
 
     </h3>
   <p>The result is .true. if the test description includes the value of substring </p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~6"></span>
+              class(<a href='../type/vector_test_description_t.html'>vector_test_description_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-substring"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>substring</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical, allocatable, (:)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-contains_string_t"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private module function contains_string_t(self, substring) result(match_vector)  
+    <a href="../proc/contains_string_t~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  <p>The result is .true. if the test description includes the value of substring%string()</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -804,76 +873,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~3"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>substring</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical, allocatable, (:)</small>
-    </h4>
-    
-
-        </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-contains_string_t~2"></span>
-      <h3>        interface
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>
-    private module function contains_string_t(self, substring) result(match_vector)  
-    <a href="../proc/contains_string_t~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  <p>The result is .true. if the test description includes the value of substring%string()</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~8"></span>
-              class(<a href='../type/vector_test_description_t.html'>vector_test_description_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-substring~4"></span>
+              <span class="anchor" id="variable-substring~2"></span>
               type(<a href='../type/string_t.html'>string_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1018,22 +1018,22 @@ large graphs.</div>
           <tbody>
               <tr>
                 <td>  generic, public ::
-  <strong><a href='../type/vector_test_description_t.html#boundprocedure-contains_text~2'>contains_text</a></strong> => <a href='/home/runner/work/julienne/julienne/doc/html/type/vector_test_description_t.html#boundprocedure-contains_string_t~2'>contains_string_t</a>, <a href='/home/runner/work/julienne/julienne/doc/html/type/vector_test_description_t.html#boundprocedure-contains_characters~2'>contains_characters</a></td>
+  <strong><a href='../type/vector_test_description_t.html#boundprocedure-contains_text'>contains_text</a></strong> => <a href='/home/runner/work/julienne/julienne/doc/html/type/vector_test_description_t.html#boundprocedure-contains_string_t'>contains_string_t</a>, <a href='/home/runner/work/julienne/julienne/doc/html/type/vector_test_description_t.html#boundprocedure-contains_characters'>contains_characters</a></td>
                   <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/vector_test_description_t.html#boundprocedure-run~2'>run</a></strong></td>
+  <strong><a href='../type/vector_test_description_t.html#boundprocedure-run'>run</a></strong></td>
                   <td></td>
               </tr>
               <tr>
                 <td>  procedure, private ::
-  <strong><a href='../type/vector_test_description_t.html#boundprocedure-contains_characters~2'>contains_characters</a></strong></td>
+  <strong><a href='../type/vector_test_description_t.html#boundprocedure-contains_characters'>contains_characters</a></strong></td>
                   <td></td>
               </tr>
               <tr>
                 <td>  procedure, private ::
-  <strong><a href='../type/vector_test_description_t.html#boundprocedure-contains_string_t~2'>contains_string_t</a></strong></td>
+  <strong><a href='../type/vector_test_description_t.html#boundprocedure-contains_string_t'>contains_string_t</a></strong></td>
                   <td></td>
               </tr>
           </tbody>
@@ -1066,7 +1066,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-03-27 15:27 +0000             </p>
+ on 2025-04-02 22:42 +0000             </p>
           </div>
         </div>
         <br>
