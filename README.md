@@ -22,7 +22,6 @@ Users construct tests by
         * The corresponding function name and
     - Produces an array of `test_result_t` objects.
 
-   
 Julienne empowers users to customize the diagnostic information that prints when tests fail.
 For this purpose, Julienne's `string_t` constructors convert various data types, kinds, and ranks to character data.
 Julienne also provides `string_t` operators supporting concatenation and delimited lists such as comma-separated value lists.
@@ -40,7 +39,7 @@ Supported Compilers
 
 Compiler         | Version(s) Tested        | Known Issues
 -----------------|--------------------------|-------------
-GCC `gfortran`   | 14.1.0, 14.2.0_1, 15.0.1 | items 1-3 below
+GCC `gfortran`   | 13.1.0, 14.2.0_1, 15.0.1 | items 1-3 below
 Intel `ifx`      | 2025.1                   | item 4 below
 LLVM `flang-new` | 19, 20                   | none
 NAG `nagfor`     | 7.2 Build 7227           | none
