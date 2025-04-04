@@ -43,7 +43,7 @@ contains
       test_results = test_result_t(self%descriptions_)
     else
       associate(diagnoses => self%vector_diagnosis_function_())
-#ifdef ASSERTIONS
+#if defined(ASSERTIONS)
         associate(num_descriptions => size(self%descriptions_), num_results => size(diagnoses))
           call_assert_diagnose(num_descriptions == num_results, "description/result size match", intrinsic_array_t([num_descriptions, num_results]))
         end associate
