@@ -10,10 +10,6 @@ submodule(julienne_file_m) julienne_file_s
 
 contains
 
-  module procedure from_string_array
-    file_object%lines_ = lines
-  end procedure
-
   module procedure lines
     my_lines = self%lines_
   end procedure
@@ -41,7 +37,11 @@ contains
   end procedure
   
   module procedure write_to_string_file_name
-    call write_lines(file_name%string())
+    call self%write_to_character_file_name(file_name%string())
+  end procedure
+
+  module procedure from_lines
+    file_object%lines_ = lines  
   end procedure
 
   module procedure from_file_with_character_name
