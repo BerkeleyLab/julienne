@@ -14,34 +14,36 @@ contains
     file_object%lines_ = lines
   end procedure
 
-  module procedure from_character_array
-    file_object%lines_ = lines
-  end procedure
-
   module procedure lines
     my_lines = self%lines_
   end procedure
 
-  module procedure write_lines
-
-    integer file_unit, io_status, l
+  module procedure write_to_output_unit
+    integer l
 
     call_assert(allocated(self%lines_))
 
-    if (present(file_name)) then
-      open(newunit=file_unit, file=file_name%string(), form='formatted', status='unknown', iostat=io_status, action='write')
-      call_assert_diagnose(io_status==0,"write_lines: io_status==0 after 'open' statement", file_name%string())
-    else
-      file_unit = output_unit
-    end if
+    do l = 1, size(self%lines_)
+      write(output_unit, '(a)') self%lines_(l)%string()
+    end do
+  end procedure
+
+  module procedure write_to_character_file_name
+    integer file_unit, l
+
+    call_assert(allocated(self%lines_))
+
+    open(newunit=file_unit, file=file_name, form='formatted', status='unknown', action='write')
 
     do l = 1, size(self%lines_)
       write(file_unit, '(a)') self%lines_(l)%string()
     end do
-
-    if (present(file_name)) close(file_unit)
   end procedure
   
+  module procedure write_to_string_file_name
+    call write_lines(file_name%string())
+  end procedure
+
   module procedure from_file_with_character_name
     file_object = from_file_with_string_name(string_t(file_name))
   end procedure
