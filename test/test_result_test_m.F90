@@ -1,7 +1,7 @@
 ! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
-#include "language-support.F90" 
+#include "language-support.F90"
 
 module test_result_test_m
   !! Verify test_result_t object behavior
@@ -30,7 +30,7 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "The test_result_t type" 
+    specimen = "The test_result_t type"
   end function
 
   function results() result(test_results)

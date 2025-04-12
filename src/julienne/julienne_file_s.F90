@@ -41,7 +41,7 @@ contains
   end procedure
 
   module procedure from_lines
-    file_object%lines_ = lines  
+    file_object%lines_ = lines
   end procedure
 
   module procedure from_file_with_character_name

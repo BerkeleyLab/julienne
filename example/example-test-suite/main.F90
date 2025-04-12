@@ -29,7 +29,7 @@ contains
       print '(a)', 'the tests with test subjects or test descriptions containing the user-specified substring.'
       stop
     else
-      print * 
+      print *
       print "(a)", "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
     end if
   end subroutine

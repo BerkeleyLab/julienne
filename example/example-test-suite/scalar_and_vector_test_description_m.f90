@@ -29,7 +29,7 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "The test_description_t type" 
+    specimen = "The test_description_t type"
   end function
 
   function results() result(test_results)
@@ -60,11 +60,11 @@ contains
            string_t(    "finding a substring in a test description") &
           ,string_t("not finding a missing substring in a test description") &
         ], check_substring_search &
-      )]) 
+      )])
         associate(num_vector_tests => size(vector_test_descriptions))
           block
             integer i
-           
+
             if (substring_in_subject) then
               vector_test_results = [(vector_test_descriptions(i)%run(), i=1,num_vector_tests)]
             else

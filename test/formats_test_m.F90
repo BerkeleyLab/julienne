@@ -17,7 +17,7 @@ module formats_test_m
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
   use julienne_m, only : diagnosis_function_i
 #endif
-    
+
   implicit none
 
   private
@@ -33,7 +33,7 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "A format string" 
+    specimen = "A format string"
   end function
 
   function results() result(test_results)
@@ -41,13 +41,13 @@ contains
     type(test_description_t), allocatable :: test_descriptions(:)
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-    test_descriptions = [ & 
+    test_descriptions = [ &
       test_description_t(string_t("yielding a comma-separated list of real numbers"), check_csv_reals), &
       test_description_t(string_t("yielding a comma-separated list of double-precision numbers"), check_csv_double_precision), &
       test_description_t(string_t("yielding a space-separated list of complex numbers"), check_space_separated_complex), &
       test_description_t(string_t("yielding a comma- and space-separated list of character values"), check_csv_character), &
       test_description_t(string_t("yielding a new-line-separated list of integer numbers"), check_new_line_separated_integers) &
-    ]   
+    ]
 #else
     ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
     procedure(diagnosis_function_i), pointer :: &
@@ -56,16 +56,16 @@ contains
     check_csv_reals_ptr => check_csv_reals
     check_csv_double_precision_ptr => check_csv_double_precision
     check_space_ptr => check_space_separated_complex
-    check_csv_char_ptr => check_csv_character 
+    check_csv_char_ptr => check_csv_character
     check_new_line_ptr => check_new_line_separated_integers
 
-    test_descriptions = [ & 
+    test_descriptions = [ &
       test_description_t(string_t("yielding a comma-separated list of real numbers"), check_csv_reals_ptr), &
       test_description_t(string_t("yielding a comma-separated list of double-precision numbers"), check_csv_double_precision_ptr), &
       test_description_t(string_t("yielding a space-separated list of complex numbers"), check_space_ptr), &
       test_description_t(string_t("yielding a comma- and space-separated list of character values"), check_csv_char_ptr), &
       test_description_t(string_t("yielding a new-line-separated list of integer numbers"), check_new_line_ptr) &
-    ]   
+    ]
 #endif
     test_descriptions = pack(test_descriptions, &
       index(subject(), test_description_substring) /= 0 .or. &
@@ -76,11 +76,11 @@ contains
 
   function check_csv_reals() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    character(len=100) captured_output 
+    character(len=100) captured_output
     real, parameter :: expected_values(*) = [0.,1.,2.], tolerance = 1.E-08
     real zero, one, two
 
-    write(captured_output, fmt = separated_values(separator=",", mold=[real::])) expected_values 
+    write(captured_output, fmt = separated_values(separator=",", mold=[real::])) expected_values
 
     associate(first_comma => index(captured_output, ','))
       associate(second_comma => first_comma + index(captured_output(first_comma+1:), ','))
@@ -122,7 +122,7 @@ contains
 
   function check_space_separated_complex() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    character(len=100) captured_output 
+    character(len=100) captured_output
     character(len=:), allocatable :: i_string, one_string
     complex, parameter :: i = (0.,1.), one = (1.,0.)
     complex i_read, one_read
@@ -135,7 +135,7 @@ contains
 
     read(i_string,*) i_read
     read(one_string,*) one_read
-    
+
     test_diagnosis = test_diagnosis_t( &
        test_passed =   i_read == i .and. one_read == one &
       ,diagnostics_string = "expected " // .csv. string_t([i,one]) // "; actual " // .csv. string_t([i_read, one_read]) &
@@ -144,7 +144,7 @@ contains
 
   function check_csv_character() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    character(len=200) captured_output 
+    character(len=200) captured_output
     character(len=*), parameter :: expected_output = "Yodel, Ay, Hee, Hoo!"
 
     write(captured_output, fmt = separated_values(separator=", ", mold=[integer::])) "Yodel", "Ay", "Hee", "Hoo!"
@@ -157,7 +157,7 @@ contains
 
   function check_new_line_separated_integers() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    character(len=100) captured_output 
+    character(len=100) captured_output
     character(len=*), parameter :: expected_output = "0" // new_line("") // "1" // new_line("") // "2"
 
     write(captured_output, fmt = separated_values(separator=new_line(""), mold=[integer::])) [0,1,2]

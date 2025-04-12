@@ -28,7 +28,7 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "The test_description_t type" 
+    specimen = "The test_description_t type"
   end function
 
   function results() result(test_results)

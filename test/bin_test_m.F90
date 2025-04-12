@@ -33,7 +33,7 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "An array of bin_t objects (bins)" 
+    specimen = "An array of bin_t objects (bins)"
   end function
 
   function results() result(test_results)
@@ -41,19 +41,19 @@ contains
     type(test_description_t), allocatable :: test_descriptions(:)
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-    test_descriptions = [ & 
+    test_descriptions = [ &
       test_description_t(string_t("partitioning items nearly evenly across bins"), check_block_partitioning), &
       test_description_t(string_t("partitioning all item across all bins without item loss"), check_all_items_partitioned) &
-    ]   
+    ]
 #else
     ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
-    procedure(diagnosis_function_i), pointer :: check_block_partitioning_ptr, check_all_items_ptr 
+    procedure(diagnosis_function_i), pointer :: check_block_partitioning_ptr, check_all_items_ptr
     check_block_partitioning_ptr => check_block_partitioning
     check_all_items_ptr => check_all_items_partitioned
-    test_descriptions = [ & 
+    test_descriptions = [ &
       test_description_t(string_t("partitioning items nearly evenly across bins"), check_block_partitioning_ptr), &
       test_description_t(string_t("partitioning all item across all bins without item loss"), check_all_items_ptr) &
-    ]   
+    ]
 #endif
     test_descriptions = pack(test_descriptions, &
       index(subject(), test_description_substring) /= 0 .or. &
