@@ -1,10 +1,7 @@
-```
-     _       _ _
-    | |_   _| (_) ___ _ __  _ __   ___
- _  | | | | | | |/ _ \ '_ \| '_ \ / _ \
-| |_| | |_| | | |  __/ | | | | | |  __/
- \___/ \__,_|_|_|\___|_| |_|_| |_|\___|
- ```
+<p align="center">
+  <img width="250" height="250" src="https://github.com/user-attachments/assets/1a1c4f1a-f229-4d6d-bcaa-d5d9826ee639">
+</p>
+
 Julienne
 ========
 Julienne is a modern Fortran unit-testing framework that includes utilities for manipulating strings
@@ -16,11 +13,11 @@ Users construct tests by
 2. Defining a `subject()` function that returns a description of the entity being tested,
 3. Defining a `results()` function that
     - Defines a result comprised of an array of `test_result_t` objects.
-    - Constructs a local array of `test_description_t` objects, each of which encapsulates
+    - Defines a local array of `test_description_t` objects, each of which encapsulates
         * A string describing a function that produces one or more `test_diagnosis_t` result objects, each of which encapsulates
             * A `logical` indicator of whether the test passed and
             * A `character` or `string_t` diagnostics string.
-        * The corresponding function name and
+        * The corresponding function name.
 
 Julienne empowers users to customize the diagnostic information that prints when tests fail.
 For this purpose, Julienne's `string_t` constructors convert various data types, kinds, and ranks to character data.
