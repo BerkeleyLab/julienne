@@ -520,7 +520,7 @@ large graphs.</div>
 <br>
       <section>
         <h2><span class="anchor" id="src"></span>Source Code</h2>
-        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="c">! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute</span>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="c">! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute</span>
 <a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">! Terms of use are as specified in LICENSE.txt</span>
 <a id="ln-3" name="ln-3" href="#ln-3"></a>
 <a id="ln-4" name="ln-4" href="#ln-4"></a><span class="cp">#include &quot;language-support.F90&quot;</span>
@@ -551,7 +551,7 @@ large graphs.</div>
 <a id="ln-29" name="ln-29" href="#ln-29"></a>
 <a id="ln-30" name="ln-30" href="#ln-30"></a><span class="k">  pure function </span><span class="n">subject</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">specimen</span><span class="p">)</span>
 <a id="ln-31" name="ln-31" href="#ln-31"></a><span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">specimen</span>
-<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="w">    </span><span class="n">specimen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;The test_description_t type&quot;</span><span class="w"> </span>
+<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="w">    </span><span class="n">specimen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;The test_description_t type&quot;</span>
 <a id="ln-33" name="ln-33" href="#ln-33"></a><span class="w">  </span><span class="k">end function</span>
 <a id="ln-34" name="ln-34" href="#ln-34"></a>
 <a id="ln-35" name="ln-35" href="#ln-35"></a><span class="k">  function </span><span class="n">results</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">test_results</span><span class="p">)</span>
@@ -582,11 +582,11 @@ large graphs.</div>
 <a id="ln-60" name="ln-60" href="#ln-60"></a><span class="w">           </span><span class="n">string_t</span><span class="p">(</span><span class="w">    </span><span class="s2">&quot;finding a substring in a test description&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
 <a id="ln-61" name="ln-61" href="#ln-61"></a><span class="w">          </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;not finding a missing substring in a test description&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
 <a id="ln-62" name="ln-62" href="#ln-62"></a><span class="w">        </span><span class="p">],</span><span class="w"> </span><span class="n">check_substring_search</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-63" name="ln-63" href="#ln-63"></a><span class="w">      </span><span class="p">)])</span><span class="w"> </span>
+<a id="ln-63" name="ln-63" href="#ln-63"></a><span class="w">      </span><span class="p">)])</span>
 <a id="ln-64" name="ln-64" href="#ln-64"></a><span class="w">        </span><span class="k">associate</span><span class="p">(</span><span class="n">num_vector_tests</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">vector_test_descriptions</span><span class="p">))</span>
 <a id="ln-65" name="ln-65" href="#ln-65"></a><span class="w">          </span><span class="k">block</span>
 <a id="ln-66" name="ln-66" href="#ln-66"></a><span class="k">            </span><span class="kt">integer </span><span class="n">i</span>
-<a id="ln-67" name="ln-67" href="#ln-67"></a><span class="w">           </span>
+<a id="ln-67" name="ln-67" href="#ln-67"></a>
 <a id="ln-68" name="ln-68" href="#ln-68"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">substring_in_subject</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <a id="ln-69" name="ln-69" href="#ln-69"></a><span class="k">              </span><span class="n">vector_test_results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[(</span><span class="n">vector_test_descriptions</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">run</span><span class="p">(),</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">num_vector_tests</span><span class="p">)]</span>
 <a id="ln-70" name="ln-70" href="#ln-70"></a><span class="w">            </span><span class="k">else</span>
@@ -666,7 +666,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-04-05 22:43 +0000             </p>
+ on 2025-04-15 05:23 +0000             </p>
           </div>
         </div>
         <br>

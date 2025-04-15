@@ -1,4 +1,4 @@
-! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
+! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 module julienne_file_m
   !! A representation of a file as an object
@@ -12,32 +12,27 @@ module julienne_file_m
     type(string_t), allocatable :: lines_(:)
   contains
     procedure :: lines
-    procedure :: write_lines
+    generic :: write_lines => write_to_output_unit, write_to_character_file_name, write_to_string_file_name
+    procedure, private ::     write_to_output_unit, write_to_character_file_name, write_to_string_file_name
   end type
 
   interface file_t
 
-    impure elemental module function from_file_with_string_name(file_name) result(file_object)
+    module function from_file_with_string_name(file_name) result(file_object)
       implicit none
       type(string_t), intent(in) :: file_name
       type(file_t) file_object
     end function
 
-    impure elemental module function from_file_with_character_name(file_name) result(file_object)
+    module function from_file_with_character_name(file_name) result(file_object)
       implicit none
       character(len=*), intent(in) :: file_name
       type(file_t) file_object
     end function
 
-    pure module function from_string_array(lines) result(file_object)
+    module function from_lines(lines) result(file_object)
       implicit none
       type(string_t), intent(in) :: lines(:)
-      type(file_t) file_object
-    end function
-
-    pure module function from_character_array(lines) result(file_object)
-      implicit none
-      character(len=*), intent(in) :: lines(:)
       type(file_t) file_object
     end function
 
@@ -51,11 +46,23 @@ module julienne_file_m
       type(string_t), allocatable :: my_lines(:)
     end function
 
-    impure elemental module subroutine write_lines(self, file_name)
+    module subroutine write_to_output_unit(self)
       implicit none
       class(file_t), intent(in) :: self
-      type(string_t), intent(in), optional :: file_name
     end subroutine
+
+    impure elemental module subroutine write_to_string_file_name(self, file_name)
+      implicit none
+      class(file_t), intent(in) :: self
+      type(string_t), intent(in) :: file_name
+    end subroutine
+
+    impure elemental module subroutine write_to_character_file_name(self, file_name)
+      implicit none
+      class(file_t), intent(in) :: self
+      character(len=*), intent(in) :: file_name
+    end subroutine
+
 
   end interface
 

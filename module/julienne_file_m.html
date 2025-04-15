@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.8% of total for modules and submodules.">46 statements</a>
+                 title=" 3.1% of total for modules and submodules.">51 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -144,7 +144,9 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/julienne_file_m.html#interface-file_t">file_t</a>
             <a class="list-group-item" href="../module/julienne_file_m.html#interface-lines">lines</a>
-            <a class="list-group-item" href="../module/julienne_file_m.html#interface-write_lines">write_lines</a>
+            <a class="list-group-item" href="../module/julienne_file_m.html#interface-write_to_character_file_name">write_to_character_file_name</a>
+            <a class="list-group-item" href="../module/julienne_file_m.html#interface-write_to_output_unit">write_to_output_unit</a>
+            <a class="list-group-item" href="../module/julienne_file_m.html#interface-write_to_string_file_name">write_to_string_file_name</a>
         </div>
       </div>
     </div>
@@ -576,51 +578,7 @@ large graphs.</div>
     <ul class="list-group">
           <li class="list-group-item">
                 <h3>
-    private pure module function from_character_array(lines) result(file_object)  
-    <a href="../proc/from_character_array.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lines~3"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lines</strong>(:)</td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/file_t.html'>file_t</a>)</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private impure elemental module function from_file_with_character_name(file_name) result(file_object)  
+    private module function from_file_with_character_name(file_name) result(file_object)  
     <a href="../proc/from_file_with_character_name.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -664,7 +622,7 @@ large graphs.</div>
           </li>
           <li class="list-group-item">
                 <h3>
-    private impure elemental module function from_file_with_string_name(file_name) result(file_object)  
+    private module function from_file_with_string_name(file_name) result(file_object)  
     <a href="../proc/from_file_with_string_name.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
@@ -708,8 +666,8 @@ large graphs.</div>
           </li>
           <li class="list-group-item">
                 <h3>
-    private pure module function from_string_array(lines) result(file_object)  
-    <a href="../proc/from_string_array.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private module function from_lines(lines) result(file_object)  
+    <a href="../proc/from_lines.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -781,7 +739,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~3"></span>
+              <span class="anchor" id="variable-self~6"></span>
               class(<a href='../type/file_t.html'>file_t</a>),
             </td>
 <td>intent(in)</td>
@@ -809,15 +767,15 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-write_lines"></span>
+      <span class="anchor" id="interface-write_to_character_file_name"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    private impure elemental module subroutine write_lines(self, file_name)  
-    <a href="../proc/write_lines.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private impure elemental module subroutine write_to_character_file_name(self, file_name)  
+    <a href="../proc/write_to_character_file_name.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -835,7 +793,120 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~4"></span>
+              <span class="anchor" id="variable-self~9"></span>
+              class(<a href='../type/file_t.html'>file_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-file_name~4"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>file_name</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-write_to_output_unit"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private module subroutine write_to_output_unit(self)  
+    <a href="../proc/write_to_output_unit.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~7"></span>
+              class(<a href='../type/file_t.html'>file_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-write_to_string_file_name"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private impure elemental module subroutine write_to_string_file_name(self, file_name)  
+    <a href="../proc/write_to_string_file_name.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~8"></span>
               class(<a href='../type/file_t.html'>file_t</a>),
             </td>
 <td>intent(in)</td>
@@ -853,8 +924,8 @@ large graphs.</div>
               <span class="anchor" id="variable-file_name~3"></span>
               type(<a href='../type/string_t.html'>string_t</a>),
             </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
+<td>intent(in)</td>
+              <td></td>            <td>
               
             </td>
             <td>::</td>
@@ -929,18 +1000,7 @@ large graphs.</div>
                   <td>
                         private
 
-                    pure, module
-                    function
-                    <strong>from_character_array</strong>
-                    (lines)
-                  </td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>
-                        private
-
-                    impure, elemental, module
+                    module
                     function
                     <strong>from_file_with_character_name</strong>
                     (file_name)
@@ -951,7 +1011,7 @@ large graphs.</div>
                   <td>
                         private
 
-                    impure, elemental, module
+                    module
                     function
                     <strong>from_file_with_string_name</strong>
                     (file_name)
@@ -962,9 +1022,9 @@ large graphs.</div>
                   <td>
                         private
 
-                    pure, module
+                    module
                     function
-                    <strong>from_string_array</strong>
+                    <strong>from_lines</strong>
                     (lines)
                   </td>
                   <td></td>
@@ -982,8 +1042,23 @@ large graphs.</div>
                   <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='../type/file_t.html#boundprocedure-write_lines'>write_lines</a></strong></td>
+                <td>  generic, public ::
+  <strong><a href='../type/file_t.html#boundprocedure-write_lines'>write_lines</a></strong> => <a href='/home/runner/work/julienne/julienne/doc/html/type/file_t.html#boundprocedure-write_to_output_unit'>write_to_output_unit</a>, <a href='/home/runner/work/julienne/julienne/doc/html/type/file_t.html#boundprocedure-write_to_character_file_name'>write_to_character_file_name</a>, <a href='/home/runner/work/julienne/julienne/doc/html/type/file_t.html#boundprocedure-write_to_string_file_name'>write_to_string_file_name</a></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/file_t.html#boundprocedure-write_to_character_file_name'>write_to_character_file_name</a></strong></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/file_t.html#boundprocedure-write_to_output_unit'>write_to_output_unit</a></strong></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/file_t.html#boundprocedure-write_to_string_file_name'>write_to_string_file_name</a></strong></td>
                   <td></td>
               </tr>
           </tbody>
@@ -1016,7 +1091,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-04-05 22:43 +0000             </p>
+ on 2025-04-15 05:23 +0000             </p>
           </div>
         </div>
         <br>
