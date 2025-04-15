@@ -1,4 +1,4 @@
-! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
+! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
 #include "language-support.F90"
@@ -120,18 +120,18 @@ contains
       extracts_real_array_value_ptr                => extracts_real_array_value
       extracts_dp_array_value_ptr                  => extracts_dp_array_value
       supports_equivalence_operator_ptr            => supports_equivalence_operator
-      supports_non_equivalence_operator_ptr        => supports_non_equivalence_operator      
+      supports_non_equivalence_operator_ptr        => supports_non_equivalence_operator
       assigns_string_t_to_character_ptr            => assigns_string_t_to_character
       assigns_character_to_string_t_ptr            => assigns_character_to_string_t
       supports_concatenation_operator_ptr          => supports_concatenation_operator
       constructs_from_default_integer_ptr          => constructs_from_default_integer
       constructs_from_default_real_ptr             => constructs_from_default_real
-      constructs_from_double_precision_ptr         => constructs_from_double_precision       
+      constructs_from_double_precision_ptr         => constructs_from_double_precision
       constructs_from_default_complex_ptr          => constructs_from_default_complex
       constructs_from_default_logical_ptr          => constructs_from_default_logical
       constructs_from_logical_c_bool_ptr           => constructs_from_logical_c_bool
       extracts_file_base_name_ptr                  => extracts_file_base_name
-      extracts_file_name_extension_ptr             => extracts_file_name_extension           
+      extracts_file_name_extension_ptr             => extracts_file_name_extension
       concatenates_elements_ptr                    => concatenates_elements
       brackets_strings_ptr                         => brackets_strings
       extracts_string_array_value_ptr              => extracts_string_array_value
@@ -195,8 +195,8 @@ contains
            test_passed = not_any_allocated .and. all_allocated &
           ,diagnostics_string = "expected .true., true.; actual " // string_t(not_any_allocated) // string_t(all_allocated) &
         )
-      end associate 
-    end associate 
+      end associate
+    end associate
   end function
 
   function extracts_key() result(test_diagnosis)
@@ -261,7 +261,7 @@ contains
 
   function extracts_string_value() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    
+
     associate(line => string_t('"foo" : "bar"'))
       associate(json_value => line%get_json_value(key=string_t("foo"), mold=string_t("")))
         test_diagnosis = test_diagnosis_t( &
@@ -288,7 +288,7 @@ contains
 
   function extracts_logical_value() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    
+
     associate( &
       key_true_pair => string_t('"yada yada" : true'), &
       key_false_pair => string_t('"blah blah" : false'), &
@@ -365,7 +365,7 @@ contains
 
   function supports_equivalence_operator() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    
+
     associate(comparisons => [ string_t("abcdefg") == string_t("abcdefg") &
                               ,string_t("xyz pdq") ==          "xyz pdq"  &
                               ,         "123.456"  == string_t("123.456") &
@@ -563,7 +563,7 @@ contains
   function concatenates_elements() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     character(len=*), parameter :: expected = "foobar"
-  
+
     associate(cat_foo_bar => .cat. [string_t("foo"), string_t("bar")])
       test_diagnosis = test_diagnosis_t( &
          test_passed = cat_foo_bar == expected &
@@ -576,7 +576,7 @@ contains
     type(test_diagnosis_t) test_diagnosis
 
     associate(scalar => string_t("do re mi"))
-       
+
 #ifndef __GFORTRAN__
       associate(array  => string_t(["do", "re", "mi"]))
 #else

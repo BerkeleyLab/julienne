@@ -1,4 +1,4 @@
-! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
+! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
 module vector_test_description_test_m
@@ -33,7 +33,7 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "The vector_test_description_t type" 
+    specimen = "The vector_test_description_t type"
   end function
 
   function results() result(test_results)
@@ -46,7 +46,7 @@ contains
            string_t(    "finding a substring in a test description") &
           ,string_t("not finding a missing substring in a test description") &
         ], check_substring_search &
-      )]) 
+      )])
 #else
       block
        type(vector_test_description_t) vector_test_descriptions(1)

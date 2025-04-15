@@ -1,7 +1,7 @@
-! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
+! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 program get_flag_value
-  !! Demonstrate how to find the value of a command-line flag 
+  !! Demonstrate how to find the value of a command-line flag
   !! Running this program as follows with the command
   !!
   !! fpm run --example get-flag-value -- --input-file foo

@@ -1,4 +1,4 @@
-! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
+! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
 #include "language-support.F90"
@@ -37,7 +37,7 @@ program main
     new_line('') // new_line('') // &
     'where square brackets ([]) denote optional arguments, a pipe (|) separates alternative arguments,' // new_line('') // &
     'angular brackets (<>) denote a user-provided value, and passing a substring limits execution to' // new_line('') // &
-    'the tests with test subjects or test descriptions containing the user-specified substring.' // new_line('') 
+    'the tests with test subjects or test descriptions containing the user-specified substring.' // new_line('')
 
   if (command_line%argument_present([character(len=len("--help"))::"--help","-h"])) stop usage
 

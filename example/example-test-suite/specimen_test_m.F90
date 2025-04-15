@@ -1,4 +1,4 @@
-! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
+! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
 #include "language-support.F90"
@@ -16,7 +16,7 @@ module specimen_test_m
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
   use julienne_m, only : diagnosis_function_i ! work around gfortran's missing Fortran 2008 feature
 #endif
-    
+
   implicit none
 
   private
@@ -32,7 +32,7 @@ contains
 
   pure function subject() result(specimen_description)
     character(len=:), allocatable :: specimen_description
-    specimen_description = "A specimen_t object" 
+    specimen_description = "A specimen_t object"
   end function
 
   function results() result(test_results)
@@ -40,24 +40,24 @@ contains
     type(test_description_t), allocatable :: test_descriptions(:)
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-    test_descriptions = [ & 
+    test_descriptions = [ &
       test_description_t("the type-bound function zero() producing a result of 0", check_zero) &
-    ]   
-#else 
+    ]
+#else
     ! work around gfortran's missing Fortran 2008 feature
     procedure(diagnosis_function_i), pointer :: check_zero_ptr
     check_zero_ptr => check_zero
 
-    test_descriptions = [ & 
+    test_descriptions = [ &
       test_description_t("the type-bound function zero() producing a result of 0", check_zero_ptr) &
-    ]   
+    ]
 #endif
 #ifndef __GFORTRAN__
     associate(test_subset => pack(test_descriptions, test_descriptions%contains_text(test_description_substring) .or. index(subject(), test_description_substring)/=0))
       test_results = test_subset%run()
     end associate
-#else 
-    
+#else
+
     test_descriptions = pack(test_descriptions, test_descriptions%contains_text(test_description_substring) .or. index(subject(), test_description_substring)/=0)
     test_results = test_descriptions%run()
 #endif

@@ -10,18 +10,18 @@ Likely the fastest way to get started with Julienne is to copy the source code i
 3. Similarly replace occurrences of `specimen` in the resulting`test/main.F90` file.
 4. Modify the `test_descriptions_t` array constructor in your new `*_test_m.F90` file, adding elements for each test to be performed:
 ```fortran
-  test_descriptions = [ & 
+  test_descriptions = [ &
     test_description_t("the type-bound function zero() producing a result of 0", check_zero) &
-  ]  
+  ]
 ```
 5. Replace the above string (`"the type-bound..."`) with a description of your intended test.  The test output will read most naturally if your description contains a gerund: a verb ending in "ing" and used as a noun, such as `producing` above.
-6. Replace the `check_zero` function name with the name of a function that will perform your test. 
+6. Replace the `check_zero` function name with the name of a function that will perform your test.
 7. Edit the correspondingly-renamed function to perform the test.  The function must take no arguments and define a `test_diagnosis_t` result. An example result might be the following:
 ```fortran
   test_diagnosis = test_diagnosis_t( &
      test_passed = actual_value == expected_value &
     ,diagnostics_string = "expected value " // string_t(expected_value) //", actual value " // string_t(actual_value) &
-  )   
+  )
 ```
 The above `test_diagnosis_t` constructor function invocation demonstrates the recommended pattern for writing tests with Julienne:
 
@@ -54,7 +54,7 @@ and the following corresponding test:
 ```
 If the `counting_numbers` result contains all zeros, the test report would include the following text:
 ```
-FAILS  on returning the counting numbers up to 3 
+FAILS  on returning the counting numbers up to 3
       diagnostics: expected 1,2,3; actual 0,0,0
 ```
 To support a common array notation, Julienne also supports bracketing strings.
@@ -82,7 +82,7 @@ test_t --> specimen_test_t : report() invokes subject() and results()
 
 class specimen_test_t{
     subject() character(len=:)
-    results() test_result_t[0..*]  
+    results() test_result_t[0..*]
 }
 specimen_test_t --|> test_t : extends and implements
 specimen_test_t --> test_description_t : results() constructs local array of
@@ -138,7 +138,7 @@ One might accomplish this with the compiler's predefined preprocessor macro:
 #ifndef __GFORTRAN__
       ,test_description_t('constructing bracketed strings', brackets_strings_ptr) &
 #else
-      ,test_description_t('constructing bracketed strings'                      ) &  
+      ,test_description_t('constructing bracketed strings'                      ) &
 #endif
 ```
 which presently appears in Julienne `test/string_test_m.F90` test in order to work around a runtime crash known to be caused by a `gfortran` bug.
