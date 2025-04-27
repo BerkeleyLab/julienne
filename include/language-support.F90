@@ -21,3 +21,12 @@
 #define HAVE_MULTI_IMAGE_SUPPORT 0
 #endif
 #endif
+
+#ifndef HAVE_DERIVED_TYPE_KIND_PARAMETERS
+  ! Define whether the compiler has sufficient support for kind type parameters for derived types
+#if defined(_CRAYFTN) || defined(__INTEL_COMPILER) || defined(NAGFOR)
+#define HAVE_DERIVED_TYPE_KIND_PARAMETERS 1
+#else
+#define HAVE_DERIVED_TYPE_KIND_PARAMETERS 0
+#endif
+#endif

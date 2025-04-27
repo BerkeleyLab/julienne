@@ -13,7 +13,11 @@ contains
   end procedure
 
   module procedure approximates_double_precision
+#if HAVE_DERIVED_TYPE_KIND_PARAMETERS
     operands = operands_t(double_precision)(actual, expected) 
+#else
+    operands = double_precision_operands_t(actual, expected) 
+#endif
   end procedure
 
   module procedure equals_expected_integer

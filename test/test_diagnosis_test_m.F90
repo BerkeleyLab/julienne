@@ -48,8 +48,8 @@ contains
     ] )
 #else
      ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
-     type(test_diagnosis_t), allocatable :: descriptions(:)
-     procedure(diagnosis_function_i), pointer :: check_real_approximates_ptr, check_double_approximates, check_integer_equals
+     type(test_description_t), allocatable :: descriptions(:)
+     procedure(diagnosis_function_i), pointer :: check_real_approximates_ptr, check_double_approximates_ptr, check_integer_equals_ptr
      check_real_approximates_ptr => check_real_approximates
      check_double_approximates_ptr => check_double_approximates
 
@@ -73,7 +73,7 @@ contains
     block
       logical substring_in_subject
       logical, allocatable :: substring_in_test_diagnosis(:)
-      type(test_diagnosis_t), allocatable :: matching_descriptions(:)
+      type(test_description_t), allocatable :: matching_descriptions(:)
 
       substring_in_subject = index(subject(), test_description_substring) /= 0
       substring_in_test_diagnosis = descriptions%contains_text(test_description_substring)

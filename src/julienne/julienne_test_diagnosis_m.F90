@@ -1,5 +1,8 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
+
+#include "language-support.F90"
+
 module julienne_test_diagnosis_m
   !! Define an abstraction for describing test outcomes and diagnostic information
   use julienne_string_m, only : string_t
@@ -23,10 +26,20 @@ module julienne_test_diagnosis_m
 
   integer, parameter :: default_real = kind(1.), double_precision = kind(1D0)
 
+#if HAVE_DERIVED_TYPE_KIND_PARAMETERS
   type operands_t(k)
     integer, kind :: k = default_real
     real(k) actual, expected 
   end type
+#else
+  type operands_t
+    real actual, expected 
+  end type
+
+  type double_precision_operands_t
+    double precision actual, expected 
+  end type
+#endif
 
   interface operator(.approximates.)
 
@@ -39,7 +52,11 @@ module julienne_test_diagnosis_m
     pure module function approximates_double_precision(actual, expected) result(operands)
       implicit none
       double precision, intent(in) :: actual, expected
+#if HAVE_DERIVED_TYPE_KIND_PARAMETERS
       type(operands_t(double_precision)) operands
+#else
+      type(double_precision_operands_t) operands
+#endif
     end function
 
   end interface
@@ -65,7 +82,11 @@ module julienne_test_diagnosis_m
    
     pure module function within_double_precision(operands, tolerance) result(test_diagnosis)
       implicit none
+#if HAVE_DERIVED_TYPE_KIND_PARAMETERS
       type(operands_t(double_precision)), intent(in) :: operands
+#else
+      type(double_precision_operands_t), intent(in) :: operands
+#endif
       double precision, intent(in) :: tolerance
       type(test_diagnosis_t) test_diagnosis
     end function
