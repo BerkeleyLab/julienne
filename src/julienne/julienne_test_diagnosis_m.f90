@@ -7,6 +7,9 @@ module julienne_test_diagnosis_m
 
   private
   public :: test_diagnosis_t
+  public :: operator(.approximates.)
+  public :: operator(.within.)
+  public :: operator(.equalsExpected.)
 
   type test_diagnosis_t
     !! Encapsulate test outcome and diagnostic information
@@ -17,6 +20,57 @@ module julienne_test_diagnosis_m
     procedure test_passed
     procedure diagnostics_string
   end type
+
+  integer, parameter :: default_real = kind(1.), double_precision = kind(1D0)
+
+  type operands_t(k)
+    integer, kind :: k = default_real
+    real(k) actual, expected 
+  end type
+
+  interface operator(.approximates.)
+
+    pure module function approximates_real(actual, expected) result(operands)
+      implicit none
+      real, intent(in) :: actual, expected
+      type(operands_t) operands
+    end function
+
+    pure module function approximates_double_precision(actual, expected) result(operands)
+      implicit none
+      double precision, intent(in) :: actual, expected
+      type(operands_t(double_precision)) operands
+    end function
+
+  end interface
+
+  interface operator(.equalsExpected.)
+
+    pure module function equals_expected_integer(actual, expected) result(test_diagnosis)
+      implicit none
+      integer, intent(in) :: actual, expected
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+  end interface
+
+  interface operator(.within.)
+
+    pure module function within_real(operands, tolerance) result(test_diagnosis)
+      implicit none
+      type(operands_t), intent(in) :: operands
+      real, intent(in) :: tolerance
+      type(test_diagnosis_t) test_diagnosis
+    end function
+   
+    pure module function within_double_precision(operands, tolerance) result(test_diagnosis)
+      implicit none
+      type(operands_t(double_precision)), intent(in) :: operands
+      double precision, intent(in) :: tolerance
+      type(test_diagnosis_t) test_diagnosis
+    end function
+   
+  end interface
 
   interface test_diagnosis_t
 
