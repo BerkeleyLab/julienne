@@ -2,6 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 
 #include "assert_macros.h"
+#include "language-support.F90"
 
 submodule(julienne_test_diagnosis_m) julienne_test_diagnosis_s
   use assert_m
