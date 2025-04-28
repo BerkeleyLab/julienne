@@ -52,11 +52,12 @@ contains
      procedure(diagnosis_function_i), pointer :: check_real_approximates_ptr, check_double_approximates_ptr, check_integer_equals_ptr
      check_real_approximates_ptr => check_real_approximates
      check_double_approximates_ptr => check_double_approximates
+     check_integer_equals_ptr => check_integer_equals
 
      descriptions = [ &
-       test_description_t("contruction from a real expression of the form 'x .approximates. y .within. tolerance'", check_real_approximates_ptr) &
-      ,test_description_t("contruction from a double-precision expression of the form 'x .approximates. y .within. tolerance'", check_double_approximates_ptr) &
-      ,test_description_t("contruction from an integer expression of the form 'i .equalsExpected. j", check_integer_equals_ptr) &
+       test_description_t("contruction from a real expression of the form `x .approximates. y .within. tolerance`", check_real_approximates_ptr) &
+      ,test_description_t("contruction from a double-precision expression of the form `x .approximates. y .within. tolerance`", check_double_approximates_ptr) &
+      ,test_description_t("contruction from an integer expression of the form `i .equalsExpected. j`", check_integer_equals_ptr) &
      ]
 #endif
 
