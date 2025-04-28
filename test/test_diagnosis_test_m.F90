@@ -42,22 +42,22 @@ contains
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     associate(descriptions => [ &
-       test_description_t("contruction from a real expression of the form 'x .approximates. y .within. tolerance'", check_real_approximates) &
-      ,test_description_t("contruction from a double precision expression of the form 'x .approximates. y .within. tolerance'", check_double_approximates) &
-      ,test_description_t("contruction from an integer expression of the form 'i .equalsExpected. j", check_integer_equals) &
+       test_description_t("contruction from a real expression of the form 'x .approximates. y .within. tolerance'", check_approximates_real) &
+      ,test_description_t("contruction from a double precision expression of the form 'x .approximates. y .within. tolerance'", check_approximatees_double) &
+      ,test_description_t("contruction from an integer expression of the form 'i .equalsExpected. j", check_equals_integer) &
     ] )
 #else
      ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
      type(test_description_t), allocatable :: descriptions(:)
-     procedure(diagnosis_function_i), pointer :: check_real_approximates_ptr, check_double_approximates_ptr, check_integer_equals_ptr
-     check_real_approximates_ptr => check_real_approximates
-     check_double_approximates_ptr => check_double_approximates
-     check_integer_equals_ptr => check_integer_equals
+     procedure(diagnosis_function_i), pointer :: check_approximates_real_ptr, check_approximatees_double_ptr, check_equals_integer_ptr
+     check_approximates_real_ptr => check_approximates_real
+     check_approximatees_double_ptr => check_approximatees_double
+     check_equals_integer_ptr => check_equals_integer
 
      descriptions = [ &
-       test_description_t("contruction from a real expression of the form `x .approximates. y .within. tolerance`", check_real_approximates_ptr) &
-      ,test_description_t("contruction from a double-precision expression of the form `x .approximates. y .within. tolerance`", check_double_approximates_ptr) &
-      ,test_description_t("contruction from an integer expression of the form `i .equalsExpected. j`", check_integer_equals_ptr) &
+       test_description_t("contruction from a real expression of the form `x .approximates. y .within. tolerance`", check_approximates_real_ptr) &
+      ,test_description_t("contruction from a double-precision expression of the form `x .approximates. y .within. tolerance`", check_approximatees_double_ptr) &
+      ,test_description_t("contruction from an integer expression of the form `i .equalsExpected. j`", check_equals_integer_ptr) &
      ]
 #endif
 
@@ -85,19 +85,19 @@ contains
 
   end function
 
-  function check_real_approximates() result(test_diagnosis)
+  function check_approximates_real() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     real, parameter :: expected_value = 1., tolerance = 1.E-08
     test_diagnosis = 1. .approximates. expected_value .within. tolerance
   end function
 
-  function check_double_approximates() result(test_diagnosis)
+  function check_approximatees_double() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     double precision, parameter :: expected_value = 1D0, tolerance = 1D-16
     test_diagnosis = 1D0 .approximates. expected_value .within. tolerance
   end function
 
-  function check_integer_equals() result(test_diagnosis)
+  function check_equals_integer() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     integer, parameter :: expected_value = 1
     test_diagnosis = 1 .equalsExpected. expected_value
