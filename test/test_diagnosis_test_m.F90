@@ -18,7 +18,8 @@ module test_diagnosis_test_m
 #endif
     ,operator(.equalsExpected.) &
     ,operator(.approximates.) &
-    ,operator(.within.)
+    ,operator(.within.) &
+    ,operator(.lessThan.)
   implicit none
 
   private
@@ -45,19 +46,29 @@ contains
        test_description_t("contruction from a real expression of the form 'x .approximates. y .within. tolerance'", check_approximates_real) &
       ,test_description_t("contruction from a double precision expression of the form 'x .approximates. y .within. tolerance'", check_approximatees_double) &
       ,test_description_t("contruction from an integer expression of the form 'i .equalsExpected. j", check_equals_integer) &
+      ,test_description_t("contruction from a real expression of the form 'x .lessThan. y", check_less_than_real) &
+      ,test_description_t("contruction from a double precision expression of the form 'x .lessThan. y", check_less_than_double) &
+      ,test_description_t("contruction from a intenger expression of the form 'i .lessThan. j", check_less_than_integer) &
     ] )
 #else
      ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
      type(test_description_t), allocatable :: descriptions(:)
-     procedure(diagnosis_function_i), pointer :: check_approximates_real_ptr, check_approximatees_double_ptr, check_equals_integer_ptr
+     procedure(diagnosis_function_i), pointer :: check_approximates_real_ptr, check_approximatees_double_ptr, check_equals_integer_ptr, check_less_than_real &
+       check_less_than_double, check_less_than_integer
      check_approximates_real_ptr => check_approximates_real
      check_approximatees_double_ptr => check_approximatees_double
      check_equals_integer_ptr => check_equals_integer
+     check_less_than_real_ptr => check_less_than_real
+     check_less_than_double_ptr => check_less_than_double
+     check_less_than_integer_ptr => check_less_than_integer
 
      descriptions = [ &
        test_description_t("contruction from a real expression of the form `x .approximates. y .within. tolerance`", check_approximates_real_ptr) &
       ,test_description_t("contruction from a double-precision expression of the form `x .approximates. y .within. tolerance`", check_approximatees_double_ptr) &
       ,test_description_t("contruction from an integer expression of the form `i .equalsExpected. j`", check_equals_integer_ptr) &
+      ,test_description_t("contruction from a real expression of the form 'x .lessThan. y", check_less_than_real_ptr) &
+      ,test_description_t("contruction from a double precision expression of the form 'x .lessThan. y", check_less_than_double_ptr) &
+      ,test_description_t("contruction from a integer expression of the form 'i .lessThan. j", check_less_than_integer_ptr) &
      ]
 #endif
 
@@ -101,6 +112,24 @@ contains
     type(test_diagnosis_t) test_diagnosis
     integer, parameter :: expected_value = 1
     test_diagnosis = 1 .equalsExpected. expected_value
+  end function
+
+  function check_less_than_real() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    real, parameter :: expected_ceiling = 1.
+    test_diagnosis = 0. .lessThan. expected_ceiling
+  end function
+
+  function check_less_than_double() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    double precision, parameter :: expected_ceiling = 1D0
+    test_diagnosis = 0D0 .lessThan. expected_ceiling
+  end function
+
+  function check_less_than_integer() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    integer, parameter :: expected_ceiling = 1
+    test_diagnosis = 0 .lessThan. expected_ceiling
   end function
 
 end module test_diagnosis_test_m

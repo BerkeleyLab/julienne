@@ -33,6 +33,42 @@ contains
 
   end procedure
 
+  module procedure less_than_real
+
+    if (actual < expected_ceiling) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be less than " // string_t(expected_ceiling) &
+      )
+    end if
+
+  end procedure
+
+  module procedure less_than_double
+
+    if (actual < expected_ceiling) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be less than " // string_t(expected_ceiling) &
+      )
+    end if
+
+  end procedure
+
+  module procedure less_than_integer
+
+    if (actual < expected_ceiling) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be less than " // string_t(expected_ceiling) &
+      )
+    end if
+
+  end procedure
+
   module procedure within_real
 
     if (abs(operands%actual - operands%expected) < tolerance) then

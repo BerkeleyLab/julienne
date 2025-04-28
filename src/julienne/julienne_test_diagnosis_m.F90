@@ -13,6 +13,7 @@ module julienne_test_diagnosis_m
   public :: operator(.approximates.)
   public :: operator(.within.)
   public :: operator(.equalsExpected.)
+  public :: operator(.lessThan.)
 
   type test_diagnosis_t
     !! Encapsulate test outcome and diagnostic information
@@ -66,6 +67,28 @@ module julienne_test_diagnosis_m
     pure module function equals_expected_integer(actual, expected) result(test_diagnosis)
       implicit none
       integer, intent(in) :: actual, expected
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+  end interface
+
+  interface operator(.lessThan.)
+
+    pure module function less_than_real(actual, expected_ceiling) result(test_diagnosis)
+      implicit none
+      real, intent(in) :: actual, expected_ceiling
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    pure module function less_than_double(actual, expected_ceiling) result(test_diagnosis)
+      implicit none
+      double precision, intent(in) :: actual, expected_ceiling
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    pure module function less_than_integer(actual, expected_ceiling) result(test_diagnosis)
+      implicit none
+      integer, intent(in) :: actual, expected_ceiling
       type(test_diagnosis_t) test_diagnosis
     end function
 
