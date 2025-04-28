@@ -69,6 +69,66 @@ contains
 
   end procedure
 
+  module procedure less_than_or_equal_to_integer
+
+    if (actual <= expected_max) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be less than or equal to" // string_t(expected_max) &
+      )
+    end if
+
+  end procedure
+
+  module procedure greater_than_or_equal_to_integer
+
+    if (actual >= expected_min) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be greater than or equal to " // string_t(expected_min) &
+      )
+    end if
+
+  end procedure
+
+  module procedure greater_than_real
+
+    if (actual > expected_floor) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be greater than " // string_t(expected_floor) &
+      )
+    end if
+
+  end procedure
+
+  module procedure greater_than_double
+
+    if (actual > expected_floor) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be greater than " // string_t(expected_floor) &
+      )
+    end if
+
+  end procedure
+
+  module procedure greater_than_integer
+
+    if (actual > expected_floor) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be greater than " // string_t(expected_floor) &
+      )
+    end if
+
+  end procedure
+
   module procedure within_real
 
     if (abs(operands%actual - operands%expected) < tolerance) then

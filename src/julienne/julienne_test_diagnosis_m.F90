@@ -14,6 +14,9 @@ module julienne_test_diagnosis_m
   public :: operator(.within.)
   public :: operator(.equalsExpected.)
   public :: operator(.lessThan.)
+  public :: operator(.lessThanOrEqualTo.)
+  public :: operator(.greaterThan.)
+  public :: operator(.greaterThanOrEqualTo.)
 
   type test_diagnosis_t
     !! Encapsulate test outcome and diagnostic information
@@ -89,6 +92,48 @@ module julienne_test_diagnosis_m
     pure module function less_than_integer(actual, expected_ceiling) result(test_diagnosis)
       implicit none
       integer, intent(in) :: actual, expected_ceiling
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+  end interface
+
+  interface operator(.lessThanOrEqualTo.)
+
+    pure module function less_than_or_equal_to_integer(actual, expected_max) result(test_diagnosis)
+      implicit none
+      integer, intent(in) :: actual, expected_max
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+  end interface
+
+  interface operator(.greaterThanOrEqualTo.)
+
+    pure module function greater_than_or_equal_to_integer(actual, expected_min) result(test_diagnosis)
+      implicit none
+      integer, intent(in) :: actual, expected_min
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+  end interface
+
+  interface operator(.greaterThan.)
+
+    pure module function greater_than_real(actual, expected_floor) result(test_diagnosis)
+      implicit none
+      real, intent(in) :: actual, expected_floor
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    pure module function greater_than_double(actual, expected_floor) result(test_diagnosis)
+      implicit none
+      double precision, intent(in) :: actual, expected_floor
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    pure module function greater_than_integer(actual, expected_floor) result(test_diagnosis)
+      implicit none
+      integer, intent(in) :: actual, expected_floor
       type(test_diagnosis_t) test_diagnosis
     end function
 

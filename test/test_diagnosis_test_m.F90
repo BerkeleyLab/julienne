@@ -19,7 +19,10 @@ module test_diagnosis_test_m
     ,operator(.equalsExpected.) &
     ,operator(.approximates.) &
     ,operator(.within.) &
-    ,operator(.lessThan.)
+    ,operator(.lessThan.) &
+    ,operator(.lessThanOrEqualTo.) &
+    ,operator(.greaterThan.) &
+    ,operator(.greaterThanOrEqualTo.)
   implicit none
 
   private
@@ -48,19 +51,29 @@ contains
       ,test_description_t("contruction from an integer expression of the form 'i .equalsExpected. j", check_equals_integer) &
       ,test_description_t("contruction from a real expression of the form 'x .lessThan. y", check_less_than_real) &
       ,test_description_t("contruction from a double precision expression of the form 'x .lessThan. y", check_less_than_double) &
-      ,test_description_t("contruction from a intenger expression of the form 'i .lessThan. j", check_less_than_integer) &
+      ,test_description_t("contruction from a integer expression of the form 'i .lessThan. j", check_less_than_integer) &
+      ,test_description_t("contruction from a real expression of the form 'x .greaterThan. y", check_greater_than_real) &
+      ,test_description_t("contruction from a double precision expression of the form 'x .greaterThan. y", check_greater_than_double) &
+      ,test_description_t("contruction from a integer expression of the form 'i .greaterThan. j", check_greater_than_integer) &
+      ,test_description_t("contruction from a integer expression of the form 'i .lessThanOrEqualTo. j", check_less_than_or_equal_to_integer) &
+      ,test_description_t("contruction from a integer expression of the form 'i .greaterThanOrEqualTo. j", check_greater_than_or_equal_to_integer) &
     ] )
 #else
      ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
      type(test_description_t), allocatable :: descriptions(:)
-     procedure(diagnosis_function_i), pointer :: check_approximates_real_ptr, check_approximatees_double_ptr, check_equals_integer_ptr, check_less_than_real &
-       check_less_than_double, check_less_than_integer
+     procedure(diagnosis_function_i), pointer :: check_approximates_real_ptr, check_approximatees_double_ptr, check_equals_integer_ptr &
+       ,check_less_than_real, check_less_than_double, check_less_than_integer_ptr &
+       ,check_greater_than_real_ptr, check_greater_than_double, check_greater_than_integer_ptr &
+       ,check_less_than_or_equal_to_integer_ptr
+       
      check_approximates_real_ptr => check_approximates_real
      check_approximatees_double_ptr => check_approximatees_double
      check_equals_integer_ptr => check_equals_integer
      check_less_than_real_ptr => check_less_than_real
      check_less_than_double_ptr => check_less_than_double
      check_less_than_integer_ptr => check_less_than_integer
+     check_less_than_or_equal_to_integer_ptr => check_less_than_or_equal_to_integer
+     check_greater_than_or_equal_to_integer_ptr => check_greater_than_or_equal_to_integer
 
      descriptions = [ &
        test_description_t("contruction from a real expression of the form `x .approximates. y .within. tolerance`", check_approximates_real_ptr) &
@@ -69,6 +82,11 @@ contains
       ,test_description_t("contruction from a real expression of the form 'x .lessThan. y", check_less_than_real_ptr) &
       ,test_description_t("contruction from a double precision expression of the form 'x .lessThan. y", check_less_than_double_ptr) &
       ,test_description_t("contruction from a integer expression of the form 'i .lessThan. j", check_less_than_integer_ptr) &
+      ,test_description_t("contruction from a real expression of the form 'x .greaterThan. y", check_greater_than_real_ptr) &
+      ,test_description_t("contruction from a double precision expression of the form 'x .greaterThan. y", check_greater_than_double_ptr) &
+      ,test_description_t("contruction from a integer expression of the form 'i .greaterThan. j", check_greater_than_integer_ptr) &
+      ,test_description_t("contruction from a integer expression of the form 'i .lessThanOrEqualTo. j", check_less_than_or_equal_to_integer_ptr) &
+      ,test_description_t("contruction from a integer expression of the form 'i .greaterThanOrEqualTo. j", check_greater_than_or_equal_to_integer_ptr) &
      ]
 #endif
 
@@ -130,6 +148,36 @@ contains
     type(test_diagnosis_t) test_diagnosis
     integer, parameter :: expected_ceiling = 1
     test_diagnosis = 0 .lessThan. expected_ceiling
+  end function
+
+  function check_greater_than_real() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    real, parameter :: expected_floor = 1.
+    test_diagnosis = 2. .greaterThan. expected_floor
+  end function
+
+  function check_greater_than_double() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    double precision, parameter :: expected_floor = 1D0
+    test_diagnosis = 2D0 .greaterThan. expected_floor
+  end function
+
+  function check_greater_than_integer() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    integer, parameter :: expected_floor = 1
+    test_diagnosis = 2 .greaterThan. expected_floor
+  end function
+
+  function check_less_than_or_equal_to_integer() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    integer, parameter :: expected_max = 1
+    test_diagnosis = 1 .lessThanOrEqualTo. expected_max
+  end function
+
+  function check_greater_than_or_equal_to_integer() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    integer, parameter :: expected_min = 1
+    test_diagnosis = 1 .greaterThanOrEqualTo. expected_min
   end function
 
 end module test_diagnosis_test_m
