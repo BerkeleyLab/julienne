@@ -48,7 +48,7 @@ contains
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     associate(descriptions => [ &
        test_description_t("contruction from a real expression of the form 'x .approximates. y .within. tolerance'", check_approximates_real) &
-      ,test_description_t("contruction from a double precision expression of the form 'x .approximates. y .within. tolerance'", check_approximatees_double) &
+      ,test_description_t("contruction from a double precision expression of the form 'x .approximates. y .within. tolerance'", check_approximates_double) &
       ,test_description_t("contruction from an integer expression of the form 'i .equalsExpected. j", check_equals_integer) &
       ,test_description_t("contruction from a real expression of the form 'x .lessThan. y", check_less_than_real) &
       ,test_description_t("contruction from a double precision expression of the form 'x .lessThan. y", check_less_than_double) &
@@ -62,32 +62,38 @@ contains
 #else
      ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
      type(test_description_t), allocatable :: descriptions(:)
-     procedure(diagnosis_function_i), pointer :: check_approximates_real_ptr, check_approximatees_double_ptr, check_equals_integer_ptr &
-       ,check_less_than_real, check_less_than_double, check_less_than_integer_ptr &
-       ,check_greater_than_real_ptr, check_greater_than_double, check_greater_than_integer_ptr &
-       ,check_less_than_or_equal_to_integer_ptr
+     procedure(diagnosis_function_i), pointer :: &
+        check_approximates_real_ptr &
+       ,check_approximates_double_ptr          , check_equals_integer_ptr &
+       ,check_less_than_real_ptr               , check_greater_than_real_ptr &
+       ,check_less_than_double_ptr             , check_greater_than_double_ptr &
+       ,check_less_than_integer_ptr            , check_greater_than_integer_ptr &
+       ,check_less_than_or_equal_to_integer_ptr, check_greater_than_or_equal_to_integer_ptr
        
-     check_approximates_real_ptr => check_approximates_real
-     check_approximatees_double_ptr => check_approximatees_double
-     check_equals_integer_ptr => check_equals_integer
-     check_less_than_real_ptr => check_less_than_real
-     check_less_than_double_ptr => check_less_than_double
-     check_less_than_integer_ptr => check_less_than_integer
-     check_less_than_or_equal_to_integer_ptr => check_less_than_or_equal_to_integer
+     check_approximates_real_ptr                => check_approximates_real
+     check_approximates_double_ptr             => check_approximates_double
+     check_equals_integer_ptr                   => check_equals_integer
+     check_less_than_real_ptr                   => check_less_than_real
+     check_less_than_double_ptr                 => check_less_than_double
+     check_less_than_integer_ptr                => check_less_than_integer
+     check_less_than_or_equal_to_integer_ptr    => check_less_than_or_equal_to_integer
+     check_greater_than_real_ptr                => check_greater_than_real
+     check_greater_than_double_ptr              => check_greater_than_double
+     check_greater_than_integer_ptr             => check_greater_than_integer
      check_greater_than_or_equal_to_integer_ptr => check_greater_than_or_equal_to_integer
 
      descriptions = [ &
-       test_description_t("contruction from a real expression of the form `x .approximates. y .within. tolerance`", check_approximates_real_ptr) &
-      ,test_description_t("contruction from a double-precision expression of the form `x .approximates. y .within. tolerance`", check_approximatees_double_ptr) &
-      ,test_description_t("contruction from an integer expression of the form `i .equalsExpected. j`", check_equals_integer_ptr) &
-      ,test_description_t("contruction from a real expression of the form 'x .lessThan. y", check_less_than_real_ptr) &
-      ,test_description_t("contruction from a double precision expression of the form 'x .lessThan. y", check_less_than_double_ptr) &
-      ,test_description_t("contruction from a integer expression of the form 'i .lessThan. j", check_less_than_integer_ptr) &
-      ,test_description_t("contruction from a real expression of the form 'x .greaterThan. y", check_greater_than_real_ptr) &
-      ,test_description_t("contruction from a double precision expression of the form 'x .greaterThan. y", check_greater_than_double_ptr) &
-      ,test_description_t("contruction from a integer expression of the form 'i .greaterThan. j", check_greater_than_integer_ptr) &
-      ,test_description_t("contruction from a integer expression of the form 'i .lessThanOrEqualTo. j", check_less_than_or_equal_to_integer_ptr) &
-      ,test_description_t("contruction from a integer expression of the form 'i .greaterThanOrEqualTo. j", check_greater_than_or_equal_to_integer_ptr) &
+       test_description_t("contruction from a real expression of the form `x .approximates. y .within. tolerance`"            , check_approximates_real_ptr) &
+      ,test_description_t("contruction from a double-precision expression of the form `x .approximates. y .within. tolerance`", check_approximates_double_ptr) &
+      ,test_description_t("contruction from an integer expression of the form `i .equalsExpected. j`"                         , check_equals_integer_ptr) &
+      ,test_description_t("contruction from a real expression of the form 'x .lessThan. y"                                    , check_less_than_real_ptr) &
+      ,test_description_t("contruction from a double precision expression of the form 'x .lessThan. y"                        , check_less_than_double_ptr) &
+      ,test_description_t("contruction from a integer expression of the form 'i .lessThan. j"                                 , check_less_than_integer_ptr) &
+      ,test_description_t("contruction from a integer expression of the form 'i .lessThanOrEqualTo. j"                        ) & ! skip check_less_than_or_equal_to_integer_ptr
+      ,test_description_t("contruction from a real expression of the form 'x .greaterThan. y"                                 , check_greater_than_real_ptr) &
+      ,test_description_t("contruction from a double precision expression of the form 'x .greaterThan. y"                     , check_greater_than_double_ptr) &
+      ,test_description_t("contruction from a integer expression of the form 'i .greaterThan. j"                              , check_greater_than_integer_ptr) &
+      ,test_description_t("contruction from a integer expression of the form 'i .greaterThanOrEqualTo. j"                     ) & ! skip check_greater_than_or_equal_to_integer_ptr
      ]
 #endif
 
@@ -121,7 +127,7 @@ contains
     test_diagnosis = 1. .approximates. expected_value .within. tolerance
   end function
 
-  function check_approximatees_double() result(test_diagnosis)
+  function check_approximates_double() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     double precision, parameter :: expected_value = 1D0, tolerance = 1D-16
     test_diagnosis = 1D0 .approximates. expected_value .within. tolerance
