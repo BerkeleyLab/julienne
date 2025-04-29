@@ -16,6 +16,7 @@ module test_diagnosis_test_m
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     ,diagnosis_function_i &
 #endif
+    ,operator(.all.) &
     ,operator(.equalsExpected.) &
     ,operator(.approximates.) &
     ,operator(.within.) &
@@ -171,13 +172,13 @@ contains
   function check_less_than_or_equal_to_integer() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     integer, parameter :: expected_max = 1
-    test_diagnosis = 1 .lessThanOrEqualTo. expected_max
+    test_diagnosis = .all. ([0,1] .lessThanOrEqualTo. expected_max)
   end function
 
   function check_greater_than_or_equal_to_integer() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     integer, parameter :: expected_min = 1
-    test_diagnosis = 1 .greaterThanOrEqualTo. expected_min
+    test_diagnosis = .all. ([1,2] .greaterThanOrEqualTo. expected_min)
   end function
 
 end module test_diagnosis_test_m

@@ -6,8 +6,31 @@
 
 submodule(julienne_test_diagnosis_m) julienne_test_diagnosis_s
   use assert_m
+  use julienne_string_m, only : operator(.csv.), operator(.cat.)
   implicit none
 contains
+
+  module procedure aggregate_diagnosis
+    character(len=*), parameter :: new_line_indent = new_line('') // "        "
+    integer i
+    type(string_t), allocatable :: empty(:)
+
+    select rank(diagnoses)
+      rank(0)
+        diagnosis = diagnoses
+      rank(1)
+        diagnosis = test_diagnosis_t( &
+           test_passed = all(diagnoses%test_passed_) &
+          ,diagnostics_string = .cat. pack( &
+             array = [(string_t(new_line_indent // diagnoses(i)%diagnostics_string_), i=1,size(diagnoses))] &
+            ,mask  = .not. diagnoses%test_passed_ &
+        ) )
+      rank default 
+        associate(diagnoses_rank => string_t(rank(diagnoses)))
+          error stop "aggregate_diagnosis (julienne_test_diagnosis_s): rank " // diagnoses_rank%string() // " unspported"
+        end associate
+    end select
+  end procedure
 
   module procedure approximates_real
     operands = operands_t(actual, expected) 
@@ -75,7 +98,7 @@ contains
       test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
     else
       test_diagnosis = test_diagnosis_t(test_passed = .false. &
-        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be less than or equal to" // string_t(expected_max) &
+        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be less than or equal to " // string_t(expected_max) &
       )
     end if
 

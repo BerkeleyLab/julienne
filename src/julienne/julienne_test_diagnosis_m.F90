@@ -10,6 +10,7 @@ module julienne_test_diagnosis_m
 
   private
   public :: test_diagnosis_t
+  public :: operator(.all.)
   public :: operator(.approximates.)
   public :: operator(.within.)
   public :: operator(.equalsExpected.)
@@ -44,6 +45,16 @@ module julienne_test_diagnosis_m
     double precision actual, expected 
   end type
 #endif
+
+  interface operator(.all.)
+     
+    pure module function aggregate_diagnosis(diagnoses) result(diagnosis)
+      implicit none
+      type(test_diagnosis_t), intent(in) :: diagnoses(..)
+      type(test_diagnosis_t) diagnosis
+    end function
+
+  end interface
 
   interface operator(.approximates.)
 
@@ -99,7 +110,7 @@ module julienne_test_diagnosis_m
 
   interface operator(.lessThanOrEqualTo.)
 
-    pure module function less_than_or_equal_to_integer(actual, expected_max) result(test_diagnosis)
+    elemental module function less_than_or_equal_to_integer(actual, expected_max) result(test_diagnosis)
       implicit none
       integer, intent(in) :: actual, expected_max
       type(test_diagnosis_t) test_diagnosis
@@ -109,7 +120,7 @@ module julienne_test_diagnosis_m
 
   interface operator(.greaterThanOrEqualTo.)
 
-    pure module function greater_than_or_equal_to_integer(actual, expected_min) result(test_diagnosis)
+    elemental module function greater_than_or_equal_to_integer(actual, expected_min) result(test_diagnosis)
       implicit none
       integer, intent(in) :: actual, expected_min
       type(test_diagnosis_t) test_diagnosis
