@@ -58,13 +58,13 @@ module julienne_test_diagnosis_m
 
   interface operator(.approximates.)
 
-    pure module function approximates_real(actual, expected) result(operands)
+    elemental module function approximates_real(actual, expected) result(operands)
       implicit none
       real, intent(in) :: actual, expected
       type(operands_t) operands
     end function
 
-    pure module function approximates_double_precision(actual, expected) result(operands)
+    elemental module function approximates_double_precision(actual, expected) result(operands)
       implicit none
       double precision, intent(in) :: actual, expected
 #if HAVE_DERIVED_TYPE_KIND_PARAMETERS
@@ -78,7 +78,7 @@ module julienne_test_diagnosis_m
 
   interface operator(.equalsExpected.)
 
-    pure module function equals_expected_integer(actual, expected) result(test_diagnosis)
+    elemental module function equals_expected_integer(actual, expected) result(test_diagnosis)
       implicit none
       integer, intent(in) :: actual, expected
       type(test_diagnosis_t) test_diagnosis
@@ -88,19 +88,19 @@ module julienne_test_diagnosis_m
 
   interface operator(.lessThan.)
 
-    pure module function less_than_real(actual, expected_ceiling) result(test_diagnosis)
+    elemental module function less_than_real(actual, expected_ceiling) result(test_diagnosis)
       implicit none
       real, intent(in) :: actual, expected_ceiling
       type(test_diagnosis_t) test_diagnosis
     end function
 
-    pure module function less_than_double(actual, expected_ceiling) result(test_diagnosis)
+    elemental module function less_than_double(actual, expected_ceiling) result(test_diagnosis)
       implicit none
       double precision, intent(in) :: actual, expected_ceiling
       type(test_diagnosis_t) test_diagnosis
     end function
 
-    pure module function less_than_integer(actual, expected_ceiling) result(test_diagnosis)
+    elemental module function less_than_integer(actual, expected_ceiling) result(test_diagnosis)
       implicit none
       integer, intent(in) :: actual, expected_ceiling
       type(test_diagnosis_t) test_diagnosis
@@ -130,19 +130,19 @@ module julienne_test_diagnosis_m
 
   interface operator(.greaterThan.)
 
-    pure module function greater_than_real(actual, expected_floor) result(test_diagnosis)
+    elemental module function greater_than_real(actual, expected_floor) result(test_diagnosis)
       implicit none
       real, intent(in) :: actual, expected_floor
       type(test_diagnosis_t) test_diagnosis
     end function
 
-    pure module function greater_than_double(actual, expected_floor) result(test_diagnosis)
+    elemental module function greater_than_double(actual, expected_floor) result(test_diagnosis)
       implicit none
       double precision, intent(in) :: actual, expected_floor
       type(test_diagnosis_t) test_diagnosis
     end function
 
-    pure module function greater_than_integer(actual, expected_floor) result(test_diagnosis)
+    elemental module function greater_than_integer(actual, expected_floor) result(test_diagnosis)
       implicit none
       integer, intent(in) :: actual, expected_floor
       type(test_diagnosis_t) test_diagnosis
@@ -152,14 +152,14 @@ module julienne_test_diagnosis_m
 
   interface operator(.within.)
 
-    pure module function within_real(operands, tolerance) result(test_diagnosis)
+    elemental module function within_real(operands, tolerance) result(test_diagnosis)
       implicit none
       type(operands_t), intent(in) :: operands
       real, intent(in) :: tolerance
       type(test_diagnosis_t) test_diagnosis
     end function
    
-    pure module function within_double_precision(operands, tolerance) result(test_diagnosis)
+    elemental module function within_double_precision(operands, tolerance) result(test_diagnosis)
       implicit none
 #if HAVE_DERIVED_TYPE_KIND_PARAMETERS
       type(operands_t(double_precision)), intent(in) :: operands

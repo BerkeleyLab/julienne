@@ -172,7 +172,7 @@ contains
   function check_greater_than_integer() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     integer, parameter :: expected_floor = 1
-    test_diagnosis = 2 .greaterThan. expected_floor
+    test_diagnosis = (2 .greaterThan. expected_floor)
   end function
 
   function check_less_than_or_equal_to_integer() result(test_diagnosis)
