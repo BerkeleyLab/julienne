@@ -13,6 +13,7 @@ module julienne_m
   use julienne_test_diagnosis_m, only : &
      test_diagnosis_t &
     ,operator(.all.) &
+    ,operator(.and.) &
     ,operator(.approximates.) &
     ,operator(.within.) &
     ,operator(.equalsExpected.) &

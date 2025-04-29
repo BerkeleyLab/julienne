@@ -10,6 +10,10 @@ submodule(julienne_test_diagnosis_m) julienne_test_diagnosis_s
   implicit none
 contains
 
+  module procedure and
+     diagnosis = .all. ([lhs,rhs])
+  end procedure 
+
   module procedure aggregate_diagnosis
     character(len=*), parameter :: new_line_indent = new_line('') // "        "
     integer i

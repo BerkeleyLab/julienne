@@ -11,6 +11,7 @@ module julienne_test_diagnosis_m
   private
   public :: test_diagnosis_t
   public :: operator(.all.)
+  public :: operator(.and.)
   public :: operator(.approximates.)
   public :: operator(.within.)
   public :: operator(.equalsExpected.)
@@ -51,6 +52,16 @@ module julienne_test_diagnosis_m
     pure module function aggregate_diagnosis(diagnoses) result(diagnosis)
       implicit none
       type(test_diagnosis_t), intent(in) :: diagnoses(..)
+      type(test_diagnosis_t) diagnosis
+    end function
+
+  end interface
+
+  interface operator(.and.)
+     
+    elemental module function and(lhs, rhs) result(diagnosis)
+      implicit none
+      type(test_diagnosis_t), intent(in) :: lhs, rhs
       type(test_diagnosis_t) diagnosis
     end function
 

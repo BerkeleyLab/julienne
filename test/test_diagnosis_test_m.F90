@@ -17,6 +17,7 @@ module test_diagnosis_test_m
     ,diagnosis_function_i &
 #endif
     ,operator(.all.) &
+    ,operator(.and.) &
     ,operator(.equalsExpected.) &
     ,operator(.approximates.) &
     ,operator(.within.) &
@@ -58,6 +59,7 @@ contains
       ,test_description_t("contruction from a integer expression of the form 'i .greaterThan. j", check_greater_than_integer) &
       ,test_description_t("contruction from a integer expression of the form '[i,j] .lessThanOrEqualTo. k", check_less_than_or_equal_to_integer) &
       ,test_description_t("contruction from a integer expression of the form '[i,j] .greaterThanOrEqualTo. k", check_greater_than_or_equal_to_integer) &
+      ,test_description_t("contruction from a test_diagnostics_t expression of the form 't .and. u'", check_and_operator) &
     ] )
 #else
      ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
@@ -68,8 +70,9 @@ contains
        ,check_less_than_real_ptr               , check_greater_than_real_ptr &
        ,check_less_than_double_ptr             , check_greater_than_double_ptr &
        ,check_less_than_integer_ptr            , check_greater_than_integer_ptr &
-       ,check_less_than_or_equal_to_integer_ptr, check_greater_than_or_equal_to_integer_ptr
-       
+       ,check_less_than_or_equal_to_integer_ptr, check_greater_than_or_equal_to_integer_ptr &
+       ,check_and_operator_ptr
+
      check_approximates_real_ptr                => check_approximates_real
      check_approximates_double_ptr             => check_approximates_double
      check_equals_integer_ptr                   => check_equals_integer
@@ -81,6 +84,7 @@ contains
      check_greater_than_double_ptr              => check_greater_than_double
      check_greater_than_integer_ptr             => check_greater_than_integer
      check_greater_than_or_equal_to_integer_ptr => check_greater_than_or_equal_to_integer
+     check_and_operator_ptr                     => check_and_operator
 
      descriptions = [ &
        test_description_t("contruction from a real expression of the form `x .approximates. y .within. tolerance`"            , check_approximates_real_ptr) &
@@ -89,11 +93,12 @@ contains
       ,test_description_t("contruction from a real expression of the form 'x .lessThan. y"                                    , check_less_than_real_ptr) &
       ,test_description_t("contruction from a double precision expression of the form 'x .lessThan. y"                        , check_less_than_double_ptr) &
       ,test_description_t("contruction from a integer expression of the form 'i .lessThan. j"                                 , check_less_than_integer_ptr) &
-      ,test_description_t("contruction from a integer expression of the form 'i .lessThanOrEqualTo. j"                        ) & ! skip check_less_than_or_equal_to_integer_ptr
+      ,test_description_t("contruction from a integer expression of the form 'i .lessThanOrEqualTo. j"   ) & ! skip check_less_than_or_equal_to_integer_ptr
       ,test_description_t("contruction from a real expression of the form 'x .greaterThan. y"                                 , check_greater_than_real_ptr) &
       ,test_description_t("contruction from a double precision expression of the form 'x .greaterThan. y"                     , check_greater_than_double_ptr) &
       ,test_description_t("contruction from a integer expression of the form 'i .greaterThan. j"                              , check_greater_than_integer_ptr) &
-      ,test_description_t("contruction from a integer expression of the form 'i .greaterThanOrEqualTo. j"                     ) & ! skip check_greater_than_or_equal_to_integer_ptr
+      ,test_description_t("contruction from a integer expression of the form 'i .greaterThanOrEqualTo. j") & ! skip check_greater_than_or_equal_to_integer_ptr
+      ,test_description_t("contruction from a test_diagnostics_t expression of the form 't .and. u'"     ) & ! skip check_and_operator_ptr
      ]
 #endif
 
@@ -185,6 +190,12 @@ contains
     type(test_diagnosis_t) test_diagnosis
     integer, parameter :: expected_min = 1
     test_diagnosis = .all. ([1,2] .greaterThanOrEqualTo. expected_min)
+  end function
+
+  function check_and_operator() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    integer, parameter :: expected_min = 1
+    test_diagnosis = (2 .greaterThanOrEqualTo. expected_min) .and. (1 .equalsExpected. 1)
   end function
 
 end module test_diagnosis_test_m
