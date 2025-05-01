@@ -59,7 +59,8 @@ contains
       ,test_description_t("contruction from a integer expression of the form 'i .greaterThan. j", check_greater_than_integer) &
       ,test_description_t("contruction from a integer expression of the form '[i,j] .lessThanOrEqualTo. k", check_less_than_or_equal_to_integer) &
       ,test_description_t("contruction from a integer expression of the form '[i,j] .greaterThanOrEqualTo. k", check_greater_than_or_equal_to_integer) &
-      ,test_description_t("contruction from a test_diagnostics_t expression of the form 't .and. u'", check_and_operator) &
+      ,test_description_t("contruction from a scalar test_diagnostics_t expression of the form 't .and. u'", check_and_with_scalar_operands) &
+      ,test_description_t("contruction from vector test_diagnostics_t expressions with operands like 'i .equalsExpected. [j,k]'", check_and_with_vector_operands) &
     ] )
 #else
      ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
@@ -71,7 +72,8 @@ contains
        ,check_less_than_double_ptr             , check_greater_than_double_ptr &
        ,check_less_than_integer_ptr            , check_greater_than_integer_ptr &
        ,check_less_than_or_equal_to_integer_ptr, check_greater_than_or_equal_to_integer_ptr &
-       ,check_and_operator_ptr
+       ,check_and_with_scalar_operands_ptr &
+       ,check_and_with_vector_operands_ptr
 
      check_approximates_real_ptr                => check_approximates_real
      check_approximates_double_ptr             => check_approximates_double
@@ -84,7 +86,8 @@ contains
      check_greater_than_double_ptr              => check_greater_than_double
      check_greater_than_integer_ptr             => check_greater_than_integer
      check_greater_than_or_equal_to_integer_ptr => check_greater_than_or_equal_to_integer
-     check_and_operator_ptr                     => check_and_operator
+     check_and_with_scalar_operands_ptr         => check_and_with_scalar_operands
+     check_and_with_vector_operands_ptr         => check_and_with_vector_operands
 
      descriptions = [ &
        test_description_t("contruction from a real expression of the form `x .approximates. y .within. tolerance`"            , check_approximates_real_ptr) &
@@ -98,7 +101,9 @@ contains
       ,test_description_t("contruction from a double precision expression of the form 'x .greaterThan. y"                     , check_greater_than_double_ptr) &
       ,test_description_t("contruction from a integer expression of the form 'i .greaterThan. j"                              , check_greater_than_integer_ptr) &
       ,test_description_t("contruction from a integer expression of the form 'i .greaterThanOrEqualTo. j") & ! skip check_greater_than_or_equal_to_integer_ptr
-      ,test_description_t("contruction from a test_diagnostics_t expression of the form 't .and. u'"     ) & ! skip check_and_operator_ptr
+      ,test_description_t("contruction from a scalar test_diagnostics_t expression with operands like 'i .equalsExpected. j'"  ) & ! skip check_and_with_scalar_operands_ptr
+      ,test_description_t("contruction from test_diagnostics_t vector expressions with operands like 'i .equalsExpected. [j,k]'") & ! skip check_and_with_vector_operands_ptr
+  check_and_with_vector_operands
      ]
 #endif
 
@@ -192,10 +197,15 @@ contains
     test_diagnosis = .all. ([1,2] .greaterThanOrEqualTo. expected_min)
   end function
 
-  function check_and_operator() result(test_diagnosis)
+  function check_and_with_scalar_operands() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     integer, parameter :: expected_min = 1
     test_diagnosis = (2 .greaterThanOrEqualTo. expected_min) .and. (1 .equalsExpected. 1)
+  end function
+
+  function check_and_with_vector_operands() result(test_diagnoses)
+    type(test_diagnosis_t) test_diagnoses
+    test_diagnoses = .all. ((2 .equalsExpected. [2,2,2]) .and. ([0,1,2] .equalsExpected. [0,1,2]))
   end function
 
 end module test_diagnosis_test_m
