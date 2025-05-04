@@ -112,6 +112,26 @@ contains
 
   end procedure
 
+  module procedure markdown_table_from_strings
+
+    integer row
+    character(len=1), parameter :: column_separator = "|"
+
+    associate(num_rows => size(array,1))
+      !allocate(lines(num_rows))
+      do row = 1, num_rows
+        associate(line => array(row,:) .sv. column_separator)
+          if (side_borders) then
+            lines(row) = line%bracket(column_separator)
+          else
+            lines(row) = line
+          end if
+        end associate
+      end do
+    end associate
+ 
+  end procedure
+
   module procedure array_of_strings
     character(len=:), allocatable :: remainder, next_string
     integer next_delimiter, string_end

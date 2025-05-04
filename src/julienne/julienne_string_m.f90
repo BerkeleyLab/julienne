@@ -7,10 +7,11 @@ module julienne_string_m
   
   private
   public :: string_t
-  public :: array_of_strings
-  public :: operator(.cat.) ! element-wise concatenation unary operator
-  public :: operator(.csv.) ! comma-separated values unary operator
-  public :: operator(.sv.)  ! separated-values binary operator
+  public :: array_of_strings ! construct 1D string_t array from a string containing delimited substrings
+  public :: markdown_table   ! construct 1D string_t array in which each element is a GitHub Markdown table row
+  public :: operator(.cat.)  ! element-wise concatenation unary operator
+  public :: operator(.csv.)  ! comma-separated values unary operator
+  public :: operator(.sv.)   ! separated-values binary operator
 
   type, extends(characterizable_t) :: string_t
     private
@@ -159,6 +160,17 @@ module julienne_string_m
       implicit none
       type(string_t), intent(in) :: strings(:), separator
       type(string_t) sv 
+    end function
+
+  end interface
+
+  interface markdown_table
+
+    pure module function markdown_table_from_strings(array, side_borders) result(lines)
+      implicit none
+      type(string_t), intent(in) :: array(:,:)
+      logical, intent(in) :: side_borders
+      type(string_t) lines(size(array,1))
     end function
 
   end interface
