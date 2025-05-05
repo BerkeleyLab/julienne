@@ -7,10 +7,10 @@ module julienne_string_m
   
   private
   public :: string_t
-  public :: array_of_strings
-  public :: operator(.cat.) ! element-wise concatenation unary operator
-  public :: operator(.csv.) ! comma-separated values unary operator
-  public :: operator(.sv.)  ! separated-values binary operator
+  public :: array_of_strings ! construct 1D string_t array from a string containing delimited substrings
+  public :: operator(.cat.)  ! element-wise concatenation unary operator
+  public :: operator(.csv.)  ! comma-separated values unary operator
+  public :: operator(.sv.)   ! separated-values binary operator
 
   type, extends(characterizable_t) :: string_t
     private
