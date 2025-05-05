@@ -103,7 +103,7 @@ contains
       ,test_description_t("contruction from a integer expression of the form 'i .greaterThanOrEqualTo. j") & ! skip check_greater_than_or_equal_to_integer_ptr
       ,test_description_t("contruction from a scalar test_diagnostics_t expression with operands like 'i .equalsExpected. j'"  ) & ! skip check_and_with_scalar_operands_ptr
       ,test_description_t("contruction from test_diagnostics_t vector expressions with operands like 'i .equalsExpected. [j,k]'") & ! skip check_and_with_vector_operands_ptr
-  check_and_with_vector_operands
+      ,test_description_t("contruction from vector test_diagnostics_t expressions with operands like 'i .equalsExpected. [j,k]'", check_and_with_vector_operands_ptr) &
      ]
 #endif
 
