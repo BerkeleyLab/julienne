@@ -16,6 +16,7 @@ program main
   use string_test_m                  ,only :                  string_test_t
   use test_result_test_m             ,only :             test_result_test_t
   use test_description_test_m        ,only :        test_description_test_t
+  use test_diagnosis_test_m          ,only :          test_diagnosis_test_t
   use vector_test_description_test_m ,only : vector_test_description_test_t
   implicit none
 
@@ -25,6 +26,7 @@ program main
   type(string_test_t) string_test
   type(test_result_test_t) test_result_test
   type(test_description_test_t) test_description_test
+  type(test_diagnosis_test_t) test_diagnosis_test
   type(vector_test_description_test_t) vector_test_description_test
 
   type(command_line_t) command_line
@@ -48,6 +50,7 @@ program main
   call string_test%report(passes, tests, skips)
   call test_result_test%report(passes, tests, skips)
   call test_description_test%report(passes, tests, skips)
+  call test_diagnosis_test%report(passes, tests, skips)
   call vector_test_description_test%report(passes,tests, skips)
 
   if (.not. GitHub_CI())  then
