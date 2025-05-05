@@ -6,7 +6,7 @@ program get_command_line_flag_value
   !!
   !! fpm run --example get-command-line-flag-value -- --foo bar
   !!
-  !! Running this program without the "-- --input-file" should print an indication that no file name
+  !! Running the above command either without `bar` or without "--foo bar" should print an indication the message "flag '--foo' not present or present with no value".
   !! was provided.
   use julienne_m, only : command_line_t
   implicit none
