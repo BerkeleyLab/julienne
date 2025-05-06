@@ -14,71 +14,72 @@ Users construct tests by
 3. Defining a `results()` function that
     - Defines a result comprised of an array of `test_result_t` objects.
     - Defines a local array of `test_description_t` objects, each of which encapsulates
-        * A string describing a function that produces one or more `test_diagnosis_t` result objects, each of which encapsulates
-            * A `logical` indicator of whether the test passed and
-            * A `character` or `string_t` diagnostics string.
-        * The corresponding function name.
+        * A string describing a test performed by a test-diagnosis function and
+        * The corresponding test-diagnosis function's name.
 
-Julienne empowers users to customize the diagnostic information that prints when tests fail.
-For this purpose, Julienne's `string_t` constructors convert various data types, kinds, and ranks to character data.
-Julienne also provides `string_t` operators supporting concatenation and delimited lists such as comma-separated value lists.
+Test-diagnosis functions conform to the [`diagnosis_function_i`] abstract interface, which stipulates that
+the function takes no arguments and produces a result of the `test_diagnosis_t` type.
+
+Users have two ways to construct a `test_diagnosis_t` object:
+1. Write an expression using Julienne's user-defined operators, which are inspired by natural language, or
+2. Invoke one of Julienne's `test_diagnosis_t` constructor functions.
+
+Approach 1 is simpler, covers several common use cases, and automates the construction of the diagnostic 
+output to be printed when a test fails.  Approach 2 facilitates user-customization of diagnostic output 
+using Julienne's string-handling capabilities to format the output.  Such string handling centers around
+Julienne's `string_t` type. 
+
+Alternatively, Julienne's `vector_test_description_t` type facilitates writing test functions that produce 
+multiple test diagnoses. Such functions conform to Julienne's [`vector_test_diagnosis_i`] abstract interface, 
+which requires conforming functions to produce a one-dimensional array of `test_diagnosis_t` objects.
+
+Origin Story
+------------
 
 Julienne's name derives from the term for vegetables sliced into thin strings: julienned vegetables.
-The [Veggies] unit-testing framework inspired the structure of Julienne's tests and output.
+The [Veggies] and [Garden] unit-testing frameworks inspired the structure of Julienne's tests and output.
 Julienne aims to be a more lightweight alternative that is more portable across compilers.
 
 Getting Started
 ---------------
 Please see the [example-test-suite README.md](./example/example-test-suite/README.md).
 
-Supported Compilers
--------------------
+Compiler Support
+----------------
+The table below shows the compiler that Julienne fully or partially supports.  When built with a fully
+supported compiler, all Julienne tests pass.  When built with a partially supported compiler, the Julienne
+test suite skips some tests due to compiler bugs.  The test output reports which tests are skipped and
+thereby details the features, if any, that are not supported with a given compiler.
 
-Compiler         | Version(s) Tested        | Known Issues
------------------|--------------------------|-------------
-GCC `gfortran`   | 13.1.0, 14.2.0_1, 15.0.1 | items 1-3 below
-Intel `ifx`      | 2025.1                   | item 4 below
-LLVM `flang-new` | 19, 20                   | none
-NAG `nagfor`     | 7.2 Build 7227           | none
+Compiler         | Version(s) Tested        | Support
+-----------------|--------------------------|----------------------
+LLVM `flang-new` | 19, 20                   | full
+NAG `nagfor`     | 7.2 Build 7227           | full
+GCC `gfortran`   | 13.1.0, 14.2.0_1, 15.0.1 | partial (see 1 below)
+Intel `ifx`      | 2025.4 Build 20241205    | partial (see 2 below)
 
-Compiler bugs related to the following issues have been reported to the GCC project:
+Compiler bugs related to the following issues have been reported:
 
-1. The `test_description_t` constructor's `diagnosis_function` actual argument must be a procedure pointer.
-2. Each element of a `vector_test_description_t` array must be defined in a separate program statement.
-3. If executed, the `string_t` type's `bracket` procedure causes a program crash.
-4. Two `string_t` tests fail as described in issue [#51](https://github.com/BerkeleyLab/julienne/issues/51).
+1. `gfortran` issues:
+   - The `test_description_t` constructor's `diagnosis_function` actual argument must be a procedure pointer.
+   - Each element of a `vector_test_description_t` array must be defined in a separate program statement.
+   - The `string_t` type's `bracket` type-bound procedure causes a program crash.
+2. `ifx` issue:
+   - Two `string_t` tests fail as described in issue [#51](https://github.com/BerkeleyLab/julienne/issues/51).
 
-Some `gfortran` fixes related to items 1-3 above have been pushed to the GCC repository for release with GCC 14.3 and 15.1.0.
+Some `gfortran` fixes related to item 1 above are GCC 15.1.0 and should be in GCC 14.3 when released.
 
 Building and Testing
 --------------------
 
-### GNU (`gfortran`)
-#### `gfortran` versions 14 or higher
-```
-fpm test --compiler gfortran --profile release
-```
-
-#### `gfortran` version 13
-```
-fpm test --compiler gfortran --profile release --flag "-ffree-line-length-none"
-```
-where the `-ffree-line-length-none` turns on support for lines exceeding the Fortran 2018 limit of 132 columns.
-(Fortran 2023 expands the allowable line length to 5,000 characters.)
-
-### Intel (`ifx`) 2025.4 Build 20241205 tested
-```
-fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release
-```
-
-### LLVM (`flang-new`)
-#### `flang-new` version 20 or later
+#### LLVM (`flang-new`) compiler
+##### `flang-new` version 20 or later
 ```
 export FPM_FC=flang-new
-fpm test
+fpm test --compiler flang-new
 ```
 
-#### `flang-new` version 19
+##### `flang-new` version 19
 Add the following command before the `fpm` command recommended above for LLVM 20 or later:
 ```
 export FPM_FFLAGS="-mmlir -allow-assumed-rank"
@@ -88,9 +89,27 @@ where this `FPM_FFLAGS` setting turns on the support for Fortran's assumed-rank 
 If you do not have access to LLVM 19 or 20, we recommend building the main branch of llvm-project from source.
 A script that might be helpful for doing so is in the [handy-dandy] repository.
 
-### NAG (`nagfor`)
+### NAG (`nagfor`) compiler
 ```
 fpm test --compiler nagfor --flag -fpp
+```
+
+#### GNU (`gfortran`) compiler
+##### `gfortran` versions 14 or higher
+```
+fpm test --compiler gfortran --profile release
+```
+
+##### `gfortran` version 13
+```
+fpm test --compiler gfortran --profile release --flag "-ffree-line-length-none"
+```
+where the `-ffree-line-length-none` turns on support for lines exceeding the Fortran 2018 limit of 132 columns.
+(Fortran 2023 expands the allowable line length to 5,000 characters.)
+
+#### Intel (`ifx`) compiler
+```
+fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release
 ```
 
 Documentation
@@ -99,7 +118,10 @@ See our online [documentation] or build the documentation locally by installing 
 
 [Sourcery]: https://github.com/sourceryinstitute/sourcery
 [Veggies]: https://gitlab.com/everythingfunctional/veggies
+[Garden]: https://gitlab.com/everythingfunctional/garden
 [here]: https://github.com/rouson/handy-dandy/blob/7caaa4dc3d6e5331914a3025f0cb1db5ac1a886f/src/fresh-llvm-build.sh
 [documentation]: https:///berkeleylab.github.io/julienne/
 [FORD]: https://github.com/Fortran-FOSS-Programmers/ford
 [handy-dandy]: https://github.com/rouson/handy-dandy/blob/7caaa4dc3d6e5331914a3025f0cb1db5ac1a886f/src/fresh-llvm-build.sh
+[`diagnosis_function_i`]: https://github.com/BerkeleyLab/julienne/blob/37bcc959efa8f9e27ae50fecfd37a6bf52ef0a43/src/julienne/julienne_test_description_m.f90#L16
+[`vector_test_diagnosis_i`]: https://github.com/BerkeleyLab/julienne/blob/37bcc959efa8f9e27ae50fecfd37a6bf52ef0a43/src/julienne/julienne_vector_test_description_m.F90#L18
