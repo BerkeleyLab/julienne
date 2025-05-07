@@ -16,7 +16,8 @@ module specimen_test_m
     ,operator(.approximates.) &
     ,operator(.within.) &
     ,operator(.all.) &
-    ,operator(.equalsExpected.)
+    ,operator(.equalsExpected.) &
+    ,operator(.greaterThan.)
 #if defined(__GFORTRAN__)
   use julienne_m, only : diagnosis_function_i ! work around gfortran's missing Fortran 2008 feature
 #endif
@@ -51,7 +52,7 @@ contains
       ,test_description_t("aggregating diagnoses of the zero and one functions using operator(.all.)", check_aggregate_diagnosis) &
     ]
     test_descriptions =  pack( &
-       array = test_diagnostics &
+       array = test_descriptions &
       ,mask = test_descriptions%contains_text(test_description_substring) .or. index(subject(), test_description_substring)/=0 &
     )
     test_results = test_descriptions%run()
@@ -73,7 +74,7 @@ contains
       ,test_description_t("aggregating diagnoses of the zero and one functions using operator(.all.)", check_aggregate_ptr) &
     ]
     test_descriptions =  pack( &
-       array = test_diagnostics &
+       array = test_descriptions &
       ,mask = test_descriptions%contains_text(test_description_substring) .or. index(subject(), test_description_substring)/=0 &
     )
     test_results = test_descriptions%run()
@@ -94,7 +95,7 @@ contains
     type(specimen_t) specimen
     real, parameter :: expected_value = 0., tolerance = 1E-02
     associate(actual_value =>  specimen%zero())
-      test_diagnosis = test_diagnosis_t(
+      test_diagnosis = test_diagnosis_t( &
         test_passed = abs(actual_value - expected_value) < tolerance &
        ,diagnostics_string = "expected " // string_t(expected_value) // "; actual " // string_t(actual_value) &
       )
@@ -107,8 +108,8 @@ contains
     type(specimen_t) specimen
     real, parameter :: expected_real= 0.
     integer, parameter :: expected_integer = 1
-    associate(actual_real =>  specimen%zero(), actual_integer = specimen%one())
-      test_diagnosis = .all. [actual_integer .equalsExpected. expected_integer, actual_real .lessThanOrEqualTo. expected_real]
+    associate(actual_real =>  specimen%zero(), actual_integer => specimen%one())
+      test_diagnosis = .all. [actual_integer .equalsExpected. expected_integer, actual_real .greaterThan. expected_real]
     end associate
   end function
 
