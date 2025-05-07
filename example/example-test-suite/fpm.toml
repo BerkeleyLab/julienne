@@ -1,0 +1,4 @@
+name = "Example-Test-Suite"
+
+[dependencies]
+julienne = {git = "https://github.com/berkeleylab/julienne", tag = "2.0.0"}
