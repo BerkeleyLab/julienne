@@ -29,7 +29,7 @@ Julienne aims to be a more lightweight alternative that is more portable across 
 
 Getting Started
 ---------------
-Please see the [example-test-suite README.md](./example/example-test-suite/README.md).
+Please see the demonstration test suite in [demo README.md](./demo/README.md).
 
 Supported Compilers
 -------------------
