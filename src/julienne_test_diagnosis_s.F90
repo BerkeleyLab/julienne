@@ -158,7 +158,8 @@ contains
 
   module procedure within_real
 
-    if (abs(operands%actual - operands%expected) < tolerance) then
+    if (abs(operands%actual - operands%expected) <= tolerance) then
+      ! We use <= to allow for tolerance=0, which could never be satisfied if we used < instead:
       test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
     else
       test_diagnosis = test_diagnosis_t(test_passed=.false. &
@@ -172,7 +173,8 @@ contains
 
   module procedure within_double_precision
 
-    if (abs(operands%actual - operands%expected) < tolerance) then
+    if (abs(operands%actual - operands%expected) <= tolerance) then
+      ! We use <= to allow for tolerance=0, which could never be satisfied if we used < instead:
       test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
     else
       test_diagnosis = test_diagnosis_t(test_passed=.false. &
