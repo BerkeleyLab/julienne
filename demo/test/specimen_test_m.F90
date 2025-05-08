@@ -72,7 +72,7 @@ contains
     procedure(diagnosis_function_i), pointer :: check_aggregate_ptr => check_aggregate_diagnosis
     procedure(diagnosis_function_i), pointer :: check_print_diagnosis_ptr => check_print_diagnosis
 
-    ! Ommitting the optional 2nd argument in the 3rd test_description_t constructor below skips the described
+    ! Omitting the optional 2nd argument in the 3rd test_description_t constructor below skips the described
     ! test.  When the test suite runs, it reports the test as skipped and reports a tally of skippped tests.
 
     test_descriptions = [ &
