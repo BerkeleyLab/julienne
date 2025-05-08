@@ -1,18 +1,27 @@
-Example Test Suite Classes
-==========================
-This directory and its subdirectories contain a sample project that defines a library and a corresponding test suite in the `src` and `test` subdirectories, respectively.
-The example project has been verified to work with compilers and commands listed in the following table:
-
-|Vendor   |Tested shell command|
-|---------|--------------------|
-|LLVM 20  | `fpm test --compiler flang-new --flag`
-|GCC      |
-|NAG      |
-|Intel    |
-
 Getting Started
----------------
-Likely the fastest way to get started with Julienne is to copy the source code in this directory and modify it for your purposes:
+===============
+To get started with Julienne, review and test the demonstration project in this directory.
+Then copy the `main.F90` and `specimen_test_m.F90` files to your project's test directory.
+Finally, modify the files as described below to adapt them to your project.
+
+Testing the Demonstration Project
+--------------------------------
+This demonstration project defines a trivial library named "specimen" in the `src`
+subdirectory and a test suite the `test` subdirectory.  The test suite includes two passing
+tests and one intentionally failing test.  Test Julienne setting your present working
+directory to the `demo/` subdirectory in a terminal window and then building and running the
+demonstration project's test suite using the command corresponding to your compiler in the
+table below.
+
+|Vendor   | Version/Build           | Example shell command                                |
+|---------|-------------------------|------------------------------------------------------|
+|LLVM     | 20.1.4 (Homebrew)       | `fpm test --compiler flang-new`                      |
+|GCC      | 14.2.0_1 (Homebrew)     | `fpm test --compiler gfortran --profile release`     |
+|NAG      | 7.2 Build 7227          | `fpm test --compiler nagfor --flag -fpp`             |
+|Intel    | 2025.1.0 Build 20250317 | `fpm test --compiler ifx --flag "-fpp -O3 -coarray"` |
+
+Setting Up Your Project's Test Suite
+------------------------------------
 
 1. If you build your project with the Fortran Package Manager ([`fpm`](https://github.com/fotran-lang/fpm)), then you might copy the `main.F90` and `specimen_test_m.F90` files from this subdirectory to a `test/` subdirectory in the root of your project's source tree.
 2. Rename the `specimen_test_m.F90` file, the `specimen_test_m` module, and the `specimen_test_t` derived type and any references thereto, replacing `specimen` with the name of an entity that you intend to test -- most likely a module containing procedures or derived type with type-bound procedures.
@@ -27,7 +36,7 @@ The options include
 1. Writing an expression using Julienne's operators such as `.approximate.`, `.within`., and `.equalsExpected.`.
 2. Invoking the `test_diagnosis_t` constructor and using Julienne's `string_t` constructors to form a diagnostic string.
 `String_t` is a generic interface to various specific functions, each of which takes an argument of a different data type, kind, and rank (TKR) and defines a `string_t` result containing a charater representation of the function argument.
-Please see Julienne's online [documentation](https:///berkeleylab.github.io/julienne/) for the currently supported TKR.
+Please see Julienne's online [documentation] for the currently supported TKR.
 Please submit an issue to request support for additional TKR or submit a pull request to contribute such support.
 
 #### Forming diagnostic strings from array data
@@ -57,8 +66,8 @@ FAILS  on returning the counting numbers up to 3
 ```
 To support a common array notation, Julienne also supports bracketing strings.
 
-Diagnosis Function
-------------------
+Diagnosis Functions
+-------------------
 The Unified Modeling Language ([UML](https://wikipedia.org/Unified_modeling_langauge)) class diagram below depicts the class relationships involved in making the above example work:
 
 ```mermaid
@@ -172,3 +181,4 @@ class test_diagnosis_t{
 }
 ```
 
+[documentation]: https://berkeleylab.github.io/julienne
