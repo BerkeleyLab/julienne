@@ -188,4 +188,4 @@ class test_diagnosis_t{
 ```
 
 [documentation]: https://berkeleylab.github.io/julienne
-[UML]: https://wikipedia.org/Unified_modeling_langauge
+[UML]: https://wikipedia.org/Unified_modeling_language
