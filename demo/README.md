@@ -164,7 +164,7 @@ class string_t{
 Deprecated: Vector Diagnosis Function
 -------------------------------------
 Julienne's `vector_diagnosis_function_i` abstract interface and the corresponding `vector_test_description_t` type were developed before Julienne's `operator(.all.)` and `operator(.and.)`.
-Becaue the operators replace the interface and type with simpler functionality, it is likely that a future release will remove the `vector_*` entities.
+Because the operators replace the interface and type with simpler functionality, it is likely that a future release will remove the `vector_*` entities.
 
 The Unified Modeling Language ([UML]) class diagram below depicts the class relationships involved when test function performs multiple checks and defines a result containing an array of corresponding `test_diagnosis_t` objects:
 ```mermaid
