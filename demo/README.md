@@ -7,11 +7,16 @@ Finally, modify the files as described below to adapt them to your project.
 Testing the Demonstration Project
 --------------------------------
 This demonstration project defines a trivial library named "specimen" in the `src`
-subdirectory and a test suite the `test` subdirectory.  The test suite includes two passing
-tests and one intentionally failing test.  Test Julienne setting your present working
-directory to the `demo/` subdirectory in a terminal window and then building and running the
-demonstration project's test suite using the command corresponding to your compiler in the
-table below.
+subdirectory and a test suite the `test` subdirectory.  The test suite includes five tests:
+
+1. Two pass.
+2. One intentionally fails to demonstrate diagnostic output.
+3. One test is skipped to the reporting and tallying of skipped tests.
+4. One test passes with three compilers but is skipped with GCC due to a compiler bug.
+
+Test Julienne by setting your present working directory to the `demo/` subdirectory in a
+terminal window and then building and running the demonstration project's test suite using
+the command corresponding to your compiler in the table below.
 
 |Vendor   | Version/Build           | Example shell command                                |
 |---------|-------------------------|------------------------------------------------------|
@@ -30,11 +35,12 @@ Setting Up Your Project's Test Suite
 5. Replace the function name (the second argument) with the name of a function that will perform your test.
 7. Edit the correspondingly-renamed function to perform the test.  The function must take no arguments and define a `test_diagnosis_t` result.
 
-The functions provided in `specimen_test_m` demonstrate several of the common options for constructing a `test_diagnosis_t` as the diagnosis function result.
+The functions in `specimen_test_m` demonstrate several common options for constructing a `test_diagnosis_t` as the diagnosis function result.
 The options include
 
 1. Writing an expression using Julienne's operators such as `.approximate.`, `.within`., and `.equalsExpected.`.
 2. Invoking the `test_diagnosis_t` constructor and using Julienne's `string_t` constructors to form a diagnostic string.
+
 `String_t` is a generic interface to various specific functions, each of which takes an argument of a different data type, kind, and rank (TKR) and defines a `string_t` result containing a charater representation of the function argument.
 Please see Julienne's online [documentation] for the currently supported TKR.
 Please submit an issue to request support for additional TKR or submit a pull request to contribute such support.
@@ -44,7 +50,7 @@ Please submit an issue to request support for additional TKR or submit a pull re
 An especially useful pattern for forming diagnostic strings involves invoking Julienne's `operator(.csv.)` to produce a string of comma-separated values (CSV) from a one-dimensional (1D) array.
 For example, consider the following test description:
 ```fortran
-  test_description_t(" returning the counting numbers up to 3", check_counting_numbers)
+  test_description_t("returning the counting numbers up to 3", check_counting_numbers)
 ```
 and the following corresponding test:
 ```fortran
@@ -109,7 +115,7 @@ class test_diagnosis_t{
 Skipping Tests
 --------------
 When a test is known to cause a compile-time or runtime crash in a specific scenario, e.g., with a specific compiler or compiler version, including that test will prevent the test suite from building or running to completion.
-It can be useful to skip a test with the problematic compiler but to report the test as skipped and account for the skipped tests in the tally of test results..
+It can be useful to skip a test with the problematic compiler but to report the test as skipped and account for the skipped tests in the tally of test results.
 For this purpose, the `test_description_t` and `vector_test_description_t` constructor functions have optional second arguments `diagnosis_function` and `vector_diagnosis_function`, respectively.
 When these arguments are not `present`, the `test_t`'s `report` procedure will report the test as skipped but will terminate normally as long as the sum of the passing tests and skipped tests equals the total number of tests.
 One might accomplish this with the compiler's predefined preprocessor macro:
@@ -160,7 +166,7 @@ Deprecated: Vector Diagnosis Function
 Julienne's `vector_diagnosis_function_i` abstract interface and the corresponding `vector_test_description_t` type were developed before Julienne's `operator(.all.)` and `operator(.and.)`.
 Becaue the operators replace the interface and type with simpler functionality, it is likely that a future release will remove the `vector_*` entities.
 
-The UML class diagram below depicts the class relationships involved when test function performs multiple checks and defines a result containing an array of corresponding `test_diagnosis_t` objects:
+The Unified Modeling Language ([UML]) class diagram below depicts the class relationships involved when test function performs multiple checks and defines a result containing an array of corresponding `test_diagnosis_t` objects:
 ```mermaid
  %%{init: { 'theme':'default',  "class" : {"hideEmptyMembersBox": true} } }%%
 classDiagram
@@ -182,3 +188,4 @@ class test_diagnosis_t{
 ```
 
 [documentation]: https://berkeleylab.github.io/julienne
+[UML]: https://wikipedia.org/Unified_modeling_langauge

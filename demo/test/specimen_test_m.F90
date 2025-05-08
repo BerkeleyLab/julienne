@@ -17,7 +17,8 @@ module specimen_test_m
     ,operator(.within.) &
     ,operator(.all.) &
     ,operator(.equalsExpected.) &
-    ,operator(.greaterThan.)
+    ,operator(.greaterThan.) &
+    ,operator(.lessThan.)
 #if defined(__GFORTRAN__)
   use julienne_m, only : diagnosis_function_i ! work around gfortran's missing Fortran 2008 feature
 #endif
@@ -50,6 +51,8 @@ contains
        test_description_t("diagnosing the zero function using Julienne operators", check_zero_using_operators) &
       ,test_description_t("diagnosing the zero function using a diagnosis constructor", check_zero_using_constructor) &
       ,test_description_t("aggregating diagnoses of the zero and one functions using operator(.all.)", check_aggregate_diagnosis) &
+      ,test_description_t("(intentional failure to demonstrate diagnostic output)", check_print_diagnosis) &
+      ,test_description_t("skipping a test when no diagnosis function is specified") &
     ]
     test_descriptions =  pack( &
        array = test_descriptions &
@@ -67,11 +70,17 @@ contains
     procedure(diagnosis_function_i), pointer :: check_operators_ptr => check_zero_using_operators
     procedure(diagnosis_function_i), pointer :: check_constructor_ptr => check_zero_using_constructor
     procedure(diagnosis_function_i), pointer :: check_aggregate_ptr => check_aggregate_diagnosis
+    procedure(diagnosis_function_i), pointer :: check_print_diagnosis_ptr => check_print_diagnosis
+
+    ! Ommitting the optional 2nd argument in the 3rd test_description_t constructor below skips the described
+    ! test.  When the test suite runs, it reports the test as skipped and reports a tally of skippped tests.
 
     test_descriptions = [ &
        test_description_t("diagnosing the zero function using Julienne operators", check_operators_ptr) &
       ,test_description_t("diagnosing the zero function using a diagnosis constructor", check_constructor_ptr) &
-      ,test_description_t("aggregating diagnoses of the zero and one functions using operator(.all.)", check_aggregate_ptr) &
+      ,test_description_t("aggregating diagnoses of the zero and one functions using operator(.all.)") &
+      ,test_description_t("(intentional failure to demonstrate diagnostic output)", check_print_diagnosis_ptr) &
+      ,test_description_t("skipping a test when no diagnosis function is specified") &
     ]
     test_descriptions =  pack( &
        array = test_descriptions &
@@ -106,11 +115,16 @@ contains
     !! Aggregate two test diagnoses using Julienne's operator(.all.)
     type(test_diagnosis_t) test_diagnosis
     type(specimen_t) specimen
-    real, parameter :: expected_real= 0.
+    real, parameter :: expected_ceiling = 10.
     integer, parameter :: expected_integer = 1
-    associate(actual_real =>  specimen%zero(), actual_integer => specimen%one())
-      test_diagnosis = .all. [actual_integer .equalsExpected. expected_integer, actual_real .greaterThan. expected_real]
+    associate(actual_real => specimen%zero(), actual_integer => specimen%one())
+      test_diagnosis = .all. [actual_integer .equalsExpected. expected_integer, actual_real .lessThan. expected_ceiling]
     end associate
+  end function
+
+  function check_print_diagnosis() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    test_diagnosis = 2 .lessThan. 1 ! intentional test failure
   end function
 
 end module
