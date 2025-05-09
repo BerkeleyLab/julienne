@@ -68,7 +68,6 @@ Compiler bugs related to the following issues have been reported:
 2. `ifx` issue:
    - Two `string_t` tests fail as described in issue [#51](https://github.com/BerkeleyLab/julienne/issues/51).
 
-Some `gfortran` fixes related to item 1 above are GCC 15.1.0 and should be in GCC 14.3 when released.
 
 Building and Testing
 --------------------
