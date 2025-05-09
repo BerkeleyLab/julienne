@@ -75,7 +75,6 @@ Building and Testing
 #### LLVM (`flang-new`) compiler
 ##### `flang-new` version 20 or later
 ```
-export FPM_FC=flang-new
 fpm test --compiler flang-new
 ```
 
