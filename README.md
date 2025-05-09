@@ -64,6 +64,7 @@ Compiler bugs related to the following issues have been reported:
    - The `test_description_t` constructor's `diagnosis_function` actual argument must be a procedure pointer.
    - Each element of a `vector_test_description_t` array must be defined in a separate program statement.
    - The `string_t` type's `bracket` type-bound procedure causes a program crash.
+   - The `string_t` type's `.all.` operator causes a program crash.
 2. `ifx` issue:
    - Two `string_t` tests fail as described in issue [#51](https://github.com/BerkeleyLab/julienne/issues/51).
 
