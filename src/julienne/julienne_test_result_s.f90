@@ -18,7 +18,7 @@ contains
 
     module procedure characterize
       if (.not. allocated(self%diagnosis_)) then
-        characterization = "SKIPS  on  " // trim(self%description_%string()) // "."
+        characterization = "SKIPS  on " // trim(self%description_%string()) // "."
       else
         associate(test_passed => self%diagnosis_%test_passed())
           characterization = merge("passes on ", "FAILS  on ", test_passed) // trim(self%description_%string()) // "."
