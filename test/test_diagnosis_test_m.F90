@@ -21,6 +21,8 @@ module test_diagnosis_test_m
     ,operator(.equalsExpected.) &
     ,operator(.approximates.) &
     ,operator(.within.) &
+    ,operator(.withinFraction.) &
+    ,operator(.withinPercentage.) &
     ,operator(.lessThan.) &
     ,operator(.lessThanOrEqualTo.) &
     ,operator(.greaterThan.) &
@@ -50,6 +52,10 @@ contains
     associate(descriptions => [ &
        test_description_t("construction from a real expression of the form 'x .approximates. y .within. tolerance'", check_approximates_real) &
       ,test_description_t("construction from a double precision expression of the form 'x .approximates. y .within. tolerance'", check_approximates_double) &
+      ,test_description_t("construction from the real expression 'x .approximates. y .withinFraction. tolerance'", check_approximates_real_fraction) &
+      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinFraction. tolerance'", check_approximates_double_fraction) &
+      ,test_description_t("construction from the real expression 'x .approximates. y .withinPercentage. tolerance'", check_approximates_real_percentage) &
+      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinPercentage. tolerance'", check_approximates_double_percentage) &
       ,test_description_t("construction from an integer expression of the form 'i .equalsExpected. j", check_equals_integer) &
       ,test_description_t("construction from a real expression of the form 'x .lessThan. y", check_less_than_real) &
       ,test_description_t("construction from a double precision expression of the form 'x .lessThan. y", check_less_than_double) &
@@ -66,32 +72,29 @@ contains
      ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
      type(test_description_t), allocatable :: descriptions(:)
      procedure(diagnosis_function_i), pointer :: &
-        check_approximates_real_ptr &
-       ,check_approximates_double_ptr          , check_equals_integer_ptr &
-       ,check_less_than_real_ptr               , check_greater_than_real_ptr &
-       ,check_less_than_double_ptr             , check_greater_than_double_ptr &
-       ,check_less_than_integer_ptr            , check_greater_than_integer_ptr &
-       ,check_less_than_or_equal_to_integer_ptr, check_greater_than_or_equal_to_integer_ptr &
-       ,check_and_with_scalar_operands_ptr &
-       ,check_and_with_vector_operands_ptr
-
-     check_approximates_real_ptr                => check_approximates_real
-     check_approximates_double_ptr             => check_approximates_double
-     check_equals_integer_ptr                   => check_equals_integer
-     check_less_than_real_ptr                   => check_less_than_real
-     check_less_than_double_ptr                 => check_less_than_double
-     check_less_than_integer_ptr                => check_less_than_integer
-     check_less_than_or_equal_to_integer_ptr    => check_less_than_or_equal_to_integer
-     check_greater_than_real_ptr                => check_greater_than_real
-     check_greater_than_double_ptr              => check_greater_than_double
-     check_greater_than_integer_ptr             => check_greater_than_integer
-     check_greater_than_or_equal_to_integer_ptr => check_greater_than_or_equal_to_integer
-     check_and_with_scalar_operands_ptr         => check_and_with_scalar_operands
-     check_and_with_vector_operands_ptr         => check_and_with_vector_operands
+        check_approximates_real_ptr                => check_approximates_real &
+       ,check_approximates_double_ptr              => check_approximates_double &
+       ,check_approximates_real_fraction_ptr       => check_approximates_real_fraction &
+       ,check_approximates_double_fraction_ptr     => check_approximates_double_fraction &
+       ,check_approximates_real_percentage_ptr     => check_approximates_real_percentage &
+       ,check_approximates_double_percentage_ptr   => check_approximates_double_percentage &
+       ,check_equals_integer_ptr                   => check_equals_integer &
+       ,check_less_than_real_ptr                   => check_less_than_real &
+       ,check_less_than_double_ptr                 => check_less_than_double &
+       ,check_less_than_integer_ptr                => check_less_than_integer &
+       ,check_less_than_or_equal_to_integer_ptr    => check_less_than_or_equal_to_integer &
+       ,check_greater_than_real_ptr                => check_greater_than_real &
+       ,check_greater_than_double_ptr              => check_greater_than_double &
+       ,check_greater_than_integer_ptr             => check_greater_than_integer &
+       ,check_greater_than_or_equal_to_integer_ptr => check_greater_than_or_equal_to_integer &
+       ,check_and_with_scalar_operands_ptr         => check_and_with_scalar_operands &
+       ,check_and_with_vector_operands_ptr         => check_and_with_vector_operands
 
      descriptions = [ &
        test_description_t("construction from a real expression of the form `x .approximates. y .within. tolerance`"            , check_approximates_real_ptr) &
       ,test_description_t("construction from a double-precision expression of the form `x .approximates. y .within. tolerance`", check_approximates_double_ptr) &
+       test_description_t("construction from the real expression 'x .approximates. y .withinFraction. tolerance'", check_approximates_real_fraction_ptr) &
+      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinFraction. tolerance'", check_approximates_double_fraction_ptr) &
       ,test_description_t("construction from an integer expression of the form `i .equalsExpected. j`"                         , check_equals_integer_ptr) &
       ,test_description_t("construction from a real expression of the form 'x .lessThan. y"                                    , check_less_than_real_ptr) &
       ,test_description_t("construction from a double precision expression of the form 'x .lessThan. y"                        , check_less_than_double_ptr) &
@@ -141,6 +144,30 @@ contains
     type(test_diagnosis_t) test_diagnosis
     double precision, parameter :: expected_value = 1D0, tolerance = 1D-16
     test_diagnosis = 1D0 .approximates. expected_value .within. tolerance
+  end function
+
+  function check_approximates_real_fraction() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    real, parameter :: actual_value = 1.1, expected_value = 1., fraction_ = 2.E-01
+    test_diagnosis = actual_value .approximates. expected_value .withinFraction. fraction_
+  end function
+
+  function check_approximates_double_fraction() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    double precision, parameter :: actual_value = 1.1D0, expected_value = 1D0, fraction_ = 2D-01
+    test_diagnosis = actual_value .approximates. expected_value .withinFraction. fraction_
+  end function
+
+  function check_approximates_real_percentage() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    real, parameter :: actual_value = 1.01, expected_value = 1., percentage = 2.
+    test_diagnosis = actual_value .approximates. expected_value .withinPercentage. percentage
+  end function
+
+  function check_approximates_double_percentage() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    double precision, parameter :: actual_value = 1.01D0, expected_value = 1D0, percentage = 2D0
+    test_diagnosis = actual_value .approximates. expected_value .withinPercentage. percentage
   end function
 
   function check_equals_integer() result(test_diagnosis)

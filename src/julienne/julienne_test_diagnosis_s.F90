@@ -164,8 +164,38 @@ contains
     else
       test_diagnosis = test_diagnosis_t(test_passed=.false. &
         ,diagnostics_string = "expected "              // string_t(operands%expected) &
-                           // "within a tolerance of " // string_t(tolerance)          &
+                           // " within a tolerance of " // string_t(tolerance)          &
                            // "; actual value is "     // string_t(operands%actual)   &
+      )
+    end if
+
+  end procedure
+
+  module procedure within_real_fraction
+
+    if (abs(operands%actual - operands%expected) <= abs(fractional_tolerance*operands%expected)) then
+      ! We use <= to allow for fractional_tolerance=0, which could never be satisfied if we used < instead:
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed=.false. &
+        ,diagnostics_string = "expected "              // string_t(operands%expected) &
+                           // " within a fractional tolerance of " // string_t(fractional_tolerance)          &
+                           // "; actual value is "     // string_t(operands%actual)   &
+      )
+    end if
+
+  end procedure
+
+  module procedure within_real_percentage
+
+    if (abs(operands%actual - operands%expected) <= abs(operands%expected*percentage_tolerance/1D02)) then
+      ! We use <= to allow for fractional_tolerance=0, which could never be satisfied if we used < instead:
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed=.false. &
+        ,diagnostics_string = "expected " // string_t(operands%expected) &
+                           // " within a tolerance of " // string_t(percentage_tolerance) // " percent;" &
+                           // " actual value is " // string_t(operands%actual)   &
       )
     end if
 
@@ -179,8 +209,38 @@ contains
     else
       test_diagnosis = test_diagnosis_t(test_passed=.false. &
         ,diagnostics_string = "expected "              // string_t(operands%expected) &
-                           // "within a tolerance of " // string_t(tolerance)          &
+                           // " within a tolerance of " // string_t(tolerance)          &
                            // "; actual value is "     // string_t(operands%actual)   &
+      )
+    end if
+
+  end procedure
+
+  module procedure within_double_precision_fraction
+
+    if (abs(operands%actual - operands%expected) <= abs(fractional_tolerance*operands%expected)) then
+      ! We use <= to allow for tolerance=0, which could never be satisfied if we used < instead:
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed=.false. &
+        ,diagnostics_string = "expected "              // string_t(operands%expected) &
+                           // " within a fractional tolerance of " // string_t(fractional_tolerance)          &
+                           // "; actual value is "     // string_t(operands%actual)   &
+      )
+    end if
+
+  end procedure
+
+  module procedure within_double_precision_percentage
+
+    if (abs((operands%actual - operands%expected)) <= abs(operands%expected*percentage_tolerance/1D02)) then
+      ! We use <= to allow for tolerance=0, which could never be satisfied if we used < instead:
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed=.false. &
+        ,diagnostics_string = "expected "               // string_t(operands%expected) &
+                           // " within a tolerance of " // string_t(percentage_tolerance) // " percent;" &
+                           // " actual value is "       // string_t(operands%actual)   &
       )
     end if
 
