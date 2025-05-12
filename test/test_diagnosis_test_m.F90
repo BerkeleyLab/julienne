@@ -93,8 +93,10 @@ contains
      descriptions = [ &
        test_description_t("construction from a real expression of the form `x .approximates. y .within. tolerance`"            , check_approximates_real_ptr) &
       ,test_description_t("construction from a double-precision expression of the form `x .approximates. y .within. tolerance`", check_approximates_double_ptr) &
-       test_description_t("construction from the real expression 'x .approximates. y .withinFraction. tolerance'", check_approximates_real_fraction_ptr) &
-      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinFraction. tolerance'", check_approximates_double_fraction_ptr) &
+      ,test_description_t("construction from the real expression 'x .approximates. y .withinFraction. tolerance'", check_approximates_real_fraction_ptr) &
+      ,test_description_t("construction from a double-precision expression of the form `x .approximates. y .within. tolerance`", check_approximates_double_ptr) &
+      ,test_description_t("construction from the real expression 'x .approximates. y .withinPercentage. tolerance'", check_approximates_real_percentage_ptr) &
+      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinPercentage. tolerance'", check_approximates_double_percentage_ptr) &
       ,test_description_t("construction from an integer expression of the form `i .equalsExpected. j`"                         , check_equals_integer_ptr) &
       ,test_description_t("construction from a real expression of the form 'x .lessThan. y"                                    , check_less_than_real_ptr) &
       ,test_description_t("construction from a double precision expression of the form 'x .lessThan. y"                        , check_less_than_double_ptr) &
