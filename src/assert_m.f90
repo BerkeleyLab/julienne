@@ -1,8 +1,12 @@
 module assert_m
   !! Public interface
-  use intrinsic_array_m,   only : intrinsic_array_t
+  use assertion_m,         only : assertion_t
   use assert_subroutine_m, only : assert, assert_always
+
+  ! All use statments below this line exist to support the legacy version of the assert subroutine
+
   use characterizable_m,   only : characterizable_t
+  use intrinsic_array_m,   only : intrinsic_array_t
 
   ! The function below is public only to support automated
   ! invocation via `assert_macros.h`.  For a more broadly useful

@@ -31,6 +31,8 @@ module assert_subroutine_m
   !!
   !!    fpm build --flag "-DASSERTIONS"
   !!
+  use julienne_string_m, only : string_t
+  use assertion_m, only : assertion_t
   implicit none
   private
   public :: assert, assert_always
@@ -66,9 +68,9 @@ module assert_subroutine_m
 #endif
   logical, parameter :: enforce_assertions=USE_ASSERTIONS
 
-  interface
+  interface assert
 
-    pure module subroutine assert(assertion, description, diagnostic_data)
+    pure module subroutine assert_legacy(assertion, description, diagnostic_data)
       !! If assertion is .false. and enforcement is enabled (e.g. via -DASSERTIONS=1), 
       !! then error-terminate with a character stop code that contains diagnostic_data if present
       implicit none
@@ -80,6 +82,14 @@ module assert_subroutine_m
         !! Data to include in an error ouptput: may be of an intrinsic type or a type that extends characterizable_t
     end subroutine
 
+    pure module subroutine assert_object(assertion)
+      implicit none
+      type(assertion_t), intent(in) :: assertion
+    end subroutine
+
+  end interface
+
+  interface
     pure module subroutine assert_always(assertion, description, diagnostic_data)
       !! Same as above but always enforces the assertion (regardless of ASSERTIONS)
       implicit none

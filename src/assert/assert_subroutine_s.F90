@@ -12,7 +12,11 @@ submodule(assert_subroutine_m) assert_subroutine_s
 
 contains
 
-  module procedure assert
+  module procedure assert_object
+    !if (.not. test_diagnosis%test_passed()) error stop test_diagnosis%diagnostic_string() // diagnostic_data%string()
+  end procedure
+
+  module procedure assert_legacy
 
     toggle_assertions: &
     if (enforce_assertions) then
