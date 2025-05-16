@@ -124,7 +124,7 @@ contains
 
   function check_print_diagnosis() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    test_diagnosis = 2 .lessThan. 1 ! intentional test failure
+    test_diagnosis = 2 .equalsExpected. 1 ! intentional test failure
   end function
 
 end module
