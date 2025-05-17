@@ -4,7 +4,7 @@
 #include "language-support.F90"
 
 program main
-  !! Example test main program to demonstrate the printing of diagnostic output when a test fails
+  !! Demonstration test-suite driver program
   use julienne_m, only : command_line_t
   use specimen_test_m, only : specimen_test_t
   implicit none
