@@ -54,7 +54,8 @@ For example, consider the following test description:
 ```
 and the following corresponding test:
 ```fortran
-  function check_counting_numbers()
+  function check_counting_numbers() result(test_diagnosis)
+     type(test_diagnosis_t)  test_diagnosis
      integer, parameter :: expected_array(*) = [1, 2, 3]
 
      associate(actual_array => counting_numbers(max=3))
