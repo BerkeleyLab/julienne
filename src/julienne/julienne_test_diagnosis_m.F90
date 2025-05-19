@@ -10,6 +10,8 @@ module julienne_test_diagnosis_m
 
   private
   public :: test_diagnosis_t
+  public :: assertion_diagnosis_t
+  public :: assert
   public :: operator(.all.)
   public :: operator(.and.)
   public :: operator(.approximates.)
@@ -32,6 +34,9 @@ module julienne_test_diagnosis_m
     procedure diagnostics_string
   end type
 
+  type, extends(test_diagnosis_t) :: assertion_diagnosis_t
+  end type
+
   integer, parameter :: default_real = kind(1.), double_precision = kind(1D0)
 
 #if HAVE_DERIVED_TYPE_KIND_PARAMETERS
@@ -48,6 +53,25 @@ module julienne_test_diagnosis_m
     double precision actual, expected 
   end type
 #endif
+
+  interface assertion_diagnosis_t
+
+    pure module function construct_from_parent(test_diagnosis) result(assertion_diagnosis)
+      implicit none
+      type(test_diagnosis_t), intent(in) :: test_diagnosis
+      type(assertion_diagnosis_t) assertion_diagnosis
+    end function
+
+  end interface
+
+  interface assert
+
+    pure module subroutine julienne_assert(assertion_diagnosis)
+      implicit none
+      type(assertion_diagnosis_t), intent(in) :: assertion_diagnosis
+    end subroutine
+
+  end interface
 
   interface operator(.all.)
      
