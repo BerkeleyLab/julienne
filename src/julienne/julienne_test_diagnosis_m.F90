@@ -56,9 +56,17 @@ module julienne_test_diagnosis_m
 
   interface assertion_diagnosis_t
 
-    pure module function construct_from_parent(test_diagnosis) result(assertion_diagnosis)
+    pure module function construct_from_components(success, diagnostics_string) result(assertion_diagnosis)
       implicit none
-      type(test_diagnosis_t), intent(in) :: test_diagnosis
+      logical, intent(in) :: success
+      character(len=*), intent(in) :: diagnostics_string
+      type(assertion_diagnosis_t) assertion_diagnosis
+    end function
+
+    pure module function construct_with_string(success, diagnostics_string) result(assertion_diagnosis)
+      implicit none
+      logical, intent(in) :: success
+      type(string_t), intent(in) :: diagnostics_string
       type(assertion_diagnosis_t) assertion_diagnosis
     end function
 
@@ -66,9 +74,11 @@ module julienne_test_diagnosis_m
 
   interface assert
 
-    pure module subroutine julienne_assert(assertion_diagnosis)
+    pure module subroutine julienne_assert(test_diagnosis)
+      !! If the actual argument is an instance of a child type (e.g., assertion_diagnosis_t),
+      !! the dummy argument will be the child's test_diagnosis_t parent component.
       implicit none
-      type(assertion_diagnosis_t), intent(in) :: assertion_diagnosis
+      type(test_diagnosis_t), intent(in) :: test_diagnosis
     end subroutine
 
   end interface

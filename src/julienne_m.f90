@@ -12,6 +12,8 @@ module julienne_m
   use julienne_test_description_m, only : test_description_t, diagnosis_function_i
   use julienne_test_diagnosis_m, only : &
      test_diagnosis_t &
+    ,assertion_diagnosis_t &
+    ,assert &
     ,operator(.all.) &
     ,operator(.and.) &
     ,operator(.approximates.) &
