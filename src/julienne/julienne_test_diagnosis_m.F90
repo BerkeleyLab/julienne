@@ -10,6 +10,8 @@ module julienne_test_diagnosis_m
 
   private
   public :: test_diagnosis_t
+  public :: assertion_diagnosis_t
+  public :: assert
   public :: operator(.all.)
   public :: operator(.and.)
   public :: operator(.approximates.)
@@ -32,6 +34,9 @@ module julienne_test_diagnosis_m
     procedure diagnostics_string
   end type
 
+  type, extends(test_diagnosis_t) :: assertion_diagnosis_t
+  end type
+
   integer, parameter :: default_real = kind(1.), double_precision = kind(1D0)
 
 #if HAVE_DERIVED_TYPE_KIND_PARAMETERS
@@ -48,6 +53,35 @@ module julienne_test_diagnosis_m
     double precision actual, expected 
   end type
 #endif
+
+  interface assertion_diagnosis_t
+
+    pure module function construct_from_components(success, diagnostics_string) result(assertion_diagnosis)
+      implicit none
+      logical, intent(in) :: success
+      character(len=*), intent(in) :: diagnostics_string
+      type(assertion_diagnosis_t) assertion_diagnosis
+    end function
+
+    pure module function construct_with_string(success, diagnostics_string) result(assertion_diagnosis)
+      implicit none
+      logical, intent(in) :: success
+      type(string_t), intent(in) :: diagnostics_string
+      type(assertion_diagnosis_t) assertion_diagnosis
+    end function
+
+  end interface
+
+  interface assert
+
+    pure module subroutine julienne_assert(test_diagnosis)
+      !! If the actual argument is an instance of a child type (e.g., assertion_diagnosis_t),
+      !! the dummy argument will be the child's test_diagnosis_t parent component.
+      implicit none
+      type(test_diagnosis_t), intent(in) :: test_diagnosis
+    end subroutine
+
+  end interface
 
   interface operator(.all.)
      
