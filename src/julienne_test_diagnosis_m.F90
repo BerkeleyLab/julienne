@@ -14,6 +14,8 @@ module julienne_test_diagnosis_m
   public :: operator(.and.)
   public :: operator(.approximates.)
   public :: operator(.within.)
+  public :: operator(.withinFraction.)
+  public :: operator(.withinPercentage.)
   public :: operator(.equalsExpected.)
   public :: operator(.lessThan.)
   public :: operator(.lessThanOrEqualTo.)
@@ -178,6 +180,50 @@ module julienne_test_diagnosis_m
       type(double_precision_operands_t), intent(in) :: operands
 #endif
       double precision, intent(in) :: tolerance
+      type(test_diagnosis_t) test_diagnosis
+    end function
+   
+  end interface
+
+  interface operator(.withinFraction.)
+
+    elemental module function within_real_fraction(operands, fractional_tolerance) result(test_diagnosis)
+      implicit none
+      type(operands_t), intent(in) :: operands
+      real, intent(in) :: fractional_tolerance
+      type(test_diagnosis_t) test_diagnosis
+    end function
+   
+    elemental module function within_double_precision_fraction(operands, fractional_tolerance) result(test_diagnosis)
+      implicit none
+#if HAVE_DERIVED_TYPE_KIND_PARAMETERS
+      type(operands_t(double_precision)), intent(in) :: operands
+#else
+      type(double_precision_operands_t), intent(in) :: operands
+#endif
+      double precision, intent(in) :: fractional_tolerance
+      type(test_diagnosis_t) test_diagnosis
+    end function
+   
+  end interface
+
+  interface operator(.withinPercentage.)
+
+    elemental module function within_real_percentage(operands, percentage_tolerance) result(test_diagnosis)
+      implicit none
+      type(operands_t), intent(in) :: operands
+      real, intent(in) :: percentage_tolerance
+      type(test_diagnosis_t) test_diagnosis
+    end function
+   
+    elemental module function within_double_precision_percentage(operands, percentage_tolerance) result(test_diagnosis)
+      implicit none
+#if HAVE_DERIVED_TYPE_KIND_PARAMETERS
+      type(operands_t(double_precision)), intent(in) :: operands
+#else
+      type(double_precision_operands_t), intent(in) :: operands
+#endif
+      double precision, intent(in) :: percentage_tolerance
       type(test_diagnosis_t) test_diagnosis
     end function
    

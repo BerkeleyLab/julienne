@@ -20,7 +20,9 @@ module julienne_m
     ,operator(.lessThan.) &
     ,operator(.lessThanOrEqualTo.) &
     ,operator(.greaterThan.) &
-    ,operator(.greaterThanOrEqualTo.)
+    ,operator(.greaterThanOrEqualTo.) &
+    ,operator(.withinFraction.) &
+    ,operator(.withinPercentage.)
   use julienne_test_result_m, only : test_result_t
   use julienne_vector_test_description_m, only : vector_test_description_t, vector_diagnosis_function_i
   implicit none
