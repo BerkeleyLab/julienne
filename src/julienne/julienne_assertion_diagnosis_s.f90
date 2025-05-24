@@ -1,5 +1,5 @@
 submodule (julienne_test_diagnosis_m) julienne_assertion_diagnosis_s
-  use assert_m, only : assert_library_assert => assert
+  use assert_m, only : assert_library_assert => assert_always
   implicit none
 
 contains
@@ -13,7 +13,11 @@ contains
   end procedure
 
   module procedure julienne_assert
-    call assert_library_assert(test_diagnosis%test_passed_, test_diagnosis%diagnostics_string_)
+    character(len=:), allocatable :: diagnostics_string
+    diagnostics_string =  test_diagnosis%diagnostics_string_
+    if (present(file)) diagnostics_string = diagnostics_string // " in file " // file
+    if (present(line)) diagnostics_string = diagnostics_string // " at line " // string_t(line)
+    call assert_library_assert(test_diagnosis%test_passed_, diagnostics_string)
   end procedure
 
 end submodule

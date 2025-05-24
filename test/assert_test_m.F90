@@ -2,12 +2,13 @@
 ! Terms of use are as specified in LICENSE.txt
 
 #include "language-support.F90"
+#include "julienne-assert-macros.h"
 
 module assert_test_m
   !! Test Julienne's assert generic interface
 
   use julienne_m, only : & 
-     assert &
+     call_julienne_assert &
     ,test_diagnosis_t &
     ,test_t &
     ,test_description_t &
@@ -30,7 +31,7 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "The assert generic interface" 
+    specimen = "The julienne_assert subroutine" 
   end function
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
@@ -39,7 +40,7 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     associate(descriptions => [ &
-      test_description_t("invocation with an test_diagnosis_t expression", check_test_diagnosis_expression) &
+      test_description_t("invocation via macro with a test_diagnosis_t expression", check_macro_with_expression) &
     ])
       associate(substring_in_subject => index(subject(), test_description_substring) /= 0)
         associate(substring_in_assertion_diagnosis => descriptions%contains_text(test_description_substring))
@@ -55,15 +56,15 @@ contains
 #else
 
   function results() result(test_results)
-    use julienne_m, only : diagnosis_function_i
     !! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument
+    use julienne_m, only : diagnosis_function_i
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: descriptions(:)
     procedure(diagnosis_function_i), pointer :: &
-       check_test_diagnosis_expression_ptr => check_test_diagnosis_expression
+       check_macro_with_expression_ptr => check_macro_with_expression
 
     descriptions = [ &
-      test_description_t("invocation with an test_diagnosis_t expression", check_test_diagnosis_expression_ptr) &
+      test_description_t("invocation via macro with a test_diagnosis_t expression", check_macro_with_expression_ptr) &
     ]
 
     block
@@ -80,9 +81,9 @@ contains
 
 #endif
 
-  function check_test_diagnosis_expression() result(test_diagnosis)
+  function check_macro_with_expression() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    call assert(1. .approximates. 2. .within. 3.)
+    call_julienne_assert(1. .approximates. 2. .within. 3.)
     test_diagnosis = test_diagnosis_t(.true., "")
   end function
 

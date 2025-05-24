@@ -13,7 +13,7 @@ module julienne_m
   use julienne_test_diagnosis_m, only : &
      test_diagnosis_t &
     ,assertion_diagnosis_t &
-    ,assert &
+    ,call_julienne_assert &
     ,operator(.all.) &
     ,operator(.and.) &
     ,operator(.approximates.) &

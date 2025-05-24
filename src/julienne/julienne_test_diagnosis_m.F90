@@ -11,7 +11,7 @@ module julienne_test_diagnosis_m
   private
   public :: test_diagnosis_t
   public :: assertion_diagnosis_t
-  public :: assert
+  public :: call_julienne_assert
   public :: operator(.all.)
   public :: operator(.and.)
   public :: operator(.approximates.)
@@ -72,13 +72,13 @@ module julienne_test_diagnosis_m
 
   end interface
 
-  interface assert
+  interface call_julienne_assert
 
-    pure module subroutine julienne_assert(test_diagnosis)
-      !! If the actual argument is an instance of a child type (e.g., assertion_diagnosis_t),
-      !! the dummy argument will be the child's test_diagnosis_t parent component.
+    pure module subroutine julienne_assert(test_diagnosis, file, line)
       implicit none
       type(test_diagnosis_t), intent(in) :: test_diagnosis
+      character(len=*), intent(in), optional :: file
+      integer, intent(in), optional :: line
     end subroutine
 
   end interface
