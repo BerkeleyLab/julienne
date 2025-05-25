@@ -7,7 +7,7 @@
 #endif
 
 ! Enable repeated includes to toggle assertions based on current settings:
-#undef julienne_assert
+#undef call_julienne_assert
 
 #if ASSERTIONS
 # define call_julienne_assert(assertion) call call_julienne_assert(assertion, __FILE__, __LINE__)
