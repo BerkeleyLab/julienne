@@ -64,7 +64,7 @@ contains
     type(test_description_t), allocatable :: descriptions(:)
     procedure(diagnosis_function_i), pointer :: &
        check_macro_with_expression_ptr => check_macro_with_expression &
-       check_macro_with_assertion_diagnosis_ptr => check_macro_with_assertion_diagnosis
+      ,check_macro_with_assertion_diagnosis_ptr => check_macro_with_assertion_diagnosis
 
     descriptions = [ &
        test_description_t("invocation via macro with a test_diagnosis_t expression", check_macro_with_expression_ptr) &
