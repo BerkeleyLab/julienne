@@ -81,6 +81,13 @@ module julienne_test_diagnosis_m
       integer, intent(in), optional :: line
     end subroutine
 
+    pure module subroutine assert_with_assertion_diagnosis(assertion_diagnosis, file, line)
+      implicit none
+      type(assertion_diagnosis_t), intent(in) :: assertion_diagnosis
+      character(len=*), intent(in), optional :: file
+      integer, intent(in), optional :: line
+    end subroutine
+
   end interface
 
   interface operator(.all.)

@@ -8,7 +8,8 @@ module assert_test_m
   !! Test Julienne's assert generic interface
 
   use julienne_m, only : & 
-     call_julienne_assert &
+     assertion_diagnosis_t &
+    ,call_julienne_assert &
     ,test_diagnosis_t &
     ,test_t &
     ,test_description_t &
@@ -40,7 +41,8 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     associate(descriptions => [ &
-      test_description_t("invocation via macro with a test_diagnosis_t expression", check_macro_with_expression) &
+       test_description_t("invocation via macro with a test_diagnosis_t expression", check_macro_with_expression) &
+      ,test_description_t("invocation via macro with an assertion_diagnosis_t argument", check_macro_with_assertion_diagnosis) &
     ])
       associate(substring_in_subject => index(subject(), test_description_substring) /= 0)
         associate(substring_in_assertion_diagnosis => descriptions%contains_text(test_description_substring))
@@ -61,10 +63,12 @@ contains
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: descriptions(:)
     procedure(diagnosis_function_i), pointer :: &
-       check_macro_with_expression_ptr => check_macro_with_expression
+       check_macro_with_expression_ptr => check_macro_with_expression &
+       check_macro_with_assertion_diagnosis_ptr => check_macro_with_assertion_diagnosis
 
     descriptions = [ &
-      test_description_t("invocation via macro with a test_diagnosis_t expression", check_macro_with_expression_ptr) &
+       test_description_t("invocation via macro with a test_diagnosis_t expression", check_macro_with_expression_ptr) &
+      ,test_description_t("invocation via macro with an assertion_diagnosis_t argument", check_macro_with_assertion_diagnosis_ptr) &
     ]
 
     block
@@ -84,6 +88,12 @@ contains
   function check_macro_with_expression() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     call_julienne_assert(1. .approximates. 2. .within. 3.)
+    test_diagnosis = test_diagnosis_t(.true., "")
+  end function
+
+  function check_macro_with_assertion_diagnosis() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    call_julienne_assert(assertion_diagnosis_t( success=.true., diagnostics_string="unexpected test failure"))
     test_diagnosis = test_diagnosis_t(.true., "")
   end function
 
