@@ -9,7 +9,7 @@ module assert_test_m
 
   use julienne_m, only : & 
      assertion_diagnosis_t &
-    ,call_julienne_assert &
+    ,call_julienne_assert_ &
     ,test_diagnosis_t &
     ,test_t &
     ,test_description_t &

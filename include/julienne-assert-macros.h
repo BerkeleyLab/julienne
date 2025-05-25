@@ -10,7 +10,7 @@
 #undef call_julienne_assert
 
 #if ASSERTIONS
-# define call_julienne_assert(assertion) call call_julienne_assert(assertion, __FILE__, __LINE__)
+# define call_julienne_assert(assertion) call call_julienne_assert_(assertion, __FILE__, __LINE__)
 #else
 # define call_julienne_assert(assertion)
 #endif

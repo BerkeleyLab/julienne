@@ -11,7 +11,7 @@ module julienne_test_diagnosis_m
   private
   public :: test_diagnosis_t
   public :: assertion_diagnosis_t
-  public :: call_julienne_assert
+  public :: call_julienne_assert_
   public :: operator(.all.)
   public :: operator(.and.)
   public :: operator(.approximates.)
@@ -72,7 +72,7 @@ module julienne_test_diagnosis_m
 
   end interface
 
-  interface call_julienne_assert
+  interface call_julienne_assert_
 
     pure module subroutine julienne_assert(test_diagnosis, file, line)
       implicit none
