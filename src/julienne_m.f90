@@ -14,6 +14,7 @@ module julienne_m
      test_diagnosis_t &
     ,assertion_diagnosis_t &
     ,call_julienne_assert_ &
+    ,julienne_assert &
     ,operator(.all.) &
     ,operator(.and.) &
     ,operator(.approximates.) &
