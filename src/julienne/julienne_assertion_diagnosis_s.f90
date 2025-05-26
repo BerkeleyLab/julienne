@@ -12,7 +12,7 @@ contains
     assertion_diagnosis%test_diagnosis_t = test_diagnosis_t(success, diagnostics_string%string())
   end procedure
 
-  module procedure julienne_assert
+  module procedure assert_expression
     character(len=:), allocatable :: diagnostics_string
     diagnostics_string =  test_diagnosis%diagnostics_string_
     if (present(file)) diagnostics_string = diagnostics_string // " in file " // file
@@ -20,7 +20,7 @@ contains
     call assert_library_assert(test_diagnosis%test_passed_, diagnostics_string)
   end procedure
 
-  module procedure assert_with_assertion_diagnosis
+  module procedure assert_diagnosis
     character(len=:), allocatable :: diagnostics_string
     diagnostics_string =  assertion_diagnosis%diagnostics_string_
     if (present(file)) diagnostics_string = diagnostics_string // " in file " // file

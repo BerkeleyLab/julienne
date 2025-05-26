@@ -32,7 +32,7 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "The julienne_assert subroutine" 
+    specimen = "The assert_{expression,diagnosis} subroutines" 
   end function
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
@@ -41,8 +41,8 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     associate(descriptions => [ &
-       test_description_t("invocation via macro with a test_diagnosis_t expression", check_macro_with_expression) &
-      ,test_description_t("invocation via macro with an assertion_diagnosis_t argument", check_macro_with_assertion_diagnosis) &
+       test_description_t("invocation via macro with an expression using Julienne operators", check_macro_with_expression) &
+      ,test_description_t("invocation via macro with a custom assertion diagnosis", check_macro_with_custom_diagnosis) &
     ])
       associate(substring_in_subject => index(subject(), test_description_substring) /= 0)
         associate(substring_in_assertion_diagnosis => descriptions%contains_text(test_description_substring))
@@ -64,11 +64,11 @@ contains
     type(test_description_t), allocatable :: descriptions(:)
     procedure(diagnosis_function_i), pointer :: &
        check_macro_with_expression_ptr => check_macro_with_expression &
-      ,check_macro_with_assertion_diagnosis_ptr => check_macro_with_assertion_diagnosis
+      ,check_macro_with_custom_diagnosis_ptr => check_macro_with_custom_diagnosis
 
     descriptions = [ &
-       test_description_t("invocation via macro with a test_diagnosis_t expression", check_macro_with_expression_ptr) &
-      ,test_description_t("invocation via macro with an assertion_diagnosis_t argument", check_macro_with_assertion_diagnosis_ptr) &
+       test_description_t("invocation via macro with an expression using Julienne operators", check_macro_with_expression_ptr) &
+      ,test_description_t("invocation via macro with a custom diagnosis", check_macro_with_custom_diagnosis_ptr) &
     ]
 
     block
@@ -91,7 +91,7 @@ contains
     test_diagnosis = test_diagnosis_t(.true., "")
   end function
 
-  function check_macro_with_assertion_diagnosis() result(test_diagnosis)
+  function check_macro_with_custom_diagnosis() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     call_julienne_assert(assertion_diagnosis_t( success=.true., diagnostics_string="unexpected test failure"))
     test_diagnosis = test_diagnosis_t(.true., "")
