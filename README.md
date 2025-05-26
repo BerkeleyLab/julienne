@@ -25,7 +25,7 @@ Julienne lowers a widely stated barrier to writing `pure` procedures (including
 `simple` procedures): the difficulty in printing values while debugging code.
 The Julienne philosophy is that printing a value for debugging purposes implies
 an expectation about the value.  Assert such expectations by writing Julienne
-expressions inspired by natural language.  A program will proceeds quietly past
+expressions inspired by natural language.  A program will proceed quietly past
 a correct assertion.  An incorrect assertion produces either automated or custom
 diagnostic messages during error termination.
 
