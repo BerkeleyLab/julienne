@@ -11,10 +11,8 @@ module julienne_test_diagnosis_m
 
   private
   public :: test_diagnosis_t
-  public :: assertion_diagnosis_t
   public :: call_julienne_assert_
-  public :: assert_expression
-  public :: assert_diagnosis
+  public :: julienne_assert
   public :: operator(.all.)
   public :: operator(.and.)
   public :: operator(.approximates.)
@@ -37,9 +35,6 @@ module julienne_test_diagnosis_m
     procedure diagnostics_string
   end type
 
-  type, extends(test_diagnosis_t) :: assertion_diagnosis_t
-  end type
-
   integer, parameter :: default_real = kind(1.), double_precision = kind(1D0)
 
 #if HAVE_DERIVED_TYPE_KIND_PARAMETERS
@@ -57,43 +52,14 @@ module julienne_test_diagnosis_m
   end type
 #endif
 
-  interface assertion_diagnosis_t
-
-    pure module function construct_from_components(success, diagnostics_string) result(assertion_diagnosis)
-      implicit none
-      logical, intent(in) :: success
-      character(len=*), intent(in) :: diagnostics_string
-      type(assertion_diagnosis_t) assertion_diagnosis
-    end function
-
-    pure module function construct_with_string(success, diagnostics_string) result(assertion_diagnosis)
-      implicit none
-      logical, intent(in) :: success
-      type(string_t), intent(in) :: diagnostics_string
-      type(assertion_diagnosis_t) assertion_diagnosis
-    end function
-
-  end interface
-
   interface call_julienne_assert_
 
-    pure module subroutine assert_expression(test_diagnosis, file, line)
+    pure module subroutine julienne_assert(test_diagnosis, file, line)
       !! Use cases:
       !!   1. When invoked via the generic interface, the preprocessor passes the 'file' and 'line' dummy arguments automatically.
       !!   2. When invoked directly, there is 1 argument: an expression containing defined operations such as 1 .equalsExpected. 1
       implicit none
       type(test_diagnosis_t), intent(in) :: test_diagnosis
-      character(len=*), intent(in), optional :: file
-      integer, intent(in), optional :: line
-    end subroutine
-
-    pure module subroutine assert_diagnosis(assertion_diagnosis, file, line)
-      !! Use cases:
-      !!   1. When invoked via the generic interface, the preprocessor passes the 'file' and 'line' dummy arguments automatically.
-      !!   2. When invoked directly, a user constructs an assertion_diagnosis_t object to create a custom diagnostics_string such as
-      !!      call juleinne_assert_diagnosis(assertion_diagnosis_t(logical_func(x), "false result for x = " // string_t(x))
-      implicit none
-      type(assertion_diagnosis_t), intent(in) :: assertion_diagnosis
       character(len=*), intent(in), optional :: file
       integer, intent(in), optional :: line
     end subroutine
