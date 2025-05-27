@@ -1,4 +1,4 @@
-name: CI
+name: Build with gfortran
 
 on: [push, pull_request]
 
@@ -26,3 +26,4 @@ jobs:
     - name: Build and Run unit tests
       run: |
         fpm test --compiler gfortran-14
+        (set +e ; stdout_stderr=$(fpm test --target false-assertion --compiler gfortran-14 --flag -DRUN_FALSE_ASSERTIONS --profile release) ; echo "$stdout_stderr" | grep "expected 2; actual value is 1" &> /dev/null ; test $? = 0)

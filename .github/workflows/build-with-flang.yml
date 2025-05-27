@@ -30,3 +30,4 @@ jobs:
         export FPM_FC=$FC
         export FPM_FFLAGS="-mmlir -allow-assumed-rank -O3"
         fpm test
+        (set +e ; stdout_stderr=$(fpm test --target false-assertion --flag -DRUN_FALSE_ASSERTIONS) ; echo "$stdout_stderr" | grep "expected 2; actual value is 1" &> /dev/null ; test $? = 0) 
