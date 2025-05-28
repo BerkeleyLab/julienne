@@ -10,6 +10,7 @@ program main
   use julienne_m                     ,only : command_line_t, GitHub_CI
 
   ! Test modules
+  use assert_test_m                  ,only :                  assert_test_t
   use bin_test_m                     ,only :                     bin_test_t
   use command_line_test_m            ,only :            command_line_test_t
   use formats_test_m                 ,only :                 formats_test_t
@@ -20,6 +21,7 @@ program main
   use vector_test_description_test_m ,only : vector_test_description_test_t
   implicit none
 
+  type(assert_test_t) assert_test
   type(bin_test_t) bin_test
   type(command_line_test_t) command_line_test
   type(formats_test_t) formats_test
@@ -45,6 +47,7 @@ program main
 
   print "(a)", new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
 
+  call assert_test%report(passes, tests, skips)
   call bin_test%report(passes, tests, skips)
   call formats_test%report(passes, tests, skips)
   call string_test%report(passes, tests, skips)

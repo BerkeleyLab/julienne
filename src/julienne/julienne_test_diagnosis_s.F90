@@ -1,8 +1,8 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
-#include "assert_macros.h"
 #include "language-support.F90"
+#include "assert_macros.h"
 
 submodule(julienne_test_diagnosis_m) julienne_test_diagnosis_s
   use assert_m
@@ -264,4 +264,13 @@ contains
     call_assert(allocated(self%diagnostics_string_))
     string_ = string_t(self%diagnostics_string_)
   end procedure
+
+  module procedure julienne_assert
+    character(len=:), allocatable :: diagnostics_string
+    diagnostics_string =  test_diagnosis%diagnostics_string_
+    if (present(file)) diagnostics_string = diagnostics_string // " in file " // file
+    if (present(line)) diagnostics_string = diagnostics_string // " at line " // string_t(line)
+    call assert_always(test_diagnosis%test_passed_, diagnostics_string)
+  end procedure
+
 end submodule julienne_test_diagnosis_s
