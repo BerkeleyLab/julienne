@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 8.4% of total for modules and submodules.">151 statements</a>
+                 title=" 8.7% of total for modules and submodules.">158 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -153,7 +153,7 @@
             <a class="list-group-item" href="../module/julienne_test_diagnosis_s.html#proc-and">and</a>
             <a class="list-group-item" href="../module/julienne_test_diagnosis_s.html#proc-approximates_double_precision">approximates_double_precision</a>
             <a class="list-group-item" href="../module/julienne_test_diagnosis_s.html#proc-approximates_real">approximates_real</a>
-            <a class="list-group-item" href="../module/julienne_test_diagnosis_s.html#proc-construct_from_character~2">construct_from_character</a>
+            <a class="list-group-item" href="../module/julienne_test_diagnosis_s.html#proc-construct_from_character">construct_from_character</a>
             <a class="list-group-item" href="../module/julienne_test_diagnosis_s.html#proc-construct_from_string_t">construct_from_string_t</a>
             <a class="list-group-item" href="../module/julienne_test_diagnosis_s.html#proc-diagnostics_string">diagnostics_string</a>
             <a class="list-group-item" href="../module/julienne_test_diagnosis_s.html#proc-equals_expected_integer">equals_expected_integer</a>
@@ -161,6 +161,7 @@
             <a class="list-group-item" href="../module/julienne_test_diagnosis_s.html#proc-greater_than_integer">greater_than_integer</a>
             <a class="list-group-item" href="../module/julienne_test_diagnosis_s.html#proc-greater_than_or_equal_to_integer">greater_than_or_equal_to_integer</a>
             <a class="list-group-item" href="../module/julienne_test_diagnosis_s.html#proc-greater_than_real">greater_than_real</a>
+            <a class="list-group-item" href="../module/julienne_test_diagnosis_s.html#proc-julienne_assert">julienne_assert</a>
             <a class="list-group-item" href="../module/julienne_test_diagnosis_s.html#proc-less_than_double">less_than_double</a>
             <a class="list-group-item" href="../module/julienne_test_diagnosis_s.html#proc-less_than_integer">less_than_integer</a>
             <a class="list-group-item" href="../module/julienne_test_diagnosis_s.html#proc-less_than_or_equal_to_integer">less_than_or_equal_to_integer</a>
@@ -612,7 +613,7 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_character~2"></span> <h3>module procedure /home/runner/work/julienne/julienne/doc/html/module/julienne_test_diagnosis_s.html <a href='../proc/construct_from_character~2.html'>construct_from_character</a> <small>elemental module function construct_from_character(test_passed, diagnostics_string) result(test_diagnosis)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_character"></span> <h3>module procedure /home/runner/work/julienne/julienne/doc/html/module/julienne_test_diagnosis_s.html <a href='../proc/construct_from_character.html'>construct_from_character</a> <small>elemental module function construct_from_character(test_passed, diagnostics_string) result(test_diagnosis)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -646,7 +647,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-diagnostics_string~3"></span>
+              <span class="anchor" id="variable-diagnostics_string~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -706,7 +707,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-diagnostics_string~2"></span>
+              <span class="anchor" id="variable-diagnostics_string~3"></span>
               type(<a href='../type/string_t.html'>string_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1073,6 +1074,76 @@ large graphs.</div>
     <small>type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>)</small>
     </h4>
     
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-julienne_assert"></span> <h3>module procedure /home/runner/work/julienne/julienne/doc/html/module/julienne_test_diagnosis_s.html <a href='../proc/julienne_assert.html'>julienne_assert</a> <small>pure module subroutine julienne_assert(test_diagnosis, file, line)</small>  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-test_diagnosis"></span>
+              type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>test_diagnosis</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-file"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>file</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-line"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>line</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
 
     </div>
   </div>
@@ -1742,7 +1813,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-05-23 18:24 +0000             </p>
+ on 2025-05-28 18:27 +0000             </p>
           </div>
         </div>
         <br>

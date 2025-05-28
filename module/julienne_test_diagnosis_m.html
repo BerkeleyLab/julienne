@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="10.6% of total for modules and submodules.">189 statements</a>
+                 title="11.0% of total for modules and submodules.">199 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -154,6 +154,7 @@
       </a>
       <div id="inters-0" class="collapse">
         <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/julienne_test_diagnosis_m.html#interface-call_julienne_assert_">call_julienne_assert_</a>
             <a class="list-group-item" href="../module/julienne_test_diagnosis_m.html#interface-operator%28.all.%29">operator(.all.)</a>
             <a class="list-group-item" href="../module/julienne_test_diagnosis_m.html#interface-operator%28.and.%29">operator(.and.)</a>
             <a class="list-group-item" href="../module/julienne_test_diagnosis_m.html#interface-operator%28.approximates.%29">operator(.approximates.)</a>
@@ -204,7 +205,8 @@
     </div>
 
     <div class="col-md-9" id='text'>
-      <p>Define an abstraction for describing test outcomes and diagnostic information</p>
+      <p>Define abstractions, defined operations, and procedures for writing correctness checks in
+the form of assertions and tests.</p>
 <br>          <div class="card mb-4">
       <h3 class="card-header card-title bg-light">Uses</h3>
       <div class="card-body">
@@ -739,6 +741,87 @@ parameter
 
         <section>
           <h2>Interfaces</h2>
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-call_julienne_assert_"></span>
+      <h3>public        interface <a href='../interface/call_julienne_assert_.html'>call_julienne_assert_</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private pure module subroutine julienne_assert(test_diagnosis, file, line)  
+    <a href="../proc/julienne_assert.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  <p>Use cases:
+  1. When invoked via the generic interface, the preprocessor passes the 'file' and 'line' dummy arguments automatically.
+  2. When invoked directly, there is 1 argument: an expression containing defined operations such as 1 .equalsExpected. 1</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-test_diagnosis"></span>
+              type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>test_diagnosis</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-file"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>file</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-line"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>line</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+    </ul>
+  </div>
+
               <div class="card">
     <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-operator%28.all.%29"></span>
@@ -1965,7 +2048,7 @@ parameter
           <li class="list-group-item">
                 <h3>
     private elemental module function construct_from_character(test_passed, diagnostics_string) result(test_diagnosis)  
-    <a href="../proc/construct_from_character~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/construct_from_character.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>The result is a test_diagnosis_t object with the components defined by the dummy arguments</p>
@@ -1998,7 +2081,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-diagnostics_string~3"></span>
+              <span class="anchor" id="variable-diagnostics_string~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2057,7 +2140,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-diagnostics_string~2"></span>
+              <span class="anchor" id="variable-diagnostics_string~3"></span>
               type(<a href='../type/string_t.html'>string_t</a>),
             </td>
 <td>intent(in)</td>
@@ -2293,7 +2376,7 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/test_diagnosis_t.html#boundprocedure-diagnostics_string'>diagnostics_string</a></strong></td>
+  <strong><a href='../type/test_diagnosis_t.html#boundprocedure-diagnostics_string~2'>diagnostics_string</a></strong></td>
                   <td></td>
               </tr>
               <tr>
@@ -2546,7 +2629,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-05-23 18:24 +0000             </p>
+ on 2025-05-28 18:27 +0000             </p>
           </div>
         </div>
         <br>

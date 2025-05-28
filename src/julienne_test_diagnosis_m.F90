@@ -4,12 +4,15 @@
 #include "language-support.F90"
 
 module julienne_test_diagnosis_m
-  !! Define an abstraction for describing test outcomes and diagnostic information
+  !! Define abstractions, defined operations, and procedures for writing correctness checks in
+  !! the form of assertions and tests.
   use julienne_string_m, only : string_t
   implicit none
 
   private
   public :: test_diagnosis_t
+  public :: call_julienne_assert_
+  public :: julienne_assert
   public :: operator(.all.)
   public :: operator(.and.)
   public :: operator(.approximates.)
@@ -48,6 +51,20 @@ module julienne_test_diagnosis_m
     double precision actual, expected 
   end type
 #endif
+
+  interface call_julienne_assert_
+
+    pure module subroutine julienne_assert(test_diagnosis, file, line)
+      !! Use cases:
+      !!   1. When invoked via the generic interface, the preprocessor passes the 'file' and 'line' dummy arguments automatically.
+      !!   2. When invoked directly, there is 1 argument: an expression containing defined operations such as 1 .equalsExpected. 1
+      implicit none
+      type(test_diagnosis_t), intent(in) :: test_diagnosis
+      character(len=*), intent(in), optional :: file
+      integer, intent(in), optional :: line
+    end subroutine
+
+  end interface
 
   interface operator(.all.)
      
