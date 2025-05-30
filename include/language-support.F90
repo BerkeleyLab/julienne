@@ -4,6 +4,8 @@
 #ifndef _JULIENNE_LANGUAGE_SUPPORT_H
 #define _JULIENNE_LANGUAGE_SUPPORT_H
 
+#define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+
 ! If not already determined, make a compiler-dependent determination of whether Julienne may pass
 ! procedure actual arguments to procedure pointer dummy arguments, a feature introduced in
 ! Fortran 2008 and described in Fortran 2023 clause 15.5.2.10 paragraph 5.
