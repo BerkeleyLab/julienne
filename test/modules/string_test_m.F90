@@ -167,11 +167,7 @@ contains
       ,test_description_t("extracting a string_t array value from a colon-separated key/value pair",   extracts_string_array_value_ptr)&
       ,test_description_t('constructing (comma-)separated values from character or string_t arrays',   constructs_separated_values_ptr)&
       ,test_description_t('constructing from a double-precision complex value',           constructs_from_double_precision_complex_ptr)&
-#if GCC_VERSION > 140200
       ,test_description_t('constructing bracketed strings',                                                       brackets_strings_ptr) &
-#else
-      ,test_description_t('constructing bracketed strings') &
-#endif
     ]
 #endif
     test_descriptions = pack(test_descriptions, &
