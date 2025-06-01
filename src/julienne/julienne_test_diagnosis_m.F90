@@ -68,12 +68,29 @@ module julienne_test_diagnosis_m
 
   interface operator(.all.)
      
+#ifndef __GFORTRAN__
+
     pure module function aggregate_diagnosis(diagnoses) result(diagnosis)
       implicit none
       type(test_diagnosis_t), intent(in) :: diagnoses(..)
       type(test_diagnosis_t) diagnosis
     end function
 
+#else
+
+    pure module function aggregate_scalar_diagnosis(diagnoses) result(diagnosis)
+      implicit none
+      type(test_diagnosis_t), intent(in) :: diagnoses
+      type(test_diagnosis_t) diagnosis
+    end function
+
+    pure module function aggregate_vector_diagnosis(diagnoses) result(diagnosis)
+      implicit none
+      type(test_diagnosis_t), intent(in) :: diagnoses(:)
+      type(test_diagnosis_t) diagnosis
+    end function
+
+#endif
   end interface
 
   interface operator(.and.)

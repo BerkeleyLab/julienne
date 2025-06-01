@@ -105,10 +105,10 @@ contains
       ,test_description_t("construction from a real expression of the form 'x .greaterThan. y"                                 , check_greater_than_real_ptr) &
       ,test_description_t("construction from a double precision expression of the form 'x .greaterThan. y"                     , check_greater_than_double_ptr) &
       ,test_description_t("construction from a integer expression of the form 'i .greaterThan. j"                              , check_greater_than_integer_ptr) &
-      ,test_description_t("construction from a integer expression of the form 'i .greaterThanOrEqualTo. j") & ! skip check_greater_than_or_equal_to_integer_ptr
-      ,test_description_t("construction from a scalar test_diagnostics_t expression with operands like 'i .equalsExpected. j'"  ) & ! skip check_and_with_scalar_operands_ptr
-      ,test_description_t("construction from test_diagnostics_t vector expressions with operands like 'i .equalsExpected. [j,k]'") & ! skip check_and_with_vector_operands_ptr
-      ,test_description_t("construction from vector test_diagnostics_t expressions with operands like 'i .equalsExpected. [j,k]'") & !, check_and_with_vector_operands_ptr) &
+      ,test_description_t("construction from a integer expression of the form 'i .greaterThanOrEqualTo. j", check_greater_than_or_equal_to_integer_ptr) &
+      ,test_description_t("construction from a scalar test_diagnostics_t expression with operands like 'i .equalsExpected. j'", check_and_with_scalar_operands_ptr) &
+      ,test_description_t("construction from test_diagnostics_t vector expressions with operands like 'i .equalsExpected. [j,k]'", check_and_with_vector_operands_ptr) & 
+      ,test_description_t("construction from vector test_diagnostics_t expressions with operands like 'i .equalsExpected. [j,k]'", check_and_with_vector_operands_ptr) &
      ]
 #endif
 
