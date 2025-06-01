@@ -101,7 +101,7 @@ contains
       ,test_description_t("construction from a real expression of the form 'x .lessThan. y"                                    , check_less_than_real_ptr) &
       ,test_description_t("construction from a double precision expression of the form 'x .lessThan. y"                        , check_less_than_double_ptr) &
       ,test_description_t("construction from a integer expression of the form 'i .lessThan. j"                                 , check_less_than_integer_ptr) &
-      ,test_description_t("construction from a integer expression of the form 'i .lessThanOrEqualTo. j"   ) & ! skip check_less_than_or_equal_to_integer_ptr
+      ,test_description_t("construction from a integer expression of the form 'i .lessThanOrEqualTo. j",             check_less_than_or_equal_to_integer_ptr) &
       ,test_description_t("construction from a real expression of the form 'x .greaterThan. y"                                 , check_greater_than_real_ptr) &
       ,test_description_t("construction from a double precision expression of the form 'x .greaterThan. y"                     , check_greater_than_double_ptr) &
       ,test_description_t("construction from a integer expression of the form 'i .greaterThan. j"                              , check_greater_than_integer_ptr) &
@@ -217,7 +217,13 @@ contains
   function check_less_than_or_equal_to_integer() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     integer, parameter :: expected_max = 1
+#ifndef __GFORTRAN__
     test_diagnosis = .all. ([0,1] .lessThanOrEqualTo. expected_max)
+#else
+    associate(test_diagnoses => ([0,1] .lessThanOrEqualTo. expected_max))
+      test_diagnosis = .all. test_diagnoses
+    end associate
+#endif
   end function
 
   function check_greater_than_or_equal_to_integer() result(test_diagnosis)
