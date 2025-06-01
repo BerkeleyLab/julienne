@@ -101,7 +101,7 @@ contains
       ,test_description_t("construction from a real expression of the form 'x .lessThan. y"                                    , check_less_than_real_ptr) &
       ,test_description_t("construction from a double precision expression of the form 'x .lessThan. y"                        , check_less_than_double_ptr) &
       ,test_description_t("construction from a integer expression of the form 'i .lessThan. j"                                 , check_less_than_integer_ptr) &
-      ,test_description_t("construction from a integer expression of the form 'i .lessThanOrEqualTo. j",             check_less_than_or_equal_to_integer_ptr) &
+      ,test_description_t("construction from a integer expression of the form '[i,j] .lessThanOrEqualTo. k", check_less_than_or_equal_to_integer_ptr) &
       ,test_description_t("construction from a real expression of the form 'x .greaterThan. y"                                 , check_greater_than_real_ptr) &
       ,test_description_t("construction from a double precision expression of the form 'x .greaterThan. y"                     , check_greater_than_double_ptr) &
       ,test_description_t("construction from a integer expression of the form 'i .greaterThan. j"                              , check_greater_than_integer_ptr) &
