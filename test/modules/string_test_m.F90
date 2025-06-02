@@ -164,16 +164,10 @@ contains
       ,test_description_t('extracting a file base name',                                                   extracts_file_base_name_ptr)&
       ,test_description_t('extracting a file name extension',                                         extracts_file_name_extension_ptr)&
       ,test_description_t('supporting unary operator(.cat.) for array arguments',                            concatenates_elements_ptr)&
-#ifndef __GFORTRAN__
-      ,test_description_t('constructing bracketed strings',                                                       brackets_strings_ptr)&
-#else
-      ! Because this test crashes due to a gfortran bug, we construct the test_description_t object without a test_diagnosis_t
-      ! function, which will cause the test to be skipped and reported as such in test_result_t's "run" function.
-      ,test_description_t('constructing bracketed strings'                                                                            )&
-#endif
       ,test_description_t("extracting a string_t array value from a colon-separated key/value pair",   extracts_string_array_value_ptr)&
       ,test_description_t('constructing (comma-)separated values from character or string_t arrays',   constructs_separated_values_ptr)&
       ,test_description_t('constructing from a double-precision complex value',           constructs_from_double_precision_complex_ptr)&
+      ,test_description_t('constructing bracketed strings',                                                       brackets_strings_ptr) &
     ]
 #endif
     test_descriptions = pack(test_descriptions, &
@@ -577,23 +571,27 @@ contains
 
     associate(scalar => string_t("do re mi"))
 
-#ifndef __GFORTRAN__
+#if (! defined(__GFORTRAN__)) || GCC_VERSION > 150000
       associate(array  => string_t(["do", "re", "mi"]))
+        test_diagnosis = test_diagnosis_t( &
+          test_passed = scalar%bracket()        == string_t("[do re mi]")                                  &
+               .and. all(array%bracket()        == [string_t("[do]"), string_t("[re]"), string_t("[mi]")]) &
+               .and. all(array%bracket('"')     == [string_t('"do"'), string_t('"re"'), string_t('"mi"')]) &
+               .and. all(array%bracket("{","}") == [string_t('{do}'), string_t('{re}'), string_t('{mi}')]) &
+          ,diagnostics_string = "" &
+        )
+      end associate
 #else
       block
         type(string_t), allocatable :: array(:)
         array = string_t(["do", "re", "mi"])
-#endif
-      test_diagnosis = test_diagnosis_t( &
-        test_passed = scalar%bracket()        == string_t("[do re mi]")                                  &
-             .and. all(array%bracket()        == [string_t("[do]"), string_t("[re]"), string_t("[mi]")]) &
-             .and. all(array%bracket('"')     == [string_t('"do"'), string_t('"re"'), string_t('"mi"')]) &
-             .and. all(array%bracket("{","}") == [string_t('{do}'), string_t('{re}'), string_t('{mi}')]) &
-        ,diagnostics_string = "" &
-      )
-#ifndef __GFORTRAN__
-      end associate
-#else
+        test_diagnosis = test_diagnosis_t( &
+          test_passed = scalar%bracket()        == string_t("[do re mi]")                                  &
+               .and. all(array%bracket()        == [string_t("[do]"), string_t("[re]"), string_t("[mi]")]) &
+               .and. all(array%bracket('"')     == [string_t('"do"'), string_t('"re"'), string_t('"mi"')]) &
+               .and. all(array%bracket("{","}") == [string_t('{do}'), string_t('{re}'), string_t('{mi}')]) &
+          ,diagnostics_string = "" &
+        )
       end block
 #endif
     end associate
