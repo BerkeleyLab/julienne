@@ -10,7 +10,7 @@
     <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="../favicon.png">
 
-    <title>operator(.withinPercentage.) &ndash; Julienne</title>
+    <title>aggregate_vector_diagnosis &ndash; Julienne</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -83,8 +83,8 @@
 
     <div class="container">
   <div class="row">
-    <h1>operator(.withinPercentage.)
-      <small>Interface</small>
+    <h1>aggregate_vector_diagnosis
+      <small>Module Procedure</small>
       
     </h1>
       <div class="container p-2 mb-4 bg-light border rounded-3">
@@ -94,21 +94,21 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.2% of total for procedures.</p>Including implementation: 15 statements,  0.2% of total for procedures.">15 statements</a>
+                 title=" 0.1% of total for procedures.">10 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/julienne_test_diagnosis_m.F90"> Source File</a>
+              <a href="../src/julienne_test_diagnosis_s.F90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/julienne_test_diagnosis_m.f90.html'>julienne_test_diagnosis_m.F90</a></li>
-                <li class="breadcrumb-item"><a href='../module/julienne_test_diagnosis_m.html'>julienne_test_diagnosis_m</a></li>
-            <li class="breadcrumb-item active" aria-current="page">operator(.withinPercentage.)</li>
+                <li class="breadcrumb-item"><a href='../sourcefile/julienne_test_diagnosis_s.f90.html'>julienne_test_diagnosis_s.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/julienne_test_diagnosis_s.html'>julienne_test_diagnosis_s</a></li>
+            <li class="breadcrumb-item active" aria-current="page">aggregate_vector_diagnosis</li>
           </ol>
         </nav>
       </div>
@@ -123,10 +123,10 @@
   </script>
 
   </div>
-
+  
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-        <div id="sidebar">
+      <div id="sidebar">
       <h3>Contents</h3>
   
   
@@ -139,19 +139,7 @@
   
   
   
-      <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#funcs-0"
-         aria-expanded="false" aria-controls="funcs-0">
-         <h4 class="card-header bg-primary text-white">Functions</h4>
-      </a>
-      <div id="funcs-0" class="collapse">
-        <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/operator(.withinpercentage.).html#proc-within_double_precision_percentage">within_double_precision_percentage</a>
-            <a class="list-group-item" href="../interface/operator(.withinpercentage.).html#proc-within_real_percentage">within_real_percentage</a>
-        </div>
-      </div>
-    </div>
-
+  
   
   
   
@@ -165,136 +153,66 @@
   </div>
 
     </div>
-
+    
     <div class="col-md-9" id='text'>
-      <h2>public interface operator(.withinPercentage.)</h2>
+    <h2>module procedure aggregate_vector_diagnosis <small>pure module function aggregate_vector_diagnosis(diagnoses) result(diagnosis)</small>  
+</h2>
+    
+
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diagnoses~4"></span>
+              type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diagnoses</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-diagnosis~5"></span>
+          type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>)
+        </small>
+      </h3>
       
+    <br>
 
-        <h2>Functions</h2>
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-within_double_precision_percentage"></span> <h3>private elemental module function within_double_precision_percentage(operands, percentage_tolerance) result(test_diagnosis)  
-    <a href="../proc/within_double_precision_percentage.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-        
 
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-operands~11"></span>
-              type(<a href='../type/operands_t.html'>operands_t</a>(double_precision)),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>operands</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-percentage_tolerance~2"></span>
-              double precision,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>percentage_tolerance</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>)</small>
-    </h4>
+    
     
 
+    
+    
+
+
+
+    
+    
     </div>
   </div>
 
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-within_real_percentage"></span> <h3>private elemental module function within_real_percentage(operands, percentage_tolerance) result(test_diagnosis)  
-    <a href="../proc/within_real_percentage.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-        
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-operands~10"></span>
-              type(<a href='../type/operands_t.html'>operands_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>operands</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-percentage_tolerance"></span>
-              real,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>percentage_tolerance</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-
-
-</div>
-  </div>
       <hr>
     </div> <!-- /container -->
     <footer>

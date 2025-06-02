@@ -111,7 +111,99 @@ conditions in a common way when writing tests that wrap the tested procedures
 or assertions that conditionally execute inside procedures.  Julienne's idioms
 center around expressions built up from defined operations: a uniquely flexible
 Fortran capability that allows developers to define <em>new</em> operators in addition
-to overloading the Fortran's intrinsic operators.</p>
+to overloading the Fortran's intrinsic operators.  The following table provides
+some examples of the expressions that can be written in assertions and tests
+using Julienne:</p>
+<table>
+<thead>
+<tr>
+<th>Example expressions</th>
+<th>Operand types</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x .approximates. y .within. tolerance</code></td>
+<td><code>real</code>, <code>double precision</code></td>
+</tr>
+<tr>
+<td><code>x .approximates. y .withinFraction. tolerance</code></td>
+<td><code>real</code>, <code>double precision</code></td>
+</tr>
+<tr>
+<td><code>x .approximates. y .withinPercentage. tolerance</code></td>
+<td><code>real</code>, <code>double precision</code></td>
+</tr>
+<tr>
+<td><code>.all. ([i,j] .lessThan. k)</code></td>
+<td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
+</tr>
+<tr>
+<td><code>(i .lessThan. j) .and. (k .equalsExpected. m))</code></td>
+<td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
+</tr>
+<tr>
+<td><code>x .lessThan. y</code></td>
+<td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
+</tr>
+<tr>
+<td><code>x .greaterThan. y</code></td>
+<td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
+</tr>
+<tr>
+<td><code>i .greaterThan. j</code></td>
+<td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
+</tr>
+<tr>
+<td><code>i .equalsExpected. j</code></td>
+<td><code>integer</code></td>
+</tr>
+<tr>
+<td><code>i .greaterThanOrEqualTo. j</code></td>
+<td><code>integer</code></td>
+</tr>
+<tr>
+<td><code>i .lessThanOrEqualTo. j</code></td>
+<td><code>integer</code></td>
+</tr>
+</tbody>
+</table>
+<p>The operations and operands have the following properties:</p>
+<ol>
+<li>The operand type and kind must be uniform throughout the expression.</li>
+<li>All operations are <code>elemental</code>, which implies the operands must be conformable.
+   Arrays of the same shape are conformable.  Scalars are conformable with arrays.</li>
+</ol>
+<p>The above expressions produce automated diagnostic messages when an expression
+is untrue.  Julienne also provides string-handling utilities for user customization
+of diagnostic messages.  The following table shows some of the string expressions
+that Julienne supports:</p>
+<table>
+<thead>
+<tr>
+<th>Example expressions</th>
+<th>Result (<code>character</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.csv. [1,2,4]</td>
+<td>"1,2,4"</td>
+</tr>
+<tr>
+<td>s=string_t("1,2,4"); s%bracket()</td>
+<td>"[1,2,4]"</td>
+</tr>
+<tr>
+<td>s=string_t("1,2,4"); s%bracket("{","}")</td>
+<td>"{1,2,4}"</td>
+</tr>
+<tr>
+<td>s=string_t("1,2,4"); s%bracket("</td>
+<td>")</td>
+</tr>
+</tbody>
+</table>
 <h2 id="assertions">Assertions</h2>
 <p>Functional programming patterns centered around <code>pure</code> procedures enhance
 code clarity, ease refactoring, and encourage optimization.  For example,
@@ -166,7 +258,7 @@ on the <code>test_descriptions</code> array.</p>
 encapsulating the two components enumerated in the <a href="#assertions">Assertions</a> section.
 Use one of Julienne's expression idioms to construct the function result
 automatically:</p>
-<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="k">function </span><span class="n">check_something</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="k">function </span><span class="n">check_something</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">test_diagnosis</span><span class="p">)</span>
 <span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">test_diagnosis_t</span><span class="p">)</span><span class="w"> </span><span class="n">test_diagnosis</span>
 <span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span>
 <span class="w">    </span><span class="n">test_diagnosis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">.</span><span class="n">equalsExpected</span><span class="p">.</span><span class="w"> </span><span class="n">j</span>
@@ -206,41 +298,40 @@ thereby details any features Julienne does not supported with a given compiler.<
 <tr>
 <th>Compiler</th>
 <th>Version(s) Tested</th>
-<th>Support</th>
+<th>Known Issues</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>LLVM <code>flang-new</code></td>
 <td>19, 20</td>
-<td>full</td>
+<td>none</td>
 </tr>
 <tr>
 <td>NAG <code>nagfor</code></td>
 <td>7.2 Build 7227</td>
-<td>full</td>
+<td>none</td>
 </tr>
 <tr>
 <td>GCC <code>gfortran</code></td>
-<td>13.1.0, 14.2.0_1, 15.0.1</td>
-<td>partial (see 1 below)</td>
+<td>13, 14, 15</td>
+<td>see 1 below</td>
 </tr>
 <tr>
 <td>Intel <code>ifx</code></td>
 <td>2025.4 Build 20241205</td>
-<td>partial (see 2 below)</td>
+<td>see 2 below</td>
 </tr>
 </tbody>
 </table>
-<p>Compiler bugs related to the following issues have been reported:</p>
 <ol>
 <li><code>gfortran</code> issues:</li>
-<li>The <code>test_description_t</code> constructor's [<code>diagnosis_function</code>] actual
-     argument must be a procedure pointer.</li>
+<li>The <code>test_description_t</code> constructor's <code>diagnosis_function</code> actual argument
+     must be a procedure pointer conforming to the <code>diagnosis_function_i</code>
+     abstract interface.</li>
+<li>The <code>string_t</code> <code>bracket</code> type-bound function crashes for GCC versions &lt; 15.</li>
 <li>Each element of a [<code>vector_test_description_t</code>] array (a feature to be
      deprecated in a future release) must be defined in a separate statement.</li>
-<li>The <code>string_t</code> type's <code>bracket</code> type-bound procedure causes a program crash.</li>
-<li>The <code>string_t</code> type's <code>.all.</code> operator causes a program crash.</li>
 <li><code>ifx</code> issue:</li>
 <li>Two <code>string_t</code> tests fail as described in issue <a href="https://github.com/BerkeleyLab/julienne/issues/51">#51</a>.</li>
 </ol>
@@ -306,7 +397,7 @@ doing so is in the <a href="https://github.com/rouson/handy-dandy/blob/7caaa4dc3
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Source Files</h3>
-              <ul><li><a href='sourcefile/check-for-command-line-argument.f90.html'>check-for-command-line-argument.f90</a></li><li><a href='sourcefile/create-markdown-table.f90.html'>create-markdown-table.f90</a></li><li><a href='sourcefile/get-command-line-flag-value.f90.html'>get-command-line-flag-value.f90</a></li><li><a href='sourcefile/julienne_bin_m.f90.html'>julienne_bin_m.f90</a></li><li><a href='sourcefile/julienne_bin_s.f90.html'>julienne_bin_s.F90</a></li><li><a href='sourcefile/julienne_command_line_m.f90.html'>julienne_command_line_m.f90</a></li><li><a href='sourcefile/julienne_command_line_s.f90.html'>julienne_command_line_s.f90</a></li><li><a href='sourcefile/julienne_file_m.f90.html'>julienne_file_m.f90</a></li><li><a href='sourcefile/julienne_file_s.f90.html'>julienne_file_s.F90</a></li><li><a href='sourcefile/julienne_formats_m.f90.html'>julienne_formats_m.F90</a></li></ul>
+              <ul><li><a href='sourcefile/check-for-command-line-argument.f90.html'>check-for-command-line-argument.f90</a></li><li><a href='sourcefile/create-markdown-table.f90.html'>create-markdown-table.F90</a></li><li><a href='sourcefile/get-command-line-flag-value.f90.html'>get-command-line-flag-value.f90</a></li><li><a href='sourcefile/julienne_bin_m.f90.html'>julienne_bin_m.f90</a></li><li><a href='sourcefile/julienne_bin_s.f90.html'>julienne_bin_s.F90</a></li><li><a href='sourcefile/julienne_command_line_m.f90.html'>julienne_command_line_m.f90</a></li><li><a href='sourcefile/julienne_command_line_s.f90.html'>julienne_command_line_s.f90</a></li><li><a href='sourcefile/julienne_file_m.f90.html'>julienne_file_m.f90</a></li><li><a href='sourcefile/julienne_file_s.f90.html'>julienne_file_s.F90</a></li><li><a href='sourcefile/julienne_formats_m.f90.html'>julienne_formats_m.F90</a></li></ul>
             </div>
             <div>
               <ul>
@@ -339,7 +430,7 @@ doing so is in the <a href="https://github.com/rouson/handy-dandy/blob/7caaa4dc3
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Derived Types</h3>
-              <ul><li><a href='type/bin_t.html'>bin_t</a></li><li><a href='type/command_line_t.html'>command_line_t</a></li><li><a href='type/double_precision_operands_t.html'>double_precision_operands_t</a></li><li><a href='type/file_t.html'>file_t</a></li><li><a href='type/operands_t.html'>operands_t</a></li><li><a href='type/operands_t~2.html'>operands_t</a></li><li><a href='type/string_t.html'>string_t</a></li><li><a href='type/test_description_t.html'>test_description_t</a></li><li><a href='type/test_diagnosis_t.html'>test_diagnosis_t</a></li><li><a href='type/test_result_t.html'>test_result_t</a></li></ul>
+              <ul><li><a href='type/bin_t.html'>bin_t</a></li><li><a href='type/command_line_t.html'>command_line_t</a></li><li><a href='type/double_precision_operands_t.html'>double_precision_operands_t</a></li><li><a href='type/file_t.html'>file_t</a></li><li><a href='type/operands_t~2.html'>operands_t</a></li><li><a href='type/operands_t.html'>operands_t</a></li><li><a href='type/string_t.html'>string_t</a></li><li><a href='type/test_description_t.html'>test_description_t</a></li><li><a href='type/test_diagnosis_t.html'>test_diagnosis_t</a></li><li><a href='type/test_result_t.html'>test_result_t</a></li></ul>
             </div>
             <div>
               <ul>
@@ -363,7 +454,7 @@ doing so is in the <a href="https://github.com/rouson/handy-dandy/blob/7caaa4dc3
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-05-28 18:27 +0000             </p>
+ on 2025-06-02 21:58 +0000             </p>
           </div>
         </div>
         <br>

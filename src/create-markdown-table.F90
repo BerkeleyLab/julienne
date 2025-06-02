@@ -69,7 +69,11 @@ contains
       else if (index(compiler_identity, "Intel") /= 0) then
         compiler = string_t("ifx")
       else
-        error stop "unreconized compiler: " // compiler_identity
+#if (! defined(__GFORTRAN__)) || (GCC_VERSION > 140000)
+          error stop "unrecognized compiler: " // compiler_identity
+#else
+          error stop "unrecognized compiler"
+#endif
       end if
     end associate
   end function

@@ -14,6 +14,8 @@ contains
      diagnosis = .all. ([lhs,rhs])
   end procedure 
 
+#ifndef __GFORTRAN__
+
   module procedure aggregate_diagnosis
     character(len=*), parameter :: new_line_indent = new_line('') // "        "
     integer i
@@ -35,6 +37,29 @@ contains
         end associate
     end select
   end procedure
+
+#else
+
+  module procedure aggregate_scalar_diagnosis
+    diagnosis = diagnoses
+  end procedure
+   
+  module procedure aggregate_vector_diagnosis
+    character(len=*), parameter :: new_line_indent = new_line('') // "        "
+    type(string_t), allocatable :: array(:)
+    integer i
+    allocate(array(size(diagnoses)))
+    do i = 1, size(diagnoses)
+      array(i) = string_t(new_line_indent // diagnoses(i)%diagnostics_string_)
+    end do
+    diagnosis = test_diagnosis_t( &
+       test_passed = all(diagnoses%test_passed_) &
+      ,diagnostics_string = .cat. pack( &
+         array = array &
+        ,mask  = .not. diagnoses%test_passed_ &
+    ) ) 
+  end procedure
+#endif
 
   module procedure approximates_real
     operands = operands_t(actual, expected) 
