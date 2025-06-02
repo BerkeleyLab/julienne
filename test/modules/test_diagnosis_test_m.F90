@@ -217,13 +217,7 @@ contains
   function check_less_than_or_equal_to_integer() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     integer, parameter :: expected_max = 1
-#ifndef __GFORTRAN__
     test_diagnosis = .all. ([0,1] .lessThanOrEqualTo. expected_max)
-#else
-    associate(test_diagnoses => ([0,1] .lessThanOrEqualTo. expected_max))
-      test_diagnosis = .all. test_diagnoses
-    end associate
-#endif
   end function
 
   function check_greater_than_or_equal_to_integer() result(test_diagnosis)
