@@ -50,65 +50,64 @@ contains
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     associate(descriptions => [ &
-       test_description_t("construction from a real expression of the form 'x .approximates. y .within. tolerance'", check_approximates_real) &
-      ,test_description_t("construction from a double precision expression of the form 'x .approximates. y .within. tolerance'", check_approximates_double) &
-      ,test_description_t("construction from the real expression 'x .approximates. y .withinFraction. tolerance'", check_approximates_real_fraction) &
-      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinFraction. tolerance'", check_approximates_double_fraction) &
-      ,test_description_t("construction from the real expression 'x .approximates. y .withinPercentage. tolerance'", check_approximates_real_percentage) &
+       test_description_t("construction from the real expression 'x .approximates. y .within. tolerance'"                      , check_approximates_real) &
+      ,test_description_t("construction from the real expression 'x .approximates. y .withinFraction. tolerance'"              , check_approximates_real_fraction) &
+      ,test_description_t("construction from the real expression 'x .approximates. y .withinPercentage. tolerance'"            , check_approximates_real_percentage) &
+      ,test_description_t("construction from the real expression 'x .lessThan. y"                                              , check_less_than_real) &
+      ,test_description_t("construction from the real expression 'x .greaterThan. y"                                           , check_greater_than_real) &
+      ,test_description_t("construction from the double precision expression 'x .approximates. y .within. tolerance'"          , check_approximates_double) &
+      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinFraction. tolerance'"  , check_approximates_double_fraction) &
       ,test_description_t("construction from the double precision expression 'x .approximates. y .withinPercentage. tolerance'", check_approximates_double_percentage) &
-      ,test_description_t("construction from an integer expression of the form 'i .equalsExpected. j", check_equals_integer) &
-      ,test_description_t("construction from a real expression of the form 'x .lessThan. y", check_less_than_real) &
-      ,test_description_t("construction from a double precision expression of the form 'x .lessThan. y", check_less_than_double) &
-      ,test_description_t("construction from a integer expression of the form 'i .lessThan. j", check_less_than_integer) &
-      ,test_description_t("construction from a real expression of the form 'x .greaterThan. y", check_greater_than_real) &
-      ,test_description_t("construction from a double precision expression of the form 'x .greaterThan. y", check_greater_than_double) &
-      ,test_description_t("construction from a integer expression of the form 'i .greaterThan. j", check_greater_than_integer) &
-      ,test_description_t("construction from a integer expression of the form '[i,j] .lessThanOrEqualTo. k", check_less_than_or_equal_to_integer) &
-      ,test_description_t("construction from a integer expression of the form '[i,j] .greaterThanOrEqualTo. k", check_greater_than_or_equal_to_integer) &
-      ,test_description_t("construction from a scalar test_diagnostics_t expression of the form 't .and. u'", check_and_with_scalar_operands) &
-      ,test_description_t("construction from vector test_diagnostics_t expressions with operands like 'i .equalsExpected. [j,k]'", check_and_with_vector_operands) &
+      ,test_description_t("construction from the double precision expression 'x .lessThan. y"                                  , check_less_than_double) &
+      ,test_description_t("construction from the double precision expression 'x .greaterThan. y"                               , check_greater_than_double) &
+      ,test_description_t("construction from the integer expression 'i .equalsExpected. j"                                     , check_equals_integer) &
+      ,test_description_t("construction from the integer expression 'i .lessThan. j"                                           , check_less_than_integer) &
+      ,test_description_t("construction from the integer expression '[i,j] .lessThanOrEqualTo. k"                              , check_less_than_or_equal_to_integer) &
+      ,test_description_t("construction from the integer expression 'i .greaterThan. j"                                        , check_greater_than_integer) &
+      ,test_description_t("construction from the integer expression '[i,j] .greaterThanOrEqualTo. k"                           , check_greater_than_or_equal_to_integer) &
+      ,test_description_t("construction from the scalar test_diagnostics_t expression 't .and. u'"                             , check_and_with_scalar_operands) &
+      ,test_description_t("construction from the vector test_diagnostics_t expressions 'i .equalsExpected. [j,k]'"             , check_and_with_vector_operands) &
     ] )
 #else
      ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
      type(test_description_t), allocatable :: descriptions(:)
      procedure(diagnosis_function_i), pointer :: &
         check_approximates_real_ptr                => check_approximates_real &
-       ,check_approximates_double_ptr              => check_approximates_double &
        ,check_approximates_real_fraction_ptr       => check_approximates_real_fraction &
-       ,check_approximates_double_fraction_ptr     => check_approximates_double_fraction &
        ,check_approximates_real_percentage_ptr     => check_approximates_real_percentage &
-       ,check_approximates_double_percentage_ptr   => check_approximates_double_percentage &
-       ,check_equals_integer_ptr                   => check_equals_integer &
        ,check_less_than_real_ptr                   => check_less_than_real &
+       ,check_greater_than_real_ptr                => check_greater_than_real &
+       ,check_approximates_double_percentage_ptr   => check_approximates_double_percentage &
+       ,check_approximates_double_ptr              => check_approximates_double &
+       ,check_approximates_double_fraction_ptr     => check_approximates_double_fraction &
        ,check_less_than_double_ptr                 => check_less_than_double &
+       ,check_greater_than_double_ptr              => check_greater_than_double &
+       ,check_equals_integer_ptr                   => check_equals_integer &
        ,check_less_than_integer_ptr                => check_less_than_integer &
        ,check_less_than_or_equal_to_integer_ptr    => check_less_than_or_equal_to_integer &
-       ,check_greater_than_real_ptr                => check_greater_than_real &
-       ,check_greater_than_double_ptr              => check_greater_than_double &
        ,check_greater_than_integer_ptr             => check_greater_than_integer &
        ,check_greater_than_or_equal_to_integer_ptr => check_greater_than_or_equal_to_integer &
        ,check_and_with_scalar_operands_ptr         => check_and_with_scalar_operands &
        ,check_and_with_vector_operands_ptr         => check_and_with_vector_operands
 
      descriptions = [ &
-       test_description_t("construction from a real expression of the form `x .approximates. y .within. tolerance`"            , check_approximates_real_ptr) &
-      ,test_description_t("construction from a double-precision expression of the form `x .approximates. y .within. tolerance`", check_approximates_double_ptr) &
-      ,test_description_t("construction from the real expression 'x .approximates. y .withinFraction. tolerance'", check_approximates_real_fraction_ptr) &
-      ,test_description_t("construction from a double-precision expression of the form `x .approximates. y .within. tolerance`", check_approximates_double_ptr) &
-      ,test_description_t("construction from the real expression 'x .approximates. y .withinPercentage. tolerance'", check_approximates_real_percentage_ptr) &
+       test_description_t("construction from the real expression 'x .approximates. y .within. tolerance'"                      , check_approximates_real_ptr) &
+      ,test_description_t("construction from the real expression 'x .approximates. y .withinFraction. tolerance'"              , check_approximates_real_fraction_ptr) &
+      ,test_description_t("construction from the real expression 'x .approximates. y .withinPercentage. tolerance'"            , check_approximates_real_percentage_ptr) &
+      ,test_description_t("construction from the real expression 'x .lessThan. y"                                              , check_less_than_real_ptr) &
+      ,test_description_t("construction from the real expression 'x .greaterThan. y"                                           , check_greater_than_real_ptr) &
+      ,test_description_t("construction from the double precision expression 'x .approximates. y .within. tolerance'"          , check_approximates_double_ptr) &
+      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinFraction. tolerance'"  , check_approximates_double_fraction_ptr) &
       ,test_description_t("construction from the double precision expression 'x .approximates. y .withinPercentage. tolerance'", check_approximates_double_percentage_ptr) &
-      ,test_description_t("construction from an integer expression of the form `i .equalsExpected. j`"                         , check_equals_integer_ptr) &
-      ,test_description_t("construction from a real expression of the form 'x .lessThan. y"                                    , check_less_than_real_ptr) &
-      ,test_description_t("construction from a double precision expression of the form 'x .lessThan. y"                        , check_less_than_double_ptr) &
-      ,test_description_t("construction from a integer expression of the form 'i .lessThan. j"                                 , check_less_than_integer_ptr) &
-      ,test_description_t("construction from a integer expression of the form '[i,j] .lessThanOrEqualTo. k", check_less_than_or_equal_to_integer_ptr) &
-      ,test_description_t("construction from a real expression of the form 'x .greaterThan. y"                                 , check_greater_than_real_ptr) &
-      ,test_description_t("construction from a double precision expression of the form 'x .greaterThan. y"                     , check_greater_than_double_ptr) &
-      ,test_description_t("construction from a integer expression of the form 'i .greaterThan. j"                              , check_greater_than_integer_ptr) &
-      ,test_description_t("construction from a integer expression of the form 'i .greaterThanOrEqualTo. j", check_greater_than_or_equal_to_integer_ptr) &
-      ,test_description_t("construction from a scalar test_diagnostics_t expression with operands like 'i .equalsExpected. j'", check_and_with_scalar_operands_ptr) &
-      ,test_description_t("construction from test_diagnostics_t vector expressions with operands like 'i .equalsExpected. [j,k]'", check_and_with_vector_operands_ptr) & 
-      ,test_description_t("construction from vector test_diagnostics_t expressions with operands like 'i .equalsExpected. [j,k]'", check_and_with_vector_operands_ptr) &
+      ,test_description_t("construction from the double precision expression 'x .lessThan. y"                                  , check_less_than_double_ptr) &
+      ,test_description_t("construction from the double precision expression 'x .greaterThan. y"                               , check_greater_than_double_ptr) &
+      ,test_description_t("construction from the integer expression 'i .equalsExpected. j"                                     , check_equals_integer_ptr) &
+      ,test_description_t("construction from the integer expression 'i .lessThan. j"                                           , check_less_than_integer_ptr) &
+      ,test_description_t("construction from the integer expression '[i,j] .lessThanOrEqualTo. k"                              , check_less_than_or_equal_to_integer_ptr) &
+      ,test_description_t("construction from the integer expression 'i .greaterThan. j"                                        , check_greater_than_integer_ptr) &
+      ,test_description_t("construction from the integer expression '[i,j] .greaterThanOrEqualTo. k"                           , check_greater_than_or_equal_to_integer_ptr) &
+      ,test_description_t("construction from the scalar test_diagnostics_t expression 't .and. u'"                             , check_and_with_scalar_operands_ptr) &
+      ,test_description_t("construction from the vector test_diagnostics_t expressions 'i .equalsExpected. [j,k]'"             , check_and_with_vector_operands_ptr) &
      ]
 #endif
 
