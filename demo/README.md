@@ -9,21 +9,22 @@ Testing the Demonstration Project
 This demonstration project defines a trivial library named "specimen" in the `src`
 subdirectory and a test suite the `test` subdirectory.  The test suite includes five tests:
 
-1. Two pass.
-2. One intentionally fails to demonstrate diagnostic output.
-3. One test is skipped to the reporting and tallying of skipped tests.
+1. Two tests pass.
+2. One test intentionally fails to demonstrate diagnostic output.
+3. One test is skipped to demonstrate the reporting and tallying of skipped tests.
 4. One test passes with three compilers but is skipped with GCC due to a compiler bug.
 
 Test Julienne by setting your present working directory to the `demo/` subdirectory in a
 terminal window and then building and running the demonstration project's test suite using
 the command corresponding to your compiler in the table below.
 
-|Vendor   | Version/Build           | Example shell command                                |
-|---------|-------------------------|------------------------------------------------------|
-|LLVM     | 20.1.4 (Homebrew)       | `fpm test --compiler flang-new`                      |
-|GCC      | 14.2.0_1 (Homebrew)     | `fpm test --compiler gfortran --profile release`     |
-|NAG      | 7.2 Build 7227          | `fpm test --compiler nagfor --flag -fpp`             |
-|Intel    | 2025.1.0 Build 20250317 | `fpm test --compiler ifx --flag "-fpp -O3 -coarray"` |
+|Vendor   | Version/Build           | Example shell command                                                              |
+|---------|-------------------------|------------------------------------------------------------------------------------|
+|LLVM     | 20.1.4 (Homebrew)       | `fpm test --compiler flang-new`                                                    |
+|GCC      | 14.2.0_1 (Homebrew)     | `fpm test --compiler gfortran --profile release`                                   |
+|GCC      | 13.3.0_1 (Homebrew)     | `fpm test --compiler gfortran --profile release --flag "-ffree-line-length-0"`     |
+|NAG      | 7.2 Build 7227          | `fpm test --compiler nagfor --flag -fpp`                                           |
+|Intel    | 2025.1.0 Build 20250317 | `fpm test --compiler ifx --flag "-fpp -O3 -coarray"`                               |
 
 Setting Up Your Project's Test Suite
 ------------------------------------

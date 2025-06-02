@@ -10,7 +10,41 @@ conditions in a common way when writing tests that wrap the tested procedures
 or assertions that conditionally execute inside procedures.  Julienne's idioms
 center around expressions built up from defined operations: a uniquely flexible
 Fortran capability that allows developers to define _new_ operators in addition
-to overloading the Fortran's intrinsic operators.
+to overloading the Fortran's intrinsic operators.  The following table provides
+some examples of the expressions that can be written in assertions and tests
+using Julienne:
+
+Example expressions                               | Operand types              
+--------------------------------------------------|--------------------------------------
+`x .approximates. y .within. tolerance`           | `real`, `double precision`
+`x .approximates. y .withinFraction. tolerance`   | `real`, `double precision`
+`x .approximates. y .withinPercentage. tolerance` | `real`, `double precision`
+`.all. ([i,j] .lessThan. k)`                      | `integer`, `real`, `double precision`
+`(i .lessThan. j) .and. (k .equalsExpected. m))`  | `integer`, `real`, `double precision`
+`x .lessThan. y`                                  | `integer`, `real`, `double precision`
+`x .greaterThan. y`                               | `integer`, `real`, `double precision`
+`i .greaterThan. j`                               | `integer`, `real`, `double precision`                 
+`i .equalsExpected. j`                            | `integer`                 
+`i .greaterThanOrEqualTo. j`                      | `integer`                 
+`i .lessThanOrEqualTo. j`                         | `integer`                 
+
+The operations and operands have the following properties:
+
+1. The operand type and kind must be uniform throughout the expression.
+2. All operations are `elemental`, which implies the operands must be conformable.
+   Arrays of the same shape are conformable.  Scalars are conformable with arrays.
+
+The above expressions produce automated diagnostic messages when an expression
+is untrue.  Julienne also provides string-handling utilities for user customization
+of diagnostic messages.  The following table shows some of the string expressions
+that Julienne supports:
+
+Example expressions                     | Result (`character`)
+----------------------------------------|---------------------
+.csv. [1,2,4]                           | "1,2,4"
+s=string\_t("1,2,4"); s%bracket()       | "[1,2,4]"
+s=string\_t("1,2,4"); s%bracket("{","}")| "{1,2,4}"
+s=string\_t("1,2,4"); s%bracket("|")    | "|1,2,4|"
 
 Assertions
 ----------
@@ -73,7 +107,7 @@ encapsulating the two components enumerated in the [Assertions] section.
 Use one of Julienne's expression idioms to construct the function result
 automatically:
 ```fortran
-  function check_something()
+  function check_something() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     integer, parameter :: i=1, j=1
     test_diagnosis = i .equalsExpected. j
@@ -115,22 +149,20 @@ with a partially supported compiler, the Julienne test suite skips some tests
 due to compiler bugs.  The test output reports which tests are skipped and
 thereby details any features Julienne does not supported with a given compiler.
 
-Compiler         | Version(s) Tested        | Support
------------------|--------------------------|----------------------
-LLVM `flang-new` | 19, 20                   | full
-NAG `nagfor`     | 7.2 Build 7227           | full
-GCC `gfortran`   | 13.1.0, 14.2.0_1, 15.0.1 | partial (see 1 below)
-Intel `ifx`      | 2025.4 Build 20241205    | partial (see 2 below)
-
-Compiler bugs related to the following issues have been reported:
+Compiler         | Version(s) Tested        | Known Issues
+-----------------|--------------------------|-------------
+LLVM `flang-new` | 19, 20                   | none
+NAG `nagfor`     | 7.2 Build 7227           | none
+GCC `gfortran`   | 13, 14, 15               | see 1 below
+Intel `ifx`      | 2025.4 Build 20241205    | see 2 below
 
 1. `gfortran` issues:
-   - The `test_description_t` constructor's [`diagnosis_function`] actual
-     argument must be a procedure pointer.
+   - The `test_description_t` constructor's `diagnosis_function` actual argument
+     must be a procedure pointer conforming to the `diagnosis_function_i`
+     abstract interface.
+   - The `string_t` `bracket` type-bound function crashes for GCC versions < 15.
    - Each element of a [`vector_test_description_t`] array (a feature to be
      deprecated in a future release) must be defined in a separate statement.
-   - The `string_t` type's `bracket` type-bound procedure causes a program crash.
-   - The `string_t` type's `.all.` operator causes a program crash.
 2. `ifx` issue:
    - Two `string_t` tests fail as described in issue [#51].
 
