@@ -19,6 +19,8 @@ Example expressions                               | Operand types
 `x .approximates. y .withinFraction. tolerance`   | `real`, `double precision`
 `x .approximates. y .withinPercentage. tolerance` | `real`, `double precision`
 `.all. ([i,j] .lessThan. k)`                      | `integer`, `real`, `double precision`
+`.all. ([i,j] .lessThan. [k,m])`                  | `integer`, `real`, `double precision`
+`.all. (i .lessThan. [k,m])`                      | `integer`, `real`, `double precision`
 `(i .lessThan. j) .and. (k .equalsExpected. m))`  | `integer`, `real`, `double precision`
 `x .lessThan. y`                                  | `integer`, `real`, `double precision`
 `x .greaterThan. y`                               | `integer`, `real`, `double precision`
@@ -27,7 +29,9 @@ Example expressions                               | Operand types
 `i .greaterThanOrEqualTo. j`                      | `integer`
 `i .lessThanOrEqualTo. j`                         | `integer`
 
-### Expressive assertions
+Expressive idioms 
+-----------------
+### Assertions
 Any of the above tabulated expressions can be the actual argument in an
 invocation of Julienne's `call_assert` function-line preprocessor macro:
 ```
@@ -37,13 +41,13 @@ which a preprocessor will replace with a call to Julienne's assertion subroutine
 when compiling with `-DASSERTIONS`.  Otherwise, the preprocessor will remove the
 above line entirely when `-DASSERTIONS` is not present.
 
-### Expressive unit tests
+### Unit tests
 The above tabulated expressions can also serve as function results in unit tests.
 
 ### Constraints
-All operands compatible in type and kind and conformable in rank. Rank
-conformability implies that the operands in a given expression must either be
-all scalars or all arrays with the same shape or combinations of scalars and
+All operands in an expression must be compatible in type and kind as well as
+conformable in rank, where the latter condition implies that the operands must
+be all scalars or all arrays with the same shape or a combination of scalars and
 arrays with the same shape. This constraint follows from each of the operators
 being `elemental`.
 
@@ -53,20 +57,71 @@ components:
 - a `logical` indicator of test success if `.true`. or failure if `.false.` and
 - an automated diagnostic messages generated only if the test or assertion fails.
 
+Custom Test Diagnostics
+-----------------------
 For cases in which Julienne's operators do not support the desired correctness
 condition, the framework provides string-handling utilities for use in crafting
-custom diagnostic messages.  The following table shows some string expressions
-expressions that Julienne supports:
+custom diagnostic messages.  The string utilities center around Julienne's
+`string_t` derived type, which offers `elemental` constructor functions, i.e., 
+functions that one invokes via the same name as the derived type: `string_t()`.
+The `string_t()` constructor functions convert data of numeric type to
+`character` type, storing the resulting `character` representation in a private
+component of the constructor function result.  The actual argument provided to
+the constructor function can be of any one of several types, kinds, and ranks.
 
-Definition           | Example expression    | Result
----------------------|-----------------------|------------------------------------------------
-`s=string_t("abc")` | `s%bracket()`          | `string_t("[abc]")`
-`s=string_t("abc")` | `s%bracket("_")`       | `string_t("_abc_")`
-`s=string_t("abc")` | `s%bracket("{","}")`   | `string_t("{abc}")`
-`a=[1,2,4]`         | `string_t(a)`          | `[string_t("a"), string_t("b"), string_t("c")]`
-`a=[1,2,4]`         | `.csv. string_t(a)`    | `string_t("1,2,4")`
-`a=[1,2,4]`         | `.cat. string_t(a)`    | `string_t("124")`
-`a=[1,2,4]`         | `"-" .sv. string_t(a)` | `string_t("1-2-4")`
+Julienne provides defined operations for concatenating `string_t` objects
+(`//`), forming a concatenated `string_t` object from an array of `string_t`
+objects `(.cat.)`, forming a separated-value list `(.sv.)`, including a
+comma-separated value list `(.csv.)`.  The table below shows some expressions
+that Julienne supports with these defined operations.
+
+Example expression                        | Result
+------------------------------------------|------------------------------------------------
+`s=string_t("abc")`, `s%bracket()`        | `string_t("[abc]")`
+`s=string_t("abc")`, `s%bracket("_")`     | `string_t("_abc_")`
+`s=string_t("abc")`, `s%bracket("{","}")` | `string_t("{abc}")`
+`string_t(["a", "b", "c")`                | `[string_t("a"), string_t("b"), string_t("c")]`
+`.cat. string_t([9,8,7])`                 | `string_t("987")`
+`.csv. string_t([1.5,2.0,3.25])`          | `string_t("1.50000000,2.00000000,3.25000000")`
+`"-" .sv. string_t(a)`                    | `string_t("1-2-4")`
+`string_t("ab") // string_t("cd")`        | `string_t("abcd")`
+`"ab" // string_t("cd")`                  | `string_t("abcd")`
+`string_t("ab") // "cd"`                  | `string_t("abcd")`
+
+One can use such expressions to craft a diagnostic message when constructing
+a custom test function result:
+```
+type(test_diagnosis_t) test_diagnosis
+test_diagnosis = test_diagnosis_t( &
+  test_passed = i==j, &
+  diagnostics_string = "expected " // string_t(i) // "; actual " //string_t(j) &
+)
+```
+
+A file abstraction
+------------------
+Arrays of `string_t` objects provide a convenient way to store a ragged-length
+array of `character` data.  Julienne's `file_t` derived type has a private
+component that is a `string_t` array, wherein each element is one line of a text
+file. By storing a file in a `file_t` object using the `file_t` derived type's
+constructor function one can confine a program's file input/output (I/O) to one
+or two procedures.  The resulting `file_t` object can be manipulated elsewhere
+without incurring the costs associated with file I/O.  For example, the following
+line reads a file named `data.txt` into a `file_t` object and associates the name
+`file` with the resulting object.
+```
+type(file_t) file
+associate(file => file_t("data.txt"))
+end associate
+```
+This style supports functional programming patterns in two ways. First, the rest
+of the program can be comprised of `pure` procedures, which are precluded from
+performing I/O.  Second, an associate name is immutable when associated with an
+expression, including an expression that is simply a function reference. 
+Functional programming revolves around creating and using immutable state.
+(By contrast, when associating a name with a variable or array instead of with
+an expression, only certain attributes, such as the entity's allocation status,
+are immutable. The value of such a variable or array can be redefined.)
 
 Functional Programming 
 ----------------------
@@ -85,8 +140,9 @@ expressions inspired by natural language.  A program will proceed quietly past
 a correct assertion.  An incorrect assertion produces either automated or custom
 diagnostic messages during error termination.
 
-Writing Assertions
-------------------
+Getting Started
+---------------
+### Writing Assertions
 To write a Julienne assertion, insert a function-like preprocessor macro
 `call_julienne_assert` on a single line as in the following program:
 ```fortran
@@ -105,8 +161,7 @@ where inserting `-DASSERTIONS` in a compile command will expand the macro to
 and where dots (`.`) delimit Julienne operators and the parenthetical expression
 evaluates to a Julienne `test_diagnosis_t` object.
 
-Writing Unit Tests
------------------
+### Writing Unit Tests
 Writing tests using Julienne involves constructing a test-description array,
 in which each element is a `test_description_t` constructor function invocation
 with two arguments: a `character` string describing what the test does and the
@@ -138,14 +193,13 @@ respect to the arguments `i` and `j`.  If the condition `i==j` evaluates to
 asymmetry, i.e., indicating that `i` is the actual value, whereas `j` is the
 expected value.
 
+### A demonstration test suite
 Please see the demonstration test suite in [demo README.md](./demo/README.md)
-for more detailed instructions on setting up a new test suite, including how
-to customize the diagnostic output using the string-manipulation capabilities
-associated with Julienne's `string_t` derived type.  The demonstration test
-suite's main program also shows how to use Julienne's `command_line_t` type
+for detailed instructions on setting up a new test suite.  The demonstration
+test suite's main program also shows how to use Julienne's `command_line_t` type
 to access arguments that users pass to program via a command line or shell
 script.  Julienne also offers useful input/output format strings and
-format-generating functions.
+format-generating functions in the `julienne_formats_m` module.
 
 An Origin Story
 ---------------
@@ -155,10 +209,6 @@ inspired the structure of Julienne's tests and output.  Initially developed in
 the [Sourcery] repository as lightweight alternative with greater portability
 across compilers, Julienne's chief innovation now lies in the expressive idioms
 the framework supports.
-
-Getting Started
----------------
-Please see the demonstration test suite in [demo README.md](./demo/README.md).
 
 Building and Testing
 --------------------
