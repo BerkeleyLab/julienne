@@ -68,7 +68,6 @@ Definition           | Example expression    | Result
 `a=[1,2,4]`         | `.cat. string_t(a)`    | `string_t("124")`
 `a=[1,2,4]`         | `"-" .sv. string_t(a)` | `string_t("1-2-4")`
 
-
 Functional Programming 
 ----------------------
 Functional programming patterns centered around `pure` procedures enhance
@@ -88,7 +87,6 @@ diagnostic messages during error termination.
 
 Writing Assertions
 ------------------
-
 To write a Julienne assertion, insert a function-like preprocessor macro
 `call_julienne_assert` on a single line as in the following program:
 ```fortran
@@ -188,7 +186,7 @@ Intel `ifx`      | 2025.4 Build 20241205    | see 2 below
 2. `ifx` issue:
    - Two `string_t` tests fail as described in issue [#51].
 
-# Build/test commands
+### Build/test commands
 
 #### LLVM (`flang-new`) compiler
 ##### `flang-new` version 20 or later
