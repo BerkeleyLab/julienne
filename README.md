@@ -38,7 +38,7 @@ when compiling with `-DASSERTIONS`.  Otherwise, the preprocessor will remove the
 above line entirely when `-DASSERTIONS` is not present.
 
 ### Expressive unit tests
-The above tabulated expressions can also be function result in unit tests.
+The above tabulated expressions can also serve as function results in unit tests.
 
 ### Constraints
 All operands compatible in type and kind and conformable in rank. Rank
@@ -58,15 +58,15 @@ condition, the framework provides string-handling utilities for use in crafting
 custom diagnostic messages.  The following table shows some string expressions
 expressions that Julienne supports:
 
-Definition          | Example expressions | Result (`character`)
---------------------|---------------------|----------------------------------------------
-s=string\_t("abc")  | s%bracket()         |  string_t("[abc]")
-                    | s%bracket("|")      |  string_t("|abc|")
-                    | s%bracket("{","}")  |  string_t("{abc}")
-a=[1,2,4]           | string_t(a)         | [string_t("a"), string_t("b"), string_t("c")]
-                    | .csv. string_t(a)   |  string_t("1,2,4")
-                    | .cat. string_t(a)   |  string_t("124")
-                    | "|" .sv. string_t(a)|  string_t("1|2|4")
+Definition           | Example expression    | Result
+---------------------|-----------------------|------------------------------------------------
+`s=string_t("abc")` | `s%bracket()`          | `string_t("[abc]")`
+`s=string_t("abc")` | `s%bracket("_")`       | `string_t("_abc_")`
+`s=string_t("abc")` | `s%bracket("{","}")`   | `string_t("{abc}")`
+`a=[1,2,4]`         | `string_t(a)`          | `[string_t("a"), string_t("b"), string_t("c")]`
+`a=[1,2,4]`         | `.csv. string_t(a)`    | `string_t("1,2,4")`
+`a=[1,2,4]`         | `.cat. string_t(a)`    | `string_t("124")`
+`a=[1,2,4]`         | `"-" .sv. string_t(a)` | `string_t("1-2-4")`
 
 
 Functional Programming 
