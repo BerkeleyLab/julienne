@@ -105,15 +105,14 @@ https://github.com/sourceryinstitute/julienne" role="button">GitHub</a>
 </p>
 
 <h1 id="julienne-idiomatic-correctness-checking-for-fortran-2023">Julienne: Idiomatic Correctness Checking for Fortran 2023</h1>
-<p>The Julienne framework offers a unified approach to unit testing and checking 
-runtime assertions.  Julienne defines idioms for specifying correctness
+<p>The Julienne framework offers a unified approach to unit testing and runtime
+assertion checking.  Julienne defines idioms for specifying correctness
 conditions in a common way when writing tests that wrap the tested procedures
-or assertions that conditionally execute inside procedures.  Julienne's idioms
-center around expressions built up from defined operations: a uniquely flexible
-Fortran capability that allows developers to define <em>new</em> operators in addition
-to overloading the Fortran's intrinsic operators.  The following table provides
-some examples of the expressions that can be written in assertions and tests
-using Julienne:</p>
+or assertions that conditionally execute inside procedures to check correctness.
+Julienne's idioms center around expressions built from defined operations: a
+uniquely flexible Fortran capability allowing developers to define <em>new</em>
+operators in addition to overloading Fortran's intrinsic operators.  The
+following table provides examples of the expressions Julienne supports:</p>
 <table>
 <thead>
 <tr>
@@ -136,6 +135,14 @@ using Julienne:</p>
 </tr>
 <tr>
 <td><code>.all. ([i,j] .lessThan. k)</code></td>
+<td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
+</tr>
+<tr>
+<td><code>.all. ([i,j] .lessThan. [k,m])</code></td>
+<td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
+</tr>
+<tr>
+<td><code>.all. (i .lessThan. [k,m])</code></td>
 <td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
 </tr>
 <tr>
@@ -168,43 +175,128 @@ using Julienne:</p>
 </tr>
 </tbody>
 </table>
-<p>The operations and operands have the following properties:</p>
-<ol>
-<li>The operand type and kind must be uniform throughout the expression.</li>
-<li>All operations are <code>elemental</code>, which implies the operands must be conformable.
-   Arrays of the same shape are conformable.  Scalars are conformable with arrays.</li>
-</ol>
-<p>The above expressions produce automated diagnostic messages when an expression
-is untrue.  Julienne also provides string-handling utilities for user customization
-of diagnostic messages.  The following table shows some of the string expressions
-that Julienne supports:</p>
+<h2 id="expressive-idioms">Expressive idioms</h2>
+<h3 id="assertions">Assertions</h3>
+<p>Any of the above tabulated expressions can be the actual argument in an
+invocation of Julienne's <code>call_assert</code> function-line preprocessor macro:</p>
+<div class="codehilite"><pre><span></span><code>call_assert(x .lessThan. y)
+</code></pre></div>
+
+<p>which a preprocessor will replace with a call to Julienne's assertion subroutine
+when compiling with <code>-DASSERTIONS</code>.  Otherwise, the preprocessor will remove the
+above line entirely when <code>-DASSERTIONS</code> is not present.</p>
+<h3 id="unit-tests">Unit tests</h3>
+<p>The above tabulated expressions can also serve as function results in unit tests.</p>
+<h3 id="constraints">Constraints</h3>
+<p>All operands in an expression must be compatible in type and kind as well as
+conformable in rank, where the latter condition implies that the operands must
+be all scalars or all arrays with the same shape or a combination of scalars and
+arrays with the same shape. This constraint follows from each of the operators
+being <code>elemental</code>.</p>
+<p>Each tabulated expression above produces a <code>test_diagnosis_t</code> object with two
+components:</p>
+<ul>
+<li>a <code>logical</code> indicator of test success if <code>.true</code>. or failure if <code>.false.</code> and</li>
+<li>an automated diagnostic messages generated only if the test or assertion fails.</li>
+</ul>
+<h2 id="custom-test-diagnostics">Custom Test Diagnostics</h2>
+<p>For cases in which Julienne's operators do not support the desired correctness
+condition, the framework provides string-handling utilities for use in crafting
+custom diagnostic messages.  The string utilities center around Julienne's
+<code>string_t</code> derived type, which offers <code>elemental</code> constructor functions, i.e., 
+functions that one invokes via the same name as the derived type: <code>string_t()</code>.
+The <code>string_t()</code> constructor functions convert data of numeric type to
+<code>character</code> type, storing the resulting <code>character</code> representation in a private
+component of the constructor function result.  The actual argument provided to
+the constructor function can be of any one of several types, kinds, and ranks.</p>
+<p>Julienne provides defined operations for concatenating <code>string_t</code> objects
+(<code>//</code>), forming a concatenated <code>string_t</code> object from an array of <code>string_t</code>
+objects <code>(.cat.)</code>, forming a separated-value list <code>(.sv.)</code>, including a
+comma-separated value list <code>(.csv.)</code>.  The table below shows some expressions
+that Julienne supports with these defined operations.</p>
 <table>
 <thead>
 <tr>
-<th>Example expressions</th>
-<th>Result (<code>character</code>)</th>
+<th>Example expression</th>
+<th>Result</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>.csv. [1,2,4]</td>
-<td>"1,2,4"</td>
+<td><code>s=string_t("abc")</code>, <code>s%bracket()</code></td>
+<td><code>string_t("[abc]")</code></td>
 </tr>
 <tr>
-<td>s=string_t("1,2,4"); s%bracket()</td>
-<td>"[1,2,4]"</td>
+<td><code>s=string_t("abc")</code>, <code>s%bracket("_")</code></td>
+<td><code>string_t("_abc_")</code></td>
 </tr>
 <tr>
-<td>s=string_t("1,2,4"); s%bracket("{","}")</td>
-<td>"{1,2,4}"</td>
+<td><code>s=string_t("abc")</code>, <code>s%bracket("{","}")</code></td>
+<td><code>string_t("{abc}")</code></td>
 </tr>
 <tr>
-<td>s=string_t("1,2,4"); s%bracket("</td>
-<td>")</td>
+<td><code>string_t(["a", "b", "c")</code></td>
+<td><code>[string_t("a"), string_t("b"), string_t("c")]</code></td>
+</tr>
+<tr>
+<td><code>.cat. string_t([9,8,7])</code></td>
+<td><code>string_t("987")</code></td>
+</tr>
+<tr>
+<td><code>.csv. string_t([1.5,2.0,3.25])</code></td>
+<td><code>string_t("1.50000000,2.00000000,3.25000000")</code></td>
+</tr>
+<tr>
+<td><code>"-" .sv. string_t(a)</code></td>
+<td><code>string_t("1-2-4")</code></td>
+</tr>
+<tr>
+<td><code>string_t("ab") // string_t("cd")</code></td>
+<td><code>string_t("abcd")</code></td>
+</tr>
+<tr>
+<td><code>"ab" // string_t("cd")</code></td>
+<td><code>string_t("abcd")</code></td>
+</tr>
+<tr>
+<td><code>string_t("ab") // "cd"</code></td>
+<td><code>string_t("abcd")</code></td>
 </tr>
 </tbody>
 </table>
-<h2 id="assertions">Assertions</h2>
+<p>One can use such expressions to craft a diagnostic message when constructing
+a custom test function result:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="p">(</span><span class="nx">test_diagnosis_t</span><span class="p">)</span><span class="w"> </span><span class="nx">test_diagnosis</span>
+<span class="nx">test_diagnosis</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">test_diagnosis_t</span><span class="p">(</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">  </span><span class="nx">test_passed</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">i</span><span class="o">==</span><span class="nx">j</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">  </span><span class="nx">diagnostics_string</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;expected &quot;</span><span class="w"> </span><span class="c1">// string_t(i) // &quot;; actual &quot; //string_t(j) &amp;</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h2 id="a-file-abstraction">A file abstraction</h2>
+<p>Arrays of <code>string_t</code> objects provide a convenient way to store a ragged-length
+array of <code>character</code> data.  Julienne's <code>file_t</code> derived type has a private
+component that is a <code>string_t</code> array, wherein each element is one line of a text
+file. By storing a file in a <code>file_t</code> object using the <code>file_t</code> derived type's
+constructor function one can confine a program's file input/output (I/O) to one
+or two procedures.  The resulting <code>file_t</code> object can be manipulated elsewhere
+without incurring the costs associated with file I/O.  For example, the following
+line reads a file named <code>data.txt</code> into a <code>file_t</code> object and associates the name
+<code>file</code> with the resulting object.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="p">(</span><span class="nx">file_t</span><span class="p">)</span><span class="w"> </span><span class="nx">file</span>
+<span class="nx">associate</span><span class="p">(</span><span class="nx">file</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">file_t</span><span class="p">(</span><span class="s">&quot;data.txt&quot;</span><span class="p">))</span>
+<span class="nx">end</span><span class="w"> </span><span class="nx">associate</span>
+</code></pre></div>
+
+<p>This style supports functional programming patterns in two ways. First, the rest
+of the program can be comprised of <code>pure</code> procedures, which are precluded from
+performing I/O.  Second, an associate name is immutable when associated with an
+expression, including an expression that is simply a function reference. 
+Functional programming revolves around creating and using immutable state.
+(By contrast, when associating a name with a variable or array instead of with
+an expression, only certain attributes, such as the entity's allocation status,
+are immutable. The value of such a variable or array can be redefined.)</p>
+<h2 id="functional-programming">Functional Programming</h2>
 <p>Functional programming patterns centered around <code>pure</code> procedures enhance
 code clarity, ease refactoring, and encourage optimization.  For example,
 the constraints on <code>pure</code> procedures make it easier for a developer or a
@@ -218,6 +310,8 @@ an expectation about the value.  Assert such expectations by writing Julienne
 expressions inspired by natural language.  A program will proceed quietly past
 a correct assertion.  An incorrect assertion produces either automated or custom
 diagnostic messages during error termination.</p>
+<h2 id="getting-started">Getting Started</h2>
+<h3 id="writing-assertions">Writing Assertions</h3>
 <p>To write a Julienne assertion, insert a function-like preprocessor macro
 <code>call_julienne_assert</code> on a single line as in the following program:</p>
 <div class="codehilite"><pre><span></span><code><span class="cp">#include &quot;julienne-assertion-macros.h&quot;</span>
@@ -234,13 +328,8 @@ diagnostic messages during error termination.</p>
 </code></pre></div>
 
 <p>and where dots (<code>.</code>) delimit Julienne operators and the parenthetical expression
-evaluates to a Julienne <code>test_diagnosis_t</code> object that has two components:</p>
-<ol>
-<li>A <code>logical</code> indicator of the assertion's truth and</li>
-<li>An automatically constructed diagnostic message.</li>
-</ol>
-<p>Please see [Julienne operators] for a list of available operators.</p>
-<h2 id="unit-tests">Unit tests</h2>
+evaluates to a Julienne <code>test_diagnosis_t</code> object.</p>
+<h3 id="writing-unit-tests">Writing Unit Tests</h3>
 <p>Writing tests using Julienne involves constructing a test-description array,
 in which each element is a <code>test_description_t</code> constructor function invocation
 with two arguments: a <code>character</code> string describing what the test does and the
@@ -270,24 +359,22 @@ respect to the arguments <code>i</code> and <code>j</code>.  If the condition <c
 <code>.false.</code>, Julienne constructs a diagnostic message reflecting the implied
 asymmetry, i.e., indicating that <code>i</code> is the actual value, whereas <code>j</code> is the
 expected value.</p>
+<h3 id="a-demonstration-test-suite">A demonstration test suite</h3>
 <p>Please see the demonstration test suite in <a href="./demo/README.md">demo README.md</a>
-for more detailed instructions on setting up a new test suite, including how
-to customize the diagnostic output using the string-manipulation capabilities
-associated with Julienne's <code>string_t</code> derived type.  The demonstration test
-suite's main program also shows how to use Julienne's <code>command_line_t</code> type
+for detailed instructions on setting up a new test suite.  The demonstration
+test suite's main program also shows how to use Julienne's <code>command_line_t</code> type
 to access arguments that users pass to program via a command line or shell
 script.  Julienne also offers useful input/output format strings and
-format-generating functions.</p>
+format-generating functions in the <code>julienne_formats_m</code> module.</p>
 <h2 id="an-origin-story">An Origin Story</h2>
 <p>Julienne's name derives from the term for vegetables sliced into thin strings:
 julienned vegetables.  The <a href="https://gitlab.com/everythingfunctional/veggies">Veggies</a> and <a href="https://gitlab.com/everythingfunctional/garden">Garden</a> unit-testing frameworks
 inspired the structure of Julienne's tests and output.  Initially developed in
 the <a href="https://github.com/sourceryinstitute/sourcery">Sourcery</a> repository as lightweight alternative with greater portability
-across compilers, Julienne's chief innovation lies in the expressive idioms the
-framework supports.</p>
-<h2 id="getting-started">Getting Started</h2>
-<p>Please see the demonstration test suite in <a href="./demo/README.md">demo README.md</a>.</p>
-<h2 id="compiler-support">Compiler Support</h2>
+across compilers, Julienne's chief innovation now lies in the expressive idioms
+the framework supports.</p>
+<h2 id="building-and-testing">Building and Testing</h2>
+<h3 id="compiler-support">Compiler support</h3>
 <p>The table below shows the compilers that Julienne fully or partially supports.
 When built with a fully supported compiler, all Julienne tests pass.  When built
 with a partially supported compiler, the Julienne test suite skips some tests
@@ -326,16 +413,16 @@ thereby details any features Julienne does not supported with a given compiler.<
 </table>
 <ol>
 <li><code>gfortran</code> issues:</li>
-<li>The <code>test_description_t</code> constructor's <code>diagnosis_function</code> actual argument
-     must be a procedure pointer conforming to the <code>diagnosis_function_i</code>
-     abstract interface.</li>
-<li>The <code>string_t</code> <code>bracket</code> type-bound function crashes for GCC versions &lt; 15.</li>
-<li>Each element of a [<code>vector_test_description_t</code>] array (a feature to be
-     deprecated in a future release) must be defined in a separate statement.</li>
+<li>With GCC 14 or earlier, the <code>test_description_t</code> constructor's
+     <code>diagnosis_function</code> actual argument must be a procedure pointer conforming
+     conforming with the <code>diagnosis_function_i</code> abstract interface.</li>
+<li>The <code>string_t</code> <code>bracket</code> type-bound function crashes for GCC 14 or earlier.</li>
+<li><em>Deprecated feature</em>: Each element of a [<code>vector_test_description_t</code>] array
+     must be defined in a separate statement.</li>
 <li><code>ifx</code> issue:</li>
 <li>Two <code>string_t</code> tests fail as described in issue <a href="https://github.com/BerkeleyLab/julienne/issues/51">#51</a>.</li>
 </ol>
-<h2 id="building-and-testing">Building and Testing</h2>
+<h3 id="buildtest-commands">Build/test commands</h3>
 <h4 id="llvm-flang-new-compiler">LLVM (<code>flang-new</code>) compiler</h4>
 <h5 id="flang-new-version-20-or-later"><code>flang-new</code> version 20 or later</h5>
 <div class="codehilite"><pre><span></span><code>fpm test --compiler flang-new
@@ -454,7 +541,7 @@ doing so is in the <a href="https://github.com/rouson/handy-dandy/blob/7caaa4dc3
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-06-02 21:58 +0000             </p>
+ on 2025-06-03 16:29 +0000             </p>
           </div>
         </div>
         <br>
