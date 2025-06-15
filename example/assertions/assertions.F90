@@ -19,7 +19,14 @@ program assertions
   print '(a)', "Use a command such as the following to rerun with assertions:"
   print '(a)', "fpm run --example assertions --flag -DASSERTIONS"
 #else
-  print '(a)', "Evaluating two true assertions and one false assertion that will initiate error termination."
+  print '(a)', new_line('')
+  print '(a)', "This program evaluates the following true assertions that should run silently:" // new_line('')
+  print '(a)', "   call_julienne_assert(pi_ .approximates. pi .within. absolute_tolerance)"
+  print '(a)', "   call_julienne_assert(pi_ .approximates. pi .withinPercentage. relative_tolerance)" // new_line('')
+  print '(a)', "where pi_ = 22./7., pi 3.14152654, absolute_tolerance = 0.1, and relative_tolerance = 1.0." // new_line('')
+  print '(a)', "The program will then evaluate one false assertion:" // new_line('')
+  print '(a)', "   call_julienne_assert(1 .equalsExpected. 2)" // new_line('')
+  print '(a)', "which should initiate error termination and provide a diagnostic message:" // new_line('')
 #endif
 
   block
