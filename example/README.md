@@ -1,7 +1,8 @@
 Examples
 ========
-Please see the following directories for examples of the listed use cases:
+Please see the following directories for examples of the listed Julienne uses:
 
-* [assertions](./assertions): runtime assertion checking using Julienne's expressive idioms,
-* [strings](./strings): operating on strings using Julienne's defined operations, and
-* [demo](../demo): a demonstration test suite using Julienne's `test_t` type.
+* [Assertions](./assertions): runtime assertion checking using idioms that evaluate to `test_diagnosis_t` result objects,
+* [Command-line parsing](./command-line-parsing): checking a command-line flag's presence and getting an associated value using the `command_line_t` type,
+* [String operations](./strings): operating on strings using the `string_t` type and defined operations, and
+* [Testing](../demo): a demonstration unit test suite using the `test_t` type.
