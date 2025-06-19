@@ -185,7 +185,7 @@ contains
   module procedure get_real
     character(len=:), allocatable :: raw_line, string_value
 
-    call_assert_diagnose(key==self%get_json_key(), "string_s(get_real): key==self%get_json_key()", key)
+    call_assert(key==self%get_json_key())
 
     raw_line = self%string()
     associate(text_after_colon => raw_line(index(raw_line, ':')+1:))
@@ -204,7 +204,7 @@ contains
   module procedure get_double_precision
     character(len=:), allocatable :: raw_line, string_value
 
-    call_assert_diagnose(key==self%get_json_key(), "string_s(get_double_precision): key==self%get_json_key()", key)
+    call_assert(key==self%get_json_key())
 
     raw_line = self%string()
     associate(text_after_colon => raw_line(index(raw_line, ':')+1:))
@@ -241,7 +241,7 @@ contains
     character(len=:), allocatable :: raw_line
     integer i, comma, opening_quotes, closing_quotes
 
-    call_assert_diagnose(key==self%get_json_key(), "key==self%get_string_json()", key)
+    call_assert(key==self%get_json_key())
 
     raw_line = self%string()
 
@@ -269,7 +269,7 @@ contains
 
     character(len=:), allocatable :: raw_line
 
-    call_assert_diagnose(key==self%get_json_key(), "key==self%get_string_json()", key)
+    call_assert(key==self%get_json_key())
 
     raw_line = self%string()
     associate(text_after_colon => raw_line(index(raw_line, ':')+1:))
@@ -293,7 +293,7 @@ contains
   module procedure get_logical
     character(len=:), allocatable :: raw_line, string_value
 
-    call_assert_diagnose(key==self%get_json_key(), "string_s(get_logical): key==self%get_json_key()", key)
+    call_assert(key==self%get_json_key())
 
     raw_line = self%string()
     associate(text_after_colon => raw_line(index(raw_line, ':')+1:))
@@ -303,7 +303,7 @@ contains
         else 
           string_value = trim(adjustl((text_after_colon(:trailing_comma-1))))
         end if
-        call_assert_diagnose(string_value=="true" .or. string_value=="false", 'string_s(get_logical): string_value=="true" .or. string_value="false"', string_value)
+        call_assert(string_value=="true" .or. string_value=="false")
         value_ = string_value == "true"
       end associate
     end associate
@@ -313,7 +313,7 @@ contains
   module procedure get_integer
     character(len=:), allocatable :: raw_line, string_value
 
-    call_assert_diagnose(key==self%get_json_key(), "string_s(get_logical): key==self%get_json_key()", key)
+    call_assert(key==self%get_json_key())
 
     raw_line = self%string()
     associate(text_after_colon => raw_line(index(raw_line, ':')+1:))
@@ -354,7 +354,7 @@ contains
     real, allocatable :: real_array(:)
     integer i
 
-    call_assert_diagnose(key==self%get_json_key(), "string_s(get_{real,integer}_array): key==self%get_json_key()", key)
+    call_assert(key==self%get_json_key())
 
     raw_line = self%string()
     associate(colon => index(raw_line, ":"))
@@ -378,7 +378,7 @@ contains
     double precision, allocatable :: double_precision_array(:)
     integer i
 
-    call_assert_diagnose(key==self%get_json_key(), "string_s(get_{double precision,integer}_array): key==self%get_json_key()", key)
+    call_assert(key==self%get_json_key())
 
     raw_line = self%string()
     associate(colon => index(raw_line, ":"))

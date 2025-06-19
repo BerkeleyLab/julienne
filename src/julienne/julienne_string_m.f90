@@ -1,7 +1,6 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 module julienne_string_m
-  use assert_m, only : characterizable_t
   use iso_c_binding, only : c_bool
   implicit none
   
@@ -12,7 +11,7 @@ module julienne_string_m
   public :: operator(.csv.)  ! comma-separated values unary operator
   public :: operator(.separatedBy.), operator(.sv.)   ! separated-values binary operator
 
-  type, extends(characterizable_t) :: string_t
+  type string_t
     private
     character(len=:), allocatable :: string_
   contains
