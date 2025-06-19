@@ -30,7 +30,7 @@
 ! If not already determined, make a compiler-dependent determination of whether Julienne may use
 ! kind type parameters for derived types.
 #ifndef HAVE_DERIVED_TYPE_KIND_PARAMETERS
-#  if defined(__GFORTRAN__)
+#  if defined(__GFORTRAN__) || defined(__LFORTRAN__)
 #    define HAVE_DERIVED_TYPE_KIND_PARAMETERS 0
 #  else
 #    define HAVE_DERIVED_TYPE_KIND_PARAMETERS 1
