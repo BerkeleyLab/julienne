@@ -185,8 +185,8 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/julienne_test_diagnosis_m.html#type-test_diagnosis_t">test_diagnosis_t</a>
             <a class="list-group-item" href="../module/julienne_test_diagnosis_m.html#type-double_precision_operands_t">double_precision_operands_t</a>
-            <a class="list-group-item" href="../module/julienne_test_diagnosis_m.html#type-operands_t~2">operands_t</a>
             <a class="list-group-item" href="../module/julienne_test_diagnosis_m.html#type-operands_t">operands_t</a>
+            <a class="list-group-item" href="../module/julienne_test_diagnosis_m.html#type-operands_t~2">operands_t</a>
         </div>
       </div>
     </div>
@@ -1613,7 +1613,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~2"></span>
+              <span class="anchor" id="variable-lhs"></span>
               type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1628,7 +1628,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~2"></span>
+              <span class="anchor" id="variable-rhs"></span>
               type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1715,7 +1715,7 @@ parameter
 
     <h4>
     Return Value
-    <small>type(<a href='../type/operands_t.html'>operands_t</a>(double_precision))</small>
+    <small>type(<a href='../type/operands_t~2.html'>operands_t</a>(double_precision))</small>
     </h4>
     
 
@@ -1774,7 +1774,7 @@ parameter
 
     <h4>
     Return Value
-    <small>type(<a href='../type/operands_t.html'>operands_t</a>)</small>
+    <small>type(<a href='../type/operands_t~2.html'>operands_t</a>)</small>
     </h4>
     
 
@@ -2234,193 +2234,6 @@ parameter
     <ul class="list-group">
           <li class="list-group-item">
                 <h3>
-    private elemental module function less_than_or_equal_to_integer(actual, expected_max) result(test_diagnosis)  
-    <a href="../proc/less_than_or_equal_to_integer.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-actual~10"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>actual</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-expected_max"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>expected_max</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>)</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private elemental module function less_than_or_equal_to_real(actual, expected_max) result(test_diagnosis)  
-    <a href="../proc/less_than_or_equal_to_real.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-actual~11"></span>
-              real,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>actual</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-expected_max~2"></span>
-              real,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>expected_max</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>)</small>
-    </h4>
-    
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private elemental module function less_than_or_equal_to_double_precision(actual, expected_max) result(test_diagnosis)  
-    <a href="../proc/less_than_or_equal_to_double_precision.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-actual~12"></span>
-              double precision,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>actual</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-expected_max~3"></span>
-              double precision,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>expected_max</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>)</small>
-    </h4>
-    
-
-          </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-operator%28.isatmost.%29"></span>
-      <h3>public        interface <a href='../interface/operator(.isatmost.).html'>operator(.isAtMost.)</a> 
-      </h3>
-    </div>
-    <ul class="list-group">
-          <li class="list-group-item">
-                <h3>
     private elemental module function greater_than_or_equal_to_integer(actual, expected_min) result(test_diagnosis)  
     <a href="../proc/greater_than_or_equal_to_integer.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
@@ -2582,6 +2395,193 @@ parameter
             </td>
             <td>::</td>
             <td><strong>expected_min</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>)</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-operator%28.isatmost.%29"></span>
+      <h3>public        interface <a href='../interface/operator(.isatmost.).html'>operator(.isAtMost.)</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private elemental module function less_than_or_equal_to_integer(actual, expected_max) result(test_diagnosis)  
+    <a href="../proc/less_than_or_equal_to_integer.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-actual~10"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>actual</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-expected_max"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>expected_max</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental module function less_than_or_equal_to_real(actual, expected_max) result(test_diagnosis)  
+    <a href="../proc/less_than_or_equal_to_real.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-actual~11"></span>
+              real,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>actual</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-expected_max~2"></span>
+              real,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>expected_max</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental module function less_than_or_equal_to_double_precision(actual, expected_max) result(test_diagnosis)  
+    <a href="../proc/less_than_or_equal_to_double_precision.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-actual~12"></span>
+              double precision,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>actual</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-expected_max~3"></span>
+              double precision,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>expected_max</strong></td>
             <td>
                 
             </td>
@@ -3002,7 +3002,7 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-operands~5"></span>
-              type(<a href='../type/operands_t.html'>operands_t</a>(double_precision)),
+              type(<a href='../type/operands_t~2.html'>operands_t</a>(double_precision)),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -3061,7 +3061,7 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-operands~4"></span>
-              type(<a href='../type/operands_t.html'>operands_t</a>),
+              type(<a href='../type/operands_t~2.html'>operands_t</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -3130,7 +3130,7 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-operands~8"></span>
-              type(<a href='../type/operands_t.html'>operands_t</a>(double_precision)),
+              type(<a href='../type/operands_t~2.html'>operands_t</a>(double_precision)),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -3189,7 +3189,7 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-operands~7"></span>
-              type(<a href='../type/operands_t.html'>operands_t</a>),
+              type(<a href='../type/operands_t~2.html'>operands_t</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -3258,7 +3258,7 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-operands~11"></span>
-              type(<a href='../type/operands_t.html'>operands_t</a>(double_precision)),
+              type(<a href='../type/operands_t~2.html'>operands_t</a>(double_precision)),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -3317,7 +3317,7 @@ parameter
         <tr>
             <td>
               <span class="anchor" id="variable-operands~10"></span>
-              type(<a href='../type/operands_t.html'>operands_t</a>),
+              type(<a href='../type/operands_t~2.html'>operands_t</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -3513,7 +3513,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~4"></span>
+              <span class="anchor" id="variable-self~2"></span>
               class(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>),
             </td>
 <td>intent(in)</td>
@@ -3567,7 +3567,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~3"></span>
+              <span class="anchor" id="variable-self"></span>
               class(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>),
             </td>
 <td>intent(in)</td>
@@ -3776,10 +3776,10 @@ parameter
 
               <div class="card">
     <div class="card-header codesum">
-      <span class="anchor" id="type-operands_t~2"></span>
+      <span class="anchor" id="type-operands_t"></span>
       <h3>
         type, private&nbsp;::&nbsp;
-        <a href='../type/operands_t~2.html'>operands_t</a>
+        <a href='../type/operands_t.html'>operands_t</a>
         
       </h3>
     </div>
@@ -3859,10 +3859,10 @@ parameter
 
               <div class="card">
     <div class="card-header codesum">
-      <span class="anchor" id="type-operands_t"></span>
+      <span class="anchor" id="type-operands_t~2"></span>
       <h3>
         type, private&nbsp;::&nbsp;
-        <a href='../type/operands_t.html'>operands_t</a>
+        <a href='../type/operands_t~2.html'>operands_t</a>
         
       </h3>
     </div>
@@ -3948,7 +3948,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-06-25 19:12 +0000             </p>
+ on 2025-06-25 20:47 +0000             </p>
           </div>
         </div>
         <br>

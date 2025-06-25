@@ -153,9 +153,9 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/operator(.isatleast.).html#moduleprocedure-less_than_or_equal_to_integer~2">less_than_or_equal_to_integer</a>
-            <a class="list-group-item" href="../interface/operator(.isatleast.).html#moduleprocedure-less_than_or_equal_to_real~2">less_than_or_equal_to_real</a>
-            <a class="list-group-item" href="../interface/operator(.isatleast.).html#moduleprocedure-less_than_or_equal_to_double_precision~2">less_than_or_equal_to_double_precision</a>
+            <a class="list-group-item" href="../interface/operator(.isatleast.).html#moduleprocedure-greater_than_or_equal_to_integer~2">greater_than_or_equal_to_integer</a>
+            <a class="list-group-item" href="../interface/operator(.isatleast.).html#moduleprocedure-greater_than_or_equal_to_real~2">greater_than_or_equal_to_real</a>
+            <a class="list-group-item" href="../interface/operator(.isatleast.).html#moduleprocedure-greater_than_or_equal_to_double_precision~2">greater_than_or_equal_to_double_precision</a>
         </div>
       </div>
     </div>
@@ -175,8 +175,8 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-less_than_or_equal_to_integer"></span> <h3>private elemental module function less_than_or_equal_to_integer(actual, expected_max) result(test_diagnosis)  
-    <a href="../proc/less_than_or_equal_to_integer.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-greater_than_or_equal_to_integer"></span> <h3>private elemental module function greater_than_or_equal_to_integer(actual, expected_min) result(test_diagnosis)  
+    <a href="../proc/greater_than_or_equal_to_integer.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3></div>
     <div class="card-body">
         
@@ -194,7 +194,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-actual~10"></span>
+              <span class="anchor" id="variable-actual~13"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -209,7 +209,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-expected_max"></span>
+              <span class="anchor" id="variable-expected_min"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -217,7 +217,7 @@
               
             </td>
             <td>::</td>
-            <td><strong>expected_max</strong></td>
+            <td><strong>expected_min</strong></td>
             <td>
                 
             </td>
@@ -235,8 +235,8 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-less_than_or_equal_to_real"></span> <h3>private elemental module function less_than_or_equal_to_real(actual, expected_max) result(test_diagnosis)  
-    <a href="../proc/less_than_or_equal_to_real.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-greater_than_or_equal_to_real"></span> <h3>private elemental module function greater_than_or_equal_to_real(actual, expected_min) result(test_diagnosis)  
+    <a href="../proc/greater_than_or_equal_to_real.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3></div>
     <div class="card-body">
         
@@ -254,7 +254,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-actual~11"></span>
+              <span class="anchor" id="variable-actual~14"></span>
               real,
             </td>
 <td>intent(in)</td>
@@ -269,7 +269,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-expected_max~2"></span>
+              <span class="anchor" id="variable-expected_min~2"></span>
               real,
             </td>
 <td>intent(in)</td>
@@ -277,7 +277,7 @@
               
             </td>
             <td>::</td>
-            <td><strong>expected_max</strong></td>
+            <td><strong>expected_min</strong></td>
             <td>
                 
             </td>
@@ -295,8 +295,8 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-less_than_or_equal_to_double_precision"></span> <h3>private elemental module function less_than_or_equal_to_double_precision(actual, expected_max) result(test_diagnosis)  
-    <a href="../proc/less_than_or_equal_to_double_precision.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-greater_than_or_equal_to_double_precision"></span> <h3>private elemental module function greater_than_or_equal_to_double_precision(actual, expected_min) result(test_diagnosis)  
+    <a href="../proc/greater_than_or_equal_to_double_precision.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3></div>
     <div class="card-body">
         
@@ -314,7 +314,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-actual~12"></span>
+              <span class="anchor" id="variable-actual~15"></span>
               double precision,
             </td>
 <td>intent(in)</td>
@@ -329,7 +329,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-expected_max~3"></span>
+              <span class="anchor" id="variable-expected_min~3"></span>
               double precision,
             </td>
 <td>intent(in)</td>
@@ -337,7 +337,7 @@
               
             </td>
             <td>::</td>
-            <td><strong>expected_max</strong></td>
+            <td><strong>expected_min</strong></td>
             <td>
                 
             </td>
@@ -371,7 +371,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-06-25 19:12 +0000             </p>
+ on 2025-06-25 20:47 +0000             </p>
           </div>
         </div>
         <br>
