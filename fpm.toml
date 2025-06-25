@@ -1,12 +1,7 @@
 name = "julienne"
-version = "2.0.1"
-license = "license"
-author = "Damian Rouson, Brad Richardson, Patrick Raynaud, Katherine Rasmussen"
-maintainer = "rouson@lbl.gov"
-copyright = "Copyright 2024-2025, Sourcery Institute and Berkeley Lab"
 
 [dependencies]
-assert = {git = "https://github.com/berkeleylab/assert", tag = "2.1.0"}
+assert = {git = "https://github.com/rouson/assert", tag = "assert-3.0.0"}
 
 [install]
 library = true

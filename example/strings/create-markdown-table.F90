@@ -1,19 +1,19 @@
 program create_markdown_table
-  !! This program demonstrates 
-  !! 1. The use of the string_t constructor function to encapsulate a ragged-edged array of character values.
-  !! 2. The use of the separated-values operator(.sv.) to form one string by concatenating the elements of a
-  !!   string_t array and adding user-designated separators between each resulting substring.
-  !! 3. The use of the elemental type-bound procedure "bracket" to add preceding and trailing delimiters to all
-  !!    elements of a string_t array.
+  !! This program demonstrates the creation of a Markdown table summarzing kind values used by a compiler:
+  !!
+  !! 1. Using the string_t user-defined structure constructor to encapsulate a ragged-edged string_t array.
+  !! 2. Using operator(.separatedBy.) to concatenate string_t array elements with interspersed separators.
+  !! 3. Using the elemental type-bound procedure "bracket" to prefix and suffix string_t array elements.
+  !!
   !! Running the program with a command of the form "fpm run --example create-markdown-table" without quotes
-  !! should produce a table similar to the following with "flang" replaced by the name of the compiler if a
-  !! different compiler is used:
+  !! should produce a table similar to the following with "flang" replaced by the employed compiler's name.
+  !!
   !! |compiler \ kind|default|c_size_t|c_int64_t|c_intptr_t|
   !! |-|-|-|-|-|
   !! |flang|4|8|8|8|
   use iso_fortran_env, only : compiler_version
   use iso_c_binding, only : c_size_t, c_int64_t, c_intptr_t
-  use julienne_string_m, only : string_t, operator(.sv.)
+  use julienne_string_m, only : string_t, operator(.separatedBy.)
   implicit none
 
   block
@@ -46,11 +46,11 @@ contains
     if (size(column_header) /= rank(row_header) + size(body_cells,2)) error stop "column size mismatch"
     if (size(row_header) /= size(body_cells,1)) error stop "row size mismatch"
 
-    lines(1) = column_header .sv. column_separator
-    lines(2) = [("-", col=1,size(column_header))] .sv. column_separator
+    lines(1) = column_header .separatedBy. column_separator
+    lines(2) = [("-", col=1,size(column_header))] .separatedBy. column_separator
 
     do row = 3, size(lines)
-      lines(row) = [row_header(row), body_cells(row,:)] .sv. column_separator
+      lines(row) = [row_header(row), body_cells(row,:)] .separatedBy. column_separator
     end do
 
     if (side_borders) lines = lines%bracket(column_separator)

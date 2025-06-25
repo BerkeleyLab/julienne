@@ -26,8 +26,11 @@ Example expressions                               | Operand types
 `x .greaterThan. y`                               | `integer`, `real`, `double precision`
 `i .greaterThan. j`                               | `integer`, `real`, `double precision`
 `i .equalsExpected. j`                            | `integer`
-`i .greaterThanOrEqualTo. j`                      | `integer`
-`i .lessThanOrEqualTo. j`                         | `integer`
+`i .isAtLeast. j`                                 | `integer`, `real`, `double precision`
+`i .isAtMost. j`                                  | `integer`, `real`, `double precision`
+
+where `.isAtLeast.` and `.isAtMost.` can alternatively be spelled
+`.greaterThanOrEqualTo.` and `.lessThanOrEqualTo.`, respectively.
 
 Expressive idioms 
 -----------------
@@ -48,8 +51,9 @@ The above tabulated expressions can also serve as function results in unit tests
 All operands in an expression must be compatible in type and kind as well as
 conformable in rank, where the latter condition implies that the operands must
 be all scalars or all arrays with the same shape or a combination of scalars and
-arrays with the same shape. This constraint follows from each of the operators
-being `elemental`.
+arrays with the same shape. This constraint follows from each of the binary
+operators being `elemental`.  The unary `.all.` operator applies to operands of
+any rank.
 
 Each tabulated expression above produces a `test_diagnosis_t` object with two
 components:
@@ -71,9 +75,10 @@ the constructor function can be of any one of several types, kinds, and ranks.
 
 Julienne provides defined operations for concatenating `string_t` objects
 (`//`), forming a concatenated `string_t` object from an array of `string_t`
-objects `(.cat.)`, forming a separated-value list `(.sv.)`, including a
-comma-separated value list `(.csv.)`.  The table below shows some expressions
-that Julienne supports with these defined operations.
+objects (`.cat.`), forming a separated-value list (`.separatedBy.` or
+equivalently `.sv.`), including a comma-separated value list `(.csv.)`.  The
+table below shows some expressions that Julienne supports with these defined
+operations.
 
 Example expression                        | Result
 ------------------------------------------|------------------------------------------------
@@ -83,7 +88,7 @@ Example expression                        | Result
 `string_t(["a", "b", "c")`                | `[string_t("a"), string_t("b"), string_t("c")]`
 `.cat. string_t([9,8,7])`                 | `string_t("987")`
 `.csv. string_t([1.5,2.0,3.25])`          | `string_t("1.50000000,2.00000000,3.25000000")`
-`"-" .sv. string_t(a)`                    | `string_t("1-2-4")`
+`"-" .separatedBy. string_t(a)`           | `string_t("1-2-4")`
 `string_t("ab") // string_t("cd")`        | `string_t("abcd")`
 `"ab" // string_t("cd")`                  | `string_t("abcd")`
 `string_t("ab") // "cd"`                  | `string_t("abcd")`

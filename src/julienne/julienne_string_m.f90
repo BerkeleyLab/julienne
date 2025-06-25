@@ -1,7 +1,6 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 module julienne_string_m
-  use assert_m, only : characterizable_t
   use iso_c_binding, only : c_bool
   implicit none
   
@@ -10,9 +9,9 @@ module julienne_string_m
   public :: array_of_strings ! construct 1D string_t array from a string containing delimited substrings
   public :: operator(.cat.)  ! element-wise concatenation unary operator
   public :: operator(.csv.)  ! comma-separated values unary operator
-  public :: operator(.sv.)   ! separated-values binary operator
+  public :: operator(.separatedBy.), operator(.sv.)   ! separated-values binary operator
 
-  type, extends(characterizable_t) :: string_t
+  type string_t
     private
     character(len=:), allocatable :: string_
   contains
@@ -161,6 +160,11 @@ module julienne_string_m
       type(string_t) sv 
     end function
 
+  end interface
+
+  interface operator(.separatedBy.)
+    module procedure strings_with_character_separator, strings_with_string_t_separator
+    module procedure characters_with_character_separator, characters_with_string_separator
   end interface
 
   interface
