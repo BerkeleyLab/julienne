@@ -71,9 +71,10 @@ the constructor function can be of any one of several types, kinds, and ranks.
 
 Julienne provides defined operations for concatenating `string_t` objects
 (`//`), forming a concatenated `string_t` object from an array of `string_t`
-objects `(.cat.)`, forming a separated-value list `(.sv.)`, including a
-comma-separated value list `(.csv.)`.  The table below shows some expressions
-that Julienne supports with these defined operations.
+objects (`.cat.`), forming a separated-value list (`.separatedBy.` or
+equivalently `.sv.`), including a comma-separated value list `(.csv.)`.  The
+table below shows some expressions that Julienne supports with these defined
+operations.
 
 Example expression                        | Result
 ------------------------------------------|------------------------------------------------
@@ -83,7 +84,7 @@ Example expression                        | Result
 `string_t(["a", "b", "c")`                | `[string_t("a"), string_t("b"), string_t("c")]`
 `.cat. string_t([9,8,7])`                 | `string_t("987")`
 `.csv. string_t([1.5,2.0,3.25])`          | `string_t("1.50000000,2.00000000,3.25000000")`
-`"-" .sv. string_t(a)`                    | `string_t("1-2-4")`
+`"-" .separatedBy. string_t(a)`           | `string_t("1-2-4")`
 `string_t("ab") // string_t("cd")`        | `string_t("abcd")`
 `"ab" // string_t("cd")`                  | `string_t("abcd")`
 `string_t("ab") // "cd"`                  | `string_t("abcd")`
