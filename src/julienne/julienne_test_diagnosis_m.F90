@@ -16,6 +16,8 @@ module julienne_test_diagnosis_m
   public :: operator(.all.)
   public :: operator(.and.)
   public :: operator(.approximates.)
+  public :: operator(.isAtLeast.)
+  public :: operator(.isAtMost.)
   public :: operator(.within.)
   public :: operator(.withinFraction.)
   public :: operator(.withinPercentage.)
@@ -175,6 +177,30 @@ module julienne_test_diagnosis_m
       type(test_diagnosis_t) test_diagnosis
     end function
 
+    elemental module function less_than_or_equal_to_real(actual, expected_max) result(test_diagnosis)
+      implicit none
+      real, intent(in) :: actual, expected_max
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    elemental module function less_than_or_equal_to_double_precision(actual, expected_max) result(test_diagnosis)
+      implicit none
+      double precision, intent(in) :: actual, expected_max
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+  end interface
+
+  interface operator(.isAtLeast.)
+    module procedure less_than_or_equal_to_integer
+    module procedure less_than_or_equal_to_real
+    module procedure less_than_or_equal_to_double_precision
+  end interface
+
+  interface operator(.isAtMost.)
+    module procedure greater_than_or_equal_to_integer
+    module procedure greater_than_or_equal_to_real
+    module procedure greater_than_or_equal_to_double_precision
   end interface
 
   interface operator(.greaterThanOrEqualTo.)
@@ -182,6 +208,18 @@ module julienne_test_diagnosis_m
     elemental module function greater_than_or_equal_to_integer(actual, expected_min) result(test_diagnosis)
       implicit none
       integer, intent(in) :: actual, expected_min
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    elemental module function greater_than_or_equal_to_real(actual, expected_min) result(test_diagnosis)
+      implicit none
+      real, intent(in) :: actual, expected_min
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    elemental module function greater_than_or_equal_to_double_precision(actual, expected_min) result(test_diagnosis)
+      implicit none
+      double precision, intent(in) :: actual, expected_min
       type(test_diagnosis_t) test_diagnosis
     end function
 

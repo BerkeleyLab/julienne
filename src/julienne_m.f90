@@ -16,10 +16,12 @@ module julienne_m
     ,operator(.and.) &
     ,operator(.approximates.) &
     ,operator(.equalsExpected.) &
+    ,operator(.isAtLeast.) &
+    ,operator(.isAtMost.) &
     ,operator(.lessThan.) &
-    ,operator(.lessThanOrEqualTo.) &
+    ,operator(.lessThanOrEqualTo.) &    ! same as operator(.isAtMost.)
     ,operator(.greaterThan.) &
-    ,operator(.greaterThanOrEqualTo.) &
+    ,operator(.greaterThanOrEqualTo.) & ! same as operator(.isAtLeast.)
     ,operator(.within.) &
     ,operator(.withinFraction.) &
     ,operator(.withinPercentage.)
@@ -28,7 +30,7 @@ module julienne_m
     ,array_of_strings &
     ,operator(.cat.) &
     ,operator(.csv.) &
-    ,operator(.separatedBy.) &
+    ,operator(.separatedBy.) & ! same as operator(.sv.)
     ,operator(.sv.)
   use julienne_test_m, only : test_t, test_description_substring
   use julienne_test_result_m, only : test_result_t
