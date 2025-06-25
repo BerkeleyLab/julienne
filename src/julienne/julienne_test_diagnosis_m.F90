@@ -74,7 +74,7 @@ module julienne_test_diagnosis_m
 
     pure module function aggregate_diagnosis(diagnoses) result(diagnosis)
       implicit none
-      type(test_diagnosis_t), intent(in), target, contiguous :: diagnoses(..)
+      type(test_diagnosis_t), intent(in) :: diagnoses(..)
       type(test_diagnosis_t) diagnosis
     end function
 
@@ -92,87 +92,15 @@ module julienne_test_diagnosis_m
       type(test_diagnosis_t) diagnosis
     end function
 
-    pure module function aggregate_rank2_diagnosis(diagnoses) result(diagnosis)
+    pure module function aggregate_dyad_diagnosis(diagnoses) result(diagnosis)
       implicit none
-      type(test_diagnosis_t), intent(in), target, contiguous :: diagnoses(:,:)
+      type(test_diagnosis_t), intent(in) :: diagnoses(:,:)
       type(test_diagnosis_t) diagnosis
     end function
 
-    pure module function aggregate_rank3_diagnosis(diagnoses) result(diagnosis)
+    pure module function aggregate_triad_diagnosis(diagnoses) result(diagnosis)
       implicit none
-      type(test_diagnosis_t), intent(in), target, contiguous :: diagnoses(:,:,:)
-      type(test_diagnosis_t) diagnosis
-    end function
-
-    pure module function aggregate_rank4_diagnosis(diagnoses) result(diagnosis)
-      implicit none
-      type(test_diagnosis_t), intent(in), target, contiguous :: diagnoses(:,:,:,:)
-      type(test_diagnosis_t) diagnosis
-    end function
-
-    pure module function aggregate_rank5_diagnosis(diagnoses) result(diagnosis)
-      implicit none
-      type(test_diagnosis_t), intent(in), target, contiguous :: diagnoses(:,:,:,:,:)
-      type(test_diagnosis_t) diagnosis
-    end function
-
-    pure module function aggregate_rank6_diagnosis(diagnoses) result(diagnosis)
-      implicit none
-      type(test_diagnosis_t), intent(in), target, contiguous :: diagnoses(:,:,:,:,:,:)
-      type(test_diagnosis_t) diagnosis
-    end function
-
-    pure module function aggregate_rank7_diagnosis(diagnoses) result(diagnosis)
-      implicit none
-      type(test_diagnosis_t), intent(in), target, contiguous :: diagnoses(:,:,:,:,:,:,:)
-      type(test_diagnosis_t) diagnosis
-    end function
-
-    pure module function aggregate_rank8_diagnosis(diagnoses) result(diagnosis)
-      implicit none
-      type(test_diagnosis_t), intent(in), target, contiguous :: diagnoses(:,:,:,:,:,:,:,:)
-      type(test_diagnosis_t) diagnosis
-    end function
-
-    pure module function aggregate_rank9_diagnosis(diagnoses) result(diagnosis)
-      implicit none
-      type(test_diagnosis_t), intent(in), target, contiguous :: diagnoses(:,:,:,:,:,:,:,:,:)
-      type(test_diagnosis_t) diagnosis
-    end function
-
-    pure module function aggregate_rank10_diagnosis(diagnoses) result(diagnosis)
-      implicit none
-      type(test_diagnosis_t), intent(in), target, contiguous :: diagnoses(:,:,:,:,:,:,:,:,:,:)
-      type(test_diagnosis_t) diagnosis
-    end function
-
-    pure module function aggregate_rank11_diagnosis(diagnoses) result(diagnosis)
-      implicit none
-      type(test_diagnosis_t), intent(in), target, contiguous :: diagnoses(:,:,:,:,:,:,:,:,:,:,:)
-      type(test_diagnosis_t) diagnosis
-    end function
-
-    pure module function aggregate_rank12_diagnosis(diagnoses) result(diagnosis)
-      implicit none
-      type(test_diagnosis_t), intent(in), target, contiguous :: diagnoses(:,:,:,:,:,:,:,:,:,:,:,:)
-      type(test_diagnosis_t) diagnosis
-    end function
-
-    pure module function aggregate_rank13_diagnosis(diagnoses) result(diagnosis)
-      implicit none
-      type(test_diagnosis_t), intent(in), target, contiguous :: diagnoses(:,:,:,:,:,:,:,:,:,:,:,:,:)
-      type(test_diagnosis_t) diagnosis
-    end function
-
-    pure module function aggregate_rank14_diagnosis(diagnoses) result(diagnosis)
-      implicit none
-      type(test_diagnosis_t), intent(in), target, contiguous :: diagnoses(:,:,:,:,:,:,:,:,:,:,:,:,:,:)
-      type(test_diagnosis_t) diagnosis
-    end function
-
-    pure module function aggregate_rank15_diagnosis(diagnoses) result(diagnosis)
-      implicit none
-      type(test_diagnosis_t), intent(in), target, contiguous :: diagnoses(:,:,:,:,:,:,:,:,:,:,:,:,:,:,:)
+      type(test_diagnosis_t), intent(in) :: diagnoses(:,:,:)
       type(test_diagnosis_t) diagnosis
     end function
 
