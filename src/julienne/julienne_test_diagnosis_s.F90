@@ -59,6 +59,14 @@ contains
         ,mask  = .not. diagnoses%test_passed_ &
     ) ) 
   end procedure
+
+  module procedure aggregate_dyad_diagnosis
+    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  end procedure
+
+  module procedure aggregate_triad_diagnosis
+    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  end procedure
 #endif
 
   module procedure approximates_real

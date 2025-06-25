@@ -90,6 +90,18 @@ module julienne_test_diagnosis_m
       type(test_diagnosis_t) diagnosis
     end function
 
+    pure module function aggregate_dyad_diagnosis(diagnoses) result(diagnosis)
+      implicit none
+      type(test_diagnosis_t), intent(in) :: diagnoses(:,:)
+      type(test_diagnosis_t) diagnosis
+    end function
+
+    pure module function aggregate_triad_diagnosis(diagnoses) result(diagnosis)
+      implicit none
+      type(test_diagnosis_t), intent(in) :: diagnoses(:,:,:)
+      type(test_diagnosis_t) diagnosis
+    end function
+
 #endif
   end interface
 
