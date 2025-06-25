@@ -18,24 +18,80 @@ contains
 
   module procedure aggregate_diagnosis
     character(len=*), parameter :: new_line_indent = new_line('') // "        "
+    type(test_diagnosis_t), pointer :: diagnosis_vector(:) 
+    type(string_t), allocatable :: array(:)
     integer i
-    type(string_t), allocatable :: empty(:)
 
     select rank(diagnoses)
       rank(0)
         diagnosis = diagnoses
       rank(1)
-        diagnosis = test_diagnosis_t( &
-           test_passed = all(diagnoses%test_passed_) &
-          ,diagnostics_string = .cat. pack( &
-             array = [(string_t(new_line_indent // diagnoses(i)%diagnostics_string_), i=1,size(diagnoses))] &
-            ,mask  = .not. diagnoses%test_passed_ &
-        ) )
+        diagnosis = aggregate_vector_diagnosis(diagnoses)
+      rank(2)
+        diagnosis_vector(1:size(diagnoses)) => diagnoses
+        diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+      rank(3)
+        diagnosis_vector(1:size(diagnoses)) => diagnoses
+        diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+      rank(4)
+        diagnosis_vector(1:size(diagnoses)) => diagnoses
+        diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+      rank(5)
+        diagnosis_vector(1:size(diagnoses)) => diagnoses
+        diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+      rank(6)
+        diagnosis_vector(1:size(diagnoses)) => diagnoses
+        diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+      rank(8)
+        diagnosis_vector(1:size(diagnoses)) => diagnoses
+        diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+      rank(9)
+        diagnosis_vector(1:size(diagnoses)) => diagnoses
+        diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+      rank(10)
+        diagnosis_vector(1:size(diagnoses)) => diagnoses
+        diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+      rank(11)
+        diagnosis_vector(1:size(diagnoses)) => diagnoses
+        diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+      rank(12)
+        diagnosis_vector(1:size(diagnoses)) => diagnoses
+        diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+      rank(13)
+        diagnosis_vector(1:size(diagnoses)) => diagnoses
+        diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+      rank(14)
+        diagnosis_vector(1:size(diagnoses)) => diagnoses
+        diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+      rank(15)
+        diagnosis_vector(1:size(diagnoses)) => diagnoses
+        diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
       rank default 
         associate(diagnoses_rank => string_t(rank(diagnoses)))
           error stop "aggregate_diagnosis (julienne_test_diagnosis_s): rank " // diagnoses_rank%string() // " unspported"
         end associate
     end select
+
+  contains
+
+    pure function aggregate_vector_diagnosis(diagnoses) result(diagnosis)
+      type(test_diagnosis_t), intent(in) :: diagnoses(:)
+      type(test_diagnosis_t) diagnosis
+      character(len=*), parameter :: new_line_indent = new_line('') // "        "
+      type(string_t), allocatable :: array(:)
+      integer i
+      allocate(array(size(diagnoses)))
+      do i = 1, size(diagnoses)
+        array(i) = string_t(new_line_indent // diagnoses(i)%diagnostics_string_)
+      end do
+      diagnosis = test_diagnosis_t( &
+         test_passed = all(diagnoses%test_passed_) &
+        ,diagnostics_string = .cat. pack( &
+           array = array &
+          ,mask  = .not. diagnoses%test_passed_ &
+      ) )
+    end function
+
   end procedure
 
 #else
@@ -57,16 +113,93 @@ contains
       ,diagnostics_string = .cat. pack( &
          array = array &
         ,mask  = .not. diagnoses%test_passed_ &
-    ) ) 
+    ) )
   end procedure
 
-  module procedure aggregate_dyad_diagnosis
-    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  module procedure aggregate_rank2_diagnosis
+    type(test_diagnosis_t), pointer :: diagnosis_vector(:)
+    diagnosis_vector(1:size(diagnoses)) => diagnoses
+    diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
   end procedure
 
-  module procedure aggregate_triad_diagnosis
-    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  module procedure aggregate_rank3_diagnosis
+    type(test_diagnosis_t), pointer :: diagnosis_vector(:)
+    diagnosis_vector(1:size(diagnoses)) => diagnoses
+    diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
   end procedure
+
+  module procedure aggregate_rank4_diagnosis
+    type(test_diagnosis_t), pointer :: diagnosis_vector(:)
+    diagnosis_vector(1:size(diagnoses)) => diagnoses
+    diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+  end procedure
+
+  module procedure aggregate_rank5_diagnosis
+    type(test_diagnosis_t), pointer :: diagnosis_vector(:)
+    diagnosis_vector(1:size(diagnoses)) => diagnoses
+    diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+  end procedure
+
+  module procedure aggregate_rank6_diagnosis
+    type(test_diagnosis_t), pointer :: diagnosis_vector(:)
+    diagnosis_vector(1:size(diagnoses)) => diagnoses
+    diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+  end procedure
+
+  module procedure aggregate_rank7_diagnosis
+    type(test_diagnosis_t), pointer :: diagnosis_vector(:)
+    diagnosis_vector(1:size(diagnoses)) => diagnoses
+    diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+  end procedure
+
+  module procedure aggregate_rank8_diagnosis
+    type(test_diagnosis_t), pointer :: diagnosis_vector(:)
+    diagnosis_vector(1:size(diagnoses)) => diagnoses
+    diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+  end procedure
+
+  module procedure aggregate_rank9_diagnosis
+    type(test_diagnosis_t), pointer :: diagnosis_vector(:)
+    diagnosis_vector(1:size(diagnoses)) => diagnoses
+    diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+  end procedure
+
+  module procedure aggregate_rank10_diagnosis
+    type(test_diagnosis_t), pointer :: diagnosis_vector(:)
+    diagnosis_vector(1:size(diagnoses)) => diagnoses
+    diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+  end procedure
+
+  module procedure aggregate_rank11_diagnosis
+    type(test_diagnosis_t), pointer :: diagnosis_vector(:)
+    diagnosis_vector(1:size(diagnoses)) => diagnoses
+    diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+  end procedure
+
+  module procedure aggregate_rank12_diagnosis
+    type(test_diagnosis_t), pointer :: diagnosis_vector(:)
+    diagnosis_vector(1:size(diagnoses)) => diagnoses
+    diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+  end procedure
+
+  module procedure aggregate_rank13_diagnosis
+    type(test_diagnosis_t), pointer :: diagnosis_vector(:)
+    diagnosis_vector(1:size(diagnoses)) => diagnoses
+    diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+  end procedure
+
+  module procedure aggregate_rank14_diagnosis
+    type(test_diagnosis_t), pointer :: diagnosis_vector(:)
+    diagnosis_vector(1:size(diagnoses)) => diagnoses
+    diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+  end procedure
+
+  module procedure aggregate_rank15_diagnosis
+    type(test_diagnosis_t), pointer :: diagnosis_vector(:)
+    diagnosis_vector(1:size(diagnoses)) => diagnoses
+    diagnosis = aggregate_vector_diagnosis(diagnosis_vector)
+  end procedure
+
 #endif
 
   module procedure approximates_real
