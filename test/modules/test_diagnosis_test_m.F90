@@ -24,9 +24,9 @@ module test_diagnosis_test_m
     ,operator(.withinFraction.) &
     ,operator(.withinPercentage.) &
     ,operator(.lessThan.) &
-    ,operator(.lessThanOrEqualTo.) &
+    ,operator(.isAtMost.) &
     ,operator(.greaterThan.) &
-    ,operator(.greaterThanOrEqualTo.)
+    ,operator(.isAtLeast.)
   implicit none
 
   private
@@ -216,19 +216,19 @@ contains
   function check_less_than_or_equal_to_integer() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     integer, parameter :: expected_max = 1
-    test_diagnosis = .all. ([0,1] .lessThanOrEqualTo. expected_max)
+    test_diagnosis = .all. ([0,1] .isAtMost. expected_max)
   end function
 
   function check_greater_than_or_equal_to_integer() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     integer, parameter :: expected_min = 1
-    test_diagnosis = .all. ([1,2] .greaterThanOrEqualTo. expected_min)
+    test_diagnosis = .all. ([1,2] .isAtLeast. expected_min)
   end function
 
   function check_and_with_scalar_operands() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     integer, parameter :: expected_min = 1
-    test_diagnosis = (2 .greaterThanOrEqualTo. expected_min) .and. (1 .equalsExpected. 1)
+    test_diagnosis = (2 .isAtLeast. expected_min) .and. (1 .equalsExpected. 1)
   end function
 
   function check_and_with_vector_operands() result(test_diagnoses)

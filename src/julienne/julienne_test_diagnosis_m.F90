@@ -263,13 +263,13 @@ module julienne_test_diagnosis_m
 
   end interface
 
-  interface operator(.isAtLeast.)
+  interface operator(.isAtMost.)
     module procedure less_than_or_equal_to_integer
     module procedure less_than_or_equal_to_real
     module procedure less_than_or_equal_to_double_precision
   end interface
 
-  interface operator(.isAtMost.)
+  interface operator(.isAtLeast.)
     module procedure greater_than_or_equal_to_integer
     module procedure greater_than_or_equal_to_real
     module procedure greater_than_or_equal_to_double_precision
