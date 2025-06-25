@@ -56,8 +56,7 @@ contains
     character(len=max_message_length) error_message
     integer, allocatable :: lengths(:)
 
-    open(newunit=file_unit, file=file_name%string(), form='formatted', status='old', iostat=io_status, action='read')
-    call_assert_diagnose(io_status==0,"from_file_with_string_name: io_status==0 after 'open' statement", file_name%string())
+    open(newunit=file_unit, file=file_name%string(), form='formatted', status='old')
 
     lengths = line_lengths(file_unit)
 

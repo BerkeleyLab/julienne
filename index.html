@@ -166,15 +166,17 @@ following table provides examples of the expressions Julienne supports:</p>
 <td><code>integer</code></td>
 </tr>
 <tr>
-<td><code>i .greaterThanOrEqualTo. j</code></td>
-<td><code>integer</code></td>
+<td><code>i .isAtLeast. j</code></td>
+<td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
 </tr>
 <tr>
-<td><code>i .lessThanOrEqualTo. j</code></td>
-<td><code>integer</code></td>
+<td><code>i .isAtMost. j</code></td>
+<td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
 </tr>
 </tbody>
 </table>
+<p>where <code>.isAtLeast.</code> and <code>.isAtMost.</code> can alternatively be spelled
+<code>.greaterThanOrEqualTo.</code> and <code>.lessThanOrEqualTo.</code>, respectively.</p>
 <h2 id="expressive-idioms">Expressive idioms</h2>
 <h3 id="assertions">Assertions</h3>
 <p>Any of the above tabulated expressions can be the actual argument in an
@@ -191,8 +193,9 @@ above line entirely when <code>-DASSERTIONS</code> is not present.</p>
 <p>All operands in an expression must be compatible in type and kind as well as
 conformable in rank, where the latter condition implies that the operands must
 be all scalars or all arrays with the same shape or a combination of scalars and
-arrays with the same shape. This constraint follows from each of the operators
-being <code>elemental</code>.</p>
+arrays with the same shape. This constraint follows from each of the binary
+operators being <code>elemental</code>.  The unary <code>.all.</code> operator applies to operands of
+any rank.</p>
 <p>Each tabulated expression above produces a <code>test_diagnosis_t</code> object with two
 components:</p>
 <ul>
@@ -211,9 +214,10 @@ component of the constructor function result.  The actual argument provided to
 the constructor function can be of any one of several types, kinds, and ranks.</p>
 <p>Julienne provides defined operations for concatenating <code>string_t</code> objects
 (<code>//</code>), forming a concatenated <code>string_t</code> object from an array of <code>string_t</code>
-objects <code>(.cat.)</code>, forming a separated-value list <code>(.sv.)</code>, including a
-comma-separated value list <code>(.csv.)</code>.  The table below shows some expressions
-that Julienne supports with these defined operations.</p>
+objects (<code>.cat.</code>), forming a separated-value list (<code>.separatedBy.</code> or
+equivalently <code>.sv.</code>), including a comma-separated value list <code>(.csv.)</code>.  The
+table below shows some expressions that Julienne supports with these defined
+operations.</p>
 <table>
 <thead>
 <tr>
@@ -247,7 +251,7 @@ that Julienne supports with these defined operations.</p>
 <td><code>string_t("1.50000000,2.00000000,3.25000000")</code></td>
 </tr>
 <tr>
-<td><code>"-" .sv. string_t(a)</code></td>
+<td><code>"-" .separatedBy. string_t(a)</code></td>
 <td><code>string_t("1-2-4")</code></td>
 </tr>
 <tr>
@@ -484,7 +488,7 @@ doing so is in the <a href="https://github.com/rouson/handy-dandy/blob/7caaa4dc3
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Source Files</h3>
-              <ul><li><a href='sourcefile/check-for-command-line-argument.f90.html'>check-for-command-line-argument.f90</a></li><li><a href='sourcefile/create-markdown-table.f90.html'>create-markdown-table.F90</a></li><li><a href='sourcefile/get-command-line-flag-value.f90.html'>get-command-line-flag-value.f90</a></li><li><a href='sourcefile/julienne_bin_m.f90.html'>julienne_bin_m.f90</a></li><li><a href='sourcefile/julienne_bin_s.f90.html'>julienne_bin_s.F90</a></li><li><a href='sourcefile/julienne_command_line_m.f90.html'>julienne_command_line_m.f90</a></li><li><a href='sourcefile/julienne_command_line_s.f90.html'>julienne_command_line_s.f90</a></li><li><a href='sourcefile/julienne_file_m.f90.html'>julienne_file_m.f90</a></li><li><a href='sourcefile/julienne_file_s.f90.html'>julienne_file_s.F90</a></li><li><a href='sourcefile/julienne_formats_m.f90.html'>julienne_formats_m.F90</a></li></ul>
+              <ul><li><a href='sourcefile/assertions.f90.html'>assertions.F90</a></li><li><a href='sourcefile/check-for-command-line-argument.f90.html'>check-for-command-line-argument.f90</a></li><li><a href='sourcefile/create-markdown-table.f90.html'>create-markdown-table.F90</a></li><li><a href='sourcefile/get-command-line-flag-value.f90.html'>get-command-line-flag-value.f90</a></li><li><a href='sourcefile/julienne_bin_m.f90.html'>julienne_bin_m.f90</a></li><li><a href='sourcefile/julienne_bin_s.f90.html'>julienne_bin_s.F90</a></li><li><a href='sourcefile/julienne_command_line_m.f90.html'>julienne_command_line_m.f90</a></li><li><a href='sourcefile/julienne_command_line_s.f90.html'>julienne_command_line_s.f90</a></li><li><a href='sourcefile/julienne_file_m.f90.html'>julienne_file_m.f90</a></li><li><a href='sourcefile/julienne_file_s.f90.html'>julienne_file_s.F90</a></li></ul>
             </div>
             <div>
               <ul>
@@ -541,7 +545,7 @@ doing so is in the <a href="https://github.com/rouson/handy-dandy/blob/7caaa4dc3
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-06-03 16:29 +0000             </p>
+ on 2025-06-25 19:12 +0000             </p>
           </div>
         </div>
         <br>

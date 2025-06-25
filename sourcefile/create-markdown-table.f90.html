@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.7% of total for source files.">51 statements</a>
+                 title=" 2.4% of total for source files.">51 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -263,21 +263,21 @@ large graphs.</div>
       <section>
         <h2><span class="anchor" id="src"></span>Source Code</h2>
         <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="k">program </span><span class="n">create_markdown_table</span>
-<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="w">  </span><span class="c">!! This program demonstrates </span>
-<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="w">  </span><span class="c">!! 1. The use of the string_t constructor function to encapsulate a ragged-edged array of character values.</span>
-<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="w">  </span><span class="c">!! 2. The use of the separated-values operator(.sv.) to form one string by concatenating the elements of a</span>
-<a id="ln-5" name="ln-5" href="#ln-5"></a><span class="w">  </span><span class="c">!!   string_t array and adding user-designated separators between each resulting substring.</span>
-<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="w">  </span><span class="c">!! 3. The use of the elemental type-bound procedure &quot;bracket&quot; to add preceding and trailing delimiters to all</span>
-<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="w">  </span><span class="c">!!    elements of a string_t array.</span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="w">  </span><span class="c">!! This program demonstrates the creation of a Markdown table summarzing kind values used by a compiler:</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="w">  </span><span class="c">!!</span>
+<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="w">  </span><span class="c">!! 1. Using the string_t user-defined structure constructor to encapsulate a ragged-edged string_t array.</span>
+<a id="ln-5" name="ln-5" href="#ln-5"></a><span class="w">  </span><span class="c">!! 2. Using operator(.separatedBy.) to concatenate string_t array elements with interspersed separators.</span>
+<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="w">  </span><span class="c">!! 3. Using the elemental type-bound procedure &quot;bracket&quot; to prefix and suffix string_t array elements.</span>
+<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="w">  </span><span class="c">!!</span>
 <a id="ln-8" name="ln-8" href="#ln-8"></a><span class="w">  </span><span class="c">!! Running the program with a command of the form &quot;fpm run --example create-markdown-table&quot; without quotes</span>
-<a id="ln-9" name="ln-9" href="#ln-9"></a><span class="w">  </span><span class="c">!! should produce a table similar to the following with &quot;flang&quot; replaced by the name of the compiler if a</span>
-<a id="ln-10" name="ln-10" href="#ln-10"></a><span class="w">  </span><span class="c">!! different compiler is used:</span>
+<a id="ln-9" name="ln-9" href="#ln-9"></a><span class="w">  </span><span class="c">!! should produce a table similar to the following with &quot;flang&quot; replaced by the employed compiler&#39;s name.</span>
+<a id="ln-10" name="ln-10" href="#ln-10"></a><span class="w">  </span><span class="c">!!</span>
 <a id="ln-11" name="ln-11" href="#ln-11"></a><span class="w">  </span><span class="c">!! |compiler \ kind|default|c_size_t|c_int64_t|c_intptr_t|</span>
 <a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">  </span><span class="c">!! |-|-|-|-|-|</span>
 <a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">  </span><span class="c">!! |flang|4|8|8|8|</span>
 <a id="ln-14" name="ln-14" href="#ln-14"></a><span class="w">  </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">compiler_version</span>
 <a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">  </span><span class="k">use </span><span class="nb">iso_c_binding</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kt">c_size_t</span><span class="p">,</span><span class="w"> </span><span class="kt">c_int64_t</span><span class="p">,</span><span class="w"> </span><span class="kt">c_intptr_t</span>
-<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="kt">  </span><span class="k">use </span><span class="n">julienne_string_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">string_t</span><span class="p">,</span><span class="w"> </span><span class="n">operator</span><span class="p">(.</span><span class="n">sv</span><span class="p">.)</span>
+<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="kt">  </span><span class="k">use </span><span class="n">julienne_string_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">string_t</span><span class="p">,</span><span class="w"> </span><span class="n">operator</span><span class="p">(.</span><span class="n">separatedBy</span><span class="p">.)</span>
 <a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">  </span><span class="k">implicit none</span>
 <a id="ln-18" name="ln-18" href="#ln-18"></a>
 <a id="ln-19" name="ln-19" href="#ln-19"></a><span class="k">  block</span>
@@ -310,11 +310,11 @@ large graphs.</div>
 <a id="ln-46" name="ln-46" href="#ln-46"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">column_header</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">rank</span><span class="p">(</span><span class="n">row_header</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">body_cells</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="k">error stop</span><span class="w"> </span><span class="s2">&quot;column size mismatch&quot;</span>
 <a id="ln-47" name="ln-47" href="#ln-47"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">row_header</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">body_cells</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">error stop</span><span class="w"> </span><span class="s2">&quot;row size mismatch&quot;</span>
 <a id="ln-48" name="ln-48" href="#ln-48"></a>
-<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="w">    </span><span class="n">lines</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">column_header</span><span class="w"> </span><span class="p">.</span><span class="n">sv</span><span class="p">.</span><span class="w"> </span><span class="n">column_separator</span>
-<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="w">    </span><span class="n">lines</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">column_header</span><span class="p">))]</span><span class="w"> </span><span class="p">.</span><span class="n">sv</span><span class="p">.</span><span class="w"> </span><span class="n">column_separator</span>
+<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="w">    </span><span class="n">lines</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">column_header</span><span class="w"> </span><span class="p">.</span><span class="n">separatedBy</span><span class="p">.</span><span class="w"> </span><span class="n">column_separator</span>
+<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="w">    </span><span class="n">lines</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">column_header</span><span class="p">))]</span><span class="w"> </span><span class="p">.</span><span class="n">separatedBy</span><span class="p">.</span><span class="w"> </span><span class="n">column_separator</span>
 <a id="ln-51" name="ln-51" href="#ln-51"></a>
 <a id="ln-52" name="ln-52" href="#ln-52"></a><span class="w">    </span><span class="k">do </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
-<a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">      </span><span class="n">lines</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">row_header</span><span class="p">(</span><span class="n">row</span><span class="p">),</span><span class="w"> </span><span class="n">body_cells</span><span class="p">(</span><span class="n">row</span><span class="p">,:)]</span><span class="w"> </span><span class="p">.</span><span class="n">sv</span><span class="p">.</span><span class="w"> </span><span class="n">column_separator</span>
+<a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">      </span><span class="n">lines</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">row_header</span><span class="p">(</span><span class="n">row</span><span class="p">),</span><span class="w"> </span><span class="n">body_cells</span><span class="p">(</span><span class="n">row</span><span class="p">,:)]</span><span class="w"> </span><span class="p">.</span><span class="n">separatedBy</span><span class="p">.</span><span class="w"> </span><span class="n">column_separator</span>
 <a id="ln-54" name="ln-54" href="#ln-54"></a><span class="w">    </span><span class="k">end do</span>
 <a id="ln-55" name="ln-55" href="#ln-55"></a>
 <a id="ln-56" name="ln-56" href="#ln-56"></a><span class="k">    if</span><span class="w"> </span><span class="p">(</span><span class="n">side_borders</span><span class="p">)</span><span class="w"> </span><span class="n">lines</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lines</span><span class="p">%</span><span class="n">bracket</span><span class="p">(</span><span class="n">column_separator</span><span class="p">)</span>
@@ -364,7 +364,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-06-03 16:29 +0000             </p>
+ on 2025-06-25 19:12 +0000             </p>
           </div>
         </div>
         <br>

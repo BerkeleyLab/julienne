@@ -11,7 +11,7 @@ contains
 
   module procedure construct
 
-      call_assert_diagnose( num_items>=num_bins, "bin_s(construct): num_items>=num_bins", intrinsic_array_t([num_items,num_bins]))
+      call_assert(num_items>=num_bins)
 
       associate( remainder => mod(num_items, num_bins), items_per_bin => num_items/num_bins)
 

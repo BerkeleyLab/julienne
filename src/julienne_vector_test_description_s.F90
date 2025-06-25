@@ -45,7 +45,7 @@ contains
       associate(diagnoses => self%vector_diagnosis_function_())
 #if defined(ASSERTIONS)
         associate(num_descriptions => size(self%descriptions_), num_results => size(diagnoses))
-          call_assert_diagnose(num_descriptions == num_results, "description/result size match", intrinsic_array_t([num_descriptions, num_results]))
+          call_assert(num_descriptions == num_results)
         end associate
 #endif
         test_results = test_result_t(self%descriptions_, diagnoses)

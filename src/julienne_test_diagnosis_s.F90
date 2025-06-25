@@ -18,24 +18,66 @@ contains
 
   module procedure aggregate_diagnosis
     character(len=*), parameter :: new_line_indent = new_line('') // "        "
-    integer i
-    type(string_t), allocatable :: empty(:)
 
     select rank(diagnoses)
       rank(0)
         diagnosis = diagnoses
       rank(1)
-        diagnosis = test_diagnosis_t( &
-           test_passed = all(diagnoses%test_passed_) &
-          ,diagnostics_string = .cat. pack( &
-             array = [(string_t(new_line_indent // diagnoses(i)%diagnostics_string_), i=1,size(diagnoses))] &
-            ,mask  = .not. diagnoses%test_passed_ &
-        ) )
+        diagnosis = aggregate_vector_diagnosis(diagnoses)
+      rank(2)
+        diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+      rank(3)
+        diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+      rank(4)
+        diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+      rank(5)
+        diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+      rank(6)
+        diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+      rank(7)
+        diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+      rank(8)
+        diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+      rank(9)
+        diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+      rank(10)
+        diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+      rank(11)
+        diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+      rank(12)
+        diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+      rank(13)
+        diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+      rank(14)
+        diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+      rank(15)
+        diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
       rank default 
         associate(diagnoses_rank => string_t(rank(diagnoses)))
           error stop "aggregate_diagnosis (julienne_test_diagnosis_s): rank " // diagnoses_rank%string() // " unspported"
         end associate
     end select
+
+  contains
+
+    pure function aggregate_vector_diagnosis(diagnoses) result(diagnosis)
+      type(test_diagnosis_t), intent(in) :: diagnoses(:)
+      type(test_diagnosis_t) diagnosis
+      character(len=*), parameter :: new_line_indent = new_line('') // "        "
+      type(string_t), allocatable :: array(:)
+      integer i
+      allocate(array(size(diagnoses)))
+      do i = 1, size(diagnoses)
+        array(i) = string_t(new_line_indent // diagnoses(i)%diagnostics_string_)
+      end do
+      diagnosis = test_diagnosis_t( &
+         test_passed = all(diagnoses%test_passed_) &
+        ,diagnostics_string = .cat. pack( &
+           array = array &
+          ,mask  = .not. diagnoses%test_passed_ &
+      ) )
+    end function
+
   end procedure
 
 #else
@@ -57,8 +99,65 @@ contains
       ,diagnostics_string = .cat. pack( &
          array = array &
         ,mask  = .not. diagnoses%test_passed_ &
-    ) ) 
+    ) )
   end procedure
+
+  module procedure aggregate_rank2_diagnosis
+    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  end procedure
+
+  module procedure aggregate_rank3_diagnosis
+    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  end procedure
+
+  module procedure aggregate_rank4_diagnosis
+    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  end procedure
+
+  module procedure aggregate_rank5_diagnosis
+    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  end procedure
+
+  module procedure aggregate_rank6_diagnosis
+    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  end procedure
+
+  module procedure aggregate_rank7_diagnosis
+    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  end procedure
+
+  module procedure aggregate_rank8_diagnosis
+    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  end procedure
+
+  module procedure aggregate_rank9_diagnosis
+    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  end procedure
+
+  module procedure aggregate_rank10_diagnosis
+    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  end procedure
+
+  module procedure aggregate_rank11_diagnosis
+    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  end procedure
+
+  module procedure aggregate_rank12_diagnosis
+    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  end procedure
+
+  module procedure aggregate_rank13_diagnosis
+    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  end procedure
+
+  module procedure aggregate_rank14_diagnosis
+    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  end procedure
+
+  module procedure aggregate_rank15_diagnosis
+    diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
+  end procedure
+
 #endif
 
   module procedure approximates_real
@@ -133,7 +232,55 @@ contains
 
   end procedure
 
+  module procedure less_than_or_equal_to_real
+
+    if (actual <= expected_max) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be less than or equal to " // string_t(expected_max) &
+      )
+    end if
+
+  end procedure
+
+  module procedure less_than_or_equal_to_double_precision
+
+    if (actual <= expected_max) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be less than or equal to " // string_t(expected_max) &
+      )
+    end if
+
+  end procedure
+
   module procedure greater_than_or_equal_to_integer
+
+    if (actual >= expected_min) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be greater than or equal to " // string_t(expected_min) &
+      )
+    end if
+
+  end procedure
+
+  module procedure greater_than_or_equal_to_real
+
+    if (actual >= expected_min) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be greater than or equal to " // string_t(expected_min) &
+      )
+    end if
+
+  end procedure
+
+  module procedure greater_than_or_equal_to_double_precision
 
     if (actual >= expected_min) then
       test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
