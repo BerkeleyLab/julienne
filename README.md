@@ -26,8 +26,11 @@ Example expressions                               | Operand types
 `x .greaterThan. y`                               | `integer`, `real`, `double precision`
 `i .greaterThan. j`                               | `integer`, `real`, `double precision`
 `i .equalsExpected. j`                            | `integer`
-`i .greaterThanOrEqualTo. j`                      | `integer`
-`i .lessThanOrEqualTo. j`                         | `integer`
+`i .isAtLeast. j`                                 | `integer`, `real`, `double precision`
+`i .isAtMost. j`                                  | `integer`, `real`, `double precision`
+
+where `.isAtLeast.` and `.isAtMost.` can alternatively be spelled
+`.greaterThanOrEqualTo.` and `.lessThanOrEqualTo.`, respectively.
 
 Expressive idioms 
 -----------------
@@ -48,8 +51,9 @@ The above tabulated expressions can also serve as function results in unit tests
 All operands in an expression must be compatible in type and kind as well as
 conformable in rank, where the latter condition implies that the operands must
 be all scalars or all arrays with the same shape or a combination of scalars and
-arrays with the same shape. This constraint follows from each of the operators
-being `elemental`.
+arrays with the same shape. This constraint follows from each of the binary
+operators being `elemental`.  The unary `.all.` operator applies to operands of
+any rank.
 
 Each tabulated expression above produces a `test_diagnosis_t` object with two
 components:
