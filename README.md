@@ -80,18 +80,18 @@ equivalently `.sv.`), including a comma-separated value list `(.csv.)`.  The
 table below shows some expressions that Julienne supports with these defined
 operations.
 
-Example expression                        | Result
-------------------------------------------|------------------------------------------------
-`s=string_t("abc")`, `s%bracket()`        | `string_t("[abc]")`
-`s=string_t("abc")`, `s%bracket("_")`     | `string_t("_abc_")`
-`s=string_t("abc")`, `s%bracket("{","}")` | `string_t("{abc}")`
-`string_t(["a", "b", "c")`                | `[string_t("a"), string_t("b"), string_t("c")]`
-`.cat. string_t([9,8,7])`                 | `string_t("987")`
-`.csv. string_t([1.5,2.0,3.25])`          | `string_t("1.50000000,2.00000000,3.25000000")`
-`"-" .separatedBy. string_t(a)`           | `string_t("1-2-4")`
-`string_t("ab") // string_t("cd")`        | `string_t("abcd")`
-`"ab" // string_t("cd")`                  | `string_t("abcd")`
-`string_t("ab") // "cd"`                  | `string_t("abcd")`
+Example expression                               | Result
+-------------------------------------------------|------------------------------------------------
+`s%bracket()`, where `s=string_t("abc")`,        | `string_t("[abc]")`
+`s%bracket("_")`, where `s=string_t("abc")`      | `string_t("_abc_")`
+`s%bracket("{","}")`, where `s=string_t("abc")`  | `string_t("{abc}")`
+`string_t(["a", "b", "c"])`                      | `[string_t("a"), string_t("b"), string_t("c")]`
+`.cat. string_t([9,8,7])`                        | `string_t("987")`
+`.csv. string_t([1.5,2.0,3.25])`                 | `string_t("1.50000000,2.00000000,3.25000000")`
+`"-" .separatedBy. string_t([1,2,4])`            | `string_t("1-2-4")`
+`string_t("ab") // string_t("cd")`               | `string_t("abcd")`
+`"ab" // string_t("cd")`                         | `string_t("abcd")`
+`string_t("ab") // "cd"`                         | `string_t("abcd")`
 
 One can use such expressions to craft a diagnostic message when constructing
 a custom test function result:
