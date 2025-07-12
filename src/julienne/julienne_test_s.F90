@@ -10,6 +10,8 @@ contains
 
   module procedure report
 
+    logical do_first_report
+
 #if HAVE_MULTI_IMAGE_SUPPORT
     associate(me => this_image())
 #else
@@ -17,14 +19,20 @@ contains
     me = 1
 #endif
 
+    do_first_report = .false.
+
+      if (.not. allocated(test_description_substring)) then
+         block
+           type(command_line_t) command_line
+           test_description_substring = command_line%flag_value("--contains")
+           do_first_report = .true.
+         end block
+      end if
+
       if (me==1) then
 
         first_report: &
-        if (.not. allocated(test_description_substring)) then
-          block
-            type(command_line_t) command_line
-            test_description_substring = command_line%flag_value("--contains")
-          end block
+        if (do_first_report) then
           print *
           if (len(test_description_substring)==0) then
             print '(a)',"Running all tests."
@@ -37,10 +45,6 @@ contains
         print '(*(a))', new_line('a'), test%subject()
 
       end if
-
-#if HAVE_MULTI_IMAGE_SUPPORT
-      call co_broadcast(test_description_substring, source_image=1)
-#endif
 
 #ifndef _CRAYFTN
       associate(test_results => test%results())
