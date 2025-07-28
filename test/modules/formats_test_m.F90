@@ -147,7 +147,7 @@ contains
     character(len=200) captured_output
     character(len=*), parameter :: expected_output = "Yodel, Ay, Hee, Hoo!"
 
-    write(captured_output, fmt = separated_values(separator=", ", mold=[integer::])) "Yodel", "Ay", "Hee", "Hoo!"
+    write(captured_output, fmt = separated_values(separator=", ", mold=[character::])) "Yodel", "Ay", "Hee", "Hoo!"
 
     test_diagnosis = test_diagnosis_t( &
        test_passed = expected_output == captured_output &
