@@ -25,12 +25,14 @@ Example expressions                               | Operand types
 `x .lessThan. y`                                  | `integer`, `real`, `double precision`
 `x .greaterThan. y`                               | `integer`, `real`, `double precision`
 `i .greaterThan. j`                               | `integer`, `real`, `double precision`
-`i .equalsExpected. j`                            | `integer`
+`i .equalsExpected. j`                            | `integer`, `character`
 `i .isAtLeast. j`                                 | `integer`, `real`, `double precision`
 `i .isAtMost. j`                                  | `integer`, `real`, `double precision`
 
 where `.isAtLeast.` and `.isAtMost.` can alternatively be spelled
-`.greaterThanOrEqualTo.` and `.lessThanOrEqualTo.`, respectively.
+`.greaterThanOrEqualTo.` and `.lessThanOrEqualTo.`, respectively,
+and where `.equalsExpected.` uses `==`, which implies that trailing
+white space is ignored when comparing character operands.
 
 Expressive idioms 
 -----------------

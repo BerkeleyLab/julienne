@@ -60,7 +60,9 @@ contains
       ,test_description_t("construction from the double precision expression 'x .approximates. y .withinPercentage. tolerance'", check_approximates_double_percentage) &
       ,test_description_t("construction from the double precision expression 'x .lessThan. y"                                  , check_less_than_double) &
       ,test_description_t("construction from the double precision expression 'x .greaterThan. y"                               , check_greater_than_double) &
-      ,test_description_t("construction from the integer expression 'i .equalsExpected. j"                                     , check_equals_integer) &
+      ,test_description_t("construction from the character expression 'a .equalsExpected. b'"                                  , check_equals_character) &
+      ,test_description_t("construction from the string_t expression 'a .equalsExpected. b'"                                   , check_equals_string) &
+      ,test_description_t("construction from the integer expression 'i .equalsExpected. j'"                                    , check_equals_integer) &
       ,test_description_t("construction from the integer expression 'i .lessThan. j"                                           , check_less_than_integer) &
       ,test_description_t("construction from the integer expression '[i,j] .lessThanOrEqualTo. k"                              , check_less_than_or_equal_to_integer) &
       ,test_description_t("construction from the integer expression 'i .greaterThan. j"                                        , check_greater_than_integer) &
@@ -82,6 +84,8 @@ contains
        ,check_approximates_double_fraction_ptr     => check_approximates_double_fraction &
        ,check_less_than_double_ptr                 => check_less_than_double &
        ,check_greater_than_double_ptr              => check_greater_than_double &
+       ,check_equals_character_ptr                 => check_equals_character &
+       ,check_equals_string_ptr                    => check_equals_string &
        ,check_equals_integer_ptr                   => check_equals_integer &
        ,check_less_than_integer_ptr                => check_less_than_integer &
        ,check_less_than_or_equal_to_integer_ptr    => check_less_than_or_equal_to_integer &
@@ -101,6 +105,8 @@ contains
       ,test_description_t("construction from the double precision expression 'x .approximates. y .withinPercentage. tolerance'", check_approximates_double_percentage_ptr) &
       ,test_description_t("construction from the double precision expression 'x .lessThan. y"                                  , check_less_than_double_ptr) &
       ,test_description_t("construction from the double precision expression 'x .greaterThan. y"                               , check_greater_than_double_ptr) &
+      ,test_description_t("construction from the character expression 'a .equalsExpected. b'"                                  , check_equals_character_ptr) &
+      ,test_description_t("construction from the string_t expression 'a .equalsExpected. b'"                                   , check_equals_string_ptr) &
       ,test_description_t("construction from the integer expression 'i .equalsExpected. j"                                     , check_equals_integer_ptr) &
       ,test_description_t("construction from the integer expression 'i .lessThan. j"                                           , check_less_than_integer_ptr) &
       ,test_description_t("construction from the integer expression '[i,j] .lessThanOrEqualTo. k"                              , check_less_than_or_equal_to_integer_ptr) &
@@ -169,6 +175,19 @@ contains
     type(test_diagnosis_t) test_diagnosis
     double precision, parameter :: actual_value = 1.01D0, expected_value = 1D0, percentage = 2D0
     test_diagnosis = actual_value .approximates. expected_value .withinPercentage. percentage
+  end function
+
+  function check_equals_character() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    character(len=*), parameter :: expected_value = "foo"
+    test_diagnosis = "foo" .equalsExpected. expected_value
+  end function
+
+  function check_equals_string() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    type(string_t) expected_value
+    expected_value = string_t("foo")
+    test_diagnosis = string_t("foo") .equalsExpected. expected_value
   end function
 
   function check_equals_integer() result(test_diagnosis)
