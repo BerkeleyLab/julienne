@@ -26,7 +26,7 @@ module julienne_string_m
     generic :: operator(/=)   => string_t_ne_string_t, string_t_ne_character, character_ne_string_t
     generic :: operator(==)   => string_t_eq_string_t, string_t_eq_character, character_eq_string_t
     generic :: assignment(= ) => assign_string_t_to_character, assign_character_to_string_t
-    generic :: get_json_value => get_string_with_string_key  &
+    generic :: get_json_value => get_string_with_string_key, get_string_with_character_key  &
                                 ,get_character_with_string_key, get_character_with_character_key &
                                 ,get_string_t_array_with_character_key, get_string_t_array_with_string_t_key &
                                 ,get_real, get_real_with_character_key &
@@ -36,7 +36,7 @@ module julienne_string_m
                                 ,get_integer, get_integer_with_character_key &
                                 ,get_double_precision, get_double_precision_with_character_key &
                                 ,get_double_precision_array, get_double_precision_array_with_character_key
-    procedure, private :: get_string_with_string_key
+    procedure, private :: get_string_with_string_key, get_string_with_character_key
     procedure, private :: get_character_with_string_key, get_character_with_character_key
     procedure, private :: get_string_t_array_with_character_key, get_string_t_array_with_string_t_key
     procedure, private :: get_real, get_real_with_character_key
@@ -272,7 +272,7 @@ module julienne_string_m
       type(string_t) :: value_
     end function
 
-    elemental module function get_string_with_character_key(self, key, mold) result(value_)
+    pure module function get_string_with_character_key(self, key, mold) result(value_)
       implicit none
       class(string_t), intent(in) :: self, mold
       character(len=*), intent(in) :: key

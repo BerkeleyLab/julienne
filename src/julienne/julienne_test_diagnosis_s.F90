@@ -10,7 +10,7 @@ submodule(julienne_test_diagnosis_m) julienne_test_diagnosis_s
   implicit none
 contains
 
-  module procedure and
+  module procedure also
      diagnosis = .all. ([lhs,rhs])
   end procedure 
 
