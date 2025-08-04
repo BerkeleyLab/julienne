@@ -62,8 +62,9 @@ contains
       ,test_description_t("construction from the double precision expression 'x .approximates. y .withinPercentage. tolerance'", check_approximates_double_percentage) &
       ,test_description_t("construction from the double precision expression 'x .lessThan. y"                                  , check_less_than_double) &
       ,test_description_t("construction from the double precision expression 'x .greaterThan. y"                               , check_greater_than_double) &
-      ,test_description_t("construction from the string_t/character expressions 'a .isBefore. b'"                              , check_alphabetical) &
-      ,test_description_t("construction from the string_t/character expressions 'a .isAfter. b'"                               , check_reverse_alphabetical) &
+      ,test_description_t("construction from string_t/character expressions 'a .isBefore. b'"                                  , check_alphabetical) &
+      ,test_description_t("construction from string_t/character expressions 'a .isAfter. b'"                                   , check_reverse_alphabetical) &
+      ,test_description_t("construction from string_t/character expressions 'a .equalsExpected. b'"                            , check_equals_character_vs_string) &
       ,test_description_t("construction from the character expression 'a .equalsExpected. b'"                                  , check_equals_character) &
       ,test_description_t("construction from the string_t expression 'a .equalsExpected. b'"                                   , check_equals_string) &
       ,test_description_t("construction from the integer expression 'i .equalsExpected. j'"                                    , check_equals_integer) &
@@ -90,6 +91,7 @@ contains
        ,check_greater_than_double_ptr              => check_greater_than_double &
        ,check_equals_character_ptr                 => check_equals_character &
        ,check_equals_string_ptr                    => check_equals_string &
+       ,check_equals_character_vs_string_ptr       => check_equals_character_vs_string &
        ,check_reverse_alphabetical_ptr             => check_reverse_alphabetical &
        ,check_alphabetical_ptr                     => check_alphabetical &
        ,check_equals_integer_ptr                   => check_equals_integer &
@@ -111,8 +113,9 @@ contains
       ,test_description_t("construction from the double precision expression 'x .approximates. y .withinPercentage. tolerance'", check_approximates_double_percentage_ptr) &
       ,test_description_t("construction from the double precision expression 'x .lessThan. y"                                  , check_less_than_double_ptr) &
       ,test_description_t("construction from the double precision expression 'x .greaterThan. y"                               , check_greater_than_double_ptr) &
-      ,test_description_t("construction from the string_t/character expressions 'a .isBefore. b'"                              , check_alphabetical_ptr) &
-      ,test_description_t("construction from the string_t/character expressions 'a .isAfter. b'"                               , check_reverse_alphabetical_ptr) &
+      ,test_description_t("construction from string_t/character expressions 'a .isBefore. b'"                                  , check_alphabetical_ptr) &
+      ,test_description_t("construction from string_t/character expressions 'a .equalsExpected. b'"                            , check_equals_character_vs_string_ptr) &
+      ,test_description_t("construction from string_t/character expressions 'a .isAfter. b'"                                   , check_reverse_alphabetical_ptr) &
       ,test_description_t("construction from the character expression 'a .equalsExpected. b'"                                  , check_equals_character_ptr) &
       ,test_description_t("construction from the string_t expression 'a .equalsExpected. b'"                                   , check_equals_string_ptr) &
       ,test_description_t("construction from the integer expression 'i .equalsExpected. j"                                     , check_equals_integer_ptr) &
@@ -212,6 +215,14 @@ contains
     type(string_t) expected_value
     expected_value = string_t("foo")
     test_diagnosis = string_t("foo") .equalsExpected. expected_value
+  end function
+
+  function check_equals_character_vs_string() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    character(len=*), parameter :: expected_character = "foo"
+    type(string_t) expected_string
+    expected_string = string_t(expected_character)
+    test_diagnosis = ("foo" .equalsExpected. expected_string) .and. (string_t("foo") .equalsExpected. expected_character)
   end function
 
   function check_equals_integer() result(test_diagnosis)

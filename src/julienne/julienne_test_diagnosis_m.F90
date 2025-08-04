@@ -231,6 +231,20 @@ module julienne_test_diagnosis_m
       type(test_diagnosis_t) test_diagnosis
     end function
 
+    elemental module function equals_expected_character_vs_string(actual, expected) result(test_diagnosis)
+      implicit none
+      character(len=*), intent(in) :: actual
+      type(string_t), intent(in) :: expected
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    elemental module function equals_expected_string_vs_character(actual, expected) result(test_diagnosis)
+      implicit none
+      type(string_t), intent(in) :: actual
+      character(len=*), intent(in) :: expected
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
   end interface
 
   interface operator(.lessThan.)

@@ -252,7 +252,31 @@ contains
 
   end procedure
 
+  module procedure equals_expected_character_vs_string
+
+    if (actual == expected) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "expected '" // expected // "'; actual value is '" // actual //"'" &
+      )
+    end if
+
+  end procedure
+
   module procedure equals_expected_string
+
+    if (actual == expected) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "expected '" // expected // "'; actual value is '" // actual //"'" &
+      )
+    end if
+
+  end procedure
+
+  module procedure equals_expected_string_vs_character
 
     if (actual == expected) then
       test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
