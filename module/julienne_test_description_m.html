@@ -143,10 +143,10 @@
       <div id="inters-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/julienne_test_description_m.html#interface-test_description_t">test_description_t</a>
-            <a class="list-group-item" href="../module/julienne_test_description_m.html#interface-contains_characters~2">contains_characters</a>
-            <a class="list-group-item" href="../module/julienne_test_description_m.html#interface-contains_string_t~2">contains_string_t</a>
+            <a class="list-group-item" href="../module/julienne_test_description_m.html#interface-contains_characters">contains_characters</a>
+            <a class="list-group-item" href="../module/julienne_test_description_m.html#interface-contains_string_t">contains_string_t</a>
             <a class="list-group-item" href="../module/julienne_test_description_m.html#interface-equals">equals</a>
-            <a class="list-group-item" href="../module/julienne_test_description_m.html#interface-run~2">run</a>
+            <a class="list-group-item" href="../module/julienne_test_description_m.html#interface-run">run</a>
         </div>
       </div>
     </div>
@@ -702,7 +702,7 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-contains_characters~2"></span>
+      <span class="anchor" id="interface-contains_characters"></span>
       <h3>        interface
       </h3>
     </div>
@@ -710,7 +710,7 @@ large graphs.</div>
         <li class="list-group-item">
               <h3>
     private elemental module function contains_characters(self, substring) result(match)  
-    <a href="../proc/contains_characters.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/contains_characters~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>The result is .true. if the test description includes the value of substring</p>
@@ -728,7 +728,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~19"></span>
+              <span class="anchor" id="variable-self~36"></span>
               class(<a href='../type/test_description_t.html'>test_description_t</a>),
             </td>
 <td>intent(in)</td>
@@ -743,7 +743,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~6"></span>
+              <span class="anchor" id="variable-substring~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -771,7 +771,7 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-contains_string_t~2"></span>
+      <span class="anchor" id="interface-contains_string_t"></span>
       <h3>        interface
       </h3>
     </div>
@@ -779,7 +779,7 @@ large graphs.</div>
         <li class="list-group-item">
               <h3>
     private elemental module function contains_string_t(self, substring) result(match)  
-    <a href="../proc/contains_string_t.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/contains_string_t~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>The result is .true. if the test description includes the value of substring</p>
@@ -797,7 +797,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~18"></span>
+              <span class="anchor" id="variable-self~35"></span>
               class(<a href='../type/test_description_t.html'>test_description_t</a>),
             </td>
 <td>intent(in)</td>
@@ -812,7 +812,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-substring~5"></span>
+              <span class="anchor" id="variable-substring~3"></span>
               type(<a href='../type/string_t.html'>string_t</a>),
             </td>
 <td>intent(in)</td>
@@ -866,7 +866,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~11"></span>
+              <span class="anchor" id="variable-lhs~12"></span>
               class(<a href='../type/test_description_t.html'>test_description_t</a>),
             </td>
 <td>intent(in)</td>
@@ -881,7 +881,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~11"></span>
+              <span class="anchor" id="variable-rhs~12"></span>
               class(<a href='../type/test_description_t.html'>test_description_t</a>),
             </td>
 <td>intent(in)</td>
@@ -909,7 +909,7 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-run~2"></span>
+      <span class="anchor" id="interface-run"></span>
       <h3>        interface
       </h3>
     </div>
@@ -917,7 +917,7 @@ large graphs.</div>
         <li class="list-group-item">
               <h3>
     private impure elemental module function run(self) result(test_result)  
-    <a href="../proc/run.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/run~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>The result encapsulates the test description and test outcome</p>
@@ -935,7 +935,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~17"></span>
+              <span class="anchor" id="variable-self~34"></span>
               class(<a href='../type/test_description_t.html'>test_description_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1091,27 +1091,27 @@ large graphs.</div>
           <tbody>
               <tr>
                 <td>  generic, public ::
-  <strong><a href='../type/test_description_t.html#boundprocedure-contains_text~2'>contains_text</a></strong> => <a href='/home/runner/work/julienne/julienne/doc/html/type/test_description_t.html#boundprocedure-contains_string_t~2'>contains_string_t</a>, <a href='/home/runner/work/julienne/julienne/doc/html/type/test_description_t.html#boundprocedure-contains_characters~2'>contains_characters</a></td>
+  <strong><a href='../type/test_description_t.html#boundprocedure-contains_text'>contains_text</a></strong> => <a href='/home/runner/work/julienne/julienne/doc/html/type/test_description_t.html#boundprocedure-contains_string_t'>contains_string_t</a>, <a href='/home/runner/work/julienne/julienne/doc/html/type/test_description_t.html#boundprocedure-contains_characters'>contains_characters</a></td>
                   <td></td>
               </tr>
               <tr>
                 <td>  generic, public ::
-  <strong><a href='../type/test_description_t.html#boundprocedure-operator%28%3D%3D%29'>operator(==)</a></strong> => <a href='/home/runner/work/julienne/julienne/doc/html/type/test_description_t.html#boundprocedure-equals'>equals</a></td>
+  <strong><a href='../type/test_description_t.html#boundprocedure-operator%28%3D%3D%29~2'>operator(==)</a></strong> => <a href='/home/runner/work/julienne/julienne/doc/html/type/test_description_t.html#boundprocedure-equals'>equals</a></td>
                   <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/test_description_t.html#boundprocedure-run~2'>run</a></strong></td>
+  <strong><a href='../type/test_description_t.html#boundprocedure-run'>run</a></strong></td>
                   <td></td>
               </tr>
               <tr>
                 <td>  procedure, private ::
-  <strong><a href='../type/test_description_t.html#boundprocedure-contains_characters~2'>contains_characters</a></strong></td>
+  <strong><a href='../type/test_description_t.html#boundprocedure-contains_characters'>contains_characters</a></strong></td>
                   <td></td>
               </tr>
               <tr>
                 <td>  procedure, private ::
-  <strong><a href='../type/test_description_t.html#boundprocedure-contains_string_t~2'>contains_string_t</a></strong></td>
+  <strong><a href='../type/test_description_t.html#boundprocedure-contains_string_t'>contains_string_t</a></strong></td>
                   <td></td>
               </tr>
               <tr>
@@ -1149,7 +1149,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-08-04 04:11 +0000             </p>
+ on 2025-08-04 04:19 +0000             </p>
           </div>
         </div>
         <br>
