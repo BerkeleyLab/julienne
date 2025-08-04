@@ -234,7 +234,7 @@ Compiler         | Version(s) Tested        | Known Issues
 LLVM `flang-new` | 19, 20                   | none
 NAG `nagfor`     | 7.2 Build 7227           | none
 GCC `gfortran`   | 13, 14, 15               | see 1 below
-Intel `ifx`      | 2025.4 Build 20241205    | see 2 below
+Intel `ifx`      | 2025.1.1 Build 20250418  | see 2 below
 
 1. `gfortran` issues:
    - With GCC 14 or earlier, the `test_description_t` constructor's
@@ -287,8 +287,9 @@ where the `-ffree-line-length-none` turns on support for lines exceeding the For
 
 #### Intel (`ifx`) compiler
 ```
-fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release
+fpm test --compiler ifx --flag "-fpp -O3" --profile release
 ```
+Older versions of `ifx` might require adding `-coarray` to the quoted argument just after `--flag` above.
 
 Documentation
 -------------

@@ -17,6 +17,8 @@ module string_test_m
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     ,diagnosis_function_i &
 #endif
+    ,operator(.equalsExpected.) &
+    ,operator(.also.) &
     ,operator(.cat.) &
     ,operator(.csv.) &
     ,operator(.sv.)
@@ -49,7 +51,7 @@ contains
       ,test_description_t("extracting a key string from a colon-separated key/value pair",                            extracts_key)&
       ,test_description_t("extracting double-precision value from colon-separated key/value pair", extracts_double_precision_value)&
       ,test_description_t("extracting a real value from a colon-separated key/value pair",                     extracts_real_value)&
-      ,test_description_t("extracting a string value from a colon-separated key/value pair",              extracts_character_value)&
+      ,test_description_t("extracting a character value from a colon-separated key/value pair",           extracts_character_value)&
       ,test_description_t("extracting a string value from a colon-separated key/value pair",                 extracts_string_value)&
       ,test_description_t("extracting an integer value from a colon-separated key/value pair",              extracts_integer_value)&
       ,test_description_t("extracting a logical value from a colon-separated key/value pair",               extracts_logical_value)&
@@ -78,72 +80,42 @@ contains
 #else
     ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
     procedure(diagnosis_function_i), pointer :: &
-       check_allocation_ptr                     &
-      ,extracts_key_ptr                         &
-      ,extracts_double_precision_value_ptr      &
-      ,extracts_real_value_ptr                  &
-      ,extracts_character_value_ptr             &
-      ,extracts_string_value_ptr                &
-      ,extracts_integer_value_ptr               &
-      ,extracts_logical_value_ptr               &
-      ,extracts_integer_array_value_ptr         &
-      ,extracts_real_array_value_ptr            &
-      ,extracts_dp_array_value_ptr              &
-      ,supports_equivalence_operator_ptr        &
-      ,supports_non_equivalence_operator_ptr    &
-      ,assigns_string_t_to_character_ptr        &
-      ,assigns_character_to_string_t_ptr        &
-      ,supports_concatenation_operator_ptr      &
-      ,constructs_from_default_integer_ptr      &
-      ,constructs_from_default_real_ptr         &
-      ,constructs_from_double_precision_ptr     &
-      ,constructs_from_default_complex_ptr      &
-      ,constructs_from_default_logical_ptr      &
-      ,constructs_from_logical_c_bool_ptr       &
-      ,extracts_file_base_name_ptr              &
-      ,extracts_file_name_extension_ptr         &
-      ,concatenates_elements_ptr                &
-      ,brackets_strings_ptr                     &
-      ,extracts_string_array_value_ptr          &
-      ,constructs_separated_values_ptr          &
-      ,constructs_from_double_precision_complex_ptr
-
-      check_allocation_ptr                         => check_allocation
-      extracts_key_ptr                             => extracts_key
-      extracts_double_precision_value_ptr          => extracts_double_precision_value
-      extracts_real_value_ptr                      => extracts_real_value
-      extracts_character_value_ptr                 => extracts_character_value
-      extracts_string_value_ptr                    => extracts_string_value
-      extracts_integer_value_ptr                   => extracts_integer_value
-      extracts_logical_value_ptr                   => extracts_logical_value
-      extracts_integer_array_value_ptr             => extracts_integer_array_value
-      extracts_real_array_value_ptr                => extracts_real_array_value
-      extracts_dp_array_value_ptr                  => extracts_dp_array_value
-      supports_equivalence_operator_ptr            => supports_equivalence_operator
-      supports_non_equivalence_operator_ptr        => supports_non_equivalence_operator
-      assigns_string_t_to_character_ptr            => assigns_string_t_to_character
-      assigns_character_to_string_t_ptr            => assigns_character_to_string_t
-      supports_concatenation_operator_ptr          => supports_concatenation_operator
-      constructs_from_default_integer_ptr          => constructs_from_default_integer
-      constructs_from_default_real_ptr             => constructs_from_default_real
-      constructs_from_double_precision_ptr         => constructs_from_double_precision
-      constructs_from_default_complex_ptr          => constructs_from_default_complex
-      constructs_from_default_logical_ptr          => constructs_from_default_logical
-      constructs_from_logical_c_bool_ptr           => constructs_from_logical_c_bool
-      extracts_file_base_name_ptr                  => extracts_file_base_name
-      extracts_file_name_extension_ptr             => extracts_file_name_extension
-      concatenates_elements_ptr                    => concatenates_elements
-      brackets_strings_ptr                         => brackets_strings
-      extracts_string_array_value_ptr              => extracts_string_array_value
-      constructs_separated_values_ptr              => constructs_separated_values
-      constructs_from_double_precision_complex_ptr => constructs_from_double_precision_complex
+       check_allocation_ptr                         => check_allocation &
+      ,extracts_key_ptr                             => extracts_key &
+      ,extracts_double_precision_value_ptr          => extracts_double_precision_value &
+      ,extracts_real_value_ptr                      => extracts_real_value &
+      ,extracts_character_value_ptr                 => extracts_character_value &
+      ,extracts_string_value_ptr                    => extracts_string_value &
+      ,extracts_integer_value_ptr                   => extracts_integer_value &
+      ,extracts_logical_value_ptr                   => extracts_logical_value &
+      ,extracts_integer_array_value_ptr             => extracts_integer_array_value &
+      ,extracts_real_array_value_ptr                => extracts_real_array_value &
+      ,extracts_dp_array_value_ptr                  => extracts_dp_array_value &
+      ,supports_equivalence_operator_ptr            => supports_equivalence_operator &
+      ,supports_non_equivalence_operator_ptr        => supports_non_equivalence_operator &
+      ,assigns_string_t_to_character_ptr            => assigns_string_t_to_character &
+      ,assigns_character_to_string_t_ptr            => assigns_character_to_string_t &
+      ,supports_concatenation_operator_ptr          => supports_concatenation_operator &
+      ,constructs_from_default_integer_ptr          => constructs_from_default_integer &
+      ,constructs_from_default_real_ptr             => constructs_from_default_real &
+      ,constructs_from_double_precision_ptr         => constructs_from_double_precision &
+      ,constructs_from_default_complex_ptr          => constructs_from_default_complex &
+      ,constructs_from_default_logical_ptr          => constructs_from_default_logical &
+      ,constructs_from_logical_c_bool_ptr           => constructs_from_logical_c_bool &
+      ,extracts_file_base_name_ptr                  => extracts_file_base_name &
+      ,extracts_file_name_extension_ptr             => extracts_file_name_extension &
+      ,concatenates_elements_ptr                    => concatenates_elements &
+      ,brackets_strings_ptr                         => brackets_strings &
+      ,extracts_string_array_value_ptr              => extracts_string_array_value &
+      ,constructs_separated_values_ptr              => constructs_separated_values &
+      ,constructs_from_double_precision_complex_ptr => constructs_from_double_precision_complex
 
     test_descriptions = [ &
        test_description_t("is_allocated() result .true. if & only if the string_t component(s) is/are allocated", check_allocation_ptr)&
       ,test_description_t("extracting a key string from a colon-separated key/value pair",                            extracts_key_ptr)&
       ,test_description_t("extracting double-precision value from colon-separated key/value pair", extracts_double_precision_value_ptr)&
       ,test_description_t("extracting a real value from a colon-separated key/value pair",                     extracts_real_value_ptr)&
-      ,test_description_t("extracting a string value from a colon-separated key/value pair",              extracts_character_value_ptr)&
+      ,test_description_t("extracting a character value from a colon-separated key/value pair",           extracts_character_value_ptr)&
       ,test_description_t("extracting a string value from a colon-separated key/value pair",                 extracts_string_value_ptr)&
       ,test_description_t("extracting an integer value from a colon-separated key/value pair",              extracts_integer_value_ptr)&
       ,test_description_t("extracting a logical value from a colon-separated key/value pair",               extracts_logical_value_ptr)&
@@ -239,32 +211,22 @@ contains
     type(test_diagnosis_t) test_diagnosis
 
     associate(line => string_t('"foo" : "bar"'), line_with_comma => string_t('"foo" : "bar",'))
-      associate(json_values => [ &
-           line%get_json_value(key="foo" , mold="") &
-          ,line%get_json_value(key=string_t("foo"), mold="") &
-          ,line_with_comma%get_json_value(key="foo" , mold="") &
-          ,line_with_comma%get_json_value(key=string_t("foo"), mold="") &
-      ])
-        test_diagnosis = test_diagnosis_t( &
-           test_passed = all(json_values == "bar") &
-          ,diagnostics_string = "expected bar; actual " // .csv. json_values &
-        )
-      end associate
+      test_diagnosis = (line%get_json_value(           key=         "foo" , mold="") .equalsExpected. "bar") &
+                .also. (line_with_comma%get_json_value(key=         "foo" , mold="") .equalsExpected. "bar") &
+                .also. (line%get_json_value(           key=string_t("foo"), mold="") .equalsExpected. "bar") &
+                .also. (line_with_comma%get_json_value(key=string_t("foo"), mold="") .equalsExpected. "bar")
     end associate
   end function
 
   function extracts_string_value() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
 
-    associate(line => string_t('"foo" : "bar"'))
-      associate(json_value => line%get_json_value(key=string_t("foo"), mold=string_t("")))
-        test_diagnosis = test_diagnosis_t( &
-          test_passed =  json_value == "bar", &
-          diagnostics_string = "expected 'bar', actual " // json_value &
-        )
-      end associate
+    associate(line => string_t('"foo" : "bar"'), line_with_comma => string_t('"foo" : "bar",'))
+      test_diagnosis = (line%get_json_value(           key=         "foo" , mold=string_t("")) .equalsExpected. "bar") &
+                .also. (line_with_comma%get_json_value(key=         "foo" , mold=string_t("")) .equalsExpected. "bar") &
+                .also. (line%get_json_value(           key=string_t("foo"), mold=string_t("")) .equalsExpected. "bar") &
+                .also. (line_with_comma%get_json_value(key=string_t("foo"), mold=string_t("")) .equalsExpected. "bar")
     end associate
-
   end function
 
   function extracts_integer_value() result(test_diagnosis)

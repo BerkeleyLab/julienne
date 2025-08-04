@@ -220,14 +220,20 @@ contains
 
   end procedure
 
-  module procedure get_character
-    associate(string_value => self%get_string(key, string_t(mold)))
+  module procedure get_character_with_string_key
+    associate(string_value => self%get_string_with_string_key(key, string_t(mold)))
       value_ = string_value%string()
     end associate
   end procedure
 
   module procedure get_character_with_character_key
-    associate(string_value => self%get_string(string_t(key), string_t(mold)))
+    associate(string_value => self%get_string_with_string_key(string_t(key), string_t(mold)))
+      value_ = string_value%string()
+    end associate
+  end procedure
+
+  module procedure get_string_with_character_key
+    associate(string_value => self%get_string_with_string_key(string_t(key), mold))
       value_ = string_value%string()
     end associate
   end procedure
@@ -265,7 +271,7 @@ contains
     end associate
   end procedure
 
-  module procedure get_string
+  module procedure get_string_with_string_key
 
     character(len=:), allocatable :: raw_line
 

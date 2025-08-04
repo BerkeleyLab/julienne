@@ -14,6 +14,7 @@ module julienne_m
     ,julienne_assert &
     ,operator(.all.) &
     ,operator(.and.) &
+    ,operator(.also.) &
     ,operator(.approximates.) &
     ,operator(.equalsExpected.) &
     ,operator(.isAtLeast.) &
