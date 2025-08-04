@@ -21,7 +21,7 @@ Example expressions                               | Operand types
 `.all. ([i,j] .lessThan. k)`                      | `integer`, `real`, `double precision`
 `.all. ([i,j] .lessThan. [k,m])`                  | `integer`, `real`, `double precision`
 `.all. (i .lessThan. [k,m])`                      | `integer`, `real`, `double precision`
-`(i .lessThan. j) .and. (k .equalsExpected. m))`  | `integer`, `real`, `double precision`
+`(i .lessThan. j) .also. (k .equalsExpected. m))` | `integer`, `real`, `double precision`
 `x .lessThan. y`                                  | `integer`, `real`, `double precision`
 `x .greaterThan. y`                               | `integer`, `real`, `double precision`
 `i .greaterThan. j`                               | `integer`, `real`, `double precision`
@@ -36,6 +36,8 @@ where `.isAtLeast.` and `.isAtMost.` can alternatively be spelled
 `.equalsExpected.` uses `==`, which implies that trailing blank spaces
 are ignored in character operands; and `.isBefore.` and `.isAfter.`
 verify alphabetical and reverse-alphabetical order, respectively.
+The new `.all.` operator is synonymous with the `.and.` defined operation
+but avoids confusion with the intrinsic `.and.` operator.
 
 Expressive idioms 
 -----------------
