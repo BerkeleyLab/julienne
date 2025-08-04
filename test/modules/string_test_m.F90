@@ -80,7 +80,7 @@ contains
 #else
     ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
     procedure(diagnosis_function_i), pointer :: &
-      ,check_allocation_ptr                         => check_allocation &
+       check_allocation_ptr                         => check_allocation &
       ,extracts_key_ptr                             => extracts_key &
       ,extracts_double_precision_value_ptr          => extracts_double_precision_value &
       ,extracts_real_value_ptr                      => extracts_real_value &
