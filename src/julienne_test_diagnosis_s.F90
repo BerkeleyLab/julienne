@@ -172,6 +172,62 @@ contains
 #endif
   end procedure
 
+  module procedure alphabetical_character_vs_character
+
+    if (lhs < rhs) then
+      test_diagnosis = test_diagnosis_t(.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(.false., diagnostics_string = rhs //" is before " // lhs // " alphabetically.")
+    end if
+
+  end procedure
+
+  module procedure alphabetical_string_vs_string
+
+    if (lhs%string() < rhs%string()) then
+      test_diagnosis = test_diagnosis_t(.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(.false., diagnostics_string = lhs //" is before " // rhs // " alphabetically.")
+    end if
+
+  end procedure
+
+  module procedure alphabetical_character_vs_string
+
+    if (lhs < rhs%string()) then
+      test_diagnosis = test_diagnosis_t(.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(.false., diagnostics_string = lhs //" is before " // rhs // " alphabetically.")
+    end if
+
+  end procedure
+
+  module procedure alphabetical_string_vs_character
+
+    if (lhs%string() < rhs) then
+      test_diagnosis = test_diagnosis_t(.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(.false., diagnostics_string = lhs //" is before " // rhs // " alphabetically.")
+    end if
+
+  end procedure
+
+  module procedure reverse_alphabetical_character_vs_character
+    test_diagnosis = rhs .isBefore. lhs
+  end procedure
+
+  module procedure reverse_alphabetical_string_vs_string
+    test_diagnosis = rhs .isBefore. lhs
+  end procedure
+
+  module procedure reverse_alphabetical_character_vs_string
+    test_diagnosis = rhs .isBefore. lhs
+  end procedure
+
+  module procedure reverse_alphabetical_string_vs_character
+    test_diagnosis = rhs .isBefore. lhs
+  end procedure
+
   module procedure equals_expected_integer
 
     if (actual == expected) then
@@ -179,6 +235,54 @@ contains
     else
       test_diagnosis = test_diagnosis_t(test_passed = .false. &
         ,diagnostics_string = "expected " // string_t(expected) // "; actual value is " // string_t(actual) &
+      )
+    end if
+
+  end procedure
+
+  module procedure equals_expected_character
+
+    if (actual == expected) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "expected '" // expected // "'; actual value is '" // actual //"'" &
+      )
+    end if
+
+  end procedure
+
+  module procedure equals_expected_character_vs_string
+
+    if (actual == expected) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "expected '" // expected // "'; actual value is '" // actual //"'" &
+      )
+    end if
+
+  end procedure
+
+  module procedure equals_expected_string
+
+    if (actual == expected) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "expected '" // expected // "'; actual value is '" // actual //"'" &
+      )
+    end if
+
+  end procedure
+
+  module procedure equals_expected_string_vs_character
+
+    if (actual == expected) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "expected '" // expected // "'; actual value is '" // actual //"'" &
       )
     end if
 
