@@ -13,7 +13,8 @@ module julienne_m
     ,call_julienne_assert_ &
     ,julienne_assert &
     ,operator(.all.) &
-    ,operator(.and.) &
+    ,operator(.also.) &
+    ,operator(.and.) & ! ssame as .also. TODO: deprecate .and. to avoid confusion with intrinsic operator
     ,operator(.approximates.) &
     ,operator(.equalsExpected.) &
     ,operator(.isAtLeast.) &
