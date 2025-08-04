@@ -18,6 +18,8 @@ module julienne_m
     ,operator(.equalsExpected.) &
     ,operator(.isAtLeast.) &
     ,operator(.isAtMost.) &
+    ,operator(.isBefore.) &
+    ,operator(.isAfter.) &
     ,operator(.lessThan.) &
     ,operator(.lessThanOrEqualTo.) &    ! same as operator(.isAtMost.)
     ,operator(.greaterThan.) &

@@ -18,6 +18,8 @@ module julienne_test_diagnosis_m
   public :: operator(.approximates.)
   public :: operator(.isAtLeast.)
   public :: operator(.isAtMost.)
+  public :: operator(.isBefore.)
+  public :: operator(.isAfter.)
   public :: operator(.within.)
   public :: operator(.withinFraction.)
   public :: operator(.withinPercentage.)
@@ -217,6 +219,32 @@ module julienne_test_diagnosis_m
       type(test_diagnosis_t) test_diagnosis
     end function
 
+    elemental module function equals_expected_character(actual, expected) result(test_diagnosis)
+      implicit none
+      character(len=*), intent(in) :: actual, expected
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    elemental module function equals_expected_string(actual, expected) result(test_diagnosis)
+      implicit none
+      type(string_t), intent(in) :: actual, expected
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    elemental module function equals_expected_character_vs_string(actual, expected) result(test_diagnosis)
+      implicit none
+      character(len=*), intent(in) :: actual
+      type(string_t), intent(in) :: expected
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    elemental module function equals_expected_string_vs_character(actual, expected) result(test_diagnosis)
+      implicit none
+      type(string_t), intent(in) :: actual
+      character(len=*), intent(in) :: expected
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
   end interface
 
   interface operator(.lessThan.)
@@ -273,6 +301,66 @@ module julienne_test_diagnosis_m
     module procedure greater_than_or_equal_to_integer
     module procedure greater_than_or_equal_to_real
     module procedure greater_than_or_equal_to_double_precision
+  end interface
+
+  interface operator(.isBefore.)
+
+    elemental module function alphabetical_character_vs_character(lhs, rhs) result(test_diagnosis)
+      implicit none
+      character(len=*), intent(in) :: lhs, rhs
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    elemental module function alphabetical_string_vs_string(lhs, rhs) result(test_diagnosis)
+      implicit none
+      type(string_t), intent(in) :: lhs, rhs
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    elemental module function alphabetical_character_vs_string(lhs, rhs) result(test_diagnosis)
+      implicit none
+      character(len=*), intent(in) :: lhs
+      type(string_t), intent(in) :: rhs
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    elemental module function alphabetical_string_vs_character(lhs, rhs) result(test_diagnosis)
+      implicit none
+      type(string_t), intent(in) :: lhs
+      character(len=*), intent(in) :: rhs
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+  end interface
+
+  interface operator(.isAfter.)
+
+    elemental module function reverse_alphabetical_character_vs_character(lhs, rhs) result(test_diagnosis)
+      implicit none
+      character(len=*), intent(in) :: lhs, rhs
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    elemental module function reverse_alphabetical_string_vs_string(lhs, rhs) result(test_diagnosis)
+      implicit none
+      type(string_t), intent(in) :: lhs, rhs
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    elemental module function reverse_alphabetical_character_vs_string(lhs, rhs) result(test_diagnosis)
+      implicit none
+      character(len=*), intent(in) :: lhs
+      type(string_t), intent(in) :: rhs
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    elemental module function reverse_alphabetical_string_vs_character(lhs, rhs) result(test_diagnosis)
+      implicit none
+      type(string_t), intent(in) :: lhs
+      character(len=*), intent(in) :: rhs
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
   end interface
 
   interface operator(.greaterThanOrEqualTo.)
