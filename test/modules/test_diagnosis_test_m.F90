@@ -24,6 +24,8 @@ module test_diagnosis_test_m
     ,operator(.withinFraction.) &
     ,operator(.withinPercentage.) &
     ,operator(.lessThan.) &
+    ,operator(.isBefore.) &
+    ,operator(.isAfter.) &
     ,operator(.isAtMost.) &
     ,operator(.greaterThan.) &
     ,operator(.isAtLeast.)
@@ -60,6 +62,8 @@ contains
       ,test_description_t("construction from the double precision expression 'x .approximates. y .withinPercentage. tolerance'", check_approximates_double_percentage) &
       ,test_description_t("construction from the double precision expression 'x .lessThan. y"                                  , check_less_than_double) &
       ,test_description_t("construction from the double precision expression 'x .greaterThan. y"                               , check_greater_than_double) &
+      ,test_description_t("construction from the string_t/character expressions 'a .isBefore. b'"                              , check_alphabetical) &
+      ,test_description_t("construction from the string_t/character expressions 'a .isAfter. b'"                               , check_reverse_alphabetical) &
       ,test_description_t("construction from the character expression 'a .equalsExpected. b'"                                  , check_equals_character) &
       ,test_description_t("construction from the string_t expression 'a .equalsExpected. b'"                                   , check_equals_string) &
       ,test_description_t("construction from the integer expression 'i .equalsExpected. j'"                                    , check_equals_integer) &
@@ -86,6 +90,8 @@ contains
        ,check_greater_than_double_ptr              => check_greater_than_double &
        ,check_equals_character_ptr                 => check_equals_character &
        ,check_equals_string_ptr                    => check_equals_string &
+       ,check_reverse_alphabetical_ptr             => check_reverse_alphabetical &
+       ,check_alphabetical_ptr                     => check_alphabetical &
        ,check_equals_integer_ptr                   => check_equals_integer &
        ,check_less_than_integer_ptr                => check_less_than_integer &
        ,check_less_than_or_equal_to_integer_ptr    => check_less_than_or_equal_to_integer &
@@ -105,6 +111,8 @@ contains
       ,test_description_t("construction from the double precision expression 'x .approximates. y .withinPercentage. tolerance'", check_approximates_double_percentage_ptr) &
       ,test_description_t("construction from the double precision expression 'x .lessThan. y"                                  , check_less_than_double_ptr) &
       ,test_description_t("construction from the double precision expression 'x .greaterThan. y"                               , check_greater_than_double_ptr) &
+      ,test_description_t("construction from the string_t/character expressions 'a .isBefore. b'"                              , check_alphabetical_ptr) &
+      ,test_description_t("construction from the string_t/character expressions 'a .isAfter. b'"                               , check_reverse_alphabetical_ptr) &
       ,test_description_t("construction from the character expression 'a .equalsExpected. b'"                                  , check_equals_character_ptr) &
       ,test_description_t("construction from the string_t expression 'a .equalsExpected. b'"                                   , check_equals_string_ptr) &
       ,test_description_t("construction from the integer expression 'i .equalsExpected. j"                                     , check_equals_integer_ptr) &
@@ -175,6 +183,22 @@ contains
     type(test_diagnosis_t) test_diagnosis
     double precision, parameter :: actual_value = 1.01D0, expected_value = 1D0, percentage = 2D0
     test_diagnosis = actual_value .approximates. expected_value .withinPercentage. percentage
+  end function
+
+  function check_reverse_alphabetical() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    test_diagnosis = (string_t("foo") .isAfter. string_t("bar")) &
+               .and. (string_t("foo") .isAfter. "bar") &
+               .and. ("foo" .isAfter. "bar") &
+               .and. ("foo" .isAfter. string_t("bar"))
+  end function
+
+  function check_alphabetical() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    test_diagnosis = (string_t("bar") .isBefore. string_t("foo")) &
+               .and. (string_t("bar") .isBefore. "foo") &
+               .and. ("bar" .isBefore. "foo") &
+               .and. ("bar" .isBefore. string_t("foo"))
   end function
 
   function check_equals_character() result(test_diagnosis)

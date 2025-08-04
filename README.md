@@ -28,11 +28,14 @@ Example expressions                               | Operand types
 `i .equalsExpected. j`                            | `integer`, `character`
 `i .isAtLeast. j`                                 | `integer`, `real`, `double precision`
 `i .isAtMost. j`                                  | `integer`, `real`, `double precision`
+`s .isBefore. t`                                  | `character`
+`s .isAfter. t`                                   | `character`
 
 where `.isAtLeast.` and `.isAtMost.` can alternatively be spelled
-`.greaterThanOrEqualTo.` and `.lessThanOrEqualTo.`, respectively,
-and where `.equalsExpected.` uses `==`, which implies that trailing
-white space is ignored when comparing character operands.
+`.greaterThanOrEqualTo.` and `.lessThanOrEqualTo.`, respectively;
+`.equalsExpected.` uses `==`, which implies that trailing blank spaces
+are ignored in character operands; and `.isBefore.` and `.isAfter.`
+verify alphabetical and reverse-alphabetical order, respectively.
 
 Expressive idioms 
 -----------------
