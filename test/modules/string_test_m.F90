@@ -17,6 +17,8 @@ module string_test_m
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     ,diagnosis_function_i &
 #endif
+    ,operator(.equalsExpected.) &
+    ,operator(.also.) &
     ,operator(.cat.) &
     ,operator(.csv.) &
     ,operator(.sv.)
@@ -208,33 +210,29 @@ contains
   function extracts_character_value() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
 
-    associate(line => string_t('"foo" : "bar"'), line_with_comma => string_t('"foo" : "bar",'))
-      associate(json_values => [ &
-           line%get_json_value(key="foo" , mold="") &
-          ,line%get_json_value(key=string_t("foo"), mold="") &
-          ,line_with_comma%get_json_value(key="foo" , mold="") &
-          ,line_with_comma%get_json_value(key=string_t("foo"), mold="") &
-      ])
-        test_diagnosis = test_diagnosis_t( &
-           test_passed = all(json_values == "bar") &
-          ,diagnostics_string = "expected bar; actual " // .csv. json_values &
-        )
+    associate(line => string_t('"foo" : "bar"'))
+      associate(line_with_comma => line // ",")
+        test_diagnosis = (           line%get_json_value(key=         "foo" ,  mold="") .equalsExpected. "bar") &
+                  .also. (           line%get_json_value(key=string_t("foo"),  mold="") .equalsExpected. "bar") &
+                  .also. (line_with_comma%get_json_value(key=         "foo" ,  mold="") .equalsExpected. "bar") &
+                  .also. (line_with_comma%get_json_value(key=string_t("foo") , mold="") .equalsExpected. "bar")
       end associate
     end associate
+                
   end function
 
   function extracts_string_value() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
 
     associate(line => string_t('"foo" : "bar"'))
-      associate(json_value => line%get_json_value(key=string_t("foo"), mold=string_t("")))
-        test_diagnosis = test_diagnosis_t( &
-          test_passed =  json_value == "bar", &
-          diagnostics_string = "expected 'bar', actual " // json_value &
-        )
+      associate(line_with_comma => line // ",")
+        test_diagnosis = (           line%get_json_value(key=         "foo" ,  mold=string_t("")) .equalsExpected. "bar") &
+                  .also. (           line%get_json_value(key=string_t("foo"),  mold=string_t("")) .equalsExpected. "bar") &
+                  .also. (line_with_comma%get_json_value(key=         "foo" ,  mold=string_t("")) .equalsExpected. "bar") &
+                  .also. (line_with_comma%get_json_value(key=string_t("foo") , mold=string_t("")) .equalsExpected. "bar")
       end associate
     end associate
-
+                
   end function
 
   function extracts_integer_value() result(test_diagnosis)

@@ -220,14 +220,39 @@ contains
 
   end procedure
 
-  module procedure get_character
-    associate(string_value => self%get_string(key, string_t(mold)))
+  module procedure get_string_with_string_key
+
+    character(len=:), allocatable :: raw_line
+
+    call_assert(key==self%get_json_key())
+
+    raw_line = self%string()
+    associate(text_after_colon => raw_line(index(raw_line, ':')+1:))
+      associate(opening_value_quotes => index(text_after_colon, '"'))
+        associate(closing_value_quotes => opening_value_quotes + index(text_after_colon(opening_value_quotes+1:), '"'))
+          if (any([opening_value_quotes, closing_value_quotes] == 0)) then
+            value_ = string_t(trim(adjustl((text_after_colon))))
+          else
+            value_ = string_t(text_after_colon(opening_value_quotes+1:closing_value_quotes-1))
+          end if
+        end associate
+      end associate
+    end associate
+
+  end procedure
+
+  module procedure get_string_with_character_key
+    value_ = self%get_string_with_string_key(string_t(key), mold)
+  end procedure 
+
+  module procedure get_character_with_character_key
+    associate(string_value => self%get_string_with_string_key(string_t(key), string_t(mold)))
       value_ = string_value%string()
     end associate
   end procedure
 
-  module procedure get_character_with_character_key
-    associate(string_value => self%get_string(string_t(key), string_t(mold)))
+  module procedure get_character_with_string_key
+    associate(string_value => self%get_string_with_string_key(key, string_t(mold)))
       value_ = string_value%string()
     end associate
   end procedure
@@ -265,26 +290,6 @@ contains
     end associate
   end procedure
 
-  module procedure get_string
-
-    character(len=:), allocatable :: raw_line
-
-    call_assert(key==self%get_json_key())
-
-    raw_line = self%string()
-    associate(text_after_colon => raw_line(index(raw_line, ':')+1:))
-      associate(opening_value_quotes => index(text_after_colon, '"'))
-        associate(closing_value_quotes => opening_value_quotes + index(text_after_colon(opening_value_quotes+1:), '"'))
-          if (any([opening_value_quotes, closing_value_quotes] == 0)) then
-            value_ = string_t(trim(adjustl((text_after_colon))))
-          else
-            value_ = string_t(text_after_colon(opening_value_quotes+1:closing_value_quotes-1))
-          end if
-        end associate
-      end associate
-    end associate
-
-  end procedure
 
   module procedure get_logical_with_character_key
     value_ = self%get_logical(string_t(key), mold)
