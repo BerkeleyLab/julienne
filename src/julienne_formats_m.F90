@@ -4,8 +4,8 @@ module julienne_formats_m
   !! Useful strings for formatting `print` and `write` statements
   implicit none
 
-  character(len=*), parameter :: csv = "(*(G0,:,','))" !! comma-separated values
-  character(len=*), parameter :: cscv = "(*('(',G0,',',G0,')',:,',')))" !! comma-separated complex values
+  character(len=*), parameter :: csv = "(*(G25.20,:,','))" !! comma-separated values
+  character(len=*), parameter :: cscv = "(*('(',G25.20,',',G25.20,')',:,',')))" !! comma-separated complex values
 
 #ifndef _CRAYFTN
 

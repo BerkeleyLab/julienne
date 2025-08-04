@@ -15,6 +15,7 @@ module julienne_test_diagnosis_m
   public :: julienne_assert
   public :: operator(.all.)
   public :: operator(.and.)
+  public :: operator(.also.)
   public :: operator(.approximates.)
   public :: operator(.isAtLeast.)
   public :: operator(.isAtMost.)
@@ -181,14 +182,18 @@ module julienne_test_diagnosis_m
 #endif
   end interface
 
-  interface operator(.and.)
+  interface operator(.also.)
      
-    elemental module function and(lhs, rhs) result(diagnosis)
+    elemental module function also(lhs, rhs) result(diagnosis)
       implicit none
       type(test_diagnosis_t), intent(in) :: lhs, rhs
       type(test_diagnosis_t) diagnosis
     end function
 
+  end interface
+
+  interface operator(.and.)
+     module procedure also
   end interface
 
   interface operator(.approximates.)

@@ -10,8 +10,9 @@ contains
 
   module procedure separated_values
     character(len=*), parameter :: prefix = "(*(G0,:,'"
-    character(len=*), parameter :: suffix =           "'))"
+    character(len=*), parameter :: double_prefix = "(*(G25.20,:,'"
     character(len=*), parameter :: complex_prefix = "(*('(',G0,',',G0,')',:,'" 
+    character(len=*), parameter :: suffix = "'))"
 
     select rank(mold)
       rank(1)
@@ -19,7 +20,7 @@ contains
           type is(complex)
             format_string = complex_prefix // separator // suffix
           type is(double precision)
-            format_string = prefix // separator // suffix
+            format_string = double_prefix // separator // "'))"
           type is(real)
             format_string = prefix // separator // suffix
           type is(integer)
