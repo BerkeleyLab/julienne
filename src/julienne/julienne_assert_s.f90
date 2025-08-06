@@ -10,10 +10,10 @@ contains
 
   module procedure julienne_assert
     character(len=:), allocatable :: diagnostics_string
-    diagnostics_string =  test_diagnosis%diagnostics_string_
+    diagnostics_string =  test_diagnosis%diagnostics_string()
     if (present(file)) diagnostics_string = diagnostics_string // " in file " // file
     if (present(line)) diagnostics_string = diagnostics_string // " at line " // string_t(line)
-    call assert_always(test_diagnosis%test_passed_, diagnostics_string)
+    call assert_always(test_diagnosis%test_passed(), diagnostics_string)
   end procedure
 
   module procedure assert_assert
