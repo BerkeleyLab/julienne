@@ -66,7 +66,7 @@ contains
       ,check_macro_with_logical_assertion_ptr => check_macro_with_logical_assertion
 
     descriptions = [ &
-       test_description_t("invocation via macro with an expression containing Julienne operators", check_macro_with_expression_ptr)&
+       test_description_t("invocation via macro with an expression containing Julienne operators", check_macro_with_julienne_idiom_ptr) &
       ,test_description_t("invocation with a logical expression", check_macro_with_logical_assertion_ptr) &
     ]
 
