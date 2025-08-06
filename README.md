@@ -156,7 +156,8 @@ Getting Started
 ---------------
 ### Writing Assertions
 To write a Julienne assertion, insert a function-like preprocessor macro
-`call_julienne_assert` on a single line as in the following program:
+`call_julienne_assert` on a single line as in each of the two macro
+invocations below:
 ```fortran
 #include "julienne-assertion-macros.h"
 program main
@@ -164,14 +165,24 @@ program main
   implicit none
   real, parameter :: x=1., y=2., tolerance=3.
   call_julienne_assert(x .approximates. y .within. tolerance)
+  call_julienne_assert(abs(x-y) < tolerance)
 end program
 ```
-where inserting `-DASSERTIONS` in a compile command will expand the macro to
+where inserting `-DASSERTIONS` in a compile command will expand the macros to
 ```fortran
-  call call_julienne_assert_(x .approximates. y .within. tolerance)
+  call call_julienne_assert_(x .approximates. y .within. tolerance, __FILE__, __LINE__)
+  call call_julienne_assert_(abs(x-y) <  tolerance, __FILE__, __LINE__)
 ```
-and where dots (`.`) delimit Julienne operators and the parenthetical expression
-evaluates to a Julienne `test_diagnosis_t` object.
+and where dots (`.`) delimit Julienne operators.  The above expression containing
+Julienne operators evaluates to a Julienne `test_diagnosis_t` object, whereas
+expression on the subsequent line containing intrinsic operators evaluates to a
+`logical` value.  If an assertion containing a Julienne expression fails, the
+error stop code will contain diagnostic information constructed automatically by
+Julienne. If an assertion containing a `logical` experession evaluates to `false.`,
+the error stop code will contain a literal copy of the expression.  In either
+case, the error stop code will also contain the file and line number, which the
+function-like macro inserts automatically via the `__FILE__` and `__LINE__` macros,
+respectively.
 
 ### Writing Unit Tests
 Writing tests using Julienne involves constructing a test-description array,
