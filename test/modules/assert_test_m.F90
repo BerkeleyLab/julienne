@@ -40,7 +40,8 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     associate(descriptions => [ &
-       test_description_t("invocation with an expression containing Julienne operators", check_macro_with_expression) &
+       test_description_t("invocation with an expression containing Julienne operators", check_macro_with_julienne_idiom) &
+      ,test_description_t("invocation with a logical expression", check_macro_with_logical_assertion) &
     ])
       associate(substring_in_subject => index(subject(), test_description_substring) /= 0)
         associate(substring_in_test_diagnosis => descriptions%contains_text(test_description_substring))
@@ -61,10 +62,12 @@ contains
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: descriptions(:)
     procedure(diagnosis_function_i), pointer :: &
-       check_macro_with_expression_ptr => check_macro_with_expression
+       check_macro_with_julienne_idiom_ptr => check_macro_with_julienne_idiom &
+      ,check_macro_with_logical_assertion_ptr => check_macro_with_logical_assertion
 
     descriptions = [ &
        test_description_t("invocation via macro with an expression containing Julienne operators", check_macro_with_expression_ptr)&
+      ,test_description_t("invocation with a logical expression", check_macro_with_logical_assertion_ptr) &
     ]
 
     block
@@ -81,10 +84,15 @@ contains
 
 #endif
 
-  function check_macro_with_expression() result(test_diagnosis)
+  function check_macro_with_julienne_idiom() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     call_julienne_assert(1. .approximates. 2. .within. 3.)
     test_diagnosis = test_diagnosis_t(.true., "")
+  end function
+
+  function check_macro_with_logical_assertion() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    call_julienne_assert(1==1)
   end function
 
 end module assert_test_m
