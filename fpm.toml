@@ -1,7 +1,7 @@
 name = "julienne"
 
 [dependencies]
-assert = {git = "https://github.com/berkeleylab/assert", tag = "3.0.0"}
+assert = {git = "https://github.com/berkeleylab/assert", tag = "3.0.2"}
 
 [install]
 library = true
