@@ -30,7 +30,7 @@ module julienne_test_diagnosis_m
   type test_diagnosis_t
     !! Encapsulate test outcome and diagnostic information
     private
-    logical test_passed_
+    logical :: test_passed_ = .false.
     character(len=:), allocatable :: diagnostics_string_
   contains
     procedure test_passed
