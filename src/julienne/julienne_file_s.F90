@@ -1,11 +1,11 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
-#include "assert_macros.h"
+#include "julienne-assert-macros.h"
 
 submodule(julienne_file_m) julienne_file_s
   use iso_fortran_env, only : iostat_end, iostat_eor, output_unit
-  use assert_m
+  use julienne_m, only : call_julienne_assert_
   implicit none
 
 contains
@@ -17,7 +17,7 @@ contains
   module procedure write_to_output_unit
     integer l
 
-    call_assert(allocated(self%lines_))
+    call_julienne_assert(allocated(self%lines_))
 
     do l = 1, size(self%lines_)
       write(output_unit, '(a)') self%lines_(l)%string()
@@ -27,7 +27,7 @@ contains
   module procedure write_to_character_file_name
     integer file_unit, l
 
-    call_assert(allocated(self%lines_))
+    call_julienne_assert(allocated(self%lines_))
 
     open(newunit=file_unit, file=file_name, form='formatted', status='unknown', action='write')
 

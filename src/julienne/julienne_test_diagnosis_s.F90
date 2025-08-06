@@ -2,11 +2,12 @@
 ! Terms of use are as specified in LICENSE.txt
 
 #include "language-support.F90"
+#include "julienne-assert-macros.h"
 #include "assert_macros.h"
 
 submodule(julienne_test_diagnosis_m) julienne_test_diagnosis_s
-  use assert_m
-  use julienne_string_m, only : operator(.csv.), operator(.cat.)
+  use assert_m, only : assert_always
+  use julienne_m, only : operator(.csv.), operator(.cat.), call_julienne_assert_
   implicit none
 contains
 
@@ -537,7 +538,7 @@ contains
   end procedure
 
   module procedure diagnostics_string
-    call_assert(allocated(self%diagnostics_string_))
+    call_julienne_assert(allocated(self%diagnostics_string_))
     string_ = string_t(self%diagnostics_string_)
   end procedure
 
