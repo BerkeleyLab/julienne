@@ -93,6 +93,7 @@ contains
   function check_macro_with_logical_assertion() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     call_julienne_assert(1==1)
+    test_diagnosis = test_diagnosis_t(.true., "")
   end function
 
 end module assert_test_m
