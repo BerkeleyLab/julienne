@@ -3,10 +3,8 @@
 
 #include "language-support.F90"
 #include "julienne-assert-macros.h"
-#include "assert_macros.h"
 
 submodule(julienne_test_diagnosis_m) julienne_test_diagnosis_s
-  use assert_m, only : assert_always
   use julienne_m, only : operator(.csv.), operator(.cat.), call_julienne_assert_
   implicit none
 contains
@@ -540,22 +538,6 @@ contains
   module procedure diagnostics_string
     call_julienne_assert(allocated(self%diagnostics_string_))
     string_ = string_t(self%diagnostics_string_)
-  end procedure
-
-  module procedure julienne_assert
-    character(len=:), allocatable :: diagnostics_string
-    diagnostics_string =  test_diagnosis%diagnostics_string_
-    if (present(file)) diagnostics_string = diagnostics_string // " in file " // file
-    if (present(line)) diagnostics_string = diagnostics_string // " at line " // string_t(line)
-    call assert_always(test_diagnosis%test_passed_, diagnostics_string)
-  end procedure
-
-  module procedure assert_assert
-    character(len=:), allocatable :: diagnostics_string
-    diagnostics_string = ""
-    if (present(file)) diagnostics_string = diagnostics_string // " in file " // file
-    if (present(line)) diagnostics_string = diagnostics_string // " at line " // string_t(line)
-    call assert_always(assertion, diagnostics_string)
   end procedure
 
 end submodule julienne_test_diagnosis_s

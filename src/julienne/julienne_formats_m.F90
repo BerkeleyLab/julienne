@@ -1,5 +1,6 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
+
 module julienne_formats_m
   !! Useful strings for formatting `print` and `write` statements
   implicit none
