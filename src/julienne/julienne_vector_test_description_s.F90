@@ -2,16 +2,18 @@
 ! Terms of use are as specified in LICENSE.txt
 
 #include "julienne-assert-macros.h"
+#include "assert_macros.h"
 
 submodule(julienne_vector_test_description_m) julienne_vector_test_description_s
-  use julienne_m, only : call_julienne_assert_
+  use julienne_m, only : call_julienne_assert_, operator(.equalsExpected.)
+  use assert_m
   implicit none
 
 contains
 
   module procedure contains_characters
     integer i
-    call_julienne_assert(allocated(self%descriptions_))
+    call_assert(allocated(self%descriptions_))
     match_vector = [(index(self%descriptions_(i)%string(), substring) /= 0, i = 1, size(self%descriptions_))]
   end procedure
 
@@ -45,7 +47,7 @@ contains
       associate(diagnoses => self%vector_diagnosis_function_())
 #if defined(ASSERTIONS)
         associate(num_descriptions => size(self%descriptions_), num_results => size(diagnoses))
-          call_julienne_assert(num_descriptions == num_results)
+          call_julienne_assert(num_descriptions .equalsExpected. num_results)
         end associate
 #endif
         test_results = test_result_t(self%descriptions_, diagnoses)

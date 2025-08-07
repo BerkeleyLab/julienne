@@ -3,12 +3,15 @@
 
 #include "language-support.F90"
 #include "julienne-assert-macros.h"
+#include "assert_macros.h"
 
 module assert_test_m
-  !! Test Julienne's assert generic interface
-
+  !! Test Julienne's call_julienne_assert generic interface
+  use assert_m ! Import call_assert macro
   use julienne_m, only : & 
      call_julienne_assert_ &
+    ,julienne_assert &
+    ,operator(.equalsExpected.) &
     ,test_diagnosis_t &
     ,test_t &
     ,test_description_t &
@@ -31,7 +34,7 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "The call_julienne_assert macro" 
+    specimen = "The julienne_assert subroutine"
   end function
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
@@ -40,8 +43,9 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     associate(descriptions => [ &
-       test_description_t("invocation with an expression containing Julienne operators", check_macro_with_julienne_idiom) &
-      ,test_description_t("invocation with a logical expression", check_macro_with_logical_assertion) &
+       test_description_t("invocation via the call_julienne_assert macro", check_call_julienne_assert_macro) &
+      ,test_description_t("invocation via direct call", check_julienne_assert_call) &
+      ,test_description_t("invocation removal after undefining the ASSERTIONS macro", check_macro_removal) &
     ])
       associate(substring_in_subject => index(subject(), test_description_substring) /= 0)
         associate(substring_in_test_diagnosis => descriptions%contains_text(test_description_substring))
@@ -62,12 +66,13 @@ contains
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: descriptions(:)
     procedure(diagnosis_function_i), pointer :: &
-       check_macro_with_julienne_idiom_ptr => check_macro_with_julienne_idiom &
-      ,check_macro_with_logical_assertion_ptr => check_macro_with_logical_assertion
-
+       check_call_julienne_assert_macro_ptr => check_call_julienne_assert_macro &
+      ,check_julienne_assert_call_ptr => check_julienne_assert_call &
+      ,check_macro_removal_ptr => check_macro_removal
     descriptions = [ &
-       test_description_t("invocation via macro with an expression containing Julienne operators", check_macro_with_julienne_idiom_ptr) &
-      ,test_description_t("invocation with a logical expression", check_macro_with_logical_assertion_ptr) &
+       test_description_t("invoking the call_julienne_assert macro", check_call_julienne_assert_macro_ptr) &
+      ,test_description_t("directly calling julienne_assert", check_julienne_assert_call_ptr) &
+      ,test_description_t("removal when the ASSERTIONS macro is defined as 0", check_macro_removal_ptr) &
     ]
 
     block
@@ -84,16 +89,24 @@ contains
 
 #endif
 
-  function check_macro_with_julienne_idiom() result(test_diagnosis)
+  function check_call_julienne_assert_macro() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     call_julienne_assert(1. .approximates. 2. .within. 3.)
-    test_diagnosis = test_diagnosis_t(.true., "")
+    test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
   end function
 
-  function check_macro_with_logical_assertion() result(test_diagnosis)
+  function check_julienne_assert_call() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    call_julienne_assert(1==1)
-    test_diagnosis = test_diagnosis_t(.true., "")
+    call julienne_assert(1. .approximates. 2. .within. 3.)
+    test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+  end function
+
+  function check_macro_removal() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+#undef ASSERTIONS
+#include "julienne-assert-macros.h"
+    call_julienne_assert(5 .equalsExpected. 9)
+    test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
   end function
 
 end module assert_test_m

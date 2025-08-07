@@ -2,8 +2,10 @@
 ! Terms of use are as specified in LICENSE.txt
 
 #include "julienne-assert-macros.h"
+#include "assert_macros.h"
 
 submodule(julienne_string_m) julienne_string_s
+  use assert_m
   use julienne_m, only : call_julienne_assert_, operator(.equalsExpected.)
   implicit none
 
@@ -186,7 +188,7 @@ contains
   module procedure get_real
     character(len=:), allocatable :: raw_line, string_value
 
-    call_julienne_assert(key .equalsExpected. self%get_json_key())
+    call_julienne_assert(self%get_json_key() .equalsExpected. key)
 
     raw_line = self%string()
     associate(text_after_colon => raw_line(index(raw_line, ':')+1:))
@@ -205,7 +207,7 @@ contains
   module procedure get_double_precision
     character(len=:), allocatable :: raw_line, string_value
 
-    call_julienne_assert(key==self%get_json_key())
+    call_julienne_assert(self%get_json_key() .equalsExpected. key)
 
     raw_line = self%string()
     associate(text_after_colon => raw_line(index(raw_line, ':')+1:))
@@ -248,7 +250,7 @@ contains
     character(len=:), allocatable :: raw_line
     integer i, comma, opening_quotes, closing_quotes
 
-    call_julienne_assert(key .equalsExpected. self%get_json_key())
+    call_julienne_assert(self%get_json_key() .equalsExpected. key)
 
     raw_line = self%string()
 
@@ -276,7 +278,7 @@ contains
 
     character(len=:), allocatable :: raw_line
 
-    call_julienne_assert(key .equalsExpected. self%get_json_key())
+    call_julienne_assert(self%get_json_key() .equalsExpected. key)
 
     raw_line = self%string()
     associate(text_after_colon => raw_line(index(raw_line, ':')+1:))
@@ -300,7 +302,7 @@ contains
   module procedure get_logical
     character(len=:), allocatable :: raw_line, string_value
 
-    call_julienne_assert(key .equalsExpected.self%get_json_key())
+    call_julienne_assert(self%get_json_key() .equalsExpected. key)
 
     raw_line = self%string()
     associate(text_after_colon => raw_line(index(raw_line, ':')+1:))
@@ -310,7 +312,7 @@ contains
         else 
           string_value = trim(adjustl((text_after_colon(:trailing_comma-1))))
         end if
-        call_julienne_assert(any(string_value==["true","false"]))
+        call_assert(any(string_value==['true ', 'false']))
         value_ = string_value == "true"
       end associate
     end associate
@@ -320,7 +322,7 @@ contains
   module procedure get_integer
     character(len=:), allocatable :: raw_line, string_value
 
-    call_julienne_assert(key .equalsExpected. self%get_json_key())
+    call_julienne_assert(self%get_json_key() .equalsExpected. key)
 
     raw_line = self%string()
     associate(text_after_colon => raw_line(index(raw_line, ':')+1:))
@@ -361,7 +363,7 @@ contains
     real, allocatable :: real_array(:)
     integer i
 
-    call_julienne_assert(key .equalsExpected. self%get_json_key())
+    call_julienne_assert(self%get_json_key() .equalsExpected. key)
 
     raw_line = self%string()
     associate(colon => index(raw_line, ":"))
@@ -385,7 +387,7 @@ contains
     double precision, allocatable :: double_precision_array(:)
     integer i
 
-    call_julienne_assert(key .equalsExpected. self%get_json_key())
+    call_julienne_assert(self%get_json_key() .equalsExpected. key)
 
     raw_line = self%string()
     associate(colon => index(raw_line, ":"))
