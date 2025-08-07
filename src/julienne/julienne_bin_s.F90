@@ -1,17 +1,17 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
-#include "assert_macros.h"
+#include "julienne-assert-macros.h"
 
 submodule(julienne_bin_m) julienne_bin_s
-  use assert_m
+  use julienne_m, only : call_julienne_assert_, operator(.isAtLeast.)
   implicit none
 
 contains
 
   module procedure construct
 
-      call_assert(num_items>=num_bins)
+      call_julienne_assert(num_items .isAtLeast. num_bins)
 
       associate( remainder => mod(num_items, num_bins), items_per_bin => num_items/num_bins)
 
