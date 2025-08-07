@@ -1,9 +1,11 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
+#include "julienne-assert-macros.h"
 #include "assert_macros.h"
 
 submodule(julienne_vector_test_description_m) julienne_vector_test_description_s
+  use julienne_m, only : call_julienne_assert_, operator(.equalsExpected.)
   use assert_m
   implicit none
 
@@ -45,7 +47,7 @@ contains
       associate(diagnoses => self%vector_diagnosis_function_())
 #if defined(ASSERTIONS)
         associate(num_descriptions => size(self%descriptions_), num_results => size(diagnoses))
-          call_assert(num_descriptions == num_results)
+          call_julienne_assert(num_descriptions .equalsExpected. num_results)
         end associate
 #endif
         test_results = test_result_t(self%descriptions_, diagnoses)
