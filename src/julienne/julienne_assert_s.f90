@@ -3,17 +3,16 @@
 
 submodule(julienne_assert_m) julienne_assert_s
   use assert_m, only : assert_always
-  use julienne_m, only : string_t
   implicit none
 
 contains
 
   module procedure julienne_assert
-    character(len=:), allocatable :: diagnostics_string
-    diagnostics_string =  test_diagnosis%diagnostics_string()
-    if (present(file)) diagnostics_string = diagnostics_string // " in file " // file
-    if (present(line)) diagnostics_string = diagnostics_string // " at line " // string_t(line)
-    call assert_always(test_diagnosis%test_passed(), diagnostics_string)
+    if (.not. test_diagnosis%test_passed()) then
+      associate(diagnostics_string => test_diagnosis%diagnostics_string())
+        call assert_always(.false., diagnostics_string%string(), file, line)
+      end associate
+    end if
   end procedure
 
 end submodule julienne_assert_s
