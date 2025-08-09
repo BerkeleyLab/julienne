@@ -49,9 +49,10 @@ contains
 
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
+    type(test_description_t), allocatable :: test_descriptions(:)
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-    associate(descriptions => [ &
+    test_descriptions = [ &
        test_description_t("construction from the real expression 'x .approximates. y .within. tolerance'"                      , check_approximates_real) &
       ,test_description_t("construction from the real expression 'x .approximates. y .withinFraction. tolerance'"              , check_approximates_real_fraction) &
       ,test_description_t("construction from the real expression 'x .approximates. y .withinPercentage. tolerance'"            , check_approximates_real_percentage) &
@@ -74,10 +75,9 @@ contains
       ,test_description_t("construction from the integer expression '[i,j] .greaterThanOrEqualTo. k"                           , check_greater_than_or_equal_to_integer) &
       ,test_description_t("construction from the scalar test_diagnostics_t expression 't .and. u'"                             , check_and_with_scalar_operands) &
       ,test_description_t("construction from the vector test_diagnostics_t expressions 'i .equalsExpected. [j,k]'"             , check_and_with_vector_operands) &
-    ] )
+    ]
 #else
      ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
-     type(test_description_t), allocatable :: descriptions(:)
      procedure(diagnosis_function_i), pointer :: &
         check_approximates_real_ptr                => check_approximates_real &
        ,check_approximates_real_fraction_ptr       => check_approximates_real_fraction &
@@ -102,7 +102,7 @@ contains
        ,check_and_with_scalar_operands_ptr         => check_and_with_scalar_operands &
        ,check_and_with_vector_operands_ptr         => check_and_with_vector_operands
 
-     descriptions = [ &
+     test_descriptions = [ &
        test_description_t("construction from the real expression 'x .approximates. y .within. tolerance'"                      , check_approximates_real_ptr) &
       ,test_description_t("construction from the real expression 'x .approximates. y .withinFraction. tolerance'"              , check_approximates_real_fraction_ptr) &
       ,test_description_t("construction from the real expression 'x .approximates. y .withinPercentage. tolerance'"            , check_approximates_real_percentage_ptr) &
@@ -128,27 +128,16 @@ contains
      ]
 #endif
 
-#ifndef __GFORTRAN__
-      associate(substring_in_subject => index(subject(), test_description_substring) /= 0)
-        associate(substring_in_test_diagnosis => descriptions%contains_text(test_description_substring))
-          associate(matching_descriptions => pack(descriptions, substring_in_subject .or. substring_in_test_diagnosis))
-            test_results = matching_descriptions%run()
-          end associate
-        end associate
-      end associate
-    end associate
-#else
     block
       logical substring_in_subject
       logical, allocatable :: substring_in_test_diagnosis(:)
       type(test_description_t), allocatable :: matching_descriptions(:)
 
       substring_in_subject = index(subject(), test_description_substring) /= 0
-      substring_in_test_diagnosis = descriptions%contains_text(test_description_substring)
-      matching_descriptions = pack(descriptions, substring_in_subject .or. substring_in_test_diagnosis)
+      substring_in_test_diagnosis = test_descriptions%contains_text(test_description_substring)
+      matching_descriptions = pack(test_descriptions, substring_in_subject .or. substring_in_test_diagnosis)
       test_results = matching_descriptions%run()
     end block
-#endif
 
   end function
 

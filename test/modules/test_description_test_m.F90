@@ -33,44 +33,32 @@ contains
 
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
+    type(test_description_t), allocatable :: test_descriptions(:)
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-    associate(descriptions => &
-      [test_description_t("identical construction from string_t or character argument", check_constructors_match)] &
-    )
+    test_descriptions = [ &
+      test_description_t("identical construction from string_t or character argument", check_constructors_match) &
+    ]
 #else
     ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
     procedure(diagnosis_function_i), pointer :: check_constructors_match_ptr
-    type(test_description_t), allocatable :: descriptions(:)
 
     check_constructors_match_ptr => check_constructors_match
-    descriptions = [ &
+    test_descriptions = [ &
       test_description_t("identical construction from string_t or character argument", check_constructors_match_ptr) &
     ]
 #endif
 
-#ifndef __GFORTRAN__
-      associate(substring_in_subject => index(subject(), test_description_substring) /= 0)
-        associate(substring_in_test_description => descriptions%contains_text(test_description_substring))
-          associate(matching_descriptions => pack(descriptions, substring_in_subject .or. substring_in_test_description))
-            test_results = matching_descriptions%run()
-          end associate
-        end associate
-      end associate
-    end associate
-
-#else
     block
       logical substring_in_subject
       logical, allocatable :: substring_in_test_description(:)
       type(test_description_t), allocatable :: matching_descriptions(:)
 
       substring_in_subject = index(subject(), test_description_substring) /= 0
-      substring_in_test_description = descriptions%contains_text(test_description_substring)
-      matching_descriptions = pack(descriptions, substring_in_subject .or. substring_in_test_description)
+      substring_in_test_description = test_descriptions%contains_text(test_description_substring)
+      matching_descriptions = pack(test_descriptions, substring_in_subject .or. substring_in_test_description)
       test_results = matching_descriptions%run()
     end block
-#endif
 
   end function
 

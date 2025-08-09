@@ -9,8 +9,9 @@
 ! If not already determined, make a compiler-dependent determination of whether Julienne may pass
 ! procedure actual arguments to procedure pointer dummy arguments, a feature introduced in
 ! Fortran 2008 and described in Fortran 2023 clause 15.5.2.10 paragraph 5.
+
 #ifndef HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-#  if defined(__GFORTRAN__)
+#  if (GCC_VERSION < 140300)
 #    define HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY 0
 #  else
 #    define HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY 1

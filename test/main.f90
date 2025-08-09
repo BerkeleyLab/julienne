@@ -1,0 +1,39 @@
+! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
+! Terms of use are as specified in LICENSE.txt
+
+program test_suite_driver
+  !! Julienne test-suite driver
+  use julienne_m, only : test_fixture_t, test_harness_t
+
+  ! Test modules:
+  use assert_test_m                  ,only :                  assert_test_t
+  use bin_test_m                     ,only :                     bin_test_t
+  use command_line_test_m            ,only :            command_line_test_t
+  use formats_test_m                 ,only :                 formats_test_t
+  use string_test_m                  ,only :                  string_test_t
+  use test_description_test_m        ,only :        test_description_test_t
+  use test_diagnosis_test_m          ,only :          test_diagnosis_test_t
+  use test_result_test_m             ,only :             test_result_test_t
+  use vector_test_description_test_m ,only : vector_test_description_test_t
+
+  implicit none
+
+  integer :: passes=0, tests=0, skips=0
+
+  ! Construct a test harness from an array of test fixtures, each of which is constructed 
+  ! from the result of invoking  a test_t child type's structure constructor:
+  associate(test_harness => test_harness_t([          &
+     test_fixture_t(                 assert_test_t()) &
+    ,test_fixture_t(                    bin_test_t()) &
+    ,test_fixture_t(                formats_test_t()) &
+    ,test_fixture_t(                 string_test_t()) &
+    ,test_fixture_t(       test_description_test_t()) &
+    ,test_fixture_t(         test_diagnosis_test_t()) &
+    ,test_fixture_t(            test_result_test_t()) &
+    ,test_fixture_t(vector_test_description_test_t()) &
+    ,test_fixture_t(           command_line_test_t()) &
+  ]))
+    call test_harness%report(passes, tests, skips)
+  end associate
+
+end program
