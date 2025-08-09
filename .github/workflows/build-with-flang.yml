@@ -1,4 +1,4 @@
-name: Build with LLVM Flang
+name: Build with LLVM Flang 20
 
 on: [push, pull_request]
 
