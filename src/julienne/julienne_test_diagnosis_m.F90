@@ -22,6 +22,7 @@ module julienne_test_diagnosis_m
   public :: operator(.withinFraction.)
   public :: operator(.withinPercentage.)
   public :: operator(.equalsExpected.)
+  public :: operator(.expect.)
   public :: operator(.lessThan.)
   public :: operator(.lessThanOrEqualTo.)
   public :: operator(.greaterThan.)
@@ -195,6 +196,16 @@ module julienne_test_diagnosis_m
 #else
       type(double_precision_operands_t) operands
 #endif
+    end function
+
+  end interface
+
+  interface operator(.expect.)
+
+    elemental module function expect(expected_true) result(test_diagnosis)
+      implicit none
+      logical, intent(in) :: expected_true
+      type(test_diagnosis_t) test_diagnosis
     end function
 
   end interface

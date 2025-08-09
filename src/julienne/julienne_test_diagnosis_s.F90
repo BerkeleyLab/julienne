@@ -228,6 +228,14 @@ contains
     test_diagnosis = rhs .isBefore. lhs
   end procedure
 
+  module procedure expect
+    if (expected_true) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed=.false., diagnostics_string="expected to be true")
+    end if
+  end procedure
+
   module procedure equals_expected_integer
 
     if (actual == expected) then

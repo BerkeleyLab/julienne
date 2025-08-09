@@ -21,6 +21,7 @@ module julienne_m
     ,operator(.also.) &
     ,operator(.approximates.) &
     ,operator(.equalsExpected.) &
+    ,operator(.expect.) &
     ,operator(.isAtLeast.) &
     ,operator(.isAtMost.) &
     ,operator(.isBefore.) &
