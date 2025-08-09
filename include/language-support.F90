@@ -11,10 +11,10 @@
 ! Fortran 2008 and described in Fortran 2023 clause 15.5.2.10 paragraph 5.
 
 #ifndef HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-#  if (GCC_VERSION < 140300)
-#    define HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY 0
-#  else
+#if defined(_CRAYFTN) || defined(__INTEL_COMPILER) || defined(NAGFOR) || defined(__flang__) || (GCC_VERSION > 140200)
 #    define HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY 1
+#  else
+#    define HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY 0
 #  endif
 #endif
 
