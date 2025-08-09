@@ -18,7 +18,6 @@ program test_suite_driver
 
   implicit none
 
-  type(test_harness_t) test_harness
   integer :: passes=0, tests=0, skips=0
 
   ! Construct test harness from an array of test fixtures, each
@@ -52,10 +51,5 @@ program test_suite_driver
       end if
     end block
   end if
-
-  print *
-  print '(*(a,:,g0))', "_________ In total, ",passes," of ",tests, " tests pass.  ", skips, " tests were skipped. _________"
-
-  if (passes + skips /= tests) error stop "Some executed tests failed."
 
 end program

@@ -22,6 +22,11 @@ contains
         end do
       end block
 
+     print *
+     print '(*(a,:,g0))', "_________ ", passes, " of ", tests, " tests pass.  ", skips, " tests were skipped. _________"
+
+     if (passes + skips /= tests) error stop "Some tests failed."
+
     end procedure
 
     subroutine print_usage_info_and_stop_if_requested
