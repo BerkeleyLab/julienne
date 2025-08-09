@@ -7,6 +7,7 @@ module command_line_test_m
   !! Verify object pattern asbtract parent
   use julienne_m, only : &
      command_line_t &
+    ,GitHub_CI &
     ,string_t &
     ,test_description_substring &
     ,test_description_t &
@@ -38,37 +39,57 @@ contains
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
+
+    cl: associate(command_line => command_line_t())
+
+    skip_all_tests_if_running_github_ci: &
+    if (GitHub_CI() .or. (.not. command_line%argument_present(["--test"]))) then
+
+      test_descriptions = [ &
+         test_description_t(string_t("flag_value() result is the value passed after a command-line flag")) &
+        ,test_description_t(string_t("flag_value() result is an empty string if command-line flag value is missing")) &
+        ,test_description_t(string_t("flag_value() result is an empty string if command-line flag is missing")) &
+        ,test_description_t(string_t("argument_present() result is .false. if a command-line argument is missing")) &
+        ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present")) &
+      ]
+      print *
+      write(*,"(a)") "----> To test command_line_t, append the following to the fpm test command: -- --test command_line_t --type"
+      print *
+    else
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-    test_descriptions = [ &
-       test_description_t(string_t("flag_value() result is the value passed after a command-line flag"), check_flag_value) &
-      ,test_description_t(string_t("flag_value() result is an empty string if command-line flag value is missing"), check_flag_value_missing) &
-      ,test_description_t(string_t("flag_value() result is an empty string if command-line flag is missing"), check_flag_missing) &
-      ,test_description_t(string_t("argument_present() result is .false. if a command-line argument is missing"), check_argument_missing) &
-      ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present"), check_argument_present) &
-    ]
+      test_descriptions = [ &
+         test_description_t(string_t("flag_value() result is the value passed after a command-line flag"), check_flag_value) &
+        ,test_description_t(string_t("flag_value() result is an empty string if command-line flag value is missing"), check_flag_value_missing) &
+        ,test_description_t(string_t("flag_value() result is an empty string if command-line flag is missing"), check_flag_missing) &
+        ,test_description_t(string_t("argument_present() result is .false. if a command-line argument is missing"), check_argument_missing) &
+        ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present"), check_argument_present) &
+      ]
 #else
-    ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
-    procedure(diagnosis_function_i), pointer :: &
-       check_flag_value_ptr &
-      ,check_flag_value_missing_ptr &
-      ,check_flag_missing_ptr &
-      ,check_argument_missing_ptr &
-      ,check_argument_present_ptr
+      ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
+      procedure(diagnosis_function_i), pointer :: &
+         check_flag_value_ptr &
+        ,check_flag_value_missing_ptr &
+        ,check_flag_missing_ptr &
+        ,check_argument_missing_ptr &
+        ,check_argument_present_ptr
 
-      check_flag_value_ptr         => check_flag_value
-      check_flag_value_missing_ptr => check_flag_value_missing
-      check_flag_missing_ptr       => check_flag_missing
-      check_argument_missing_ptr   => check_argument_missing
-      check_argument_present_ptr   => check_argument_present
+        check_flag_value_ptr         => check_flag_value
+        check_flag_value_missing_ptr => check_flag_value_missing
+        check_flag_missing_ptr       => check_flag_missing
+        check_argument_missing_ptr   => check_argument_missing
+        check_argument_present_ptr   => check_argument_present
 
-    test_descriptions = [ &
-       test_description_t(string_t("flag_value() result is the value passed after a command-line flag"), check_flag_value_ptr) &
-      ,test_description_t(string_t("flag_value() result is an empty string if command-line flag value is missing"), check_flag_value_missing_ptr) &
-      ,test_description_t(string_t("flag_value() result is an empty string if command-line flag is missing"), check_flag_missing_ptr) &
-      ,test_description_t(string_t("argument_present() result is .false. if a command-line argument is missing"), check_argument_missing_ptr) &
-      ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present"), check_argument_present_ptr) &
-    ]
+      test_descriptions = [ &
+         test_description_t(string_t("flag_value() result is the value passed after a command-line flag"), check_flag_value_ptr) &
+        ,test_description_t(string_t("flag_value() result is an empty string if command-line flag value is missing"), check_flag_value_missing_ptr) &
+        ,test_description_t(string_t("flag_value() result is an empty string if command-line flag is missing"), check_flag_missing_ptr) &
+        ,test_description_t(string_t("argument_present() result is .false. if a command-line argument is missing"), check_argument_missing_ptr) &
+        ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present"), check_argument_present_ptr) &
+      ]
+      end if
 #endif
+    end if skip_all_tests_if_running_github_ci
+    end associate cl
     test_descriptions = pack(test_descriptions, &
       index(subject(), test_description_substring) /= 0 .or. &
       test_descriptions%contains_text(string_t(test_description_substring)))

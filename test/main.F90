@@ -3,7 +3,7 @@
 
 program test_suite_driver
   !! Julienne test-suite driver
-  use julienne_m, only : test_fixture_t, test_harness_t, command_line_t, GitHub_CI
+  use julienne_m, only : test_fixture_t, test_harness_t
 
   ! Test modules:
   use assert_test_m                  ,only :                  assert_test_t
@@ -20,8 +20,8 @@ program test_suite_driver
 
   integer :: passes=0, tests=0, skips=0
 
-  ! Construct test harness from an array of test fixtures, each
-  ! of which is constructed from a test structure constructors:
+  ! Construct a test harness from an array of test fixtures, each of which is constructed 
+  ! from the result of invoking  a test_t child type's structure constructor:
   associate(test_harness => test_harness_t([          &
      test_fixture_t(                 assert_test_t()) &
     ,test_fixture_t(                    bin_test_t()) &
@@ -31,25 +31,9 @@ program test_suite_driver
     ,test_fixture_t(         test_diagnosis_test_t()) &
     ,test_fixture_t(            test_result_test_t()) &
     ,test_fixture_t(vector_test_description_test_t()) &
+    ,test_fixture_t(           command_line_test_t()) &
   ]))
     call test_harness%report(passes, tests, skips)
   end associate
-
-  if (.not. GitHub_CI())  then
-    block
-      type(command_line_t) command_line
-      type(command_line_test_t) command_line_test
-     
-      if (command_line%argument_present(["--test"])) then
-        call command_line_test%report(passes, tests, skips)
-      else
-        write(*,"(a)")  &
-        new_line("") // &
-        "To also test Julienne's command_line_t type, append the following to your fpm test command:" // &
-        new_line("") // &
-        "-- --test command_line_t --type"
-      end if
-    end block
-  end if
 
 end program
