@@ -42,13 +42,6 @@ contains
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
     type(command_line_t) command_line
-        procedure(diagnosis_function_i), pointer :: &
-           check_flag_value_ptr         => check_flag_value &
-          ,check_flag_value_missing_ptr => check_flag_value_missing &
-          ,check_flag_missing_ptr       => check_flag_missing &
-          ,check_argument_missing_ptr   => check_argument_missing &
-          ,check_argument_present_ptr   => check_argument_present
-     integer i
 
     skip_all_tests_if_running_github_ci: &
     if (GitHub_CI() .or. (.not. command_line%argument_present(["--test"]))) then
@@ -75,6 +68,12 @@ contains
 #else
       gfortran_work_around: &
       block
+        procedure(diagnosis_function_i), pointer :: &
+           check_flag_value_ptr         => check_flag_value &
+          ,check_flag_value_missing_ptr => check_flag_value_missing &
+          ,check_flag_missing_ptr       => check_flag_missing &
+          ,check_argument_missing_ptr   => check_argument_missing &
+          ,check_argument_present_ptr   => check_argument_present
 
         test_descriptions = [ &
            test_description_t(string_t("flag_value() result is the value passed after a command-line flag"), check_flag_value_ptr) &
