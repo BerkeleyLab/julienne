@@ -41,20 +41,15 @@ contains
 
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
+    type(test_description_t), allocatable :: test_descriptions(:)
 
-    associate(descriptions => [ &
+    test_descriptions = [ &
        test_description_t("invocation via the call_julienne_assert macro", check_call_julienne_assert_macro) &
       ,test_description_t("invocation via direct call", check_julienne_assert_call) &
       ,test_description_t("invocation removal after undefining the ASSERTIONS macro", check_macro_removal) &
-    ])
-      associate(substring_in_subject => index(subject(), test_description_substring) /= 0)
-        associate(substring_in_test_diagnosis => descriptions%contains_text(test_description_substring))
-          associate(matching_descriptions => pack(descriptions, substring_in_subject .or. substring_in_test_diagnosis))
-            test_results = matching_descriptions%run()
-          end associate
-        end associate
-      end associate
-    end associate
+    ]
+    test_descriptions = pack(test_descriptions, (index(subject(), test_description_substring) /= 0).or. test_descriptions%contains_text(test_description_substring))
+    test_results = test_descriptions%run()
 
   end function
 
