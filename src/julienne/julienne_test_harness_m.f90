@@ -13,7 +13,7 @@ module julienne_test_harness_m
   type test_harness_t
     !! Encapsulate a set of test fixtures, each of which can run a set of tests.
     private
-    class(test_fixture_t), allocatable :: test_fixture_(:)
+    type(test_fixture_t), allocatable :: test_fixture_(:)
   contains
     procedure report
   end type
