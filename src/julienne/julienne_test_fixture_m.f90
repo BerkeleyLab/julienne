@@ -12,6 +12,7 @@ module julienne_test_fixture_m
   public :: test_fixture_t
 
   type test_fixture_t
+    private
     class(test_t), allocatable :: test_
   contains
     procedure report
@@ -22,7 +23,7 @@ module julienne_test_fixture_m
     module function component_constructor(test) result(test_fixture) ! can be pure in Fortran 2023
       !! Construct a test_fixture_t object from its components
       implicit none
-      class(test_t), intent(in), allocatable :: test
+      class(test_t), intent(in) :: test
       type(test_fixture_t) test_fixture
     end function
 
