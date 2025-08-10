@@ -12,6 +12,7 @@ module julienne_test_harness_m
   public :: test_harness_t
 
   type test_harness_t
+    private
     class(test_fixture_t), allocatable :: test_fixture_(:)
   contains
     procedure report
@@ -21,7 +22,7 @@ module julienne_test_harness_m
 
     module function component_constructor(test_fixtures) result(test_harness) ! can be pure in Fortran 2028
       !! Construct a test_harness_t object from its components
-      class(test_fixture_t), allocatable :: test_fixtures(:)
+      class(test_fixture_t) test_fixtures(:)
       type(test_harness_t) test_harness
     end function
 
