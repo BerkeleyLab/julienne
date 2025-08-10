@@ -11,7 +11,7 @@ contains
       test_harness%test_fixture_ = test_fixtures
     end procedure
 
-    module procedure report
+    module procedure report_results
 
       call print_usage_info_and_stop_if_requested
 

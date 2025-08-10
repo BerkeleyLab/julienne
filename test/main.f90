@@ -20,8 +20,6 @@ program test_suite_driver
 
   implicit none
 
-  integer :: passes=0, tests=0, skips=0
-
   ! Construct a test harness from an array of test fixtures, each of which is 
   ! constructed from an invocation of a test_t child type's structure constructor:
   associate(test_harness => test_harness_t([          &
@@ -35,7 +33,7 @@ program test_suite_driver
     ,test_fixture_t(vector_test_description_test_t()) &
     ,test_fixture_t(           command_line_test_t()) &
   ]))
-    call test_harness%report(passes, tests, skips)
+    call test_harness%report_results
   end associate
 
 end program

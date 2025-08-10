@@ -15,7 +15,7 @@ module julienne_test_harness_m
     private
     type(test_fixture_t), allocatable :: test_fixture_(:)
   contains
-    procedure report
+    procedure report_results
   end type
 
   interface test_harness_t
@@ -30,13 +30,12 @@ module julienne_test_harness_m
 
   interface
 
-    module subroutine report(self, passes, tests, skips)
+    module subroutine report_results(self)
       !! If command line includes -h or --help, print usage information and stop.
       !! Otherwise, run tests and print results, including diagnostics for any failures.
       !! Also, tally and print the numbers of passing tests, total tests, skipped tests.
       implicit none
       class(test_harness_t), intent(in) :: self
-      integer, intent(inout) :: passes, tests, skips
     end subroutine
 
   end interface
