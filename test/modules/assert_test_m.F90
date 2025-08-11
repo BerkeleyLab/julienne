@@ -69,7 +69,7 @@ contains
       ,test_description_t("directly calling julienne_assert", check_julienne_assert_call_ptr) &
       ,test_description_t("removal when the ASSERTIONS macro is defined as 0", check_macro_removal_ptr) &
     ]
-    associate(matching_descriptions = filter(test_descriptions, subject()))
+    associate(matching_descriptions => filter(test_descriptions, subject()))
       test_results = matching_descriptions%run()
     end associate
   end function
