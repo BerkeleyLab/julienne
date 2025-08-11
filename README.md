@@ -24,12 +24,13 @@ Example expressions                               | Operand types
 `(i .lessThan. j) .also. (k .equalsExpected. m))` | `integer`, `real`, `double precision`
 `x .lessThan. y`                                  | `integer`, `real`, `double precision`
 `x .greaterThan. y`                               | `integer`, `real`, `double precision`
-`i .greaterThan. j`                               | `integer`, `real`, `double precision`
 `i .equalsExpected. j`                            | `integer`, `character`
 `i .isAtLeast. j`                                 | `integer`, `real`, `double precision`
 `i .isAtMost. j`                                  | `integer`, `real`, `double precision`
 `s .isBefore. t`                                  | `character`
 `s .isAfter. t`                                   | `character`
+`.expect. command_line%argument_present("--help")`| `logical`
+
 
 where `.isAtLeast.` and `.isAtMost.` can alternatively be spelled
 `.greaterThanOrEqualTo.` and `.lessThanOrEqualTo.`, respectively;
