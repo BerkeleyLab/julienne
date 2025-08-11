@@ -251,12 +251,10 @@ GCC `gfortran`   | 13, 14, 15               | see 1 below
 Intel `ifx`      | 2025.1.1 Build 20250418  | see 2 below
 
 1. `gfortran` issues:
-   - With GCC 14 or earlier, the `test_description_t` constructor's
+   - With GCC 14.2.0 or earlier, the `test_description_t` constructor's
      `diagnosis_function` actual argument must be a procedure pointer conforming
      conforming with the `diagnosis_function_i` abstract interface.
-   - The `string_t` `bracket` type-bound function crashes for GCC 14 or earlier.
-   - _Deprecated feature_: Each element of a [`vector_test_description_t`] array
-     must be defined in a separate statement.
+   - The `string_t` `bracket` type-bound function crashes for GCC 14.2.0 or earlier.
 2. `ifx` issue:
    - Two `string_t` tests fail as described in issue [#51].
 
@@ -317,5 +315,4 @@ See our online [documentation] or build the documentation locally by installing 
 [Garden]: https://gitlab.com/everythingfunctional/garden
 [handy-dandy]: https://github.com/rouson/handy-dandy/blob/7caaa4dc3d6e5331914a3025f0cb1db5ac1a886f/src/fresh-llvm-build.sh
 [Sourcery]: https://github.com/sourceryinstitute/sourcery
-[`vector_test_diagnosis_i`]: https://github.com/BerkeleyLab/julienne/blob/37bcc959efa8f9e27ae50fecfd37a6bf52ef0a43/src/julienne/julienne_vector_test_description_m.F90#L18
 [Veggies]: https://gitlab.com/everythingfunctional/veggies

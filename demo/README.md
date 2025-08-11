@@ -115,7 +115,7 @@ Skipping Tests
 --------------
 When a test is known to cause a compile-time or runtime crash in a specific scenario, e.g., with a specific compiler or compiler version, including that test will prevent the test suite from building or running to completion.
 It can be useful to skip a test with the problematic compiler but to report the test as skipped and account for the skipped tests in the tally of test results.
-For this purpose, the `test_description_t` and `vector_test_description_t` constructor functions have optional second arguments `diagnosis_function` and `vector_diagnosis_function`, respectively.
+For this purpose, the `test_description_t` constructor function has a `diagnosis_function` argument that is optional.
 When these arguments are not `present`, the `test_t`'s `report` procedure will report the test as skipped but will terminate normally as long as the sum of the passing tests and skipped tests equals the total number of tests.
 One might accomplish this with the compiler's predefined preprocessor macro:
 ```
@@ -157,31 +157,5 @@ class string_t{
     array_of_strings(delimited_strings : character(len=*), delimiter : character(len=*))
     file_extension(string_t) string_t
     base_name(string_t) string_t
-}
-```
-
-Deprecated: Vector Diagnosis Function
--------------------------------------
-Julienne's `vector_diagnosis_function_i` abstract interface and the corresponding `vector_test_description_t` type were developed before Julienne's `operator(.all.)` and `operator(.and.)`.
-Because the operators replace the interface and type with simpler functionality, it is likely that a future release will remove the `vector_*` entities.
-
-The Unified Modeling Language ([UML](https://wikipedia.org/Unified_modeling_language)) class diagram below depicts the class relationships involved when test function performs multiple checks and defines a result containing an array of corresponding `test_diagnosis_t` objects:
-```mermaid
- %%{init: { 'theme':'default',  "class" : {"hideEmptyMembersBox": true} } }%%
-classDiagram
-
-class vector_test_description_t{
-    vector_test_description_t(description : string_t[1..*], vector_diagnosis_function : vector_diagnosis_function_i)
-    run() test_result_t[1..*]
-}
-vector_test_description_t --> test_diagnosis_t : run() invokes vector_diagnosis_function to construct array of
-vector_test_description_t --> test_result_t : run() uses test_diagnostics_t array to construct array of
-
-class test_result_t{
-    test_result_t(test_passed : logical, diagnosis : test_diagnosis_t)
-}
-
-class test_diagnosis_t{
-    test_diagnosis_t(test_passed : logical, diagnostics_string : string_t)
 }
 ```
