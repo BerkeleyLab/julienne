@@ -7,8 +7,22 @@
 submodule(julienne_test_description_m) julienne_test_description_s
   use assert_m
   use julienne_m, only : call_julienne_assert_
+  use julienne_command_line_m, only : command_line_t
   implicit none
 contains
+
+    module procedure filter
+
+      type(command_line_t) command_line
+
+      associate(search_string => command_line%flag_value("--contains"))
+        filtered_descriptions = pack( &
+           array = test_descriptions &
+          , mask = index(subject, search_string) /= 0 .or. test_descriptions%contains_text(search_string) &
+        )
+      end associate
+
+    end procedure
 
     module procedure construct_from_characters
       test_description%description_ = description

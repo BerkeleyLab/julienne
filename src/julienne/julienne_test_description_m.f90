@@ -10,6 +10,7 @@ module julienne_test_description_m
 
   private
   public :: test_description_t
+  public :: filter
   public :: diagnosis_function_i
 
   abstract interface
@@ -85,6 +86,15 @@ module julienne_test_description_m
       implicit none
       class(test_description_t), intent(in) :: lhs, rhs
       logical lhs_eq_rhs
+    end function
+
+    module function filter(test_descriptions, subject) result(filtered_descriptions)
+      !! The result is an array of test descriptions for which the command-line "--contains" flag value
+      !! is a substring of the test "subject" or the description_ component.
+      implicit none
+      class(test_description_t), intent(in) :: test_descriptions(:)
+      character(len=*), intent(in) :: subject
+      type(test_description_t), allocatable :: filtered_descriptions(:)
     end function
 
   end interface
