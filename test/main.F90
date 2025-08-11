@@ -17,7 +17,6 @@ program test_suite_driver
   use test_description_test_m        ,only :        test_description_test_t
   use test_diagnosis_test_m          ,only :          test_diagnosis_test_t
   use test_result_test_m             ,only :             test_result_test_t
-  use vector_test_description_test_m ,only : vector_test_description_test_t
 
   implicit none
 
@@ -31,7 +30,6 @@ program test_suite_driver
     ,test_fixture_t(       test_description_test_t()) &
     ,test_fixture_t(         test_diagnosis_test_t()) &
     ,test_fixture_t(            test_result_test_t()) &
-    ,test_fixture_t(vector_test_description_test_t()) &
     ,test_fixture_t(           command_line_test_t()) &
   ]))
     call test_harness%report_results
