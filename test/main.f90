@@ -3,9 +3,11 @@
 
 program test_suite_driver
   !! Julienne test-suite driver
+
+  ! Test infrastructure:
   use julienne_m, only : test_fixture_t, test_harness_t
 
-  ! Test modules:
+  ! Modules containing test_t child types:
   use assert_test_m                  ,only :                  assert_test_t
   use bin_test_m                     ,only :                     bin_test_t
   use command_line_test_m            ,only :            command_line_test_t
@@ -18,10 +20,8 @@ program test_suite_driver
 
   implicit none
 
-  integer :: passes=0, tests=0, skips=0
-
-  ! Construct a test harness from an array of test fixtures, each of which is constructed 
-  ! from the result of invoking  a test_t child type's structure constructor:
+  ! Construct a test harness from an array of test fixtures, each of which is 
+  ! constructed from an invocation of a test_t child type's structure constructor:
   associate(test_harness => test_harness_t([          &
      test_fixture_t(                 assert_test_t()) &
     ,test_fixture_t(                    bin_test_t()) &
@@ -33,7 +33,7 @@ program test_suite_driver
     ,test_fixture_t(vector_test_description_test_t()) &
     ,test_fixture_t(           command_line_test_t()) &
   ]))
-    call test_harness%report(passes, tests, skips)
+    call test_harness%report_results
   end associate
 
 end program

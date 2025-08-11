@@ -10,9 +10,8 @@ jobs:
         os: [macos-13, ubuntu-24.04]
       fail-fast: true
     env:
-      GCC_VER: 14
-      FC: gfortran-$GCC_VER
-      CXX: g++-$GCC-VER
+      FC: gfortran-14
+      CXX: g++-14
 
     steps:
     - name: Checkout code

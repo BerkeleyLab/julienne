@@ -2,8 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 
 module julienne_test_harness_m
-  !! Define a wrapper type for the test_t type to facilitate creating a polymorphic 
-  !! array of test_t objects.
+  !! Define a test harness encapsulating an array of text fixtures, each of which can run a set of tests.
   use julienne_test_fixture_m, only : test_fixture_t
 
   implicit none
@@ -12,16 +11,18 @@ module julienne_test_harness_m
   public :: test_harness_t
 
   type test_harness_t
-    class(test_fixture_t), allocatable :: test_fixture_(:)
+    !! Encapsulate a set of test fixtures, each of which can run a set of tests.
+    private
+    type(test_fixture_t), allocatable :: test_fixture_(:)
   contains
-    procedure report
+    procedure report_results
   end type
 
   interface test_harness_t
 
     module function component_constructor(test_fixtures) result(test_harness) ! can be pure in Fortran 2028
-      !! Construct a test_harness_t object from its components
-      class(test_fixture_t), allocatable :: test_fixtures(:)
+      !! Component-wise user-defined structure constructor
+      class(test_fixture_t) test_fixtures(:)
       type(test_harness_t) test_harness
     end function
 
@@ -29,11 +30,12 @@ module julienne_test_harness_m
 
   interface
 
-    module subroutine report(self, passes, tests, skips)
-      !! Print the test results and increment the tallies of passing tests, total tests, and skipped tests.
+    module subroutine report_results(self)
+      !! If command line includes -h or --help, print usage information and stop.
+      !! Otherwise, run tests and print results, including diagnostics for any failures.
+      !! Also, tally and print the numbers of passing tests, total tests, skipped tests.
       implicit none
       class(test_harness_t), intent(in) :: self
-      integer, intent(inout) :: passes, tests, skips
     end subroutine
 
   end interface

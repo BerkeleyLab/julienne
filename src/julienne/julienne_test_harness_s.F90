@@ -11,21 +11,23 @@ contains
       test_harness%test_fixture_ = test_fixtures
     end procedure
 
-    module procedure report
+    module procedure report_results
 
       call print_usage_info_and_stop_if_requested
 
       block
-        integer i
+        integer i, passes, tests, skips
+
+        passes=0; tests=0; skips=0
+
         do i = 1, size(self%test_fixture_)
           call self%test_fixture_(i)%report(passes, tests, skips)
         end do
+
+        print '(a,*(a,:,g0))', new_line(''), "_______ ", passes, " of ", tests, " tests pass. ", skips, " tests were skipped _______"
+
+        if (passes + skips /= tests) error stop "Some tests failed."
       end block
-
-     print *
-     print '(*(a,:,g0))', "_________ ", passes, " of ", tests, " tests pass.  ", skips, " tests were skipped. _________"
-
-     if (passes + skips /= tests) error stop "Some tests failed."
 
     end procedure
 
