@@ -7,11 +7,11 @@ module command_line_test_m
   !! Verify object pattern asbtract parent
   use julienne_m, only : &
      command_line_t &
+    ,filter &
     ,GitHub_CI &
     ,operator(.equalsExpected.) &
     ,operator(.expect.) &
     ,string_t &
-    ,test_description_substring &
     ,test_description_t &
     ,test_diagnosis_t &
     ,test_result_t &
@@ -103,7 +103,9 @@ contains
 #endif
     end if skip_all_tests_if_running_github_ci
 
-    test_results = test_descriptions%run()
+    associate(matching_descriptions => filter(test_descriptions, subject()))
+      test_results = matching_descriptions%run()
+    end associate
   end function
 
   function check_flag_value() result(test_diagnosis)

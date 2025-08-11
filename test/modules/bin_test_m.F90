@@ -7,10 +7,10 @@ module bin_test_m
   !! Check data partitioning across bins
   use julienne_m, only : &
      bin_t &
+    ,filter &
     ,operator(.csv.) &
     ,string_t &
     ,test_description_t &
-    ,test_description_substring &
     ,test_diagnosis_t &
     ,test_result_t &
     ,test_t
@@ -55,10 +55,9 @@ contains
       test_description_t(string_t("partitioning all item across all bins without item loss"), check_all_items_ptr) &
     ]
 #endif
-    test_descriptions = pack(test_descriptions, &
-      index(subject(), test_description_substring) /= 0 .or. &
-      test_descriptions%contains_text(string_t(test_description_substring)))
-    test_results = test_descriptions%run()
+    associate(matching_descriptions => filter(test_descriptions, subject()))
+      test_results = matching_descriptions%run()
+    end associate
   end function
 
   function check_block_partitioning() result(test_diagnosis)

@@ -35,7 +35,7 @@ module julienne_m
     ,operator(.withinPercentage.)
   use julienne_test_fixture_m, only : test_fixture_t
   use julienne_test_harness_m, only : test_harness_t
-  use julienne_test_m,         only : test_t, test_description_substring
+  use julienne_test_m,         only : test_t
   use julienne_test_result_m,  only : test_result_t
 
   !! Deprecated features:

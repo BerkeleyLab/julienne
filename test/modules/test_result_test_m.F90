@@ -6,8 +6,8 @@
 module test_result_test_m
   !! Verify test_result_t object behavior
   use julienne_m, only : &
-     string_t &
-    ,test_description_substring &
+     filter &
+    ,string_t &
     ,test_description_t &
     ,test_diagnosis_t &
     ,test_result_t &
@@ -52,10 +52,9 @@ contains
       test_description_t(string_t("reporting failure if the test fails on one image"), check_single_ptr) &
     ]
 #endif
-    test_descriptions = pack(test_descriptions, &
-      index(subject(), test_description_substring) /= 0 .or. &
-      test_descriptions%contains_text(string_t(test_description_substring)))
-    test_results = test_descriptions%run()
+    associate(matching_descriptions => filter(test_descriptions, subject()))
+      test_results = matching_descriptions%run()
+    end associate
   end function
 
   function check_array_result_construction() result(test_diagnosis)

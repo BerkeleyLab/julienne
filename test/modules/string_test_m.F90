@@ -8,10 +8,10 @@ module string_test_m
   use iso_c_binding, only : c_bool
 
   use julienne_m, only : &
-     test_t &
+     filter &
+    ,test_t &
     ,test_result_t &
     ,test_description_t &
-    ,test_description_substring &
     ,test_diagnosis_t &
     ,string_t &
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
@@ -142,10 +142,9 @@ contains
       ,test_description_t('constructing bracketed strings',                                                       brackets_strings_ptr) &
     ]
 #endif
-    test_descriptions = pack(test_descriptions, &
-      index(subject(), test_description_substring) /= 0 .or. &
-      test_descriptions%contains_text(string_t(test_description_substring)))
-    test_results = test_descriptions%run()
+    associate(matching_descriptions => filter(test_descriptions, subject()))
+      test_results = matching_descriptions%run()
+    end associate
   end function
 
   pure function check_allocation() result(test_diagnosis)

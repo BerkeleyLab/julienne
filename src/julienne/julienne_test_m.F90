@@ -14,9 +14,7 @@ module julienne_test_m
   implicit none
 
   private
-  public :: test_t, test_description_substring
-
-  character(len=:), allocatable, protected :: test_description_substring
+  public :: test_t
 
   type, abstract :: test_t
     !! Facilitate testing and test reporting
