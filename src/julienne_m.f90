@@ -40,6 +40,5 @@ module julienne_m
 
   !! Deprecated features:
   use julienne_test_description_m, only : diagnosis_function_i
-  use julienne_vector_test_description_m, only : vector_test_description_t, vector_diagnosis_function_i
   implicit none
 end module julienne_m
