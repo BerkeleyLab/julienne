@@ -7,7 +7,8 @@ module test_diagnosis_test_m
   !! Verify test_diagnosis_t object behavior
 
   use julienne_m, only : & 
-     string_t &
+     filter &
+    ,string_t &
     ,test_t &
     ,test_description_t &
     ,test_description_substring &
@@ -127,18 +128,9 @@ contains
       ,test_description_t("construction from the vector test_diagnostics_t expressions 'i .equalsExpected. [j,k]'"             , check_and_with_vector_operands_ptr) &
      ]
 #endif
-
-    block
-      logical substring_in_subject
-      logical, allocatable :: substring_in_test_diagnosis(:)
-      type(test_description_t), allocatable :: matching_descriptions(:)
-
-      substring_in_subject = index(subject(), test_description_substring) /= 0
-      substring_in_test_diagnosis = test_descriptions%contains_text(test_description_substring)
-      matching_descriptions = pack(test_descriptions, substring_in_subject .or. substring_in_test_diagnosis)
+    associate(matching_descriptions => filter(test_descriptions, subject()))
       test_results = matching_descriptions%run()
-    end block
-
+    end associate
   end function
 
   function check_approximates_real() result(test_diagnosis)

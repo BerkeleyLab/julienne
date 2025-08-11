@@ -6,11 +6,11 @@
 module formats_test_m
   !! Verify that format strings provide the desired formatting
   use julienne_m, only : &
-    separated_values &
+    filter &
+   ,separated_values &
    ,operator(.csv.) &
    ,string_t &
    ,test_description_t &
-   ,test_description_substring &
    ,test_diagnosis_t &
    ,test_result_t &
    ,test_t
@@ -67,11 +67,9 @@ contains
       test_description_t(string_t("yielding a new-line-separated list of integer numbers"), check_new_line_ptr) &
     ]
 #endif
-    test_descriptions = pack(test_descriptions, &
-      index(subject(), test_description_substring) /= 0 .or. &
-      test_descriptions%contains_text(string_t(test_description_substring)))
-    test_results = test_descriptions%run()
-
+    associate(matching_descriptions => filter(test_descriptions, subject()))
+      test_results = matching_descriptions%run()
+    end associate
   end function
 
   function check_csv_reals() result(test_diagnosis)

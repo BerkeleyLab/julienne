@@ -6,13 +6,15 @@
 module test_description_test_m
   !! Verify test_description_t object behavior
   use julienne_m, only : &
-     diagnosis_function_i &
+     filter &
     ,string_t &
     ,test_result_t &
     ,test_description_t &
-    ,test_description_substring &
     ,test_diagnosis_t &
     ,test_t
+#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
+  use julienne_m, only : diagnosis_function_i
+#endif
   implicit none
 
   private
@@ -48,18 +50,9 @@ contains
       test_description_t("identical construction from string_t or character argument", check_constructors_match_ptr) &
     ]
 #endif
-
-    block
-      logical substring_in_subject
-      logical, allocatable :: substring_in_test_description(:)
-      type(test_description_t), allocatable :: matching_descriptions(:)
-
-      substring_in_subject = index(subject(), test_description_substring) /= 0
-      substring_in_test_description = test_descriptions%contains_text(test_description_substring)
-      matching_descriptions = pack(test_descriptions, substring_in_subject .or. substring_in_test_description)
+    associate(matching_descriptions => filter(test_descriptions, subject()))
       test_results = matching_descriptions%run()
-    end block
-
+    end associate
   end function
 
   function check_constructors_match() result(test_diagnosis)

@@ -10,12 +10,12 @@ module assert_test_m
   use assert_m ! Import call_assert macro
   use julienne_m, only : & 
      call_julienne_assert_ &
+    ,filter &
     ,julienne_assert &
     ,operator(.equalsExpected.) &
     ,test_diagnosis_t &
     ,test_t &
     ,test_description_t &
-    ,test_description_substring &
     ,test_result_t &
     ,operator(.approximates.) &
     ,operator(.within.)
@@ -48,9 +48,9 @@ contains
       ,test_description_t("invocation via direct call", check_julienne_assert_call) &
       ,test_description_t("invocation removal after undefining the ASSERTIONS macro", check_macro_removal) &
     ]
-    test_descriptions = pack(test_descriptions, (index(subject(), test_description_substring) /= 0).or. test_descriptions%contains_text(test_description_substring))
-    test_results = test_descriptions%run()
-
+    associate(matching_descriptions => filter(test_descriptions, subject()))
+      test_results = matching_descriptions%run()
+    end associate
   end function
 
 #else
@@ -69,17 +69,9 @@ contains
       ,test_description_t("directly calling julienne_assert", check_julienne_assert_call_ptr) &
       ,test_description_t("removal when the ASSERTIONS macro is defined as 0", check_macro_removal_ptr) &
     ]
-
-    block
-      logical substring_in_subject
-      logical, allocatable :: substring_in_test_diagnosis(:)
-      type(test_description_t), allocatable :: matching_descriptions(:)
-
-      substring_in_subject = index(subject(), test_description_substring) /= 0
-      substring_in_test_diagnosis = descriptions%contains_text(test_description_substring)
-      matching_descriptions = pack(descriptions, substring_in_subject .or. substring_in_test_diagnosis)
+    associate(matching_descriptions = filter(test_descriptions, subject()))
       test_results = matching_descriptions%run()
-    end block
+    end associate
   end function
 
 #endif
