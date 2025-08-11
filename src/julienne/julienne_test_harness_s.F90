@@ -24,7 +24,7 @@ contains
           call self%test_fixture_(i)%report(passes, tests, skips)
         end do
 
-        print '(a,*(a,:,g0))', new_line(''), "_______ ", passes, " of ", tests, " tests pass. ", skips, " tests were skipped _______"
+        print '(a,*(a,:,g0))', new_line(''), "_____ ", passes, " of ", tests, " tests passed. ", skips, " tests were skipped _____"
 
         if (passes + skips /= tests) error stop "Some tests failed."
       end block
