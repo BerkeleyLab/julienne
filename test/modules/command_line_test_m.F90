@@ -42,6 +42,20 @@ contains
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
     type(command_line_t) command_line
+#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
+    procedure(diagnosis_function_i), pointer :: &
+       check_flag_value_ptr         &
+      ,check_flag_value_missing_ptr &
+      ,check_flag_missing_ptr       &
+      ,check_argument_missing_ptr   &
+      ,check_argument_present_ptr
+
+      check_flag_value_ptr         => check_flag_value
+      check_flag_value_missing_ptr => check_flag_value_missing
+      check_flag_missing_ptr       => check_flag_missing
+      check_argument_missing_ptr   => check_argument_missing
+      check_argument_present_ptr   => check_argument_present
+#endif
 
     skip_all_tests_if_running_github_ci: &
     if (GitHub_CI()) then
@@ -79,29 +93,13 @@ contains
         ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present"), check_argument_present) &
       ]
 #else
-      gfortran_work_around: &
-      block
-        procedure(diagnosis_function_i), pointer :: &
-           check_flag_value_ptr         &
-          ,check_flag_value_missing_ptr &
-          ,check_flag_missing_ptr       &
-          ,check_argument_missing_ptr   &
-          ,check_argument_present_ptr
-
-         check_flag_value_ptr         => check_flag_value
-         check_flag_value_missing_ptr => check_flag_value_missing
-         check_flag_missing_ptr       => check_flag_missing
-         check_argument_missing_ptr   => check_argument_missing
-         check_argument_present_ptr   => check_argument_present
-
-        test_descriptions = [ &
-           test_description_t(string_t("flag_value() result is the value passed after a command-line flag"), check_flag_value_ptr) &
-          ,test_description_t(string_t("flag_value() result is an empty string if command-line flag value is missing"), check_flag_value_missing_ptr) &
-          ,test_description_t(string_t("flag_value() result is an empty string if command-line flag is missing"), check_flag_missing_ptr) &
-          ,test_description_t(string_t("argument_present() result is .false. if a command-line argument is missing"), check_argument_missing_ptr) &
-          ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present"), check_argument_present_ptr) &
-        ]
-      end block gfortran_work_around
+      test_descriptions = [ &
+         test_description_t(string_t("flag_value() result is the value passed after a command-line flag"), check_flag_value_ptr) &
+        ,test_description_t(string_t("flag_value() result is an empty string if command-line flag value is missing"), check_flag_value_missing_ptr) &
+        ,test_description_t(string_t("flag_value() result is an empty string if command-line flag is missing"), check_flag_missing_ptr) &
+        ,test_description_t(string_t("argument_present() result is .false. if a command-line argument is missing"), check_argument_missing_ptr) &
+        ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present"), check_argument_present_ptr) &
+      ]
 #endif
     end if skip_all_tests_if_running_github_ci
 
