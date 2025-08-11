@@ -52,9 +52,11 @@ contains
         ,test_description_t(string_t("argument_present() result is .false. if a command-line argument is missing")) &
         ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present")) &
       ]
-      print *
-      write(*,"(a)") "----> To test command_line_t, append the following to the fpm test command: -- --test command_line_t --type"
-      print *
+      print "(*(a))"  &
+        ,new_line('') &
+        ,"----> Skipping the command_line_t tests in GitHub CI.", new_line('') &
+        ,"----> To test locally, append the following flags to the 'fpm test' command: -- --test command_line_t --type" &
+        ,new_line('')
     else if (.not. command_line%argument_present(["--test"])) then ! skip the tests if not explicitly requested
       test_descriptions = [ &
          test_description_t(string_t("flag_value() result is the value passed after a command-line flag")) &
@@ -63,8 +65,10 @@ contains
         ,test_description_t(string_t("argument_present() result is .false. if a command-line argument is missing")) &
         ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present")) &
       ]
-      print "(*(a))", new_line(''), &
-        "----> To test command_line_t, append the following to the fpm test command: -- --test command_line_t --type", new_line('')
+      print "(*(a))"  &
+        ,new_line('') &
+        ,"-----> To test command_line_t, append the following to the 'fpm test' command: -- --test command_line_t --type" &
+        ,new_line('')
     else ! run the tests
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
       test_descriptions = [ &
