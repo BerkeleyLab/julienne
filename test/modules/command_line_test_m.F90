@@ -7,7 +7,6 @@ module command_line_test_m
   !! Verify object pattern asbtract parent
   use julienne_m, only : &
      command_line_t &
-    ,filter &
     ,GitHub_CI &
     ,operator(.equalsExpected.) &
     ,operator(.expect.) &
@@ -41,6 +40,7 @@ contains
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
+    type(command_line_test_t) command_line_test
     type(command_line_t) command_line
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     procedure(diagnosis_function_i), pointer :: &
@@ -103,9 +103,7 @@ contains
 #endif
     end if skip_all_tests_if_running_github_ci
 
-    associate(matching_descriptions => filter(test_descriptions, subject()))
-      test_results = matching_descriptions%run()
-    end associate
+    test_results = command_line_test%run(test_descriptions)
   end function
 
   function check_flag_value() result(test_diagnosis)

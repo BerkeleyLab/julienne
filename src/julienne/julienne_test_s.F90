@@ -8,6 +8,12 @@ submodule(julienne_test_m) julienne_test_s
 
 contains
 
+  module procedure run
+    associate(matching_descriptions => filter(test_descriptions, test%subject()))
+      test_results = matching_descriptions%run()
+    end associate
+  end procedure
+
   module procedure report
 
     logical, save :: do_first_report = .true.

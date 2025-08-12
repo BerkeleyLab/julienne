@@ -8,6 +8,7 @@ module julienne_test_m
   !! used by a type-bound procedure ("report") for reporting test results.  The "report"
   !! procedure thus represents an implementation of the Template Method pattern.
   use julienne_test_result_m, only : test_result_t
+  use julienne_test_description_m, only : test_description_t, filter
   use julienne_user_defined_collectives_m, only : co_all
   use julienne_command_line_m, only : command_line_t
 
@@ -21,6 +22,7 @@ module julienne_test_m
   contains
     procedure(subject_interface), nopass, deferred :: subject 
     procedure(results_interface), nopass, deferred :: results
+    procedure :: run
     procedure :: report
   end type
 
@@ -40,6 +42,15 @@ module julienne_test_m
   end interface
 
   interface
+
+    module function run(test, test_descriptions) result(test_results)
+      !! Construct an array of test results from a set of tests filtered for descriptions and subjects with
+      !! the '--contains' flag's value if the flag was included on the command line at program launch.
+      implicit none
+      class(test_t), intent(in) :: test
+      type(test_description_t), intent(in) :: test_descriptions(:)
+      type(test_result_t), allocatable :: test_results(:)
+    end function
 
     module subroutine report(test, passes, tests, skips)
       !! Print the test results and increment the tallies of passing tests, total tests, and skipped tests.

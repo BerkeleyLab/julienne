@@ -7,15 +7,11 @@ module test_diagnosis_test_m
   !! Verify test_diagnosis_t object behavior
 
   use julienne_m, only : & 
-     filter &
-    ,string_t &
+     string_t &
     ,test_t &
     ,test_description_t &
     ,test_diagnosis_t &
     ,test_result_t &
-#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-    ,diagnosis_function_i &
-#endif
     ,operator(.all.) &
     ,operator(.and.) &
     ,operator(.equalsExpected.) &
@@ -29,6 +25,9 @@ module test_diagnosis_test_m
     ,operator(.isAtMost.) &
     ,operator(.greaterThan.) &
     ,operator(.isAtLeast.)
+#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
+  use julienne_m, only : diagnosis_function_i
+#endif
   implicit none
 
   private
@@ -50,6 +49,7 @@ contains
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
+    type(test_diagnosis_test_t) test_diagnosis_test
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_descriptions = [ &
@@ -127,9 +127,7 @@ contains
       ,test_description_t("construction from the vector test_diagnostics_t expressions 'i .equalsExpected. [j,k]'"             , check_and_with_vector_operands_ptr) &
      ]
 #endif
-    associate(matching_descriptions => filter(test_descriptions, subject()))
-      test_results = matching_descriptions%run()
-    end associate
+    test_results = test_diagnosis_test%run(test_descriptions)
   end function
 
   function check_approximates_real() result(test_diagnosis)

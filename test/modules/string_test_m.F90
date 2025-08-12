@@ -8,8 +8,7 @@ module string_test_m
   use iso_c_binding, only : c_bool
 
   use julienne_m, only : &
-     filter &
-    ,test_t &
+     test_t &
     ,test_result_t &
     ,test_description_t &
     ,test_diagnosis_t &
@@ -44,6 +43,7 @@ contains
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
+    type(string_test_t) string_test
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_descriptions = [ &
@@ -142,9 +142,7 @@ contains
       ,test_description_t('constructing bracketed strings',                                                       brackets_strings_ptr) &
     ]
 #endif
-    associate(matching_descriptions => filter(test_descriptions, subject()))
-      test_results = matching_descriptions%run()
-    end associate
+    test_results = string_test%run(test_descriptions)
   end function
 
   pure function check_allocation() result(test_diagnosis)

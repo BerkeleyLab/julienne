@@ -6,8 +6,7 @@
 module test_description_test_m
   !! Verify test_description_t object behavior
   use julienne_m, only : &
-     filter &
-    ,string_t &
+     string_t &
     ,test_result_t &
     ,test_description_t &
     ,test_diagnosis_t &
@@ -36,6 +35,7 @@ contains
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
+    type(test_description_test_t) test_description_test
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_descriptions = [ &
@@ -50,9 +50,7 @@ contains
       test_description_t("identical construction from string_t or character argument", check_constructors_match_ptr) &
     ]
 #endif
-    associate(matching_descriptions => filter(test_descriptions, subject()))
-      test_results = matching_descriptions%run()
-    end associate
+    test_results = test_description_test%run(test_descriptions)
   end function
 
   function check_constructors_match() result(test_diagnosis)

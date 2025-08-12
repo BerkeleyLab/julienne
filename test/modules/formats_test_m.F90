@@ -6,9 +6,8 @@
 module formats_test_m
   !! Verify that format strings provide the desired formatting
   use julienne_m, only : &
-    filter &
+    operator(.csv.) &
    ,separated_values &
-   ,operator(.csv.) &
    ,string_t &
    ,test_description_t &
    ,test_diagnosis_t &
@@ -39,6 +38,7 @@ contains
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
+    type(formats_test_t) formats_test
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_descriptions = [ &
@@ -67,9 +67,7 @@ contains
       test_description_t(string_t("yielding a new-line-separated list of integer numbers"), check_new_line_ptr) &
     ]
 #endif
-    associate(matching_descriptions => filter(test_descriptions, subject()))
-      test_results = matching_descriptions%run()
-    end associate
+    test_results = formats_test%run(test_descriptions)
   end function
 
   function check_csv_reals() result(test_diagnosis)

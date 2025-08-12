@@ -6,8 +6,7 @@
 module test_result_test_m
   !! Verify test_result_t object behavior
   use julienne_m, only : &
-     filter &
-    ,string_t &
+     string_t &
     ,test_description_t &
     ,test_diagnosis_t &
     ,test_result_t &
@@ -36,6 +35,7 @@ contains
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
+    type(test_result_test_t) test_result_test
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_descriptions = [ &
@@ -52,9 +52,7 @@ contains
       test_description_t(string_t("reporting failure if the test fails on one image"), check_single_ptr) &
     ]
 #endif
-    associate(matching_descriptions => filter(test_descriptions, subject()))
-      test_results = matching_descriptions%run()
-    end associate
+    test_results = test_result_test%run(test_descriptions)
   end function
 
   function check_array_result_construction() result(test_diagnosis)
