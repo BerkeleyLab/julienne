@@ -6,7 +6,7 @@
 
 submodule(julienne_compiler_m) compiler_identity_s
   use iso_fortran_env ,only : compiler_version
-  use julienne_m, only : call_julienne_assert_, operator(.isAtLeast.)
+  use julienne_m, only : call_julienne_assert_, operator(.isAtLeast.), operator(.all.)
   use assert_m
   implicit none
 
@@ -39,6 +39,6 @@ contains
     end if
 
     call_assert(allocated(compiler%name_)) 
-    call_julienne_assert([compiler%major_version_, compiler%major_version_, compiler%major_version_] .isAtLeast. 1)
+    call_julienne_assert(.all. ([compiler%major_version_, compiler%major_version_, compiler%major_version_] .isAtLeast. 1))
   end procedure
 end submodule compiler_identity_s
