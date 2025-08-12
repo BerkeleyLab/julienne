@@ -65,8 +65,8 @@ contains
         ,[(string_t("  use ") // test_modules(i) // string_t(", only : ") // test_types(i), i=1, size(test_modules))] &
         ,string_t(  "  implicit none") // new_line('')                               &
         ,string_t(  "  associate(test_harness => test_harness_t([ &"               ) &
-        ,[(string_t("     test_fixture_t(") // test_types(1)%string() // string_t("()) &"))] &
-        ,[(string_t("    ,test_fixture_t(") // test_types(i)%string() // string_t("()) &"), i=2, size(test_types  ))] &
+        ,[(string_t("     test_fixture_t(") // test_types(1) // string_t("()) &"))] &
+        ,[(string_t("    ,test_fixture_t(") // test_types(i) // string_t("()) &"), i=2, size(test_types  ))] &
         ,string_t(  "  ]))"                                                        ) &
         ,string_t(  "    call test_harness%report_results"                         ) &
         ,string_t(  "  end associate"                                              ) &
