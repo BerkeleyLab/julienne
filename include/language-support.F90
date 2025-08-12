@@ -10,6 +10,10 @@
 #  undef GCC_VERSION
 #endif
 
+#if __GNUC__ && ( __GNUC__ < 14 || (__GNUC__ == 14 && __GNUC_MINOR__ < 3) )
+#define GCC_GE_MINIMUM
+#endif
+
 ! If not already determined, make a compiler-dependent determination of whether Julienne may pass
 ! procedure actual arguments to procedure pointer dummy arguments, a feature introduced in
 ! Fortran 2008 and described in Fortran 2023 clause 15.5.2.10 paragraph 5.
