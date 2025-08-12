@@ -8,7 +8,6 @@ module test_result_test_m
   use julienne_m, only : &
      filter &
     ,string_t &
-    ,test_description_substring &
     ,test_description_t &
     ,test_diagnosis_t &
     ,test_result_t &

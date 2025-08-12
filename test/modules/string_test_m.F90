@@ -12,7 +12,6 @@ module string_test_m
     ,test_t &
     ,test_result_t &
     ,test_description_t &
-    ,test_description_substring &
     ,test_diagnosis_t &
     ,string_t &
     ,operator(.equalsExpected.) &

@@ -11,7 +11,6 @@ module bin_test_m
     ,operator(.csv.) &
     ,string_t &
     ,test_description_t &
-    ,test_description_substring &
     ,test_diagnosis_t &
     ,test_result_t &
     ,test_t

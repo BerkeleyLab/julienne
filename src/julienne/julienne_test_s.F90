@@ -10,7 +10,9 @@ contains
 
   module procedure report
 
-    logical do_first_report
+    logical, save :: do_first_report = .true.
+    character(len=:), allocatable :: search_string
+    type(command_line_t) command_line
 
 #if HAVE_MULTI_IMAGE_SUPPORT
     associate(me => this_image())
@@ -19,26 +21,21 @@ contains
     me = 1
 #endif
 
-    do_first_report = .false.
+    
 
-      if (.not. allocated(test_description_substring)) then
-         block
-           type(command_line_t) command_line
-           test_description_substring = command_line%flag_value("--contains")
-           do_first_report = .true.
-         end block
-      end if
+      search_string = command_line%flag_value("--contains")
 
       if (me==1) then
 
         first_report: &
         if (do_first_report) then
+          do_first_report = .false.
           print *
-          if (len(test_description_substring)==0) then
+          if (len(search_string)==0) then
             print '(a)',"Running all tests."
             print '(a)',"(Add '-- --contains <string>' to run only tests with subjects or descriptions containing the specified string.)"
           else
-            print '(*(a))',"Running only tests with subjects or descriptions containing '", test_description_substring,"'."
+            print '(*(a))',"Running only tests with subjects or descriptions containing '", search_string,"'."
           end if
         end if first_report
 

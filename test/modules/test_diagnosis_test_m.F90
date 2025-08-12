@@ -11,7 +11,6 @@ module test_diagnosis_test_m
     ,string_t &
     ,test_t &
     ,test_description_t &
-    ,test_description_substring &
     ,test_diagnosis_t &
     ,test_result_t &
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
