@@ -54,25 +54,25 @@ contains
   module procedure driver_file
     integer i
 
-    associate( &
-       test_types   => self%test_subjects_ // "_test_t" &
-      ,test_modules => self%test_subjects_ // "_test_m" &
-    )
-      file = file_t([                                                                &
-         string_t(copyright_and_license) // new_line('')                             &
-        ,string_t(  "program test_suite_driver")                                     &
-        ,string_t(  "  use julienne_m, only : test_fixture_t, test_harness_t")       &
-        ,[(string_t("  use ") // test_modules(i) // string_t(", only : ") // test_types(i), i=1, size(test_modules))] &
-        ,string_t(  "  implicit none") // new_line('')                               &
-        ,string_t(  "  associate(test_harness => test_harness_t([ &"               ) &
-        ,[(string_t("     test_fixture_t(") // test_types(1) // string_t("()) &"))] &
-        ,[(string_t("    ,test_fixture_t(") // test_types(i) // string_t("()) &"), i=2, size(test_types  ))] &
-        ,string_t(  "  ]))"                                                        ) &
-        ,string_t(  "    call test_harness%report_results"                         ) &
-        ,string_t(  "  end associate"                                              ) &
-        ,string_t(  "end program test_suite_driver")                                 &
-      ])
-    end associate
+    type(string_t), allocatable :: test_types(:), test_modules(:)
+
+    test_types   = self%test_subjects_ // "_test_t" ! Using GCC 14.3 or higher would allow this to be an association
+    test_modules = self%test_subjects_ // "_test_m" ! Using GCC 14.3 or higher would allow this to be an association
+
+    file = file_t([                                                                &
+       string_t(copyright_and_license) // new_line('')                             &
+      ,string_t(  "program test_suite_driver")                                     &
+      ,string_t(  "  use julienne_m, only : test_fixture_t, test_harness_t")       &
+      ,[(string_t("  use ") // test_modules(i) // string_t(", only : ") // test_types(i), i=1, size(test_modules))] &
+      ,string_t(  "  implicit none") // new_line('')                               &
+      ,string_t(  "  associate(test_harness => test_harness_t([ &"               ) &
+      ,[(string_t("     test_fixture_t(") // test_types(1) // string_t("()) &"))] &
+      ,[(string_t("    ,test_fixture_t(") // test_types(i) // string_t("()) &"), i=2, size(test_types  ))] &
+      ,string_t(  "  ]))"                                                        ) &
+      ,string_t(  "    call test_harness%report_results"                         ) &
+      ,string_t(  "  end associate"                                              ) &
+      ,string_t(  "end program test_suite_driver")                                 &
+    ])
   end procedure
 
 end submodule julienne_test_suite_s
