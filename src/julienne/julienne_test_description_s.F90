@@ -7,7 +7,7 @@
 
 submodule(julienne_test_description_m) julienne_test_description_s
   use assert_m
-  use julienne_m, only : call_julienne_assert_
+  use julienne_assert_m, only : call_julienne_assert_
   use julienne_command_line_m, only : command_line_t
   implicit none
 contains

@@ -6,7 +6,8 @@
 
 submodule(julienne_string_m) julienne_string_s
   use assert_m
-  use julienne_m, only : call_julienne_assert_, operator(.equalsExpected.)
+  use julienne_assert_m, only : call_julienne_assert_
+  use julienne_test_diagnosis_m, only : operator(.equalsExpected.)
   implicit none
 
   integer, parameter :: integer_width_supremum = 11, default_real_width_supremum = 20, double_precision_width_supremum = 25

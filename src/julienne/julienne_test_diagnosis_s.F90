@@ -6,7 +6,7 @@
 
 submodule(julienne_test_diagnosis_m) julienne_test_diagnosis_s
   use assert_m
-  use julienne_m, only : operator(.cat.)
+  use julienne_string_m, only : operator(.cat.)
   implicit none
 contains
 
