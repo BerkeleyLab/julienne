@@ -1,4 +1,4 @@
-! Copyrigh (c) 2024-2025, The Regents of the University of California and Sourcery Institute
+! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
 module julienne_test_suite_m
@@ -11,7 +11,7 @@ module julienne_test_suite_m
 
   type test_suite_t
     private
-    type(string_t), allocatable :: modules_(:), types_(:)
+    type(string_t), allocatable :: test_subjects_(:)
   contains
     procedure to_file
     procedure driver_file
@@ -19,9 +19,9 @@ module julienne_test_suite_m
 
   interface test_suite_t
 
-    pure module function from_components(modules, types) result(test_suite)
+    pure module function from_components(test_subjects) result(test_suite)
       implicit none
-      type(string_t), intent(in) :: modules(:), types(:)
+      type(string_t), intent(in) :: test_subjects(:)
       type(test_suite_t) test_suite
     end function
 
