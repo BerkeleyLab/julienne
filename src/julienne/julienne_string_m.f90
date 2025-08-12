@@ -215,7 +215,7 @@ module julienne_string_m
       real value_
     end function
 
-    elemental module function get_real_with_character_key(self, key, mold) result(value_)
+    pure module function get_real_with_character_key(self, key, mold) result(value_)
       implicit none
       class(string_t), intent(in) :: self
       character(len=*), intent(in) :: key
@@ -267,7 +267,7 @@ module julienne_string_m
       character(len=:), allocatable :: value_
     end function
 
-    elemental module function get_string_with_string_key(self, key, mold) result(value_)
+    pure module function get_string_with_string_key(self, key, mold) result(value_)
       implicit none
       class(string_t), intent(in) :: self, key, mold
       type(string_t) :: value_
@@ -303,7 +303,7 @@ module julienne_string_m
       integer value_
     end function
 
-    elemental module function get_integer(self, key, mold) result(value_)
+    pure module function get_integer(self, key, mold) result(value_)
       implicit none
       class(string_t), intent(in) :: self, key
       integer, intent(in) ::  mold
