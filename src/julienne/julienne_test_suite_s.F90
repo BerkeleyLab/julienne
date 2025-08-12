@@ -5,7 +5,7 @@
 
 submodule(julienne_test_suite_m) julienne_test_suite_s
   use assert_m
-  use julienne_m, only : operator(.csv.), string_t
+  use julienne_m, only : operator(.csv.)
   implicit none
 
   character(len=*), parameter :: test_suite_key = "test suite"
