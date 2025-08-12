@@ -6,7 +6,6 @@ module julienne_m
   use julienne_assert_m, only : call_julienne_assert_, julienne_assert
   use julienne_bin_m, only : bin_t
   use julienne_command_line_m, only : command_line_t
-  use julienne_compiler_m, only : compiler_t
   use julienne_file_m, only : file_t
   use julienne_formats_m, only : separated_values, csv
   use julienne_github_ci_m, only : github_ci
