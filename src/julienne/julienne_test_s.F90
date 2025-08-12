@@ -15,10 +15,7 @@ contains
   end procedure
 
   module procedure report
-
     logical, save :: do_first_report = .true.
-    character(len=:), allocatable :: search_string
-    type(command_line_t) command_line
 
 #if HAVE_MULTI_IMAGE_SUPPORT
     associate(me => this_image())
@@ -26,28 +23,31 @@ contains
     integer me
     me = 1
 #endif
-
-    
-
-      search_string = command_line%flag_value("--contains")
-
+      image_1_prints_usage_info: &
       if (me==1) then
+        block
+          type(command_line_t) command_line
+          first_report: &
+          if (do_first_report) then
+            do_first_report = .false.
+            block
+              character(len=:), allocatable :: search_string
+              search_string = command_line%flag_value("--contains")
+              if (len(search_string)==0) then
+                print '(*(a))',           new_line('') // &
+                  "Running all tests." // new_line('') // &
+                  "(Add '-- --contains <string>' to run only tests with subjects or descriptions containing the specified string.)"
+              else
+                print '(*(a))',           new_line('') // &
+                  "Running only tests with subjects or descriptions containing '", search_string, "'."
+              end if
+            end block
+          end if first_report
+        end block
 
-        first_report: &
-        if (do_first_report) then
-          do_first_report = .false.
-          print *
-          if (len(search_string)==0) then
-            print '(a)',"Running all tests."
-            print '(a)',"(Add '-- --contains <string>' to run only tests with subjects or descriptions containing the specified string.)"
-          else
-            print '(*(a))',"Running only tests with subjects or descriptions containing '", search_string,"'."
-          end if
-        end if first_report
+        print '(*(a))', new_line(''), test%subject()
 
-        print '(*(a))', new_line('a'), test%subject()
-
-      end if
+      end if image_1_prints_usage_info
 
 #ifndef _CRAYFTN
       associate(test_results => test%results())
