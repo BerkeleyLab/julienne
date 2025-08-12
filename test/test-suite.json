@@ -1,0 +1,6 @@
+{
+    "test suite": {
+        "modules" : ["assert_test_m","bin_test_m","command_line_test_m","formats_test_m","string_test_m","test_description_test_m","test_diagnosis_test_m","test_result_test_m"],
+          "types" : ["assert_test_t","bin_test_t","command_line_test_t","formats_test_t","string_test_t","test_description_test_t","test_diagnosis_test_t","test_result_test_t"]
+    }
+}
