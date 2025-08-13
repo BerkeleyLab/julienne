@@ -82,10 +82,10 @@ contains
 
     open(newunit=file_unit, file=file_name, form='formatted', status='unknown', action='write')
   
-    associate( &
-       test_types   => self%test_subjects_ // "_test_t" &
-      ,test_modules => self%test_subjects_ // "_test_m" &
-    )
+    block
+      test_types   = self%test_subjects_ // "_test_t" ! GCC 14.2 blocks the use of an association
+      test_modules = self%test_subjects_ // "_test_m" ! GCC 14.2 blocks the use of an association
+
       write(file_unit, '(a)') copyright_and_license // new_line('')
       write(file_unit, '(a)') "program test_suite_driver"
       write(file_unit, '(a)') "  use julienne_m, only : test_fixture_t, test_harness_t"
@@ -105,7 +105,7 @@ contains
         line = "    ,test_fixture_t(" // test_types(l) // "()) &"
         write(file_unit, '(a)')  line%string()
       end do
-    end associate
+    end block
 
     write(file_unit, '(a)') "  ]))"
     write(file_unit, '(a)') "    call test_harness%report_results"
