@@ -101,7 +101,7 @@ contains
        string_t(copyright_and_license) // new_line('') &
       ,string_t("module ") // test_module &
       ,string_t("  use julienne_m, only : test_t, test_description_t, test_diagnosis_t, test_result_t")&
-      ,string_t("  use julienne_m, only : operator(.approximates.), operator(.within.)")&
+      ,string_t("  use julienne_m, only : operator(.approximates.), operator(.within.), operator(.all.)")&
       ,string_t("  use " // subject_module // ", only : " // subject_type) &
       ,string_t("  implicit none") // new_line('') &
       ,string_t("  type, extends(test_t) :: ") // test_type &
@@ -120,17 +120,19 @@ contains
       ,string_t("    type(test_description_t), allocatable :: test_descriptions(:)") &
       ,string_t("    test_descriptions = [ &") &
       ,string_t("       test_description_t('checking something', check_something) &") &
+      ,string_t("      ,test_description_t('skipping something') &") &
       ,string_t("      ,test_description_t('doing something', do_something) &") &
       ,string_t("    ]") &
       ,string_t("    test_results = ") // subject // "_test%run(test_descriptions)" &
       ,string_t("  end function") // new_line('') &
       ,string_t("  function check_something() result(test_diagnosis)") &
       ,string_t("    type(test_diagnosis_t) test_diagnosis") &
-      ,string_t("    test_diagnosis = 1. .approximates. 2. .within. 3.") &
+      ,string_t("    real, parameter :: pi = 3.1415926536") &
+      ,string_t("    test_diagnosis = .all.([22./7., 3.14159] .approximates. pi .within. 0.001)") &
       ,string_t("  end function") // new_line('')  &
       ,string_t("  function do_something() result(test_diagnosis)") &
       ,string_t("    type(test_diagnosis_t) test_diagnosis") &
-      ,string_t("    test_diagnosis = test_diagnosis_t(test_passed = 0 == 1, diagnostics_string = 'impossible result')") &
+      ,string_t("    test_diagnosis = test_diagnosis_t(test_passed = 1 == 1, diagnostics_string = 'craziness ensued')") &
       ,string_t("  end function") // new_line('') &
       ,string_t("end module") &
     ])
