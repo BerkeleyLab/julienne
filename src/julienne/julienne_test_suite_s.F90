@@ -75,4 +75,44 @@ contains
     ])
   end procedure
 
+  module procedure write_driver
+    type(string_t), allocatable :: test_types(:), test_modules(:)
+    type(string_t) line
+    integer i, file_unit, l
+
+    open(newunit=file_unit, file=file_name, form='formatted', status='unknown', action='write')
+  
+    associate( &
+       test_types   => self%test_subjects_ // "_test_t" &
+      ,test_modules => self%test_subjects_ // "_test_m" &
+    )
+      write(file_unit, '(a)') copyright_and_license // new_line('')
+      write(file_unit, '(a)') "program test_suite_driver"
+      write(file_unit, '(a)') "  use julienne_m, only : test_fixture_t, test_harness_t"
+
+      do l = 1, size(test_modules)
+        line =  "  use " // test_modules(l) // ", only : " // test_types(l)
+        write(file_unit, '(a)')  line%string()
+      end do
+
+      write(file_unit, '(a)') "  implicit none" // new_line('')
+      write(file_unit, '(a)') "  associate(test_harness => test_harness_t([ &"
+
+      line = "     test_fixture_t(" // test_types(1) // "()) &"
+      write(file_unit, '(a)')  line%string()
+
+      do l = 2, size(test_modules)
+        line = "    ,test_fixture_t(" // test_types(l) // "()) &"
+        write(file_unit, '(a)')  line%string()
+      end do
+    end associate
+
+    write(file_unit, '(a)') "  ]))"
+    write(file_unit, '(a)') "    call test_harness%report_results"
+    write(file_unit, '(a)') "  end associate"
+    write(file_unit, '(a)') "end program test_suite_driver"
+
+    close(file_unit)
+  end procedure
+
 end submodule julienne_test_suite_s

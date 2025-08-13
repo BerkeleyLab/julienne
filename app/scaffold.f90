@@ -5,21 +5,21 @@ program scaffold
   use julienne_m, only : command_line_t, file_t, test_suite_t
   implicit none
   type(command_line_t) command_line
+  type(file_t) driver
+  character(len=:), allocatable ::  path, subjects_file_name
 
   if (help_requested()) call print_usage_info_and_stop
 
-  associate(subjects_file_name => command_line%flag_value("--subjects"))
-    if (len(subjects_file_name) == 0) call print_usage_info_and_stop
-    print '(*(a))', "Reading test subject information from " // subjects_file_name
-    associate(test_suite => test_suite_t(file_t(subjects_file_name)))
-      associate(path => command_line%flag_value("--path"))
-        print '(*(a))', "Writing test-suite scaffolding in " // path
-        if (len(path) == 0) call print_usage_info_and_stop
-        associate(driver => test_suite%driver_file())
-          call driver%write_lines(path // "/driver.f90")
-        end associate
-      end associate
-    end associate
+  subjects_file_name = command_line%flag_value("--subjects")
+  if (len(subjects_file_name) == 0) call print_usage_info_and_stop
+
+  print '(*(a))', "Reading test subject information from " // subjects_file_name
+
+  associate(test_suite => test_suite_t(file_t(subjects_file_name)))
+    path = command_line%flag_value("--path")
+    if (len(path) == 0) call print_usage_info_and_stop
+    print '(*(a))', "Writing test-suite scaffolding in " // path
+    call test_suite%write_driver(path // "/driver.f90")
   end associate
 
 contains

@@ -15,6 +15,7 @@ module julienne_test_suite_m
   contains
     procedure to_file
     procedure driver_file
+    procedure write_driver
   end type
 
   interface test_suite_t
@@ -46,6 +47,12 @@ module julienne_test_suite_m
       class(test_suite_t), intent(in) :: self
       type(file_t) file
     end function
+
+    module subroutine write_driver(self, file_name)
+      implicit none
+      class(test_suite_t), intent(in) :: self
+      character(len=*), intent(in) :: file_name
+    end subroutine
 
   end interface
 
