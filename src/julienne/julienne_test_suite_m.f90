@@ -13,8 +13,12 @@ module julienne_test_suite_m
     private
     type(string_t), allocatable :: test_subjects_(:)
   contains
-    procedure to_file
     procedure driver_file
+    procedure stub_file
+    procedure test_subjects
+    procedure test_modules
+    procedure test_types
+    procedure to_file
     procedure write_driver
   end type
 
@@ -36,6 +40,24 @@ module julienne_test_suite_m
 
   interface
 
+    pure module function test_subjects(self) result(subjects)
+      implicit none
+      class(test_suite_t), intent(in) :: self
+      type(string_t), allocatable :: subjects(:)
+    end function
+
+    pure module function test_modules(self) result(modules)
+      implicit none
+      class(test_suite_t), intent(in) :: self
+      type(string_t), allocatable :: modules(:)
+    end function
+
+    pure module function test_types(self) result(types)
+      implicit none
+      class(test_suite_t), intent(in) :: self
+      type(string_t), allocatable :: types(:)
+    end function
+
     pure module function to_file(self) result(file)
       implicit none
       class(test_suite_t), intent(in) :: self
@@ -45,6 +67,13 @@ module julienne_test_suite_m
     pure module function driver_file(self) result(file)
       implicit none
       class(test_suite_t), intent(in) :: self
+      type(file_t) file
+    end function
+
+    pure module function stub_file(self, subject) result(file)
+      implicit none
+      class(test_suite_t), intent(in) :: self
+      type(string_t), intent(in) :: subject
       type(file_t) file
     end function
 

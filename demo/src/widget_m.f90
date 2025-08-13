@@ -1,11 +1,11 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
-module specimen_m
-  !! Example test specimen corresponding to the test defined in specimen_test_m.F90
+module widget_m
+  !! Example test widget corresponding to the test defined in widget_test_m.F90
   implicit none
 
-  type specimen_t
+  type widget_t
   contains
     procedure, nopass :: zero
     procedure, nopass :: one
