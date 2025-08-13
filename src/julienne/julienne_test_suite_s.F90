@@ -16,6 +16,19 @@ submodule(julienne_test_suite_m) julienne_test_suite_s
 
 contains
 
+  module procedure test_subjects
+    subjects = self%test_subjects_
+  end procedure
+
+  module procedure test_modules
+    modules = self%test_subjects_ // "_test_m"
+  end procedure
+
+  module procedure test_types
+    types  = self%test_subjects_ // "_test_t"
+  end procedure
+
+
   module procedure from_components
     test_suite%test_subjects_ = test_subjects
   end procedure
@@ -56,8 +69,8 @@ contains
 
     type(string_t), allocatable :: test_types(:), test_modules(:)
 
-    test_types   = self%test_subjects_ // "_test_t" ! Using GCC 14.3 or higher would allow this to be an association
-    test_modules = self%test_subjects_ // "_test_m" ! Using GCC 14.3 or higher would allow this to be an association
+    test_types   = self%test_types()   ! GCC 14.2 blocks the use of an association
+    test_modules = self%test_modules() ! GCC 14.2 blocks the use of an association
 
     file = file_t([                                                                &
        string_t(copyright_and_license) // new_line('')                             &
@@ -75,35 +88,88 @@ contains
     ])
   end procedure
 
+  module procedure stub_file
+
+    character(len=:), allocatable :: subject_module, subject_type, test_module, test_type
+
+    subject_module = subject // "_m"
+    subject_type   = subject // "_t"
+    test_module    = subject // "_test_m"
+    test_type      = subject // "_test_t"
+
+    file = file_t([ &
+       string_t(copyright_and_license) // new_line('') &
+      ,string_t("module ") // test_module &
+      ,string_t("  use julienne_m, only : test_t, test_description_t, test_diagnosis_t, test_result_t")&
+      ,string_t("  use julienne_m, only : operator(.approximates.), operator(.within.)")&
+      ,string_t("  use " // subject_module // ", only : " // subject_type) &
+      ,string_t("  implicit none") // new_line('') &
+      ,string_t("  type, extends(test_t) :: ") // test_type &
+      ,string_t("  contains") &
+      ,string_t("    procedure, nopass :: subject") &
+      ,string_t("    procedure, nopass :: results") &
+      ,string_t("  end type") // new_line('') &
+      ,string_t("contains") // new_line('') &
+      ,string_t("  pure function subject() result(test_subject)") &
+      ,string_t("    character(len=:), allocatable :: test_subject") &
+      ,string_t("    test_subject = 'A ") // subject // "'" &
+      ,string_t("  end function") // new_line('') &
+      ,string_t("  function results() result(test_results)") &
+      ,string_t("    type(") // test_type // ") " // subject // "_test" &
+      ,string_t("    type(test_result_t), allocatable :: test_results(:)") &
+      ,string_t("    type(test_description_t), allocatable :: test_descriptions(:)") &
+      ,string_t("    test_descriptions = [ &") &
+      ,string_t("       test_description_t('checking something', check_something) &") &
+      ,string_t("      ,test_description_t('doing something', do_something) &") &
+      ,string_t("    ]") &
+      ,string_t("    test_results = ") // subject // "_test%run(test_descriptions)" &
+      ,string_t("  end function") // new_line('') &
+      ,string_t("  function check_something() result(test_diagnosis)") &
+      ,string_t("    type(test_diagnosis_t) test_diagnosis") &
+      ,string_t("    test_diagnosis = 1. .approximates. 2. .within. 3.") &
+      ,string_t("  end function") // new_line('')  &
+      ,string_t("  function do_something() result(test_diagnosis)") &
+      ,string_t("    type(test_diagnosis_t) test_diagnosis") &
+      ,string_t("    test_diagnosis = test_diagnosis_t(test_passed = 0 == 1, diagnostics_string = 'impossible result')") &
+      ,string_t("  end function") // new_line('') &
+      ,string_t("end module") &
+    ])
+  end procedure
+
   module procedure write_driver
-    type(string_t), allocatable :: test_types(:), test_modules(:)
-    type(string_t) line
-    integer i, file_unit, l
+    integer file_unit, l
+    type(string_t) use_statement, fixture_constructor
+    type(string_t), allocatable :: test_modules(:), test_types(:)
 
     open(newunit=file_unit, file=file_name, form='formatted', status='unknown', action='write')
-  
+
+    write(file_unit, '(a)') copyright_and_license // new_line('')
+    write(file_unit, '(a)') "program test_suite_driver"
+    write(file_unit, '(a)') "  use julienne_m, only : test_fixture_t, test_harness_t"
+
     block
-      test_types   = self%test_subjects_ // "_test_t" ! GCC 14.2 blocks the use of an association
-      test_modules = self%test_subjects_ // "_test_m" ! GCC 14.2 blocks the use of an association
-
-      write(file_unit, '(a)') copyright_and_license // new_line('')
-      write(file_unit, '(a)') "program test_suite_driver"
-      write(file_unit, '(a)') "  use julienne_m, only : test_fixture_t, test_harness_t"
-
+      type(string_t), allocatable :: test_modules(:)
+      type(string_t) use_statement
+      test_modules = self%test_modules() ! GCC 14.2 blocks the use of an association
+      test_types = self%test_types()     ! GCC 14.2 blocks the use of an association
       do l = 1, size(test_modules)
-        line =  "  use " // test_modules(l) // ", only : " // test_types(l)
-        write(file_unit, '(a)')  line%string()
+        use_statement =  "  use " // test_modules(l) // ", only : " // test_types(l)
+        write(file_unit, '(a)')  use_statement%string()
       end do
+    end block
 
-      write(file_unit, '(a)') "  implicit none" // new_line('')
-      write(file_unit, '(a)') "  associate(test_harness => test_harness_t([ &"
+    write(file_unit, '(a)') "  implicit none" // new_line('')
+    write(file_unit, '(a)') "  associate(test_harness => test_harness_t([ &"
 
-      line = "     test_fixture_t(" // test_types(1) // "()) &"
-      write(file_unit, '(a)')  line%string()
-
+    block
+      type(string_t), allocatable :: test_types(:)
+      type(string_t) fixture_constructor
+      test_types   = self%test_types()   ! GCC 14.2 blocks the use of an association
+      fixture_constructor =  "     test_fixture_t(" // test_types(1) // "()) &"
+      write(file_unit, '(a)')  fixture_constructor %string()
       do l = 2, size(test_modules)
-        line = "    ,test_fixture_t(" // test_types(l) // "()) &"
-        write(file_unit, '(a)')  line%string()
+        fixture_constructor= "    ,test_fixture_t(" // test_types(l) // "()) &"
+        write(file_unit, '(a)')  fixture_constructor%string()
       end do
     end block
 
