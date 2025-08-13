@@ -6,7 +6,7 @@
 program main
   !! Julienne unit tests driver
 
-#if defined(__GCC__) && (GCC_VERSION < 140300)
+#if defined(__GNUC__) && (GCC_VERSION < 140300)
   ! Internal utilities
   use julienne_m                     ,only : command_line_t, GitHub_CI
 
