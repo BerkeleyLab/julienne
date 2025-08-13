@@ -4,7 +4,7 @@
 program test_suite_driver
   !! Julienne test-suite driver
 
-#if ! defined(__GCC__) || (GCC_VERSION >= 140300)
+#if ! defined(__GNUC__) || (GCC_VERSION >= 140300)
   ! Test infrastructure:
   use julienne_m, only : test_fixture_t, test_harness_t
 
