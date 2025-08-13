@@ -3,7 +3,7 @@
 
 module specimen_test_m
   use julienne_m, only : test_t, test_description_t, test_diagnosis_t, test_result_t
-  use julienne_m, only : operator(.approximates.), operator(.within.)
+  use julienne_m, only : operator(.approximates.), operator(.within.), operator(.all.)
   use specimen_m, only : specimen_t
   implicit none
 
@@ -26,6 +26,7 @@ contains
     type(test_description_t), allocatable :: test_descriptions(:)
     test_descriptions = [ &
        test_description_t('checking something', check_something) &
+      ,test_description_t('skipping something') &
       ,test_description_t('doing something', do_something) &
     ]
     test_results = specimen_test%run(test_descriptions)
@@ -33,12 +34,13 @@ contains
 
   function check_something() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    test_diagnosis = 1. .approximates. 2. .within. 3.
+    real, parameter :: pi = 3.1415926536
+    test_diagnosis = .all.([22./7., 3.14159] .approximates. pi .within. 0.001)
   end function
 
   function do_something() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    test_diagnosis = test_diagnosis_t(test_passed = 0 == 1, diagnostics_string = 'impossible result')
+    test_diagnosis = test_diagnosis_t(test_passed = 1 == 1, diagnostics_string = 'craziness ensued')
   end function
 
 end module
