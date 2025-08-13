@@ -5,9 +5,9 @@
 #define _JULIENNE_LANGUAGE_SUPPORT_H
 
 #ifdef __GNUC__
-#define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+#  define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 #else
-#define GCC_VERSION 0
+#  undef GCC_VERSION
 #endif
 
 ! If not already determined, make a compiler-dependent determination of whether Julienne may pass
