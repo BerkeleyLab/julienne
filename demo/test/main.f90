@@ -17,25 +17,7 @@ program test_suite_driver
   end associate
 
 contains
-  subroutine stop_if_compiler_too_old
-    character(len=:), allocatable :: compiler_identity
-    integer major, minor
-    compiler_identity = compiler_version()
-    if (index(compiler_identity, "GCC")==1) then
-      associate(               final_dot => index(compiler_identity                     ,"." ,back=.true.))
-        associate(       penultimate_dot => index(compiler_identity(:final_dot-1)       ,"." ,back=.true.))
-          associate(space_before_version => index(compiler_identity(:penultimate_dot-1) ," " ,back=.true.))
-            associate( &
-               major_string => compiler_identity(space_before_version+1 : penultimate_dot-1) &
-              ,minor_string => compiler_identity(     penultimate_dot+1 :       final_dot-1) &
-            )
-              read(major_string, '(i2)') major
-              read(minor_string, '(i1)') minor
-              if ((major < 14) .or. (major==14 .and. minor<3)) stop "'"// compiler_identity //"' too old: GCC >= 14.3.0 required"
-            end associate
-          end associate
-        end associate
-      end associate
-    end if
-  end subroutine
+#if __GNUC__ && ( __GNUC__ < 14 || (__GNUC__ == 14 && __GNUC_MINOR__ < 3) )
+  stop "GFortran " // __VERSION__ // " too old: GCC >= 14.3.0 required"
+#endif
 end program
