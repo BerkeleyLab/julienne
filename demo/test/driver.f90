@@ -13,4 +13,8 @@ program test_suite_driver
   ]))
     call test_harness%report_results
   end associate
+contains
+#if __GNUC__ && ( __GNUC__ < 14 || (__GNUC__ == 14 && __GNUC_MINOR__ < 3) )
+  stop "GFortran " // __VERSION__ // " too old: GCC >= 14.3.0 required"
+#endif
 end program test_suite_driver
