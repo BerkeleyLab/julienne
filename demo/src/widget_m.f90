@@ -7,20 +7,17 @@ module widget_m
 
   type widget_t
   contains
-    procedure, nopass :: zero
-    procedure, nopass :: one
+    procedure pi
   end type
 
 contains
 
-  pure function zero() result(correct_value)
-    real correct_value
-    correct_value = 0
-  end function
-
-  pure function one() result(correct_value)
-    integer correct_value
-    correct_value = 1
+  function pi(self)
+    class(widget_t), intent(in) :: self
+    real pi
+    associate(avoid_unused_variable_warning => self)
+    end associate
+    pi = 3.1415926536
   end function
 
 end module

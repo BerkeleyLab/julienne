@@ -117,18 +117,16 @@ contains
       ,string_t("  function results() result(test_results)") &
       ,string_t("    type(") // test_type // ") " // subject // "_test" &
       ,string_t("    type(test_result_t), allocatable :: test_results(:)") &
-      ,string_t("    type(test_description_t), allocatable :: test_descriptions(:)") &
-      ,string_t("    test_descriptions = [ &") &
-      ,string_t("       test_description_t('checking something', check_something) &") &
+      ,string_t("    test_results = ") // subject // "_test%run( & " &
+      ,string_t("      [test_description_t('doing something', do_something) &") &
+      ,string_t("      ,test_description_t('checking something', check_something) &") &
       ,string_t("      ,test_description_t('skipping something') &") &
-      ,string_t("      ,test_description_t('doing something', do_something) &") &
-      ,string_t("    ]") &
-      ,string_t("    test_results = ") // subject // "_test%run(test_descriptions)" &
+      ,string_t("    ])") &
       ,string_t("  end function") // new_line('') &
       ,string_t("  function check_something() result(test_diagnosis)") &
       ,string_t("    type(test_diagnosis_t) test_diagnosis") &
-      ,string_t("    real, parameter :: pi = 3.1415926536") &
-      ,string_t("    test_diagnosis = .all.([22./7., 3.14159] .approximates. pi .within. 0.001)") &
+      ,string_t("    type(") // subject_type // ") " // subject &
+      ,string_t("    test_diagnosis = .all.([22./7., 3.14159] .approximates. ") // subject // "%pi() .within. 0.001)" &
       ,string_t("  end function") // new_line('')  &
       ,string_t("  function do_something() result(test_diagnosis)") &
       ,string_t("    type(test_diagnosis_t) test_diagnosis") &

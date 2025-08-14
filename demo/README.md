@@ -6,12 +6,31 @@ Writing tests
 Writing Julienne tests requires the following steps:
 
 1. Define a non-abstract child type extending Julienne's `test_t` type.
-2. Define functions implementing `test_t`'s two deferred bindings:
+   For example,
+   ```
+     type, extends(test_t) :: specimen_t
+     contains     
+       procedure, nopass :: subject
+       procedure, nopass :: result
+     end type
+   ```
+2. Define functions implementing the inherited parent type's deferred bindings:
    a. A `subject` function constructing a `character` result describing
-      what is being tested, such as a derived type or a module.
-   b. A `results` function constructing a `test_diagnosis_t` result by
+      what is being tested, such as a derived type or a module.  For example,
+      ```
+      function subject() result(test_subject)
+        character(len=:), allocatable :: test_subject
+        test_subject = "A specimen object"
+      end function
+      ```
+   b. A `result` function that 
+      tests the test subject and constructs a 
+      `test_diagnosis_t` result by
       passing an array of `test_description_t` objects to `test_t`'s
-      type-bound `run` function.
+      type-bound `run` function. for example,
+      ```
+       
+      ```
 
 This `demo` directory contains a demonstration project with stub functions
 in the `src` subdirectory and tests in the `test` subdirectory.  Please

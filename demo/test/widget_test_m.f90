@@ -23,19 +23,17 @@ contains
   function results() result(test_results)
     type(widget_test_t) widget_test
     type(test_result_t), allocatable :: test_results(:)
-    type(test_description_t), allocatable :: test_descriptions(:)
-    test_descriptions = [ &
-       test_description_t('checking something', check_something) &
+    test_results = widget_test%run( & 
+      [test_description_t('doing something', do_something) &
+      ,test_description_t('checking something', check_something) &
       ,test_description_t('skipping something') &
-      ,test_description_t('doing something', do_something) &
-    ]
-    test_results = widget_test%run(test_descriptions)
+    ])
   end function
 
   function check_something() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    real, parameter :: pi = 3.1415926536
-    test_diagnosis = .all.([22./7., 3.14159] .approximates. pi .within. 0.001)
+    type(widget_t) widget
+    test_diagnosis = .all.([22./7., 3.14159] .approximates. widget%pi() .within. 0.001)
   end function
 
   function do_something() result(test_diagnosis)
