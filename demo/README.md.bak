@@ -11,7 +11,7 @@ Julienne's `scaffold` program follows the steps that you would take to
 write a tests and a test driver program manually:
 
 1. Define a non-abstract child type extending Julienne's `test_t` type.  Please
-   see, for example, the `specimen_test_t` type in the [`specimen_test_m`] module
+   see, for example, the `speciment_test_t` type in the [`specimen_test_m`] module
 2. Define functions implementing the inherited parent type's deferred bindings:
    a. A `subject` function constructing a `character` result describing
       what is being tested, such as a derived type or a module.  For example,
@@ -87,21 +87,21 @@ contain three tests:
    The resulting failure of the first approximation (`22./7.`) generates a
    diagnostic message for that approximation only.
 2. Another test demonstrates the use of the `test_diagnosis_t()` user-defined
-   structure constructor, which supports tasks that cannot be conveniently
+   structure construtor, which supports tasks that cannot be conveniently
    expressed with the operators defined in the README.md file in the root of
    Julienne's source tree.
    ```
    test_diagnosis = test_diagnosis_t(test_passed = 1 == 1, diagnostics_string = 'craziness ensued')
 
    ```
-3. A third test demonstrates how to skip a test by not including a diagnosis
-   function in the corresponding test description, which is useful when a test
+3. A third test demonstrates how to skip a test by not including a diagosis
+   function in the correspoding test description, which is useful when a test
    is known to crash with a specific build configuration for example.
 
 Forming diagnostic strings
 --------------------------
 Julienne provides string-manipulation utilities to support the construction of
-the `test_diagnosis_t` constructor's `diagnostics_string` argument.  The
+the `test_diagnosis_t` constructor's `diagnostics_string` arugment.  The
 `string_t` generic interface can be used to invoke various specific functions,
 each of which takes an argument of a different data type, kind, or rank (TKR)
 and defines a `string_t` result encapsulating a `character` representation of
@@ -235,10 +235,10 @@ class string_t{
 }
 ```
 
-[UML]: https://wikipedia.org/Unified_modeling_language)
+[UML]: https://wikipedia.org/Unified_modeling_langauge)
 [running the demonstration tests]: #running-the-demonstration-tests
 [generating test scaffolding]: #generating-test-scaffolding
-[`specimen_test_t`]: ./demo/test/specimen_test_m.f90
+[`speciment_test_t`]: ./demo/test/specimen_test_m.f90
 [`specimen_test_m`]: ./demo/test/specimen_test_m.f90
 [`subject`]: ./demo/test/specimen_test_m.f90
 [`result`]: ./demo/test/specimen_test_m.f90
