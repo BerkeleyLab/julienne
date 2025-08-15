@@ -1,4 +1,4 @@
-name: Build with LLVM Flang
+name: Build with LLVM Flang 20
 
 on: [push, pull_request]
 
@@ -28,5 +28,5 @@ jobs:
         fpm --version
         $FC --version
         export FPM_FC=$FC
-        export FPM_FFLAGS="-mmlir -allow-assumed-rank -O3"
+        export FPM_FFLAGS="-O3"
         fpm test

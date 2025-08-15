@@ -10,7 +10,6 @@ module bin_test_m
     ,operator(.csv.) &
     ,string_t &
     ,test_description_t &
-    ,test_description_substring &
     ,test_diagnosis_t &
     ,test_result_t &
     ,test_t
@@ -39,6 +38,7 @@ contains
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
+    type(bin_test_t) bin_test
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_descriptions = [ &
@@ -55,10 +55,7 @@ contains
       test_description_t(string_t("partitioning all item across all bins without item loss"), check_all_items_ptr) &
     ]
 #endif
-    test_descriptions = pack(test_descriptions, &
-      index(subject(), test_description_substring) /= 0 .or. &
-      test_descriptions%contains_text(string_t(test_description_substring)))
-    test_results = test_descriptions%run()
+    test_results = bin_test%run(test_descriptions)
   end function
 
   function check_block_partitioning() result(test_diagnosis)

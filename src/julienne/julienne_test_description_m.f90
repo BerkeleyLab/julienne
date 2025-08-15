@@ -11,6 +11,7 @@ module julienne_test_description_m
   private
   public :: test_description_t
   public :: diagnosis_function_i
+  public :: filter
 
   abstract interface
 
@@ -85,6 +86,15 @@ module julienne_test_description_m
       implicit none
       class(test_description_t), intent(in) :: lhs, rhs
       logical lhs_eq_rhs
+    end function
+
+    module function filter(test_descriptions, subject) result(filtered_test_descriptions)
+      !! The result is .true. an array of test_description_t objects whose description_ or contains the substring specified 
+      !! by command-line --contains flag if present, or all test_descriptions if the subject contains the same substring 
+      implicit none
+      type(test_description_t), intent(in) :: test_descriptions(:)
+      character(len=*), intent(in) :: subject
+      type(test_description_t), allocatable :: filtered_test_descriptions(:)
     end function
 
   end interface

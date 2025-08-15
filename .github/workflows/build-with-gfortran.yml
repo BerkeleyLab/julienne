@@ -1,4 +1,4 @@
-name: CI
+name: Build with gfortran-14
 
 on: [push, pull_request]
 
@@ -8,6 +8,10 @@ jobs:
     strategy:
       matrix:
         os: [macos-13, ubuntu-24.04]
+      fail-fast: true
+    env:
+      FC: gfortran-14
+      CXX: g++-14
 
     steps:
     - name: Checkout code
@@ -21,8 +25,10 @@ jobs:
       if: contains(matrix.os, 'ubuntu')
       run: |
         sudo apt update
-        sudo apt install -y build-essential gfortran-14 g++-14
+        sudo apt install -y build-essential $FC $CC
 
-    - name: Build and Run unit tests
+    - name: Build and Test with GCC
       run: |
-        fpm test --compiler gfortran-14
+        fpm --version
+        $FC --version
+        fpm test --compiler $FC

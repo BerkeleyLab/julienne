@@ -1,8 +1,6 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
-#include "language-support.F90"
-
 module specimen_test_m
   !! Example unit test for the specimen_t test subject
   use specimen_m, only : specimen_t
@@ -17,11 +15,8 @@ module specimen_test_m
     ,operator(.within.) &
     ,operator(.all.) &
     ,operator(.equalsExpected.) &
-    ,operator(.greaterThan.) &
-    ,operator(.lessThan.)
-#if defined(__GFORTRAN__)
-  use julienne_m, only : diagnosis_function_i ! work around gfortran's missing Fortran 2008 feature
-#endif
+    ,operator(.lessThan.) &
+    ,operator(.isAtMost.)
 
   implicit none
 
@@ -41,8 +36,6 @@ contains
     specimen_description = "A specimen_t object"
   end function
 
-#if ! defined(__GFORTRAN__)
-
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
@@ -60,35 +53,6 @@ contains
     )
     test_results = test_descriptions%run()
   end function
-
-#else
-
-  function results() result(test_results)
-    !! work around missing Fortran 2008 feature in gfortran versions earlier than 15
-    type(test_result_t), allocatable :: test_results(:)
-    type(test_description_t), allocatable :: test_descriptions(:)
-    procedure(diagnosis_function_i), pointer :: check_operators_ptr => check_zero_using_operators
-    procedure(diagnosis_function_i), pointer :: check_constructor_ptr => check_zero_using_constructor
-    procedure(diagnosis_function_i), pointer :: check_aggregate_ptr => check_aggregate_diagnosis
-    procedure(diagnosis_function_i), pointer :: check_print_diagnosis_ptr => check_print_diagnosis
-
-    ! Omitting the optional 2nd argument in the 3rd test_description_t constructor below skips the described
-    ! test.  When the test suite runs, it reports the test as skipped and reports a tally of skippped tests.
-
-    test_descriptions = [ &
-       test_description_t("diagnosing the zero function using Julienne operators", check_operators_ptr) &
-      ,test_description_t("diagnosing the zero function using a diagnosis constructor", check_constructor_ptr) &
-      ,test_description_t("aggregating diagnoses of the zero and one functions using operator(.all.)") &
-      ,test_description_t("(intentional failure to demonstrate diagnostic output)", check_print_diagnosis_ptr) &
-      ,test_description_t("skipping a test when no diagnosis function is specified") &
-    ]
-    test_descriptions =  pack( &
-       array = test_descriptions &
-      ,mask = test_descriptions%contains_text(test_description_substring) .or. index(subject(), test_description_substring)/=0 &
-    )
-    test_results = test_descriptions%run()
-  end function
-#endif
 
   function check_zero_using_operators() result(test_diagnosis)
     !! Construct a test diagnosis using Julienne's operator(.approximates.) and operator(.within.)
@@ -123,8 +87,9 @@ contains
   end function
 
   function check_print_diagnosis() result(test_diagnosis)
+    !! Intentional test failure to demonstrate diagnostic output
     type(test_diagnosis_t) test_diagnosis
-    test_diagnosis = 2 .lessThan. 1 ! intentional test failure
+    test_diagnosis = 2 .isAtMost. 1 
   end function
 
 end module

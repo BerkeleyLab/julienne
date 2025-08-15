@@ -5,7 +5,6 @@ classDiagram
 
 test_t --> test_result_t : produces
 test_description_t --> test_diagnosis_t : "'run' uses to construct test_result_t"
-vector_test_description_t --> test_diagnosis_t : "'run' uses to construct test_result_t array"
 test_result_t --> test_diagnosis_t : "accepts as constructor argument"
 
 class test_t{
@@ -53,11 +52,4 @@ class test_description_t{
     + contains_text(character) logical
     + contains_text(string_t) logical
     + operator(==) logical
-}
-
-class vector_test_description_t{
-    + vector_test_description_t(description : string_t, vector_diagnosis_function : procedure(vector_diagnosis_function_i)) test_description_t
-    + run() test_result_t
-    + contains_text(character) logical
-    + contains_text(string_t) logical
 }
