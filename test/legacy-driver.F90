@@ -3,10 +3,11 @@
 
 #include "language-support.F90"
 
-program main
+program legacy_driver
   !! Julienne unit tests driver
 
-#if defined(__GNUC__) && (GCC_VERSION < 140300)
+#ifdef __GNUC__
+#if (GCC_VERSION < 140300)
   ! Internal utilities
   use julienne_m                     ,only : command_line_t, GitHub_CI
 
@@ -79,5 +80,6 @@ program main
   end if
 #endif
 
+#endif
 #endif
 end program

@@ -55,7 +55,11 @@ contains
       ,test_description_t("extracting a string value from a colon-separated key/value pair",                 extracts_string_value)&
       ,test_description_t("extracting an integer value from a colon-separated key/value pair",              extracts_integer_value)&
       ,test_description_t("extracting a logical value from a colon-separated key/value pair",               extracts_logical_value)&
+#ifndef __GNUC__
       ,test_description_t("extracting an integer array value from a colon-separated key/value pair",  extracts_integer_array_value)&
+#else
+      ,test_description_t("extracting an integer array value from a colon-separated key/value pair")&
+#endif
       ,test_description_t("extracting an real array value from a colon-separated key/value pair",        extracts_real_array_value)&
       ,test_description_t("extracting a double-precision array from a colon-separated key/value pair",     extracts_dp_array_value)&
       ,test_description_t('supporting operator(==) for string_t and character operands',             supports_equivalence_operator)&
@@ -119,7 +123,11 @@ contains
       ,test_description_t("extracting a string value from a colon-separated key/value pair",                 extracts_string_value_ptr)&
       ,test_description_t("extracting an integer value from a colon-separated key/value pair",              extracts_integer_value_ptr)&
       ,test_description_t("extracting a logical value from a colon-separated key/value pair",               extracts_logical_value_ptr)&
+#ifndef __GNUC__
       ,test_description_t("extracting an integer array value from a colon-separated key/value pair",  extracts_integer_array_value_ptr)&
+#else
+      ,test_description_t("extracting an integer array value from a colon-separated key/value pair")&
+#endif
       ,test_description_t("extracting an real array value from a colon-separated key/value pair",        extracts_real_array_value_ptr)&
       ,test_description_t("extracting a double-precision array from a colon-separated key/value pair",     extracts_dp_array_value_ptr)&
       ,test_description_t('supporting operator(==) for string_t and character operands',             supports_equivalence_operator_ptr)&

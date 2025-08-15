@@ -9,7 +9,7 @@ program scaffold
 
   if (help_requested()) call print_usage_info_and_stop
 
-#if ! defined(__GCC__)
+#ifndef __GNUC__
   associate(subjects_file_name => command_line%flag_value("--json-file"))
     if (len(subjects_file_name) == 0) call print_usage_info_and_stop
     print '(*(a))', "Reading test subject information from " // subjects_file_name
