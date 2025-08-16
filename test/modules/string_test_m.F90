@@ -14,6 +14,7 @@ module string_test_m
     ,test_diagnosis_t &
     ,string_t &
     ,operator(.equalsExpected.) &
+    ,operator(.all.) &
     ,operator(.also.) &
     ,operator(.cat.) &
     ,operator(.csv.) &
@@ -55,11 +56,7 @@ contains
       ,test_description_t("extracting a string value from a colon-separated key/value pair",                 extracts_string_value)&
       ,test_description_t("extracting an integer value from a colon-separated key/value pair",              extracts_integer_value)&
       ,test_description_t("extracting a logical value from a colon-separated key/value pair",               extracts_logical_value)&
-#ifndef __GNUC__
       ,test_description_t("extracting an integer array value from a colon-separated key/value pair",  extracts_integer_array_value)&
-#else
-      ,test_description_t("extracting an integer array value from a colon-separated key/value pair")&
-#endif
       ,test_description_t("extracting an real array value from a colon-separated key/value pair",        extracts_real_array_value)&
       ,test_description_t("extracting a double-precision array from a colon-separated key/value pair",     extracts_dp_array_value)&
       ,test_description_t('supporting operator(==) for string_t and character operands',             supports_equivalence_operator)&
@@ -123,11 +120,7 @@ contains
       ,test_description_t("extracting a string value from a colon-separated key/value pair",                 extracts_string_value_ptr)&
       ,test_description_t("extracting an integer value from a colon-separated key/value pair",              extracts_integer_value_ptr)&
       ,test_description_t("extracting a logical value from a colon-separated key/value pair",               extracts_logical_value_ptr)&
-#ifndef __GNUC__
       ,test_description_t("extracting an integer array value from a colon-separated key/value pair",  extracts_integer_array_value_ptr)&
-#else
-      ,test_description_t("extracting an integer array value from a colon-separated key/value pair")&
-#endif
       ,test_description_t("extracting an real array value from a colon-separated key/value pair",        extracts_real_array_value_ptr)&
       ,test_description_t("extracting a double-precision array from a colon-separated key/value pair",     extracts_dp_array_value_ptr)&
       ,test_description_t('supporting operator(==) for string_t and character operands',             supports_equivalence_operator_ptr)&
@@ -287,11 +280,12 @@ contains
     type(test_diagnosis_t) test_diagnosis
 
     associate(key_integer_array_pair => string_t('"some key" : [1, 2, 3],'))
+#ifndef __GNUC__
       associate(integer_array => key_integer_array_pair%get_json_value(key=string_t("some key"), mold=[integer::]))
-        test_diagnosis = test_diagnosis_t( &
-           test_passed = all(integer_array == [1, 2, 3]) &
-          ,diagnostics_string = "expected 1,2,3; actual " // .csv. string_t(integer_array) &
-        )
+#else
+      associate(integer_array => key_integer_array_pair%get_integer_array(key=string_t("some key"), mold=[integer::]))
+#endif
+        test_diagnosis = .all. (integer_array .equalsExpected. [1,2,3])
       end associate
     end associate
   end function

@@ -44,7 +44,11 @@ module julienne_string_m
     procedure, private :: get_logical, get_logical_with_character_key
     procedure, private :: get_integer, get_integer_with_character_key
     procedure, private :: get_real_array, get_real_array_with_character_key
+#ifndef __GNUC__
     procedure, private :: get_integer_array, get_integer_array_with_character_key
+#else
+    procedure :: get_integer_array, get_integer_array_with_character_key
+#endif
     procedure, private :: get_double_precision, get_double_precision_with_character_key
     procedure, private :: get_double_precision_array, get_double_precision_array_with_character_key
     procedure, private :: string_t_ne_string_t, string_t_ne_character
