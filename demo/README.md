@@ -225,8 +225,8 @@ class string_t{
 
     operator(.csv.)(string_t) string_t
     operator(.csv.)(character(len=*)) string_t
-    operator(.sv.)(strings : string_t[1..*], separator : characer(len=*)) string_t
-    operator(.sv.)(strings : character(len=*)[1..*], separator : characer(len=*)) string_t
+    operator(.sv.)(strings : string_t[1..*], separator : character(len=*)) string_t
+    operator(.sv.)(strings : character(len=*)[1..*], separator : character(len=*)) string_t
     operator(.sv.)(strings : string_t[1..*], separator : string_t) string_t
 
     array_of_strings(delimited_strings : character(len=*), delimiter : character(len=*))

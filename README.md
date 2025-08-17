@@ -44,7 +44,7 @@ Expressive idioms
 ### Assertions
 Any of the above expressions can be the actual argument in an invocation
 of Julienne's `call_julienne_assert` function-line preprocessor macro:
-```
+```fortran
 call_julienne_assert(x .lessThan. y)
 ```
 which a preprocessor will replace with a call to Julienne's assertion subroutine
@@ -102,7 +102,7 @@ Example expression                               | Result
 
 One can use such expressions to craft a diagnostic message when constructing
 a custom test function result:
-```
+```fortran
 type(test_diagnosis_t) test_diagnosis
 test_diagnosis = test_diagnosis_t( &
   test_passed = i==j, &
@@ -121,7 +121,7 @@ or two procedures.  The resulting `file_t` object can be manipulated elsewhere
 without incurring the costs associated with file I/O.  For example, the following
 line reads a file named `data.txt` into a `file_t` object and associates the name
 `file` with the resulting object.
-```
+```fortran
 type(file_t) file
 associate(file => file_t("data.txt"))
 end associate
@@ -232,7 +232,7 @@ fpm test --compiler flang-new
 ##### `flang-new` version 19
 Add the following command before the `fpm` command recommended above for
 LLVM 20 or later:
-```
+```bash
 export FPM_FFLAGS="-mmlir -allow-assumed-rank"
 ```
 where this `FPM_FFLAGS` setting turns on the support for Fortran's assumed-rank
