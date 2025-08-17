@@ -280,11 +280,7 @@ contains
     type(test_diagnosis_t) test_diagnosis
 
     associate(key_integer_array_pair => string_t('"some key" : [1, 2, 3],'))
-#ifndef __GNUC__
       associate(integer_array => key_integer_array_pair%get_json_value(key=string_t("some key"), mold=[integer::]))
-#else
-      associate(integer_array => key_integer_array_pair%get_integer_array(key=string_t("some key"), mold=[integer::]))
-#endif
         test_diagnosis = .all. (integer_array .equalsExpected. [1,2,3])
       end associate
     end associate

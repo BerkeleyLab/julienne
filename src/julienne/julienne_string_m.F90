@@ -44,11 +44,7 @@ module julienne_string_m
     procedure, private :: get_logical, get_logical_with_character_key
     procedure, private :: get_integer, get_integer_with_character_key
     procedure, private :: get_real_array, get_real_array_with_character_key
-#ifndef __GNUC__
     procedure, private :: get_integer_array, get_integer_array_with_character_key
-#else
-    procedure :: get_integer_array, get_integer_array_with_character_key
-#endif
     procedure, private :: get_double_precision, get_double_precision_with_character_key
     procedure, private :: get_double_precision_array, get_double_precision_array_with_character_key
     procedure, private :: string_t_ne_string_t, string_t_ne_character
@@ -212,14 +208,14 @@ module julienne_string_m
       type(string_t) base
     end function
 
-    elemental module function get_real(self, key, mold) result(value_)
+    pure module function get_real(self, key, mold) result(value_)
       implicit none
       class(string_t), intent(in) :: self, key
       real, intent(in) :: mold
       real value_
     end function
 
-    elemental module function get_real_with_character_key(self, key, mold) result(value_)
+    pure module function get_real_with_character_key(self, key, mold) result(value_)
       implicit none
       class(string_t), intent(in) :: self
       character(len=*), intent(in) :: key
@@ -227,14 +223,14 @@ module julienne_string_m
       real value_
     end function
 
-    elemental module function get_double_precision(self, key, mold) result(value_)
+    pure module function get_double_precision(self, key, mold) result(value_)
       implicit none
       class(string_t), intent(in) :: self, key
       double precision, intent(in) :: mold
       double precision value_
     end function
 
-    elemental module function get_double_precision_with_character_key(self, key, mold) result(value_)
+    pure module function get_double_precision_with_character_key(self, key, mold) result(value_)
       implicit none
       class(string_t), intent(in) :: self
       character(len=*), intent(in) :: key
@@ -277,7 +273,7 @@ module julienne_string_m
       type(string_t) :: value_
     end function
 
-    elemental module function get_string_with_character_key(self, key, mold) result(value_)
+    pure module function get_string_with_character_key(self, key, mold) result(value_)
       implicit none
       class(string_t), intent(in) :: self, mold
       character(len=*), intent(in) :: key
@@ -299,7 +295,7 @@ module julienne_string_m
       type(string_t), allocatable :: value_(:)
     end function
 
-    elemental module function get_integer_with_character_key(self, key, mold) result(value_)
+    pure module function get_integer_with_character_key(self, key, mold) result(value_)
       implicit none
       class(string_t), intent(in) :: self
       character(len=*), intent(in) :: key
@@ -307,14 +303,14 @@ module julienne_string_m
       integer value_
     end function
 
-    elemental module function get_integer(self, key, mold) result(value_)
+    pure module function get_integer(self, key, mold) result(value_)
       implicit none
       class(string_t), intent(in) :: self, key
       integer, intent(in) ::  mold
       integer value_
     end function
 
-    elemental module function get_logical_with_character_key(self, key, mold) result(value_)
+    pure module function get_logical_with_character_key(self, key, mold) result(value_)
       implicit none
       class(string_t), intent(in) :: self
       character(len=*), intent(in) :: key
@@ -322,7 +318,7 @@ module julienne_string_m
       logical value_
     end function
 
-    elemental module function get_logical(self, key, mold) result(value_)
+    pure module function get_logical(self, key, mold) result(value_)
       implicit none
       class(string_t), intent(in) :: self, key
       logical, intent(in) :: mold
