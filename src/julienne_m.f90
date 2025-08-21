@@ -15,7 +15,7 @@ module julienne_m
     ,operator(.separatedBy.) & ! same as operator(.sv.)
     ,operator(.sv.)
   use julienne_test_description_m, only : test_description_t, filter
-  use julienne_test_diagnosis_m, only   : test_diagnosis_t &
+  use julienne_test_diagnosis_m, only   : test_diagnosis_t, diagnosis_function_i  &
     ,operator(.all.) &
     ,operator(.and.) &
     ,operator(.also.) &
@@ -39,7 +39,5 @@ module julienne_m
   use julienne_test_suite_m,   only : test_suite_t
   use julienne_test_m,         only : test_t
 
-  !! Deprecated features:
-  use julienne_test_description_m, only : diagnosis_function_i
   implicit none
 end module julienne_m

@@ -10,6 +10,7 @@ module julienne_test_diagnosis_m
 
   private
   public :: test_diagnosis_t
+  public :: diagnosis_function_i
   public :: operator(.all.)
   public :: operator(.and.)
   public :: operator(.also.)
@@ -37,6 +38,14 @@ module julienne_test_diagnosis_m
     procedure test_passed
     procedure diagnostics_string
   end type
+
+  abstract interface
+    function diagnosis_function_i() result(test_diagnosis)
+      import test_diagnosis_t
+      implicit none
+      type(test_diagnosis_t) test_diagnosis
+    end function
+  end interface
 
   integer, parameter :: default_real = kind(1.), double_precision = kind(1D0)
 
