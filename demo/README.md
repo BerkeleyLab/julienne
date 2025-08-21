@@ -1,38 +1,70 @@
 Getting Started
 ===============
+This `demo` directory contains a demonstration project with
+
+* Stub types and functions in the `src` subdirectory and
+* Tests for the stubs in the `test` subdirectory.
+
+Please try [running the demonstration tests] and [generating test scaffolding].
 
 Writing tests
 -------------
-This `demo` directory contains a demonstration project with stub types and
-functions in the `src` subdirectory and tests for those stubs in the `test`
-subdirectory.  Please review the contents and try 
-[running the demonstration tests] and [generating test scaffolding].
-Julienne's `scaffold` program follows the steps that you would take to
-write a tests and a test driver program manually:
+Testing centers around Julienne's `test_t` abstract derived type.
+Users define non-abstract `test_t` child types to capture groups of tests.
+Doing so requires defining the inherited deferred bindings: `subject` and `results`.
+The `subject` function defines a `character` string result describing what is being tested.
+The `results` function defines a `test_result_t` array result by invoking the inherited `run` procedure on an instance of the child type.
+The `run` function accepts a `test_descripton_t` array argument and constructs the `test_result_t` array.
 
-1. Define a non-abstract child type extending Julienne's `test_t` type.  Please
-   see, for example, the `specimen_test_t` type in the [`specimen_test_m`] module
-2. Define functions implementing the inherited parent type's deferred bindings:
-   a. A `subject` function constructing a `character` result describing
-      what is being tested, such as a derived type or a module.  For example,
-      please see the [`subject`] function in the demonstration test suite
-   b. A `result` function that tests the test subject and constructs a 
-      `test_diagnosis_t` result by passing an array of `test_description_t`
-      objects to `test_t`'s type-bound `run` function. Please see, for example,
-      the `result` function in `demo/test/specimen_test_m`.
-3. Write diagnosis functions that take no arguments, perform checks, and that
-   each construct a `test_diagnosis_t` result by using a Julienne idiom or by
-   invoking a `test_diagnosis_t` user-defined structure constructor.  Please see
-   for example, the `check_something` function in the [`specimen_test_m`] module.
-4. Write a driver program that constructs a `test_harness_t` object from an array
-   of `text_fixture_t` objects, each of which is constructed from a `test_t`
-   child type structure constructor.  Please see the demonstration [driver].
+Users construct the `test_description_t` array by invoking a `test_description_t` constructor for each array element and passing each constructor invocation two arguments:
+
+* A `character` test description typically beginning with a gerund: a word ending in `-ing` and
+* The name of a function conforming to Julienne's `diagnosis_function_i` abstract interface.
+
+Users define functions conforming to the `diagnosis_function_i` interface: functions with no arguments and with a `test_diagnosis_t` result.
+Constructing a the function result involves either
+
+* Invoking the `test_diagnosis_t` constructor or
+* Writing an expression in a Julienne idiom using Julienne's defined operations.
+
+The `test_diagnosis_t` constructor takes two arguments.
+The first is usually a `logical` expression defining the test condition.
+The second is a diagnostics string of type `string_t` or `character`.
+Please see the `test` subdirectory for code examples.
+Also, please see the following Unified Modeling Language ([UML]) class diagram for a summary of user-facing derived types, including type relationships and object constructors.
+Users invoke constructor functions via generic names matching the type of the constructed object result.
+
+```mermaid
+classDiagram
+
+test_t --> test_description_t : "'run' accepts array of"
+test_t --> test_result_t : "'run' defines array of"
+
+class test_t{
+  <<abstract>>
+    subject() character *
+    results() test_result_t *
+    run(test_descriptions : test_description_t) : test_result_t
+}
+
+class test_description_t{
+   test_decription_t(description : character, diagnosis_function : procedure(diagnosis_function_i)) : test_description_t
+}
+
+class test_diagnosis_t{
+   test_diagnosis_t(test_passed : logical, diagnostics_string : string_t) : test_diagnosis_t
+}
+
+class string_t{
+   string_t(character) : string_t
+}
+```
 
 Running the demonstration tests
 -------------------------------
-With the Fortran Package Manager (`fpm`) installed, please set Julienne's
-`demo` subdirectory as your present working directory in a shell and try
-running the demonstration test suite using the command corresponding to
+With the Fortran Package Manager (`fpm`) installed and the `demo`
+subdirectory as your present working directory in a shell, run
+the demonstration test suite using the command corresponding to
 your compiler in the table below.
 
 |Vendor | Version(s) Tested       | Example shell command                            |
@@ -44,7 +76,7 @@ your compiler in the table below.
 
 Generating test scaffolding
 ---------------------------
-The tests Julienne's `demo/test` were generated by first creating a
+The `demo/test` subdirectory contains tests generated by first creating a
 `test-suite.json` file with the following contents:
 ```
 {
@@ -53,12 +85,10 @@ The tests Julienne's `demo/test` were generated by first creating a
     }
 }
 ```
-Julienne's current file reader is fragile so it is recommended to maintain the
-above structure after renaming and expanding the array of test subjects, keeping
-the array on one line.
+The current file reader is fragile. It is recommended to maintain the
+above file structure, keeping the array on one line.
 
-The test modules and test driver program in `demo/test` were created by
-entering the following command in a `zsh` shell with the present working
+Entering the following command in a `zsh` shell with the present working
 directory set to the root of Julienne's source tree:
 ```
 fpm run scaffold \
@@ -97,6 +127,10 @@ contain three tests:
 3. A third test demonstrates how to skip a test by not including a diagnosis
    function in the corresponding test description, which is useful when a test
    is known to crash with a specific build configuration for example.
+
+The driver program imports the `test_t` child types.
+The driver then constructs a `test_harness_t` object from an array of `test_fixture_t` objects.
+The driver constructs `test_fixture_t` objects from structure constructors provided by the compiler for each test type.
 
 Forming diagnostic strings
 --------------------------
@@ -165,12 +199,6 @@ class test_description_t{
     test_description_t(description : string_t, diagnosis_function : diagnosis_function_i)
     run() test_result_t
 }
-test_description_t --> test_diagnosis_t : run() invokes diagnosis_function to construct
-test_description_t --> test_result_t : run() constructs with test_diagnosis_t object
-
-class test_result_t{
-    test_result_t(test_passed : logical, diagnosis : test_diagnosis_t)
-}
 
 class test_diagnosis_t{
     test_diagnosis_t(test_passed : logical, diagnostics_string : string_t)
@@ -238,9 +266,3 @@ class string_t{
 [UML]: https://wikipedia.org/Unified_modeling_language)
 [running the demonstration tests]: #running-the-demonstration-tests
 [generating test scaffolding]: #generating-test-scaffolding
-[`specimen_test_t`]: ./demo/test/specimen_test_m.f90
-[`specimen_test_m`]: ./demo/test/specimen_test_m.f90
-[`subject`]: ./demo/test/specimen_test_m.f90
-[`result`]: ./demo/test/specimen_test_m.f90
-[`specimen_test_m`]: ./demo/test/specimen_test_m.f90
-[driver]: ./demo/test/driver.f90

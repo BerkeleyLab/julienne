@@ -1,11 +1,17 @@
-Julienne Unit Testing Classes
------------------------------
+Julienne Classes
+----------------
+Testing centers around the `test_t` abstract derived type.
+Users define a collection of tests by defining `test_t` child types.
+This obligates the child type to define `test_t`'s deferred bindings: `subject` and `results`.
+The `subject` function producdes a `character` string result describing what is being tested -- often a derived type or module.
+The `results` function passes a `test_descripton_t` array to a child instance's inherited type-bound `run` function.
+The `run` funtion produces a `test_result_t` array result.
+
 ```mermaid
 classDiagram
 
-test_t --> test_result_t : produces
-test_description_t --> test_diagnosis_t : "'run' uses to construct test_result_t"
-test_result_t --> test_diagnosis_t : "accepts as constructor argument"
+test_t --> test_description_t : "'run' accepts array of"
+test_t --> test_result_t : "'run' produces array of"
 
 class test_t{
   <<abstract>>
