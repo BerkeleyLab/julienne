@@ -2,7 +2,8 @@
 ! Terms of use are as specified in LICENSE.txt
 
 module julienne_test_result_m
-  !! Define an abstraction for describing test intentions and results
+  !! Define an abstraction for describing test results the test description and,
+  !! if the test was not skipped, then also a test diagnosis.
   use julienne_string_m, only : string_t
   use julienne_test_diagnosis_m, only : test_diagnosis_t
   implicit none
@@ -11,7 +12,10 @@ module julienne_test_result_m
   public :: test_result_t
 
   type test_result_t
-    !! Encapsulate test descriptions and outcomes
+    !! Encapsulate a test-description string and optionally a test diagnosis.
+    !! This type is similar to test_description_t and test_diagnosis_t type but
+    !! 1. Doesn't need the former's procedure(diagnosis_function_i) component and
+    !! 2. Allocates an instance of the latter if and only if the test wasn't skipped.
     private
     type(string_t) :: description_
     type(test_diagnosis_t), allocatable :: diagnosis_
