@@ -2,34 +2,37 @@ Getting Started
 ===============
 This `demo` directory contains a demonstration project with
 
-* Stub types and functions in the `src` subdirectory and
-* Tests for the stubs in the `test` subdirectory.
+* Stub types and functions in the `src` subdirectory,
+* Tests for the stubs in the `test` subdirectory,
+* A Fortran Package Manager (`fpm`) build/test system in `fpm.toml`.
 
 Please try [running the demonstration tests] and [generating test scaffolding].
 
 Writing tests
 -------------
-Testing centers around Julienne's `test_t` abstract derived type.
-Users define non-abstract `test_t` child types to capture groups of tests.
-Doing so requires defining the inherited deferred bindings: `subject` and `results`.
-The `subject` function defines a `character` string result describing what is being tested.
-The `results` function defines a `test_result_t` array result by invoking the inherited `run` procedure on an instance of the child type.
-The `run` function accepts a `test_descripton_t` array argument and constructs the `test_result_t` array.
+Testing with Julienne centers around the `test_t` abstract derived type.
+Users extend `test_t`, definoing non-abstract child types capturing groups of tests.
+Doing so requires defining the inherited deferred bindings: the `subject` and `results` functions.
 
-Users construct the `test_description_t` array by invoking a `test_description_t` constructor for each array element and passing each constructor invocation two arguments:
+* `subject` has no argumetns and defines a `character` string result describing what is being tested,
+* `results` has no arguments defines a `test_result_t` array result by invoking the inherited `run` function on a child instance, and
+* `run` uses a `test_descripton_t` array argument to construct a `test_result_t` array result.
 
-* A `character` test description typically beginning with a gerund: a word ending in `-ing` and
+Users construct each `test_description_t` array element by invoking a `test_description_t` constructor function, which has two arguments:
+
+* A `character` string describing whata the test does, typically beginning with a gerund: a word ending in `-ing`, and
 * The name of a function conforming to Julienne's `diagnosis_function_i` abstract interface.
 
-Users define functions conforming to the `diagnosis_function_i` interface: functions with no arguments and with a `test_diagnosis_t` result.
-Constructing a the function result involves either
+The `diagnosis_function_i` function implementations have no arguments and construct a `test_diagnosis_t` result by
 
-* Invoking the `test_diagnosis_t` constructor or
-* Writing an expression in a Julienne idiom using Julienne's defined operations.
+* Writing an expression in a Julienne idiom with defined operations (.e.g, `.all.(['a','b','c'] .isBefore. 'efg')`) or
+* Invoking the `test_diagnosis_t` constructor if no convenient idiom exists.
 
-The `test_diagnosis_t` constructor takes two arguments.
-The first is usually a `logical` expression defining the test condition.
-The second is a diagnostics string of type `string_t` or `character`.
+The `test_diagnosis_t` constructor has two arguments:
+
+* `test_passed`: `logical` expression defining the test condition (.e.g, `
+* `diagnostics_string`: a `string_t` or `character`.  Please see [Forming Diagnostics Strings] and [String-Handling Functions].
+  
 Please see the `test` subdirectory for code examples.
 Also, please see the following Unified Modeling Language ([UML]) class diagram for a summary of user-facing derived types, including type relationships and object constructors.
 Users invoke constructor functions via generic names matching the type of the constructed object result.
@@ -44,40 +47,45 @@ class test_t{
   <<abstract>>
     subject() character *
     results() test_result_t *
-    run(test_descriptions : test_description_t) : test_result_t
+    run(test_descriptions : test_description_t) test_result_t
 }
 
 class test_description_t{
-   test_decription_t(description : character, diagnosis_function : procedure(diagnosis_function_i)) : test_description_t
+   test_decription_t(description : character, diagnosis_function : procedure(diagnosis_function_i)) test_description_t
 }
+```
+
+```mermaid
+classDiagram
 
 class test_diagnosis_t{
-   test_diagnosis_t(test_passed : logical, diagnostics_string : string_t) : test_diagnosis_t
+   test_diagnosis_t(test_passed : logical, diagnostics_string : string_t) test_diagnosis_t
 }
 
+```
+
+```mermaid
+classDiagram
 class string_t{
-   string_t(character) : string_t
+   string_t(character) string_t
 }
 ```
 
 Running the demonstration tests
 -------------------------------
-With the Fortran Package Manager (`fpm`) installed and the `demo`
-subdirectory as your present working directory in a shell, run
-the demonstration test suite using the command corresponding to
-your compiler in the table below.
+With the Fortran Package Manager (`fpm`) installed, please set the `demo` subdirectory as your present working directory in a shell.
+Then run the demonstration test suite using the command below for your compiler.
 
 |Vendor | Version(s) Tested       | Example shell command                            |
 |-------|-------------------------|--------------------------------------------------|
 |LLVM   | 20.1.8                  | `fpm test --compiler flang-new --flag "-O3"`     |
 |GCC    | 14.3.0, 15.1.0          | `fpm test --compiler gfortran --profile release` |
-|NAG    | 7.2 Build 7235          | `fpm test --compiler nagfor --flag -fpp`         |
+|NAG    | 7.2 Build 7235          | `fpm test --compiler nagfor --flag "-O3 -fpp"`   |
 |Intel  | 2025.1.0 Build 20250728 | `fpm test --compiler ifx --flag "-fpp -O3"`      |
 
 Generating test scaffolding
 ---------------------------
-The `demo/test` subdirectory contains tests generated by first creating a
-`test-suite.json` file with the following contents:
+To recreate the `test` directory contents, pass the following `test-suite.json` file to Julienne's `scaffold` program:
 ```
 {
     "test suite": {
@@ -85,11 +93,8 @@ The `demo/test` subdirectory contains tests generated by first creating a
     }
 }
 ```
-The current file reader is fragile. It is recommended to maintain the
-above file structure, keeping the array on one line.
-
-Entering the following command in a `zsh` shell with the present working
-directory set to the root of Julienne's source tree:
+Please maintain the above format by introducing by not inserting, deleting, or combining any lines.
+Please run following command in a `zsh` shell with the root of Julienne's source tree as your present working directory:
 ```
 fpm run scaffold \
   --compiler flang-new \
@@ -107,8 +112,7 @@ demo
     ├── specimen_test_m.f90
     └── widget_test_m.f90
 ```
-The modules inside the `specimen_test_m.f90` and `widget_test_m.f90` files each
-contain three tests: 
+The modules inside the `specimen_test_m.f90` and `widget_test_m.f90` files each contain three tests: 
 1. One test intentionally fails and demonstrates the construction of a test
    diagnosis via an idiom using Julienne's defined operations:
    ```
@@ -130,7 +134,7 @@ contain three tests:
 
 The driver program imports the `test_t` child types.
 The driver then constructs a `test_harness_t` object from an array of `test_fixture_t` objects.
-The driver constructs `test_fixture_t` objects from structure constructors provided by the compiler for each test type.
+The driver constructs `test_fixture_t` objects from structure constructors provided by the language standard for each test type.
 
 Forming diagnostic strings
 --------------------------
@@ -172,7 +176,7 @@ To support a common array notation, Julienne also supports bracketing strings.
 
 Diagnosis Functions
 -------------------
-The Unified Modeling Language ([UML]) class diagram below depicts the class
+The Unified Modeling Language ([UML]) class diagram below depicts some of the class
 relationships involved in making the above example work:
 
 ```mermaid
@@ -185,23 +189,19 @@ class test_t{
     results() test_result_t[0..*] *
     report(passes : integer, tests : integer, skips : integer)
 }
-test_t --> specimen_test_t : report() invokes subject() and results()
+test_t --> specimen_test_t : report() invokes subject() and results() on
 
 class specimen_test_t{
     subject() character(len=:)
     results() test_result_t[0..*]
 }
 specimen_test_t --|> test_t : extends and implements
-specimen_test_t --> test_description_t : results() constructs local array of
-specimen_test_t --> test_description_t : results() invokes run() on
+specimen_test_t --> test_description_t : results() passes run() an array of
+specimen_test_t --> test_t : results() invokes run() on
 
 class test_description_t{
     test_description_t(description : string_t, diagnosis_function : diagnosis_function_i)
     run() test_result_t
-}
-
-class test_diagnosis_t{
-    test_diagnosis_t(test_passed : logical, diagnostics_string : string_t)
 }
 ```
 
@@ -228,8 +228,8 @@ preprocessor macro:
 which presently appears in Julienne `test/string_test_m.f90` test in order to
 work around a runtime crash known to be caused by a `gfortran` bug.
 
-String_t Functions
-------------------
+String-Handling Functions
+-------------------------
 Because of the central role that `string_t` type-bound procedures play in
 defining diagnostics strings, we list most of these procedures in the class
 diagram below.
@@ -263,6 +263,8 @@ class string_t{
 }
 ```
 
-[UML]: https://wikipedia.org/Unified_modeling_language)
+[UML]: https://wikipedia.org/Unified_modeling_language
 [running the demonstration tests]: #running-the-demonstration-tests
 [generating test scaffolding]: #generating-test-scaffolding
+[Forming Diagnostics Strings]: #forming-diagnostics-strings
+[String-Handling Functions]: #string-handling-functions
