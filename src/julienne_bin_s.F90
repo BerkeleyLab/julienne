@@ -4,7 +4,8 @@
 #include "julienne-assert-macros.h"
 
 submodule(julienne_bin_m) julienne_bin_s
-  use julienne_m, only : call_julienne_assert_, operator(.isAtLeast.)
+  use julienne_assert_m, only : call_julienne_assert_
+  use julienne_test_diagnosis_m, only : operator(.isAtLeast.)
   implicit none
 
 contains

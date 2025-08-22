@@ -111,7 +111,7 @@ module julienne_string_m
 
   interface operator(.cat.)
 
-   pure  module function concatenate_elements(strings) result(concatenated_strings)
+   pure module function concatenate_elements(strings) result(concatenated_strings)
       implicit none
       type(string_t), intent(in) :: strings(:)
       type(string_t) concatenated_strings
@@ -202,7 +202,7 @@ module julienne_string_m
       type(string_t) extension
     end function
 
-    pure module function base_name(self) result(base)
+    elemental module function base_name(self) result(base)
       !! result contains all characters in file_name before the last dot (.)
       class(string_t), intent(in) :: self
       type(string_t) base
@@ -267,7 +267,7 @@ module julienne_string_m
       character(len=:), allocatable :: value_
     end function
 
-    elemental module function get_string_with_string_key(self, key, mold) result(value_)
+    pure module function get_string_with_string_key(self, key, mold) result(value_)
       implicit none
       class(string_t), intent(in) :: self, key, mold
       type(string_t) :: value_
@@ -318,7 +318,7 @@ module julienne_string_m
       logical value_
     end function
 
-    elemental module function get_logical(self, key, mold) result(value_)
+    pure module function get_logical(self, key, mold) result(value_)
       implicit none
       class(string_t), intent(in) :: self, key
       logical, intent(in) :: mold
@@ -395,20 +395,20 @@ module julienne_string_m
       logical lhs_ne_rhs
     end function
 
-    pure module function string_t_cat_string_t(lhs, rhs) result(lhs_cat_rhs)
+    elemental module function string_t_cat_string_t(lhs, rhs) result(lhs_cat_rhs)
       implicit none
       class(string_t), intent(in) :: lhs, rhs
       type(string_t) lhs_cat_rhs
     end function
 
-    pure module function string_t_cat_character(lhs, rhs) result(lhs_cat_rhs)
+    elemental module function string_t_cat_character(lhs, rhs) result(lhs_cat_rhs)
       implicit none
       class(string_t), intent(in) :: lhs
       character(len=*), intent(in) :: rhs
       type(string_t) lhs_cat_rhs
     end function
 
-    pure module function character_cat_string_t(lhs, rhs) result(lhs_cat_rhs)
+    elemental module function character_cat_string_t(lhs, rhs) result(lhs_cat_rhs)
       implicit none
       character(len=*), intent(in) :: lhs
       class(string_t), intent(in) :: rhs

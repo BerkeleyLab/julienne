@@ -1,0 +1,807 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A standalone, minimal unit-testing and string/command-line-handling utility.">
+    <meta name="author" content="Berkeley Lab" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>julienne_test_suite_s.F90 &ndash; Julienne</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">Julienne </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>julienne_test_suite_s.F90
+      <small>Source File</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 3.6% of total for source files.">92 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/julienne_test_suite_s.F90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+            <li class="breadcrumb-item active" aria-current="page">julienne_test_suite_s.F90</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#submods-0"
+         aria-expanded="false" aria-controls="submods-0">
+         <h4 class="card-header bg-primary text-white">Submodules</h4>
+      </a>
+      <div id="submods-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/julienne_test_suite_s.html">julienne_test_suite_s</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../sourcefile/julienne_test_suite_s.f90.html#src">julienne_test_suite_s.F90</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">This file depends on</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~julienne_test_suite_s.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefilejulienne_test_suite_sf90EfferentGraph" width="641pt" height="121pt"
+ viewBox="0.00 0.00 641.00 121.32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph" class="graph" transform="scale(0.39 0.39) rotate(0) translate(4 310)">
+<title>sourcefile~~julienne_test_suite_s.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-310 1655,-310 1655,4 -4,4"/>
+<!-- sourcefile~julienne_test_suite_s.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~julienne_test_suite_s.f90</title>
+<polygon fill="none" stroke="black" points="1651,-226 1507,-226 1507,-202 1651,-202 1651,-226"/>
+<text text-anchor="middle" x="1579" y="-211.6" font-family="Helvetica,sans-Serif" font-size="10.50">julienne_test_suite_s.F90</text>
+</g>
+<!-- sourcefile~julienne_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~julienne_m.f90</title>
+<g id="a_sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node2"><a xlink:href="../sourcefile/julienne_m.f90.html" xlink:title="julienne_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1471,-186 1380,-186 1380,-162 1471,-162 1471,-186"/>
+<text text-anchor="middle" x="1425.5" y="-171.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_test_suite_s.f90&#45;&gt;sourcefile~julienne_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~julienne_test_suite_s.f90&#45;&gt;sourcefile~julienne_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1532.55,-202C1516.3,-197.71 1497.82,-192.83 1480.9,-188.36"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1481.7,-184.96 1471.14,-185.79 1479.92,-191.72 1481.7,-184.96"/>
+</g>
+<!-- sourcefile~julienne_test_suite_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~julienne_test_suite_m.f90</title>
+<g id="a_sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node3"><a xlink:href="../sourcefile/julienne_test_suite_m.f90.html" xlink:title="julienne_test_suite_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1336,-306 1189,-306 1189,-282 1336,-282 1336,-306"/>
+<text text-anchor="middle" x="1262.5" y="-291.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_suite_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_test_suite_s.f90&#45;&gt;sourcefile~julienne_test_suite_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~julienne_test_suite_s.f90&#45;&gt;sourcefile~julienne_test_suite_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1530.58,-226.06C1474.33,-240.37 1380.65,-264.2 1320.51,-279.5"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1319.62,-276.11 1310.8,-281.97 1321.35,-282.9 1319.62,-276.11"/>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_suite_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge16" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_suite_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1417.2,-186.27C1404.69,-206.26 1377.26,-245.85 1344,-268 1338.03,-271.97 1331.42,-275.38 1324.61,-278.28"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1323.3,-275.04 1315.26,-281.95 1325.85,-281.56 1323.3,-275.04"/>
+</g>
+<!-- sourcefile~julienne_assert_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~julienne_assert_m.f90</title>
+<g id="a_sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node4"><a xlink:href="../sourcefile/julienne_assert_m.f90.html" xlink:title="julienne_assert_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="954,-66 825,-66 825,-42 954,-42 954,-66"/>
+<text text-anchor="middle" x="889.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_assert_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_assert_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_assert_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1411.95,-161.78C1396.99,-147.9 1370.65,-125.55 1344,-113 1310.74,-97.34 1299.69,-100.47 1263.5,-94"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1261.5,-94C1177.06,-78.89 1154.28,-94 1068.5,-94"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1066.5,-94C1020.01,-94 968.3,-80.57 933.03,-69.27"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="933.68,-65.8 923.08,-66 931.49,-72.45 933.68,-65.8"/>
+</g>
+<!-- sourcefile~julienne_bin_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node5" class="node">
+<title>sourcefile~julienne_bin_m.f90</title>
+<g id="a_sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node5"><a xlink:href="../sourcefile/julienne_bin_m.f90.html" xlink:title="julienne_bin_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1319,-66 1206,-66 1206,-42 1319,-42 1319,-66"/>
+<text text-anchor="middle" x="1262.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_bin_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_bin_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_bin_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1417.2,-161.73C1404.69,-141.74 1377.26,-102.15 1344,-80 1338.03,-76.03 1331.42,-72.62 1324.61,-69.72"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1325.85,-66.44 1315.26,-66.05 1323.3,-72.96 1325.85,-66.44"/>
+</g>
+<!-- sourcefile~julienne_command_line_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node6" class="node">
+<title>sourcefile~julienne_command_line_m.f90</title>
+<g id="a_sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node6"><a xlink:href="../sourcefile/julienne_command_line_m.f90.html" xlink:title="julienne_command_line_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="763,-106 588,-106 588,-82 763,-82 763,-106"/>
+<text text-anchor="middle" x="675.5" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_command_line_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_command_line_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_command_line_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M888.5,-94C850.86,-92.25 809.42,-91.89 773.24,-92.1"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="773.16,-88.6 763.19,-92.18 773.21,-95.6 773.16,-88.6"/>
+</g>
+<!-- sourcefile~julienne_file_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node7" class="node">
+<title>sourcefile~julienne_file_m.f90</title>
+<g id="a_sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node7"><a xlink:href="../sourcefile/julienne_file_m.f90.html" xlink:title="julienne_file_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1124,-256 1011,-256 1011,-232 1124,-232 1124,-256"/>
+<text text-anchor="middle" x="1067.5" y="-241.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_file_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_file_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_file_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1261.5,-174C1224.98,-178.16 1215.79,-181.13 1181,-193 1165.84,-198.17 1130.06,-214.67 1102.9,-227.52"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1101.23,-224.44 1093.69,-231.89 1104.23,-230.76 1101.23,-224.44"/>
+</g>
+<!-- sourcefile~julienne_formats_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node8" class="node">
+<title>sourcefile~julienne_formats_m.f90</title>
+<g id="a_sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node8"><a xlink:href="../sourcefile/julienne_formats_m.f90.html" xlink:title="julienne_formats_m.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1332.5,-24 1192.5,-24 1192.5,0 1332.5,0 1332.5,-24"/>
+<text text-anchor="middle" x="1262.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_formats_m.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_formats_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge7" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_formats_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1421.05,-161.63C1412.71,-134.06 1388.76,-67.28 1344,-33 1342.14,-31.57 1340.19,-30.24 1338.17,-29"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1339.4,-25.7 1328.92,-24.12 1336.13,-31.88 1339.4,-25.7"/>
+</g>
+<!-- sourcefile~julienne_github_ci_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node9" class="node">
+<title>sourcefile~julienne_github_ci_m.f90</title>
+<g id="a_sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node9"><a xlink:href="../sourcefile/julienne_github_ci_m.f90.html" xlink:title="julienne_github_ci_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1335,-226 1190,-226 1190,-202 1335,-202 1335,-226"/>
+<text text-anchor="middle" x="1262.5" y="-211.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_github_ci_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_github_ci_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge8" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_github_ci_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1379.65,-185.14C1361.75,-189.59 1340.89,-194.77 1321.83,-199.51"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1320.92,-196.13 1312.05,-201.94 1322.6,-202.92 1320.92,-196.13"/>
+</g>
+<!-- sourcefile~julienne_string_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node10" class="node">
+<title>sourcefile~julienne_string_m.f90</title>
+<g id="a_sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node10"><a xlink:href="../sourcefile/julienne_string_m.f90.html" xlink:title="julienne_string_m.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="129,-267 0,-267 0,-243 129,-243 129,-267"/>
+<text text-anchor="middle" x="64.5" y="-252.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_string_m.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_string_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge9" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_string_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1412.26,-186.07C1397.39,-200.02 1370.94,-222.65 1344,-235 1329.77,-241.52 1084.13,-293.2 1068.5,-294"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1066.5,-294C988.38,-298 968.54,-288.73 890.5,-294"/>
+</g>
+<!-- sourcefile~julienne_test_description_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node11" class="node">
+<title>sourcefile~julienne_test_description_m.f90</title>
+<g id="a_sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node11"><a xlink:href="../sourcefile/julienne_test_description_m.f90.html" xlink:title="julienne_test_description_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="766,-228 585,-228 585,-204 766,-204 766,-228"/>
+<text text-anchor="middle" x="675.5" y="-213.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_description_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_description_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge10" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_description_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1379.93,-171.3C1347.52,-169.99 1302.66,-169.54 1263.5,-174"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1261.5,-174C1139.67,-187.87 1108.82,-192.74 990,-223 944.85,-234.5 936.75,-250.38 890.5,-256"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M888.5,-256C873.96,-257.28 798.51,-242.17 741.73,-230.15"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="742.23,-226.68 731.72,-228.03 740.78,-233.53 742.23,-226.68"/>
+</g>
+<!-- sourcefile~julienne_test_diagnosis_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node12" class="node">
+<title>sourcefile~julienne_test_diagnosis_m.f90</title>
+<g id="a_sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node12"><a xlink:href="../sourcefile/julienne_test_diagnosis_m.f90.html" xlink:title="julienne_test_diagnosis_m.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="339,-247 165,-247 165,-223 339,-223 339,-247"/>
+<text text-anchor="middle" x="252" y="-232.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_diagnosis_m.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_diagnosis_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge11" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_diagnosis_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1066.5,-94C988.28,-94 968.64,-97.64 890.5,-94"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M888.5,-94C843.35,-91.89 833.4,-81.43 789,-73 739.18,-63.54 727.15,-56.36 676.5,-54"/>
+</g>
+<!-- sourcefile~julienne_test_fixture_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node13" class="node">
+<title>sourcefile~julienne_test_fixture_m.f90</title>
+<g id="a_sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node13"><a xlink:href="../sourcefile/julienne_test_fixture_m.f90.html" xlink:title="julienne_test_fixture_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1145,-146 990,-146 990,-122 1145,-122 1145,-146"/>
+<text text-anchor="middle" x="1067.5" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_fixture_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_fixture_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge12" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_fixture_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1261.5,-94C1234.61,-89.19 1166.2,-105.93 1118.52,-119.22"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1117.35,-115.91 1108.68,-121.99 1119.25,-122.65 1117.35,-115.91"/>
+</g>
+<!-- sourcefile~julienne_test_harness_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node14" class="node">
+<title>sourcefile~julienne_test_harness_m.f90</title>
+<g id="a_sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node14"><a xlink:href="../sourcefile/julienne_test_harness_m.f90.html" xlink:title="julienne_test_harness_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1344,-146 1181,-146 1181,-122 1344,-122 1344,-146"/>
+<text text-anchor="middle" x="1262.5" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_harness_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_harness_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge13" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_harness_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1379.65,-162.86C1361.75,-158.41 1340.89,-153.23 1321.83,-148.49"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1322.6,-145.08 1312.05,-146.06 1320.92,-151.87 1322.6,-145.08"/>
+</g>
+<!-- sourcefile~julienne_test_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node15" class="node">
+<title>sourcefile~julienne_test_m.f90</title>
+<g id="a_sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node15"><a xlink:href="../sourcefile/julienne_test_m.f90.html" xlink:title="julienne_test_m.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="948.5,-146 830.5,-146 830.5,-122 948.5,-122 948.5,-146"/>
+<text text-anchor="middle" x="889.5" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_m.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge14" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1066.5,-94C1020.01,-94 968.3,-107.43 933.03,-118.73"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="931.49,-115.55 923.08,-122 933.68,-122.2 931.49,-115.55"/>
+</g>
+<!-- sourcefile~julienne_test_result_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node16" class="node">
+<title>sourcefile~julienne_test_result_m.f90</title>
+<g id="a_sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node16"><a xlink:href="../sourcefile/julienne_test_result_m.f90.html" xlink:title="julienne_test_result_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="526,-247 375,-247 375,-223 526,-223 526,-247"/>
+<text text-anchor="middle" x="450.5" y="-232.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_result_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_result_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge15" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_result_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M888.5,-256C766.28,-266.75 624.32,-255.57 536.19,-245.86"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="536.57,-242.38 526.24,-244.75 535.79,-249.34 536.57,-242.38"/>
+</g>
+<!-- sourcefile~julienne_test_suite_m.f90&#45;&gt;sourcefile~julienne_file_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge17" class="edge">
+<title>sourcefile~julienne_test_suite_m.f90&#45;&gt;sourcefile~julienne_file_m.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M1214.78,-281.9C1187.74,-274.89 1153.51,-266.02 1124.96,-258.63"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="1125.68,-255.2 1115.12,-256.08 1123.93,-261.97 1125.68,-255.2"/>
+</g>
+<!-- sourcefile~julienne_test_suite_m.f90&#45;&gt;sourcefile~julienne_string_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge18" class="edge">
+<title>sourcefile~julienne_test_suite_m.f90&#45;&gt;sourcefile~julienne_string_m.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M1188.6,-292.24C1152.45,-291.82 1108.15,-291.97 1068.5,-294"/>
+</g>
+<!-- sourcefile~julienne_assert_m.f90&#45;&gt;sourcefile~julienne_test_diagnosis_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge19" class="edge">
+<title>sourcefile~julienne_assert_m.f90&#45;&gt;sourcefile~julienne_test_diagnosis_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M824.92,-55.54C782.79,-56.19 726.32,-56.32 676.5,-54"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M674.5,-54C575.5,-49.38 548.7,-34.61 451.5,-54"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M449.5,-54C359.45,-71.96 291.16,-170.39 264.83,-214.09"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="261.78,-212.37 259.72,-222.77 267.81,-215.93 261.78,-212.37"/>
+</g>
+<!-- sourcefile~julienne_file_m.f90&#45;&gt;sourcefile~julienne_string_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge20" class="edge">
+<title>sourcefile~julienne_file_m.f90&#45;&gt;sourcefile~julienne_string_m.f90</title>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M1037.89,-256.1C1003.6,-269.67 944.05,-290.26 890.5,-294"/>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M888.5,-294C694.75,-307.54 645.01,-277.35 451.5,-294"/>
+</g>
+<!-- sourcefile~julienne_test_description_m.f90&#45;&gt;sourcefile~julienne_string_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge21" class="edge">
+<title>sourcefile~julienne_test_description_m.f90&#45;&gt;sourcefile~julienne_string_m.f90</title>
+<path fill="none" stroke="#00c4ff" stroke-dasharray="5,2" d="M652.23,-228.03C613.03,-248.22 528.53,-287.37 451.5,-294"/>
+<path fill="none" stroke="#00c4ff" stroke-dasharray="5,2" d="M449.5,-294C362.49,-301.49 340.3,-296.51 253,-294"/>
+</g>
+<!-- sourcefile~julienne_test_description_m.f90&#45;&gt;sourcefile~julienne_test_diagnosis_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge22" class="edge">
+<title>sourcefile~julienne_test_description_m.f90&#45;&gt;sourcefile~julienne_test_diagnosis_m.f90</title>
+<path fill="none" stroke="#00c4ff" stroke-dasharray="5,2" d="M584.76,-205.48C576.77,-202.72 569.05,-199.28 562,-195 493.93,-153.7 529.58,-38.43 451.5,-54"/>
+</g>
+<!-- sourcefile~julienne_test_description_m.f90&#45;&gt;sourcefile~julienne_test_result_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge23" class="edge">
+<title>sourcefile~julienne_test_description_m.f90&#45;&gt;sourcefile~julienne_test_result_m.f90</title>
+<path fill="none" stroke="#00c4ff" stroke-dasharray="5,2" d="M584.76,-223.65C568.78,-225.01 552.17,-226.42 536.33,-227.77"/>
+<polygon fill="#00c4ff" stroke="#00c4ff" points="535.71,-224.31 526.04,-228.65 536.31,-231.29 535.71,-224.31"/>
+</g>
+<!-- sourcefile~julienne_test_diagnosis_m.f90&#45;&gt;sourcefile~julienne_string_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge24" class="edge">
+<title>sourcefile~julienne_test_diagnosis_m.f90&#45;&gt;sourcefile~julienne_string_m.f90</title>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M164.77,-244.3C156.22,-245.22 147.61,-246.15 139.21,-247.05"/>
+<polygon fill="#004eff" stroke="#004eff" points="138.66,-243.59 129.09,-248.14 139.41,-250.55 138.66,-243.59"/>
+</g>
+<!-- sourcefile~julienne_test_fixture_m.f90&#45;&gt;sourcefile~julienne_test_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge25" class="edge">
+<title>sourcefile~julienne_test_fixture_m.f90&#45;&gt;sourcefile~julienne_test_m.f90</title>
+<path fill="none" stroke="#2700ff" stroke-dasharray="5,2" d="M989.82,-134C979.46,-134 968.9,-134 958.71,-134"/>
+<polygon fill="#2700ff" stroke="#2700ff" points="958.66,-130.5 948.66,-134 958.66,-137.5 958.66,-130.5"/>
+</g>
+<!-- sourcefile~julienne_test_harness_m.f90&#45;&gt;sourcefile~julienne_test_fixture_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge26" class="edge">
+<title>sourcefile~julienne_test_harness_m.f90&#45;&gt;sourcefile~julienne_test_fixture_m.f90</title>
+<path fill="none" stroke="#9c00ff" stroke-dasharray="5,2" d="M1180.77,-134C1172.4,-134 1163.86,-134 1155.43,-134"/>
+<polygon fill="#9c00ff" stroke="#9c00ff" points="1155.2,-130.5 1145.2,-134 1155.2,-137.5 1155.2,-130.5"/>
+</g>
+<!-- sourcefile~julienne_test_m.f90&#45;&gt;sourcefile~julienne_command_line_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge27" class="edge">
+<title>sourcefile~julienne_test_m.f90&#45;&gt;sourcefile~julienne_command_line_m.f90</title>
+<path fill="none" stroke="#ff00eb" stroke-dasharray="5,2" d="M830.29,-123.02C805.51,-118.34 776.32,-112.83 750.07,-107.88"/>
+<polygon fill="#ff00eb" stroke="#ff00eb" points="750.64,-104.43 740.16,-106.01 749.34,-111.31 750.64,-104.43"/>
+</g>
+<!-- sourcefile~julienne_test_m.f90&#45;&gt;sourcefile~julienne_test_description_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge28" class="edge">
+<title>sourcefile~julienne_test_m.f90&#45;&gt;sourcefile~julienne_test_description_m.f90</title>
+<path fill="none" stroke="#ff00eb" stroke-dasharray="5,2" d="M872.91,-146.09C854.09,-160.06 820.96,-182.7 789,-195 782.83,-197.37 776.37,-199.48 769.79,-201.36"/>
+<polygon fill="#ff00eb" stroke="#ff00eb" points="768.85,-197.99 760.09,-203.94 770.65,-204.75 768.85,-197.99"/>
+</g>
+<!-- sourcefile~julienne_test_m.f90&#45;&gt;sourcefile~julienne_test_result_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge29" class="edge">
+<title>sourcefile~julienne_test_m.f90&#45;&gt;sourcefile~julienne_test_result_m.f90</title>
+<path fill="none" stroke="#ff00eb" stroke-dasharray="5,2" d="M830.47,-127.61C763.59,-122.42 651.4,-120.54 562,-153 525.52,-166.24 490.85,-195.69 470.37,-215.45"/>
+<polygon fill="#ff00eb" stroke="#ff00eb" points="467.65,-213.23 463,-222.75 472.57,-218.2 467.65,-213.23"/>
+</g>
+<!-- sourcefile~julienne_user_defined_collectives_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node17" class="node">
+<title>sourcefile~julienne_user_defined_collectives_m.f90</title>
+<g id="a_sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_node17"><a xlink:href="../sourcefile/julienne_user_defined_collectives_m.f90.html" xlink:title="julienne_user_defined_collectives_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="789,-186 562,-186 562,-162 789,-162 789,-186"/>
+<text text-anchor="middle" x="675.5" y="-171.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_user_defined_collectives_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_test_m.f90&#45;&gt;sourcefile~julienne_user_defined_collectives_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge30" class="edge">
+<title>sourcefile~julienne_test_m.f90&#45;&gt;sourcefile~julienne_user_defined_collectives_m.f90</title>
+<path fill="none" stroke="#ff00eb" stroke-dasharray="5,2" d="M830.29,-144.98C805.51,-149.66 776.32,-155.17 750.07,-160.12"/>
+<polygon fill="#ff00eb" stroke="#ff00eb" points="749.34,-156.69 740.16,-161.99 750.64,-163.57 749.34,-156.69"/>
+</g>
+<!-- sourcefile~julienne_test_result_m.f90&#45;&gt;sourcefile~julienne_string_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge31" class="edge">
+<title>sourcefile~julienne_test_result_m.f90&#45;&gt;sourcefile~julienne_string_m.f90</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M426.57,-247.11C390.57,-264.92 318.16,-295.88 253,-294"/>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M251,-294C203.34,-292.63 150.21,-280.32 113.07,-269.89"/>
+<polygon fill="#ff0075" stroke="#ff0075" points="113.62,-266.4 103.04,-267.01 111.68,-273.13 113.62,-266.4"/>
+</g>
+<!-- sourcefile~julienne_test_result_m.f90&#45;&gt;sourcefile~julienne_test_diagnosis_m.f90 -->
+<g id="sourcefile~~julienne_test_suite_s.f90~~EfferentGraph_edge32" class="edge">
+<title>sourcefile~julienne_test_result_m.f90&#45;&gt;sourcefile~julienne_test_diagnosis_m.f90</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M374.93,-235C366.5,-235 357.83,-235 349.18,-235"/>
+<polygon fill="#ff0075" stroke="#ff0075" points="349.04,-231.5 339.04,-235 349.04,-238.5 349.04,-231.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var pansourcefilejulienne_test_suite_sf90EfferentGraph = svgPanZoom('#sourcefilejulienne_test_suite_sf90EfferentGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#EfferentGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="EfferentGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="202pt" height="32pt"
+ viewBox="0.00 0.00 201.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 197.5,-28 197.5,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="193.5,-24 88.5,-24 88.5,0 193.5,0 193.5,-24"/>
+<text text-anchor="middle" x="141" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a file to a file which it depends on. A file
+is dependent upon another if the latter must be compiled before the former
+can be.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+<br>
+      <section>
+        <h2><span class="anchor" id="src"></span>Source Code</h2>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="c">! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute</span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">! Terms of use are as specified in LICENSE.txt</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a>
+<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="cp">#include &quot;assert_macros.h&quot;</span>
+<a id="ln-5" name="ln-5" href="#ln-5"></a>
+<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="k">submodule</span><span class="p">(</span><span class="n">julienne_test_suite_m</span><span class="p">)</span><span class="w"> </span><span class="n">julienne_test_suite_s</span>
+<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="w">  </span><span class="k">use </span><span class="n">assert_m</span>
+<a id="ln-8" name="ln-8" href="#ln-8"></a><span class="w">  </span><span class="k">use </span><span class="n">julienne_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(.</span><span class="n">csv</span><span class="p">.)</span>
+<a id="ln-9" name="ln-9" href="#ln-9"></a><span class="w">  </span><span class="k">implicit none</span>
+<a id="ln-10" name="ln-10" href="#ln-10"></a>
+<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="k">  </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test_suite_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;test suite&quot;</span>
+<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">  </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test_subjects_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;test subjects&quot;</span>
+<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">  </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">copyright_and_license</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="w">       </span><span class="s2">&quot;! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;! Terms of use are as specified in LICENSE.txt&quot;</span>
+<a id="ln-16" name="ln-16" href="#ln-16"></a>
+<a id="ln-17" name="ln-17" href="#ln-17"></a><span class="k">contains</span>
+<a id="ln-18" name="ln-18" href="#ln-18"></a>
+<a id="ln-19" name="ln-19" href="#ln-19"></a><span class="k">  module procedure </span><span class="n">test_subjects</span>
+<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="w">    </span><span class="n">subjects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">test_subjects_</span>
+<a id="ln-21" name="ln-21" href="#ln-21"></a><span class="w">  </span><span class="k">end procedure</span>
+<a id="ln-22" name="ln-22" href="#ln-22"></a>
+<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="k">  module procedure </span><span class="n">test_modules</span>
+<a id="ln-24" name="ln-24" href="#ln-24"></a><span class="w">    </span><span class="n">modules</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">test_subjects_</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;_test_m&quot;</span>
+<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="w">  </span><span class="k">end procedure</span>
+<a id="ln-26" name="ln-26" href="#ln-26"></a>
+<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="k">  module procedure </span><span class="n">test_types</span>
+<a id="ln-28" name="ln-28" href="#ln-28"></a><span class="w">    </span><span class="n">types</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">test_subjects_</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;_test_t&quot;</span>
+<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="w">  </span><span class="k">end procedure</span>
+<a id="ln-30" name="ln-30" href="#ln-30"></a>
+<a id="ln-31" name="ln-31" href="#ln-31"></a>
+<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="k">  module procedure </span><span class="n">from_components</span>
+<a id="ln-33" name="ln-33" href="#ln-33"></a><span class="w">    </span><span class="n">test_suite</span><span class="p">%</span><span class="n">test_subjects_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">test_subjects</span>
+<a id="ln-34" name="ln-34" href="#ln-34"></a><span class="w">  </span><span class="k">end procedure</span>
+<a id="ln-35" name="ln-35" href="#ln-35"></a>
+<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="k">  module procedure </span><span class="n">from_file</span>
+<a id="ln-37" name="ln-37" href="#ln-37"></a><span class="w">    </span><span class="kt">integer </span><span class="n">l</span>
+<a id="ln-38" name="ln-38" href="#ln-38"></a><span class="w">    </span><span class="kt">logical </span><span class="n">test_suite_key_found</span>
+<a id="ln-39" name="ln-39" href="#ln-39"></a>
+<a id="ln-40" name="ln-40" href="#ln-40"></a><span class="w">    </span><span class="n">test_suite_key_found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+<a id="ln-41" name="ln-41" href="#ln-41"></a>
+<a id="ln-42" name="ln-42" href="#ln-42"></a><span class="w">    </span><span class="k">associate</span><span class="p">(</span><span class="n">lines</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">file</span><span class="p">%</span><span class="n">lines</span><span class="p">())</span>
+<a id="ln-43" name="ln-43" href="#ln-43"></a><span class="w">      </span><span class="k">do </span><span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+<a id="ln-44" name="ln-44" href="#ln-44"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">lines</span><span class="p">(</span><span class="n">l</span><span class="p">)%</span><span class="n">get_json_key</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">test_suite_key</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-45" name="ln-45" href="#ln-45"></a><span class="k">          </span><span class="n">test_suite_key_found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
+<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="w">          </span><span class="n">test_suite</span><span class="p">%</span><span class="n">test_subjects_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lines</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">)%</span><span class="n">get_json_value</span><span class="p">(</span><span class="n">string_t</span><span class="p">(</span><span class="n">test_subjects_key</span><span class="p">),</span><span class="w"> </span><span class="n">mold</span><span class="o">=</span><span class="p">[</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)])</span>
+<a id="ln-47" name="ln-47" href="#ln-47"></a><span class="w">          </span><span class="k">return</span>
+<a id="ln-48" name="ln-48" href="#ln-48"></a><span class="k">        end if</span>
+<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="k">      end do</span>
+<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="k">    end associate</span>
+<a id="ln-51" name="ln-51" href="#ln-51"></a>
+<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="k">    </span><span class="n">call_assert</span><span class="p">(</span><span class="n">test_suite_key_found</span><span class="p">)</span>
+<a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">  </span><span class="k">end procedure</span>
+<a id="ln-54" name="ln-54" href="#ln-54"></a>
+<a id="ln-55" name="ln-55" href="#ln-55"></a><span class="k">  module procedure </span><span class="n">to_file</span>
+<a id="ln-56" name="ln-56" href="#ln-56"></a><span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">indent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">repeat</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="n">ncopies</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<a id="ln-57" name="ln-57" href="#ln-57"></a>
+<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="w">    </span><span class="k">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file_t</span><span class="p">([</span><span class="w">  </span><span class="p">&amp;</span>
+<a id="ln-59" name="ln-59" href="#ln-59"></a><span class="w">       </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;{&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-60" name="ln-60" href="#ln-60"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="n">indent</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">&#39;&quot;&#39;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">test_suite_key</span><span class="o">//</span><span class="w">  </span><span class="s1">&#39;&quot;: {&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"> </span>
+<a id="ln-61" name="ln-61" href="#ln-61"></a><span class="w">      </span><span class="p">,</span><span class="w">         </span><span class="n">indent</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">indent</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">&#39;&quot;&#39;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">test_subjects_key</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">&#39;&quot; : [&#39;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">.</span><span class="n">csv</span><span class="p">.</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">test_subjects_</span><span class="p">%</span><span class="n">bracket</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="s1">&#39;],&#39;</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="n">indent</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">&#39;}&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"> </span>
+<a id="ln-63" name="ln-63" href="#ln-63"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;}&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-64" name="ln-64" href="#ln-64"></a><span class="w">    </span><span class="p">])</span><span class="w">  </span>
+<a id="ln-65" name="ln-65" href="#ln-65"></a><span class="w">  </span><span class="k">end procedure</span>
+<a id="ln-66" name="ln-66" href="#ln-66"></a>
+<a id="ln-67" name="ln-67" href="#ln-67"></a><span class="k">  module procedure </span><span class="n">driver_file</span>
+<a id="ln-68" name="ln-68" href="#ln-68"></a><span class="w">    </span><span class="kt">integer </span><span class="n">i</span>
+<a id="ln-69" name="ln-69" href="#ln-69"></a>
+<a id="ln-70" name="ln-70" href="#ln-70"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">string_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test_types</span><span class="p">(:),</span><span class="w"> </span><span class="n">test_modules</span><span class="p">(:)</span>
+<a id="ln-71" name="ln-71" href="#ln-71"></a>
+<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="w">    </span><span class="n">test_types</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">test_types</span><span class="p">()</span><span class="w">   </span><span class="c">! GCC 14.2 blocks the use of an association</span>
+<a id="ln-73" name="ln-73" href="#ln-73"></a><span class="w">    </span><span class="n">test_modules</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">test_modules</span><span class="p">()</span><span class="w"> </span><span class="c">! GCC 14.2 blocks the use of an association</span>
+<a id="ln-74" name="ln-74" href="#ln-74"></a>
+<a id="ln-75" name="ln-75" href="#ln-75"></a><span class="w">    </span><span class="k">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file_t</span><span class="p">([</span><span class="w">                                                                </span><span class="p">&amp;</span>
+<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="w">       </span><span class="n">string_t</span><span class="p">(</span><span class="n">copyright_and_license</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="w">                             </span><span class="p">&amp;</span>
+<a id="ln-77" name="ln-77" href="#ln-77"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="w">  </span><span class="s2">&quot;program test_suite_driver&quot;</span><span class="p">)</span><span class="w">                                     </span><span class="p">&amp;</span>
+<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="w">  </span><span class="s2">&quot;  use julienne_m, only : test_fixture_t, test_harness_t&quot;</span><span class="p">)</span><span class="w">       </span><span class="p">&amp;</span>
+<a id="ln-79" name="ln-79" href="#ln-79"></a><span class="w">      </span><span class="p">,[(</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;  use &quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">test_modules</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;, only : &quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">test_types</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">test_modules</span><span class="p">))]</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-80" name="ln-80" href="#ln-80"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="w">  </span><span class="s2">&quot;  implicit none&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="w">                               </span><span class="p">&amp;</span>
+<a id="ln-81" name="ln-81" href="#ln-81"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="w">  </span><span class="s2">&quot;  associate(test_harness =&gt; test_harness_t([ &amp;&quot;</span><span class="w">               </span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-82" name="ln-82" href="#ln-82"></a><span class="w">      </span><span class="p">,[(</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;     test_fixture_t(&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">test_types</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;()) &amp;&quot;</span><span class="p">))]</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-83" name="ln-83" href="#ln-83"></a><span class="w">      </span><span class="p">,[(</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;    ,test_fixture_t(&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">test_types</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;()) &amp;&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">test_types</span><span class="w">  </span><span class="p">))]</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-84" name="ln-84" href="#ln-84"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="w">  </span><span class="s2">&quot;  ]))&quot;</span><span class="w">                                                        </span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-85" name="ln-85" href="#ln-85"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="w">  </span><span class="s2">&quot;    call test_harness%report_results&quot;</span><span class="w">                         </span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-86" name="ln-86" href="#ln-86"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="w">  </span><span class="s2">&quot;  end associate&quot;</span><span class="w">                                              </span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-87" name="ln-87" href="#ln-87"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="w">  </span><span class="s2">&quot;end program test_suite_driver&quot;</span><span class="p">)</span><span class="w">                                 </span><span class="p">&amp;</span>
+<a id="ln-88" name="ln-88" href="#ln-88"></a><span class="w">    </span><span class="p">])</span>
+<a id="ln-89" name="ln-89" href="#ln-89"></a><span class="w">  </span><span class="k">end procedure</span>
+<a id="ln-90" name="ln-90" href="#ln-90"></a>
+<a id="ln-91" name="ln-91" href="#ln-91"></a><span class="k">  module procedure </span><span class="n">stub_file</span>
+<a id="ln-92" name="ln-92" href="#ln-92"></a>
+<a id="ln-93" name="ln-93" href="#ln-93"></a><span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">subject_module</span><span class="p">,</span><span class="w"> </span><span class="n">subject_type</span><span class="p">,</span><span class="w"> </span><span class="n">test_module</span><span class="p">,</span><span class="w"> </span><span class="n">test_type</span>
+<a id="ln-94" name="ln-94" href="#ln-94"></a>
+<a id="ln-95" name="ln-95" href="#ln-95"></a><span class="w">    </span><span class="n">subject_module</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;_m&quot;</span>
+<a id="ln-96" name="ln-96" href="#ln-96"></a><span class="w">    </span><span class="n">subject_type</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;_t&quot;</span>
+<a id="ln-97" name="ln-97" href="#ln-97"></a><span class="w">    </span><span class="n">test_module</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;_test_m&quot;</span>
+<a id="ln-98" name="ln-98" href="#ln-98"></a><span class="w">    </span><span class="n">test_type</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;_test_t&quot;</span>
+<a id="ln-99" name="ln-99" href="#ln-99"></a>
+<a id="ln-100" name="ln-100" href="#ln-100"></a><span class="w">    </span><span class="k">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file_t</span><span class="p">([</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-101" name="ln-101" href="#ln-101"></a><span class="w">       </span><span class="n">string_t</span><span class="p">(</span><span class="n">copyright_and_license</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-102" name="ln-102" href="#ln-102"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;module &quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">test_module</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-103" name="ln-103" href="#ln-103"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;  use julienne_m, only : test_t, test_description_t, test_diagnosis_t, test_result_t&quot;</span><span class="p">)&amp;</span>
+<a id="ln-104" name="ln-104" href="#ln-104"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;  use julienne_m, only : operator(.approximates.), operator(.within.), operator(.all.)&quot;</span><span class="p">)&amp;</span>
+<a id="ln-105" name="ln-105" href="#ln-105"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;  use &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">subject_module</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;, only : &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">subject_type</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-106" name="ln-106" href="#ln-106"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;  implicit none&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-107" name="ln-107" href="#ln-107"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;  type, extends(test_t) :: &quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">test_type</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-108" name="ln-108" href="#ln-108"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;  contains&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-109" name="ln-109" href="#ln-109"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;    procedure, nopass :: subject&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-110" name="ln-110" href="#ln-110"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;    procedure, nopass :: results&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-111" name="ln-111" href="#ln-111"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;  end type&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-112" name="ln-112" href="#ln-112"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;contains&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-113" name="ln-113" href="#ln-113"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;  pure function subject() result(test_subject)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-114" name="ln-114" href="#ln-114"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;    character(len=:), allocatable :: test_subject&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-115" name="ln-115" href="#ln-115"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;    test_subject = &#39;A &quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;&#39;&quot;</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-116" name="ln-116" href="#ln-116"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;  end function&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-117" name="ln-117" href="#ln-117"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;  function results() result(test_results)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-118" name="ln-118" href="#ln-118"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;    type(&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">test_type</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;) &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;_test&quot;</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-119" name="ln-119" href="#ln-119"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;    type(test_result_t), allocatable :: test_results(:)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-120" name="ln-120" href="#ln-120"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;    test_results = &quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;_test%run( &amp; &quot;</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-121" name="ln-121" href="#ln-121"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;      [test_description_t(&#39;doing something&#39;, do_something) &amp;&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-122" name="ln-122" href="#ln-122"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;      ,test_description_t(&#39;checking something&#39;, check_something) &amp;&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-123" name="ln-123" href="#ln-123"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;      ,test_description_t(&#39;skipping something&#39;) &amp;&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-124" name="ln-124" href="#ln-124"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;    ])&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-125" name="ln-125" href="#ln-125"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;  end function&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-126" name="ln-126" href="#ln-126"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;  function check_something() result(test_diagnosis)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-127" name="ln-127" href="#ln-127"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;    type(test_diagnosis_t) test_diagnosis&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-128" name="ln-128" href="#ln-128"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;    type(&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">subject_type</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;) &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-129" name="ln-129" href="#ln-129"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;    test_diagnosis = .all.([22./7., 3.14159] .approximates. &quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;%pi() .within. 0.001)&quot;</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-130" name="ln-130" href="#ln-130"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;  end function&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="w">  </span><span class="p">&amp;</span>
+<a id="ln-131" name="ln-131" href="#ln-131"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;  function do_something() result(test_diagnosis)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-132" name="ln-132" href="#ln-132"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;    type(test_diagnosis_t) test_diagnosis&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-133" name="ln-133" href="#ln-133"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;    test_diagnosis = test_diagnosis_t(test_passed = 1 == 1, diagnostics_string = &#39;craziness ensued&#39;)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-134" name="ln-134" href="#ln-134"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;  end function&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-135" name="ln-135" href="#ln-135"></a><span class="w">      </span><span class="p">,</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;end module&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-136" name="ln-136" href="#ln-136"></a><span class="w">    </span><span class="p">])</span>
+<a id="ln-137" name="ln-137" href="#ln-137"></a><span class="w">  </span><span class="k">end procedure</span>
+<a id="ln-138" name="ln-138" href="#ln-138"></a>
+<a id="ln-139" name="ln-139" href="#ln-139"></a><span class="k">  module procedure </span><span class="n">write_driver</span>
+<a id="ln-140" name="ln-140" href="#ln-140"></a><span class="w">    </span><span class="kt">integer </span><span class="n">file_unit</span><span class="p">,</span><span class="w"> </span><span class="n">l</span>
+<a id="ln-141" name="ln-141" href="#ln-141"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">string_t</span><span class="p">)</span><span class="w"> </span><span class="n">use_statement</span><span class="p">,</span><span class="w"> </span><span class="n">fixture_constructor</span>
+<a id="ln-142" name="ln-142" href="#ln-142"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">string_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test_modules</span><span class="p">(:),</span><span class="w"> </span><span class="n">test_types</span><span class="p">(:)</span>
+<a id="ln-143" name="ln-143" href="#ln-143"></a>
+<a id="ln-144" name="ln-144" href="#ln-144"></a><span class="w">    </span><span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">file_unit</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span><span class="w"> </span><span class="n">form</span><span class="o">=</span><span class="s1">&#39;formatted&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;unknown&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;write&#39;</span><span class="p">)</span>
+<a id="ln-145" name="ln-145" href="#ln-145"></a>
+<a id="ln-146" name="ln-146" href="#ln-146"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="n">file_unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">copyright_and_license</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<a id="ln-147" name="ln-147" href="#ln-147"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="n">file_unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;program test_suite_driver&quot;</span>
+<a id="ln-148" name="ln-148" href="#ln-148"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="n">file_unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;  use julienne_m, only : test_fixture_t, test_harness_t&quot;</span>
+<a id="ln-149" name="ln-149" href="#ln-149"></a>
+<a id="ln-150" name="ln-150" href="#ln-150"></a><span class="w">    </span><span class="k">block</span>
+<a id="ln-151" name="ln-151" href="#ln-151"></a><span class="k">      type</span><span class="p">(</span><span class="n">string_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test_modules</span><span class="p">(:)</span>
+<a id="ln-152" name="ln-152" href="#ln-152"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">string_t</span><span class="p">)</span><span class="w"> </span><span class="n">use_statement</span>
+<a id="ln-153" name="ln-153" href="#ln-153"></a><span class="w">      </span><span class="n">test_modules</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">test_modules</span><span class="p">()</span><span class="w"> </span><span class="c">! GCC 14.2 blocks the use of an association</span>
+<a id="ln-154" name="ln-154" href="#ln-154"></a><span class="w">      </span><span class="n">test_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">test_types</span><span class="p">()</span><span class="w">     </span><span class="c">! GCC 14.2 blocks the use of an association</span>
+<a id="ln-155" name="ln-155" href="#ln-155"></a><span class="w">      </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">test_modules</span><span class="p">)</span>
+<a id="ln-156" name="ln-156" href="#ln-156"></a><span class="w">        </span><span class="n">use_statement</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="s2">&quot;  use &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">test_modules</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;, only : &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">test_types</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+<a id="ln-157" name="ln-157" href="#ln-157"></a><span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">file_unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w">  </span><span class="n">use_statement</span><span class="p">%</span><span class="n">string</span><span class="p">()</span>
+<a id="ln-158" name="ln-158" href="#ln-158"></a><span class="w">      </span><span class="k">end do</span>
+<a id="ln-159" name="ln-159" href="#ln-159"></a><span class="k">    end block</span>
+<a id="ln-160" name="ln-160" href="#ln-160"></a>
+<a id="ln-161" name="ln-161" href="#ln-161"></a><span class="k">    write</span><span class="p">(</span><span class="n">file_unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;  implicit none&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<a id="ln-162" name="ln-162" href="#ln-162"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="n">file_unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;  associate(test_harness =&gt; test_harness_t([ &amp;&quot;</span>
+<a id="ln-163" name="ln-163" href="#ln-163"></a>
+<a id="ln-164" name="ln-164" href="#ln-164"></a><span class="w">    </span><span class="k">block</span>
+<a id="ln-165" name="ln-165" href="#ln-165"></a><span class="k">      type</span><span class="p">(</span><span class="n">string_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test_types</span><span class="p">(:)</span>
+<a id="ln-166" name="ln-166" href="#ln-166"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">string_t</span><span class="p">)</span><span class="w"> </span><span class="n">fixture_constructor</span>
+<a id="ln-167" name="ln-167" href="#ln-167"></a><span class="w">      </span><span class="n">test_types</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">test_types</span><span class="p">()</span><span class="w">   </span><span class="c">! GCC 14.2 blocks the use of an association</span>
+<a id="ln-168" name="ln-168" href="#ln-168"></a><span class="w">      </span><span class="n">fixture_constructor</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="s2">&quot;     test_fixture_t(&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">test_types</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;()) &amp;&quot;</span>
+<a id="ln-169" name="ln-169" href="#ln-169"></a><span class="w">      </span><span class="k">write</span><span class="p">(</span><span class="n">file_unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w">  </span><span class="n">fixture_constructor</span><span class="w"> </span><span class="p">%</span><span class="n">string</span><span class="p">()</span>
+<a id="ln-170" name="ln-170" href="#ln-170"></a><span class="w">      </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">test_modules</span><span class="p">)</span>
+<a id="ln-171" name="ln-171" href="#ln-171"></a><span class="w">        </span><span class="n">fixture_constructor</span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;    ,test_fixture_t(&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">test_types</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;()) &amp;&quot;</span>
+<a id="ln-172" name="ln-172" href="#ln-172"></a><span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">file_unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w">  </span><span class="n">fixture_constructor</span><span class="p">%</span><span class="n">string</span><span class="p">()</span>
+<a id="ln-173" name="ln-173" href="#ln-173"></a><span class="w">      </span><span class="k">end do</span>
+<a id="ln-174" name="ln-174" href="#ln-174"></a><span class="k">    end block</span>
+<a id="ln-175" name="ln-175" href="#ln-175"></a>
+<a id="ln-176" name="ln-176" href="#ln-176"></a><span class="k">    write</span><span class="p">(</span><span class="n">file_unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;  ]))&quot;</span>
+<a id="ln-177" name="ln-177" href="#ln-177"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="n">file_unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;    call test_harness%report_results&quot;</span>
+<a id="ln-178" name="ln-178" href="#ln-178"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="n">file_unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;  end associate&quot;</span>
+<a id="ln-179" name="ln-179" href="#ln-179"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="n">file_unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;end program test_suite_driver&quot;</span>
+<a id="ln-180" name="ln-180" href="#ln-180"></a>
+<a id="ln-181" name="ln-181" href="#ln-181"></a><span class="w">    </span><span class="k">close</span><span class="p">(</span><span class="n">file_unit</span><span class="p">)</span>
+<a id="ln-182" name="ln-182" href="#ln-182"></a><span class="w">  </span><span class="k">end procedure</span>
+<a id="ln-183" name="ln-183" href="#ln-183"></a>
+<a id="ln-184" name="ln-184" href="#ln-184"></a><span class="k">end submodule </span><span class="n">julienne_test_suite_s</span>
+</pre></div>
+
+      </section>
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              Julienne
+ was developed by Berkeley Lab<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2025-08-22 13:06 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

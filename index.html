@@ -183,18 +183,17 @@ following table provides examples of the expressions Julienne supports:</p>
 </tr>
 </tbody>
 </table>
-<p>where <code>.isAtLeast.</code> and <code>.isAtMost.</code> can alternatively be spelled
-<code>.greaterThanOrEqualTo.</code> and <code>.lessThanOrEqualTo.</code>, respectively;
-<code>.equalsExpected.</code> uses <code>==</code>, which implies that trailing blank spaces
-are ignored in character operands; and <code>.isBefore.</code> and <code>.isAfter.</code>
-verify alphabetical and reverse-alphabetical order, respectively.
-The new <code>.all.</code> operator is synonymous with the <code>.and.</code> defined operation
-but avoids confusion with the intrinsic <code>.and.</code> operator.</p>
+<p>where 
+* <code>.isAtLeast.</code> and <code>.isAtMost.</code> can alternatively be spelled <code>.greaterThanOrEqualTo.</code> and <code>.lessThanOrEqualTo.</code>, respectively;
+* <code>.equalsExpected.</code> uses <code>==</code>, which implies that trailing blank spaces are ignored in character operands;<br>
+* <code>.isBefore.</code> and <code>.isAfter.</code> verify alphabetical and reverse-alphabetical  order, respectively; 
+* <code>.all.</code> aggregates arrays of expression results, reports a consensus result, passes, and shows diagnostics only for failing tests, if any; and
+* <code>.equalsExpected.</code> generates asymmetric diagnostic output for failures, denoting the left- and right-hand sides as the actual value and expected values, respectively.</p>
 <h2 id="expressive-idioms">Expressive idioms</h2>
 <h3 id="assertions">Assertions</h3>
-<p>Any of the above tabulated expressions can be the actual argument in an
-invocation of Julienne's <code>call_assert</code> function-line preprocessor macro:</p>
-<div class="codehilite"><pre><span></span><code>call_assert(x .lessThan. y)
+<p>Any of the above expressions can be the actual argument in an invocation
+of Julienne's <code>call_julienne_assert</code> function-line preprocessor macro:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">call_julienne_assert</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="p">.</span><span class="n">lessThan</span><span class="p">.</span><span class="w"> </span><span class="n">y</span><span class="p">)</span>
 </code></pre></div>
 
 <p>which a preprocessor will replace with a call to Julienne's assertion subroutine
@@ -283,10 +282,10 @@ operations.</p>
 </table>
 <p>One can use such expressions to craft a diagnostic message when constructing
 a custom test function result:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="p">(</span><span class="nx">test_diagnosis_t</span><span class="p">)</span><span class="w"> </span><span class="nx">test_diagnosis</span>
-<span class="nx">test_diagnosis</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">test_diagnosis_t</span><span class="p">(</span><span class="w"> </span><span class="o">&amp;</span>
-<span class="w">  </span><span class="nx">test_passed</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">i</span><span class="o">==</span><span class="nx">j</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span>
-<span class="w">  </span><span class="nx">diagnostics_string</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;expected &quot;</span><span class="w"> </span><span class="c1">// string_t(i) // &quot;; actual &quot; //string_t(j) &amp;</span>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="p">(</span><span class="n">test_diagnosis_t</span><span class="p">)</span><span class="w"> </span><span class="n">test_diagnosis</span>
+<span class="n">test_diagnosis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">test_diagnosis_t</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">  </span><span class="n">test_passed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="o">==</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">  </span><span class="n">diagnostics_string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;expected &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;; actual &quot;</span><span class="w"> </span><span class="o">//</span><span class="n">string_t</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="p">)</span>
 </code></pre></div>
 
@@ -300,9 +299,9 @@ or two procedures.  The resulting <code>file_t</code> object can be manipulated 
 without incurring the costs associated with file I/O.  For example, the following
 line reads a file named <code>data.txt</code> into a <code>file_t</code> object and associates the name
 <code>file</code> with the resulting object.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="p">(</span><span class="nx">file_t</span><span class="p">)</span><span class="w"> </span><span class="nx">file</span>
-<span class="nx">associate</span><span class="p">(</span><span class="nx">file</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nx">file_t</span><span class="p">(</span><span class="s">&quot;data.txt&quot;</span><span class="p">))</span>
-<span class="nx">end</span><span class="w"> </span><span class="nx">associate</span>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="p">(</span><span class="n">file_t</span><span class="p">)</span><span class="w"> </span><span class="k">file</span>
+<span class="k">associate</span><span class="p">(</span><span class="k">file</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">file_t</span><span class="p">(</span><span class="s2">&quot;data.txt&quot;</span><span class="p">))</span>
+<span class="k">end associate</span>
 </code></pre></div>
 
 <p>This style supports functional programming patterns in two ways. First, the rest
@@ -328,6 +327,9 @@ expressions inspired by natural language.  A program will proceed quietly past
 a correct assertion.  An incorrect assertion produces either automated or custom
 diagnostic messages during error termination.</p>
 <h2 id="getting-started">Getting Started</h2>
+<h3 id="writing-unit-tests">Writing Unit Tests</h3>
+<p>Please see <a href="./demo/README.md">demo/README.md</a> for a detailed demonstration of
+test setup.  </p>
 <h3 id="writing-assertions">Writing Assertions</h3>
 <p>To write a Julienne assertion, insert a function-like preprocessor macro
 <code>call_julienne_assert</code> on a single line as in each of the two macro
@@ -357,43 +359,6 @@ literal copy of the expression (e.g., <code>allocated(a)</code>).  In either cas
 also inserts the file and line number into the stop code using via the <code>__FILE__</code>
 and <code>__LINE__</code> macros, respectively.  Most compilers write the resulting stop code
 to <code>error_unit</code>.</p>
-<h3 id="writing-unit-tests">Writing Unit Tests</h3>
-<p>Writing tests using Julienne involves constructing a test-description array,
-in which each element is a <code>test_description_t</code> constructor function invocation
-with two arguments: a <code>character</code> string describing what the test does and the
-name of a function that performs the test.  An example follows:</p>
-<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">test_description_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="n">test_descriptions</span><span class="p">(:)</span>
-<span class="w">  </span><span class="n">test_descriptions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">     </span><span class="n">test_description_t</span><span class="p">(</span><span class="s2">&quot;checking something&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">check_something</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">    </span><span class="p">,</span><span class="n">test_description_t</span><span class="p">(</span><span class="s2">&quot;checking something else&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">check_something_else</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">  </span><span class="p">]</span>
-</code></pre></div>
-
-<p>Execute the tests by calling the <code>test_description_t</code> type-bound <code>run</code> procedure
-on the <code>test_descriptions</code> array.</p>
-<p>Define each test function to produce a <code>test_diagnosis_t</code> object result
-encapsulating the two components enumerated in the <a href="#assertions">Assertions</a> section.
-Use one of Julienne's expression idioms to construct the function result
-automatically:</p>
-<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="k">function </span><span class="n">check_something</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">test_diagnosis</span><span class="p">)</span>
-<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">test_diagnosis_t</span><span class="p">)</span><span class="w"> </span><span class="n">test_diagnosis</span>
-<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span>
-<span class="w">    </span><span class="n">test_diagnosis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">.</span><span class="n">equalsExpected</span><span class="p">.</span><span class="w"> </span><span class="n">j</span>
-<span class="w">  </span><span class="k">end function</span>
-</code></pre></div>
-
-<p>where the <code>.equalsExpected.</code> operator is named to imply an asymmetry with
-respect to the arguments <code>i</code> and <code>j</code>.  If the condition <code>i==j</code> evaluates to
-<code>.false.</code>, Julienne constructs a diagnostic message reflecting the implied
-asymmetry, i.e., indicating that <code>i</code> is the actual value, whereas <code>j</code> is the
-expected value.</p>
-<h3 id="a-demonstration-test-suite">A demonstration test suite</h3>
-<p>Please see the demonstration test suite in <a href="./demo/README.md">demo README.md</a>
-for detailed instructions on setting up a new test suite.  The demonstration
-test suite's main program also shows how to use Julienne's <code>command_line_t</code> type
-to access arguments that users pass to program via a command line or shell
-script.  Julienne also offers useful input/output format strings and
-format-generating functions in the <code>julienne_formats_m</code> module.</p>
 <h2 id="an-origin-story">An Origin Story</h2>
 <p>Julienne's name derives from the term for vegetables sliced into thin strings:
 julienned vegetables.  The <a href="https://gitlab.com/everythingfunctional/veggies">Veggies</a> and <a href="https://gitlab.com/everythingfunctional/garden">Garden</a> unit-testing frameworks
@@ -457,7 +422,7 @@ thereby details any features Julienne does not supported with a given compiler.<
 <h5 id="flang-new-version-19"><code>flang-new</code> version 19</h5>
 <p>Add the following command before the <code>fpm</code> command recommended above for
 LLVM 20 or later:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="n">FPM_FFLAGS</span><span class="o">=</span><span class="s2">&quot;-mmlir -allow-assumed-rank&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">FPM_FFLAGS</span><span class="o">=</span><span class="s2">&quot;-mmlir -allow-assumed-rank&quot;</span>
 </code></pre></div>
 
 <p>where this <code>FPM_FFLAGS</code> setting turns on the support for Fortran's assumed-rank
@@ -544,7 +509,7 @@ doing so is in the <a href="https://github.com/rouson/handy-dandy/blob/7caaa4dc3
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Derived Types</h3>
-              <ul><li><a href='type/bin_t.html'>bin_t</a></li><li><a href='type/command_line_t.html'>command_line_t</a></li><li><a href='type/double_precision_operands_t.html'>double_precision_operands_t</a></li><li><a href='type/file_t.html'>file_t</a></li><li><a href='type/operands_t~2.html'>operands_t</a></li><li><a href='type/operands_t.html'>operands_t</a></li><li><a href='type/string_t.html'>string_t</a></li><li><a href='type/test_description_t.html'>test_description_t</a></li><li><a href='type/test_diagnosis_t.html'>test_diagnosis_t</a></li><li><a href='type/test_fixture_t.html'>test_fixture_t</a></li></ul>
+              <ul><li><a href='type/bin_t.html'>bin_t</a></li><li><a href='type/command_line_t.html'>command_line_t</a></li><li><a href='type/double_precision_operands_t.html'>double_precision_operands_t</a></li><li><a href='type/file_t.html'>file_t</a></li><li><a href='type/operands_t.html'>operands_t</a></li><li><a href='type/operands_t~2.html'>operands_t</a></li><li><a href='type/string_t.html'>string_t</a></li><li><a href='type/test_description_t.html'>test_description_t</a></li><li><a href='type/test_diagnosis_t.html'>test_diagnosis_t</a></li><li><a href='type/test_fixture_t.html'>test_fixture_t</a></li></ul>
             </div>
             <div>
               <ul>
@@ -568,7 +533,7 @@ doing so is in the <a href="https://github.com/rouson/handy-dandy/blob/7caaa4dc3
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-08-15 05:32 +0000             </p>
+ on 2025-08-22 13:06 +0000             </p>
           </div>
         </div>
         <br>
