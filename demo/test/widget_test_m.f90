@@ -1,13 +1,13 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
-module specimen_test_m
+module widget_test_m
   use julienne_m, only : test_t, test_description_t, test_diagnosis_t, test_result_t
   use julienne_m, only : operator(.approximates.), operator(.within.), operator(.all.)
-  use specimen_m, only : specimen_t
+  use widget_m, only : widget_t
   implicit none
 
-  type, extends(test_t) :: specimen_test_t
+  type, extends(test_t) :: widget_test_t
   contains
     procedure, nopass :: subject
     procedure, nopass :: results
@@ -17,13 +17,13 @@ contains
 
   pure function subject() result(test_subject)
     character(len=:), allocatable :: test_subject
-    test_subject = 'A specimen'
+    test_subject = 'A widget'
   end function
 
   function results() result(test_results)
-    type(specimen_test_t) specimen_test
+    type(widget_test_t) widget_test
     type(test_result_t), allocatable :: test_results(:)
-    test_results = specimen_test%run( & 
+    test_results = widget_test%run( & 
       [test_description_t('doing something', do_something) &
       ,test_description_t('checking something', check_something) &
       ,test_description_t('skipping something') &
@@ -32,8 +32,8 @@ contains
 
   function check_something() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    type(specimen_t) specimen
-    test_diagnosis = .all.([22./7., 3.14159] .approximates. specimen%pi() .within. 0.001)
+    type(widget_t) widget
+    test_diagnosis = .all.([22./7., 3.14159] .approximates. widget%pi() .within. 0.001)
   end function
 
   function do_something() result(test_diagnosis)

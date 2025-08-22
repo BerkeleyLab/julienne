@@ -1,10 +1,13 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
+#include "language-support.F90"
+
 program test_suite_driver
   !! Julienne test-suite driver
 
 #if ! defined(__GNUC__) || (GCC_VERSION >= 140300)
+
   ! Test infrastructure:
   use julienne_m, only : test_fixture_t, test_harness_t
 
@@ -19,7 +22,7 @@ program test_suite_driver
   use test_result_test_m             ,only :             test_result_test_t
 
   implicit none
-
+ 
   ! Construct a test harness from an array of test fixtures, each of which is 
   ! constructed from an invocation of a test_t child type's structure constructor:
   associate(test_harness => test_harness_t([          &
@@ -34,5 +37,7 @@ program test_suite_driver
   ]))
     call test_harness%report_results
   end associate
+
 #endif
+
 end program

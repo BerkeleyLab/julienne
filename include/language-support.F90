@@ -7,7 +7,11 @@
 #ifdef __GNUC__
 #  define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 #else
-#  undef GCC_VERSION
+#  define GCC_VERSION 0
+#endif
+
+#if __GNUC__ && ( __GNUC__ < 14 || (__GNUC__ == 14 && __GNUC_MINOR__ < 3) )
+#define GCC_GE_MINIMUM
 #endif
 
 ! If not already determined, make a compiler-dependent determination of whether Julienne may pass

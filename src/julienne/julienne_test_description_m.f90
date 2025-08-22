@@ -5,23 +5,12 @@ module julienne_test_description_m
   !! Define an abstraction for describing test intentions and test functions
   use julienne_string_m, only : string_t
   use julienne_test_result_m, only : test_result_t
-  use julienne_test_diagnosis_m, only : test_diagnosis_t
+  use julienne_test_diagnosis_m, only : test_diagnosis_t, diagnosis_function_i
   implicit none
 
   private
   public :: test_description_t
-  public :: diagnosis_function_i
   public :: filter
-
-  abstract interface
-
-    function diagnosis_function_i() result(test_diagnosis)
-      import test_diagnosis_t
-      implicit none
-      type(test_diagnosis_t) test_diagnosis
-    end function
-
-  end interface
 
   type test_description_t
     !! Encapsulate test descriptions and test-functions

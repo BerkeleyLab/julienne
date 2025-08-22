@@ -1,11 +1,11 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
-module specimen_m
-  !! Example test specimen corresponding to the test defined in specimen_test_m.F90
+module widget_m
+  !! Example test widget corresponding to the test defined in widget_test_m.F90
   implicit none
 
-  type specimen_t
+  type widget_t
   contains
     procedure pi
   end type
@@ -13,7 +13,7 @@ module specimen_m
 contains
 
   function pi(self)
-    class(specimen_t), intent(in) :: self
+    class(widget_t), intent(in) :: self
     real pi
     associate(avoid_unused_variable_warning => self)
     end associate

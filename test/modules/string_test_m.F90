@@ -14,6 +14,7 @@ module string_test_m
     ,test_diagnosis_t &
     ,string_t &
     ,operator(.equalsExpected.) &
+    ,operator(.all.) &
     ,operator(.also.) &
     ,operator(.cat.) &
     ,operator(.csv.) &
@@ -280,10 +281,7 @@ contains
 
     associate(key_integer_array_pair => string_t('"some key" : [1, 2, 3],'))
       associate(integer_array => key_integer_array_pair%get_json_value(key=string_t("some key"), mold=[integer::]))
-        test_diagnosis = test_diagnosis_t( &
-           test_passed = all(integer_array == [1, 2, 3]) &
-          ,diagnostics_string = "expected 1,2,3; actual " // .csv. string_t(integer_array) &
-        )
+        test_diagnosis = .all. (integer_array .equalsExpected. [1,2,3])
       end associate
     end associate
   end function

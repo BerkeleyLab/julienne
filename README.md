@@ -31,22 +31,21 @@ Example expressions                               | Operand types
 `s .isAfter. t`                                   | `character`
 `.expect. command_line%argument_present("--help")`| `logical`
 
+where 
+* `.isAtLeast.` and `.isAtMost.` can alternatively be spelled `.greaterThanOrEqualTo.` and `.lessThanOrEqualTo.`, respectively;
+* `.equalsExpected.` uses `==`, which implies that trailing blank spaces are ignored in character operands;  
+* `.isBefore.` and `.isAfter.` verify alphabetical and reverse-alphabetical  order, respectively; 
+* `.all.` aggregates arrays of expression results, reports a consensus result, passes, and shows diagnostics only for failing tests, if any; and
+* `.equalsExpected.` generates asymmetric diagnostic output for failures, denoting the left- and right-hand sides as the actual value and expected values, respectively.
 
-where `.isAtLeast.` and `.isAtMost.` can alternatively be spelled
-`.greaterThanOrEqualTo.` and `.lessThanOrEqualTo.`, respectively;
-`.equalsExpected.` uses `==`, which implies that trailing blank spaces
-are ignored in character operands; and `.isBefore.` and `.isAfter.`
-verify alphabetical and reverse-alphabetical order, respectively.
-The new `.all.` operator is synonymous with the `.and.` defined operation
-but avoids confusion with the intrinsic `.and.` operator.
 
 Expressive idioms 
 -----------------
 ### Assertions
-Any of the above tabulated expressions can be the actual argument in an
-invocation of Julienne's `call_assert` function-line preprocessor macro:
-```
-call_assert(x .lessThan. y)
+Any of the above expressions can be the actual argument in an invocation
+of Julienne's `call_julienne_assert` function-line preprocessor macro:
+```fortran
+call_julienne_assert(x .lessThan. y)
 ```
 which a preprocessor will replace with a call to Julienne's assertion subroutine
 when compiling with `-DASSERTIONS`.  Otherwise, the preprocessor will remove the
@@ -103,7 +102,7 @@ Example expression                               | Result
 
 One can use such expressions to craft a diagnostic message when constructing
 a custom test function result:
-```
+```fortran
 type(test_diagnosis_t) test_diagnosis
 test_diagnosis = test_diagnosis_t( &
   test_passed = i==j, &
@@ -122,7 +121,7 @@ or two procedures.  The resulting `file_t` object can be manipulated elsewhere
 without incurring the costs associated with file I/O.  For example, the following
 line reads a file named `data.txt` into a `file_t` object and associates the name
 `file` with the resulting object.
-```
+```fortran
 type(file_t) file
 associate(file => file_t("data.txt"))
 end associate
@@ -155,6 +154,10 @@ diagnostic messages during error termination.
 
 Getting Started
 ---------------
+### Writing Unit Tests
+Please see [demo/README.md](./demo/README.md) for a detailed demonstration of
+test setup.  
+
 ### Writing Assertions
 To write a Julienne assertion, insert a function-like preprocessor macro
 `call_julienne_assert` on a single line as in each of the two macro
@@ -184,46 +187,6 @@ literal copy of the expression (e.g., `allocated(a)`).  In either case, Julienne
 also inserts the file and line number into the stop code using via the `__FILE__`
 and `__LINE__` macros, respectively.  Most compilers write the resulting stop code
 to `error_unit`.
-
-### Writing Unit Tests
-Writing tests using Julienne involves constructing a test-description array,
-in which each element is a `test_description_t` constructor function invocation
-with two arguments: a `character` string describing what the test does and the
-name of a function that performs the test.  An example follows:
-```fortran
-  type(test_description_t), allocatable ::test_descriptions(:)
-  test_descriptions = [ &
-     test_description_t("checking something", check_something) &
-    ,test_description_t("checking something else", check_something_else) &
-  ]
-```
-Execute the tests by calling the `test_description_t` type-bound `run` procedure
-on the `test_descriptions` array.
-
-Define each test function to produce a `test_diagnosis_t` object result
-encapsulating the two components enumerated in the [Assertions] section.
-Use one of Julienne's expression idioms to construct the function result
-automatically:
-```fortran
-  function check_something() result(test_diagnosis)
-    type(test_diagnosis_t) test_diagnosis
-    integer, parameter :: i=1, j=1
-    test_diagnosis = i .equalsExpected. j
-  end function
-```
-where the `.equalsExpected.` operator is named to imply an asymmetry with
-respect to the arguments `i` and `j`.  If the condition `i==j` evaluates to
-`.false.`, Julienne constructs a diagnostic message reflecting the implied
-asymmetry, i.e., indicating that `i` is the actual value, whereas `j` is the
-expected value.
-
-### A demonstration test suite
-Please see the demonstration test suite in [demo README.md](./demo/README.md)
-for detailed instructions on setting up a new test suite.  The demonstration
-test suite's main program also shows how to use Julienne's `command_line_t` type
-to access arguments that users pass to program via a command line or shell
-script.  Julienne also offers useful input/output format strings and
-format-generating functions in the `julienne_formats_m` module.
 
 An Origin Story
 ---------------
@@ -269,7 +232,7 @@ fpm test --compiler flang-new
 ##### `flang-new` version 19
 Add the following command before the `fpm` command recommended above for
 LLVM 20 or later:
-```
+```bash
 export FPM_FFLAGS="-mmlir -allow-assumed-rank"
 ```
 where this `FPM_FFLAGS` setting turns on the support for Fortran's assumed-rank
