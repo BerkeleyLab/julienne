@@ -12,13 +12,11 @@ contains
 
     if (.not. test_diagnosis%test_passed()) then
       if (present(description)) then
-        description_ =  new_line('') // description // new_line('')
+        description_ =  new_line('') // description // new_line('') // test_diagnosis%diagnostics_string()
       else
-        description_ =  new_line('')
+        description_ =  new_line('') // test_diagnosis%diagnostics_string()
       end if
-      associate(diagnostics_string => description_ // test_diagnosis%diagnostics_string())
-        call assert_always(.false., diagnostics_string%string(), file, line)
-      end associate
+      call assert_always(.false., description_, file, line)
     end if
 
   end procedure
