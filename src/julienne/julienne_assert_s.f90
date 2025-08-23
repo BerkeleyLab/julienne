@@ -7,12 +7,32 @@ submodule(julienne_assert_m) julienne_assert_s
 
 contains
 
-  module procedure julienne_assert
+  module procedure idiomatic_assert
+    character(len=:), allocatable :: description_
+
     if (.not. test_diagnosis%test_passed()) then
-      associate(diagnostics_string => test_diagnosis%diagnostics_string())
-        call assert_always(.false., diagnostics_string%string(), file, line)
-      end associate
+      if (present(description)) then
+        description_ =  new_line('') // description // new_line('') // test_diagnosis%diagnostics_string()
+      else
+        description_ =  new_line('') // test_diagnosis%diagnostics_string()
+      end if
+      call assert_always(.false., description_, file, line)
     end if
+
+  end procedure
+
+  module procedure logical_assert
+    character(len=:), allocatable :: description_
+
+    if (.not. assertion) then
+      if (present(description)) then
+        description_ =  new_line('') // description // new_line('')
+      else
+        description_ =  new_line('')
+      end if
+      call assert_always(.false., description_ , file, line)
+    end if
+
   end procedure
 
 end submodule julienne_assert_s
