@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.5% of total for modules and submodules.">12 statements</a>
+                 title=" 1.1% of total for modules and submodules.">27 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -149,7 +149,8 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/julienne_assert_s.html#proc-julienne_assert">julienne_assert</a>
+            <a class="list-group-item" href="../module/julienne_assert_s.html#proc-idiomatic_assert">idiomatic_assert</a>
+            <a class="list-group-item" href="../module/julienne_assert_s.html#proc-logical_assert">logical_assert</a>
         </div>
       </div>
     </div>
@@ -370,7 +371,7 @@ large graphs.</div>
         <section>
           <h2>Module Procedures</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-julienne_assert"></span> <h3>module procedure /home/runner/work/julienne/julienne/doc/html/module/julienne_assert_s.html <a href='../proc/julienne_assert.html'>julienne_assert</a> <small>pure module subroutine julienne_assert(test_diagnosis, file, line)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-idiomatic_assert"></span> <h3>module procedure /home/runner/work/julienne/julienne/doc/html/module/julienne_assert_s.html <a href='../proc/idiomatic_assert.html'>idiomatic_assert</a> <small>pure module subroutine idiomatic_assert(test_diagnosis, file, line, description)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -404,7 +405,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-file"></span>
+              <span class="anchor" id="variable-file~5"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -419,7 +420,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-line"></span>
+              <span class="anchor" id="variable-line~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -428,6 +429,106 @@ large graphs.</div>
             </td>
             <td>::</td>
             <td><strong>line</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-description~5"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>description</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-logical_assert"></span> <h3>module procedure /home/runner/work/julienne/julienne/doc/html/module/julienne_assert_s.html <a href='../proc/logical_assert.html'>logical_assert</a> <small>pure module subroutine logical_assert(assertion, file, line, description)</small>  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-assertion"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>assertion</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-file~6"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>file</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-line~3"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>line</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-description~6"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>description</strong></td>
             <td>
 
             </td>
@@ -458,7 +559,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-08-22 15:29 +0000             </p>
+ on 2025-08-23 17:42 +0000             </p>
           </div>
         </div>
         <br>

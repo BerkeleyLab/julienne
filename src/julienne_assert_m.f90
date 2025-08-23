@@ -10,41 +10,64 @@ module julienne_assert_m
   public :: call_julienne_assert_
   public :: julienne_assert
 
+  interface julienne_assert
+    module procedure idiomatic_assert
+    module procedure logical_assert
+  end interface
+
   interface call_julienne_assert_
 
-    pure module subroutine julienne_assert(test_diagnosis, file, line)
-      !! This subroutine wraps the Assert library's `assert` subroutine.
+    pure module subroutine idiomatic_assert(test_diagnosis, file, line, description)
+      !! Error terminate if `test_diagnosis%test_passed() == .false.`, in which
+      !! case the stop code contains
       !!
-      !! Use Cases
-      !! ---------
-      !!   1. Invoke julienne_assert via the generic interface `call_julienne_assert` to
-      !!      facilitate complete removal when compiling without the flag `-DASSERTIONS`.
-      !!   2. Invoke julienne_assert via direct procedure call to guarantee execution.
+      !!   1. The description argument if present and if called via
+      !!      `julienne_assert; otherwise, a copy of the invoking statement,
+      !!   2. The value of `test_diagnosis%diagnostics_string(),`,
+      !!   3. The file name if present, and
+      !!   4. The line number if present.
+      !!
+      !! Most compilers write the stop code to `error_unit`.
       !!
       !! Usage
       !! -----
-      !! Make the only actual argument an expression containing `test_diagnosis_t` defined
-      !! operations, such as `x .approximates. y .within. tolerance`.  The expression
-      !! result will be a `test_diagnosis_t` object on which `julienne_assert` will invoke
-      !! the `diagnostics_string()` type-bound procedure, the result of which julienne_assert
-      !! will include in the stop code of an `error stop` if the expresssion is untrue.
-      !! The resulting stop code will contain such information as the operand values and
-      !! roles (expected value, actual value, tolerance value).  In use case 1, compiling
-      !! with `-DASSERTIONS` will cause the preprocessor to insert the corresponding
-      !! invocations's line number and the encompassing file's name as the `file` and `line`
-      !! arguments, respectively, which `julienne_assert` will include in the stop code.
-      !! Most compilers will write the stop code to `error_unit`.
       !!
-      !! If a literal reproduction of the test expression suffices, such as when the
-      !! expression is `allocated(a)`, then instead invoke the Assert library's `assert`
-      !! subroutine by that library's `call_assert` macro or by direct call.
-      !! When invoking via the macro, make the only actual argument, `assertion`, a
-      !! `logical` expression.  Then if compiling with `-DASSERTIONS` and if the assertion
-      !! evaluates to `.false.`, the stop code will include the text of the expression
-      !! argument, the file name, and the line number of the `call_assert` macro invocation.
+      !!   `call julienne_assert(.all. (["a","b","c"] .isBefore. "efg"))`
+      !!   `call_julienne_assert(.all. (["a","b","c"] .isBefore. "efg"))`
+      !!
+      !! The first line above guarantees execution, whereas the second ensures
+      !! removal when compiled without `-DASSERTIONS`.  When invoked via macro,
+      !! the second line also causes the automatic insertion of items 1-4 above.
       implicit none
       type(test_diagnosis_t), intent(in) :: test_diagnosis
-      character(len=*), intent(in), optional :: file
+      character(len=*), intent(in), optional :: file, description
+      integer, intent(in), optional :: line
+    end subroutine
+
+    pure module subroutine logical_assert(assertion, file, line, description)
+      !! Error terminate if `assertion == .false.`, in which case the stop code
+      !! contains
+      !!
+      !!   - The description argument if present and if called via 
+      !!    `julienne_assert; otherwise, a copy of the invoking statement,
+      !!   - The file name if present, and 
+      !!   - The line number if present.
+      !!
+      !! Most compilers write the stop code to `error_unit`.
+      !!
+      !!
+      !! Usage
+      !! -----
+      !!
+      !!   `call julienne_assert(associated(A))`
+      !!   `call_julienne_assert(associated(A))`
+      !!
+      !! The first line above guarantees execution, whereas the second ensures
+      !! removal when compiled without `-DASSERTIONS`.  When invoked via macro,
+      !! the second line also causes the automatic insertion of items 1-4 above.
+      implicit none
+      logical, intent(in) :: assertion
+      character(len=*), intent(in), optional :: file, description
       integer, intent(in), optional :: line
     end subroutine
 

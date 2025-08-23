@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 8 statements,  0.1% of total for procedures.">8 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 14 statements,  0.1% of total for procedures.">14 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -147,7 +147,8 @@
       </a>
       <div id="subs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/call_julienne_assert_.html#proc-julienne_assert">julienne_assert</a>
+            <a class="list-group-item" href="../interface/call_julienne_assert_.html#proc-idiomatic_assert">idiomatic_assert</a>
+            <a class="list-group-item" href="../interface/call_julienne_assert_.html#proc-logical_assert">logical_assert</a>
         </div>
       </div>
     </div>
@@ -172,36 +173,26 @@
 
         <h2>Subroutines</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-julienne_assert"></span> <h3>private pure module subroutine julienne_assert(test_diagnosis, file, line)  
-    <a href="../proc/julienne_assert.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-idiomatic_assert"></span> <h3>private pure module subroutine idiomatic_assert(test_diagnosis, file, line, description)  
+    <a href="../proc/idiomatic_assert.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3></div>
     <div class="card-body">
-        <p>This subroutine wraps the Assert library's <code>assert</code> subroutine.</p>
-<h2 id="use-cases">Use Cases</h2>
+        <p>Error terminate if <code>test_diagnosis%test_passed() == .false.</code>, in which
+case the stop code contains</p>
 <ol>
-<li>Invoke julienne_assert via the generic interface <code>call_julienne_assert</code> to
-     facilitate complete removal when compiling without the flag <code>-DASSERTIONS</code>.</li>
-<li>Invoke julienne_assert via direct procedure call to guarantee execution.</li>
+<li>The description argument if present and if called via
+     `julienne_assert; otherwise, a copy of the invoking statement,</li>
+<li>The value of <code>test_diagnosis%diagnostics_string(),</code>,</li>
+<li>The file name if present, and</li>
+<li>The line number if present.</li>
 </ol>
+<p>Most compilers write the stop code to <code>error_unit</code>.</p>
 <h2 id="usage">Usage</h2>
-<p>Make the only actual argument an expression containing <code>test_diagnosis_t</code> defined
-operations, such as <code>x .approximates. y .within. tolerance</code>.  The expression
-result will be a <code>test_diagnosis_t</code> object on which <code>julienne_assert</code> will invoke
-the <code>diagnostics_string()</code> type-bound procedure, the result of which julienne_assert
-will include in the stop code of an <code>error stop</code> if the expresssion is untrue.
-The resulting stop code will contain such information as the operand values and
-roles (expected value, actual value, tolerance value).  In use case 1, compiling
-with <code>-DASSERTIONS</code> will cause the preprocessor to insert the corresponding
-invocations's line number and the encompassing file's name as the <code>file</code> and <code>line</code>
-arguments, respectively, which <code>julienne_assert</code> will include in the stop code.
-Most compilers will write the stop code to <code>error_unit</code>.</p>
-<p>If a literal reproduction of the test expression suffices, such as when the
-expression is <code>allocated(a)</code>, then instead invoke the Assert library's <code>assert</code>
-subroutine by that library's <code>call_assert</code> macro or by direct call.
-When invoking via the macro, make the only actual argument, <code>assertion</code>, a
-<code>logical</code> expression.  Then if compiling with <code>-DASSERTIONS</code> and if the assertion
-evaluates to <code>.false.</code>, the stop code will include the text of the expression
-argument, the file name, and the line number of the <code>call_assert</code> macro invocation.</p>
+<p><code>call julienne_assert(.all. (["a","b","c"] .isBefore. "efg"))</code>
+  <code>call_julienne_assert(.all. (["a","b","c"] .isBefore. "efg"))</code></p>
+<p>The first line above guarantees execution, whereas the second ensures
+removal when compiled without <code>-DASSERTIONS</code>.  When invoked via macro,
+the second line also causes the automatic insertion of items 1-4 above.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -231,7 +222,7 @@ argument, the file name, and the line number of the <code>call_assert</code> mac
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-file"></span>
+              <span class="anchor" id="variable-file~5"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -246,7 +237,7 @@ argument, the file name, and the line number of the <code>call_assert</code> mac
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-line"></span>
+              <span class="anchor" id="variable-line~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -255,6 +246,120 @@ argument, the file name, and the line number of the <code>call_assert</code> mac
             </td>
             <td>::</td>
             <td><strong>line</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-description~5"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>description</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-logical_assert"></span> <h3>private pure module subroutine logical_assert(assertion, file, line, description)  
+    <a href="../proc/logical_assert.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+        <p>Error terminate if <code>assertion == .false.</code>, in which case the stop code
+contains</p>
+<ul>
+<li>The description argument if present and if called via 
+   `julienne_assert; otherwise, a copy of the invoking statement,</li>
+<li>The file name if present, and </li>
+<li>The line number if present.</li>
+</ul>
+<p>Most compilers write the stop code to <code>error_unit</code>.</p>
+<h2 id="usage">Usage</h2>
+<p><code>call julienne_assert(associated(A))</code>
+  <code>call_julienne_assert(associated(A))</code></p>
+<p>The first line above guarantees execution, whereas the second ensures
+removal when compiled without <code>-DASSERTIONS</code>.  When invoked via macro,
+the second line also causes the automatic insertion of items 1-4 above.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-assertion"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>assertion</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-file~6"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>file</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-line~3"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>line</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-description~6"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>description</strong></td>
             <td>
                 
             </td>
@@ -284,7 +389,7 @@ argument, the file name, and the line number of the <code>call_assert</code> mac
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-08-22 15:29 +0000             </p>
+ on 2025-08-23 17:42 +0000             </p>
           </div>
         </div>
         <br>
