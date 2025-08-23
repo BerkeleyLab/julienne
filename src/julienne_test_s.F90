@@ -4,15 +4,28 @@
 #include "language-support.F90"
 
 submodule(julienne_test_m) julienne_test_s
+  use julienne_test_description_m, only : test_description_t
   implicit none
 
 contains
+
+#if __GNUC__ && ( __GNUC__ > 13)
 
   module procedure run
     associate(matching_descriptions => filter(test_descriptions, test%subject()))
       test_results = matching_descriptions%run()
     end associate
   end procedure
+
+#else
+
+  module procedure run
+    type(test_description_t), allocatable :: matching_descriptions(:)
+    matching_descriptions = filter(test_descriptions, test%subject())
+    test_results = matching_descriptions%run()
+  end procedure
+
+#endif
 
   module procedure report
     logical, save :: do_first_report = .true.
