@@ -6,6 +6,7 @@
 module julienne_test_diagnosis_m
   !! Define abstractions, defined operations, and procedures for writing correctness checks
   use julienne_string_m, only : string_t
+  use iso_c_binding, only : c_size_t
   implicit none
 
   private
@@ -224,6 +225,12 @@ module julienne_test_diagnosis_m
     elemental module function equals_expected_integer(actual, expected) result(test_diagnosis)
       implicit none
       integer, intent(in) :: actual, expected
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    elemental module function equals_expected_integer_c_size_t(actual, expected) result(test_diagnosis)
+      implicit none
+      integer(c_size_t), intent(in) :: actual, expected
       type(test_diagnosis_t) test_diagnosis
     end function
 

@@ -5,7 +5,7 @@
 
 module string_test_m
   use assert_m, only : assert
-  use iso_c_binding, only : c_bool
+  use iso_c_binding, only : c_bool, c_size_t
 
   use julienne_m, only : &
      test_t &
@@ -64,7 +64,7 @@ contains
       ,test_description_t('assigning a string_t object to a character variable',                     assigns_string_t_to_character)&
       ,test_description_t('assigning a character variable to a string_t object',                     assigns_character_to_string_t)&
       ,test_description_t('supporting operator(//) for string_t and character operands',           supports_concatenation_operator)&
-      ,test_description_t('constructing from a default integer',                                   constructs_from_default_integer)&
+      ,test_description_t('constructing from a default integer and an integer(c_size_t)',                 constructs_from_integers)&
       ,test_description_t('constructing from a default real value',                                   constructs_from_default_real)&
       ,test_description_t('constructing from a double-precision value',                           constructs_from_double_precision)&
       ,test_description_t('constructing from a default-precision complex value',                   constructs_from_default_complex)&
@@ -98,6 +98,7 @@ contains
       ,assigns_character_to_string_t_ptr            => assigns_character_to_string_t &
       ,supports_concatenation_operator_ptr          => supports_concatenation_operator &
       ,constructs_from_default_integer_ptr          => constructs_from_default_integer &
+      ,constructs_from_integers_ptr                 => constructs_from_integers &
       ,constructs_from_default_real_ptr             => constructs_from_default_real &
       ,constructs_from_double_precision_ptr         => constructs_from_double_precision &
       ,constructs_from_default_complex_ptr          => constructs_from_default_complex &
@@ -128,7 +129,7 @@ contains
       ,test_description_t('assigning a string_t object to a character variable',                     assigns_string_t_to_character_ptr)&
       ,test_description_t('assigning a character variable to a string_t object',                     assigns_character_to_string_t_ptr)&
       ,test_description_t('supporting operator(//) for string_t and character operands',           supports_concatenation_operator_ptr)&
-      ,test_description_t('constructing from a default integer',                                   constructs_from_default_integer_ptr)&
+      ,test_description_t('constructing from a default integer and an integer(c_size_t)',                 constructs_from_integers_ptr)&
       ,test_description_t('constructing from a default real value',                                   constructs_from_default_real_ptr)&
       ,test_description_t('constructing from a double-precision value',                           constructs_from_double_precision_ptr)&
       ,test_description_t('constructing from a default-precision complex value',                   constructs_from_default_complex_ptr)&
@@ -381,14 +382,19 @@ contains
     end associate
   end function
 
-  function constructs_from_default_integer() result(test_diagnosis)
+  function constructs_from_integers() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    integer, parameter :: expected_value = 1234567890
+    integer          , parameter :: expected_default_integer = 1234567890
+    integer(c_size_t), parameter :: expected_integer_c_size_t = 1234567890123456789_c_size_t
 
-    associate(string => string_t(expected_value))
+    associate(string_default_integer => string_t(expected_default_integer), string_c_size_t => string_t(expected_integer_c_size_t))
       test_diagnosis = test_diagnosis_t( &
-         test_passed = adjustl(trim(string%string())) == "1234567890" &
-        ,diagnostics_string = "expected '"// string_t(expected_value) // "', actual " // string%string() &
+         test_passed = adjustl(trim(string_default_integer%string())) == "1234567890" &
+        ,diagnostics_string = "expected '"// string_t(expected_default_integer) // "', actual " // string_default_integer%string() &
+      )
+      test_diagnosis = test_diagnosis .also. test_diagnosis_t( &
+         test_passed = adjustl(trim(string_c_size_t%string())) == "1234567890123456789" &
+        ,diagnostics_string = "expected '"// string_t(expected_integer_c_size_t) // "', actual " // string_c_size_t%string() &
       )
     end associate
   end function

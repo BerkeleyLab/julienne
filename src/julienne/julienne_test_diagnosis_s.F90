@@ -248,6 +248,18 @@ contains
 
   end procedure
 
+  module procedure equals_expected_integer_c_size_t
+
+    if (actual == expected) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "expected " // string_t(expected) // "; actual value is " // string_t(actual) &
+      )
+    end if
+
+  end procedure
+
   module procedure equals_expected_character
 
     if (actual == expected) then
