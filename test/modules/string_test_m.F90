@@ -13,12 +13,14 @@ module string_test_m
     ,test_description_t &
     ,test_diagnosis_t &
     ,string_t &
-    ,operator(.equalsExpected.) &
     ,operator(.all.) &
     ,operator(.also.) &
+    ,operator(.approximates.) &
     ,operator(.cat.) &
     ,operator(.csv.) &
-    ,operator(.sv.)
+    ,operator(.equalsExpected.) &
+    ,operator(.sv.) &
+    ,operator(.within.)
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
   use julienne_m, only : diagnosis_function_i
 #endif
@@ -168,12 +170,7 @@ contains
     type(test_diagnosis_t) test_diagnosis
 
     associate(line => string_t('"foo" : "bar"'))
-      associate(key => line%get_json_key())
-        test_diagnosis = test_diagnosis_t( &
-           test_passed = key == string_t("foo") &
-          ,diagnostics_string = "expected 'foo'; actual " // key%string() &
-        )
-      end associate
+      test_diagnosis = line%get_json_key() .equalsExpected. "foo"
     end associate
   end function
 
@@ -182,12 +179,7 @@ contains
     double precision, parameter :: tolerance = 1D-16
 
     associate(line => string_t('"pi" : 3.141592653589793D0'))
-      associate(json_value => line%get_json_value(key="pi", mold=0.D0))
-        test_diagnosis = test_diagnosis_t( &
-           test_passed = abs(json_value - 3.141592653589793D0) < tolerance &
-          ,diagnostics_string = "expected 3.141592653589793D0, actual " // string_t(json_value) &
-        )
-      end associate
+       test_diagnosis = line%get_json_value(key="pi", mold=0.D0) .approximates. 3.141592653589793D0 .within. tolerance
     end associate
   end function
 
@@ -198,10 +190,7 @@ contains
 
     associate(line => string_t('"pi" : 3.14159'))
       associate(json_value => line%get_json_value(key=string_t("pi"), mold=1.))
-        test_diagnosis = test_diagnosis_t( &
-           test_passed = json_value == 3.14159 &
-          ,diagnostics_string = "expected 3.14159, actual " // string_t(json_value) &
-        )
+        test_diagnosis = json_value .approximates. 3.14159 .within. tolerance
       end associate
     end associate
   end function
@@ -267,12 +256,7 @@ contains
 
     associate(key_string_array_pair => string_t('"lead singer" : ["stevie", "ray", "vaughn"],'))
       associate(string_array => key_string_array_pair%get_json_value(key="lead singer", mold=[string_t::]))
-        associate(expected_value => [string_t("stevie"), string_t("ray"), string_t("vaughn")])
-          test_diagnosis = test_diagnosis_t( &
-             test_passed = all(string_array == expected_value) &
-            ,diagnostics_string = "expected " // .csv. expected_value //"; actual " //.csv. string_array &
-          )
-        end associate
+        test_diagnosis = .all. (string_array .equalsExpected. [string_t("stevie"), string_t("ray"), string_t("vaughn")])
       end associate
     end associate
   end function
@@ -384,50 +368,36 @@ contains
 
   function constructs_from_integers() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    integer          , parameter :: expected_default_integer = 1234567890
-    integer(c_size_t), parameter :: expected_integer_c_size_t = 1234567890123456789_c_size_t
 
-    associate(string_default_integer => string_t(expected_default_integer), string_c_size_t => string_t(expected_integer_c_size_t))
-      test_diagnosis = test_diagnosis_t( &
-         test_passed = adjustl(trim(string_default_integer%string())) == "1234567890" &
-        ,diagnostics_string = "expected '"// string_t(expected_default_integer) // "', actual " // string_default_integer%string() &
-      )
-      test_diagnosis = test_diagnosis .also. test_diagnosis_t( &
-         test_passed = adjustl(trim(string_c_size_t%string())) == "1234567890123456789" &
-        ,diagnostics_string = "expected '"// string_t(expected_integer_c_size_t) // "', actual " // string_c_size_t%string() &
-      )
-    end associate
+    test_diagnosis = (string_t(1234567890)                   .equalsExpected. "1234567890") &
+              .also. (string_t(1234567890123456789_c_size_t) .equalsExpected. "1234567890123456789")
   end function
 
   function constructs_from_default_real() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     real, parameter :: real_value = -1./1024. ! use a negative power of 2 for an exactly representable rational number
+    real, parameter :: tolerance = 0.
     real read_value
     character(len=:), allocatable :: character_representation
 
     associate(string => string_t(real_value))
       character_representation = string%string()
       read(character_representation, *) read_value
-      test_diagnosis = test_diagnosis_t( &
-         test_passed = read_value == real_value &
-        ,diagnostics_string = "expected '"// string_t(real_value) // "', actual " // string_t(read_value) &
-      )
+      test_diagnosis = read_value .approximates. real_value .within. tolerance
     end associate
   end function
 
   function constructs_from_double_precision() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    double precision, parameter :: double_precision_value = -1D0/1024D0 ! use a negative power of 2 for an exactly representable rational number
-    real read_value
+    double precision, parameter :: expected_value = -1D0/1024D0 ! use a negative power of 2 for an exactly representable rational number
+    double precision, parameter :: tolerance = 0D0
+    double precision read_value
     character(len=:), allocatable :: character_representation
 
-    associate(string => string_t(double_precision_value))
+    associate(string => string_t(expected_value))
       character_representation = string%string()
       read(character_representation, *) read_value
-      test_diagnosis = test_diagnosis_t( &
-         test_passed = read_value == double_precision_value &
-        ,diagnostics_string = "expected '"// string_t(double_precision_value) // "', actual " // string_t(read_value) &
-      )
+      test_diagnosis = read_value .approximates. expected_value .within. tolerance
     end associate
   end function
 
@@ -505,28 +475,15 @@ contains
 
   function extracts_file_name_extension() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    character(len=*), parameter :: expected = "too"
 
     associate(string => string_t(" foo .bar.too "))
-      associate(file_extension => string%file_extension())
-        test_diagnosis = test_diagnosis_t( &
-           test_passed = file_extension == expected &
-          ,diagnostics_string = "expected "// expected // ", actual " // file_extension&
-        )
-      end associate
+      test_diagnosis = string%file_extension() .equalsExpected. "too"
     end associate
   end function
 
   function concatenates_elements() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    character(len=*), parameter :: expected = "foobar"
-
-    associate(cat_foo_bar => .cat. [string_t("foo"), string_t("bar")])
-      test_diagnosis = test_diagnosis_t( &
-         test_passed = cat_foo_bar == expected &
-        ,diagnostics_string = "expected "// expected // ", actual " // cat_foo_bar &
-      )
-    end associate
+    test_diagnosis = (.cat. [string_t("foo"), string_t("bar")]) .equalsExpected. "foobar"
   end function
 
   function brackets_strings() result(test_diagnosis)
