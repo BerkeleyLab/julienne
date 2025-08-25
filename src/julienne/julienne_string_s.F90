@@ -10,8 +10,8 @@ submodule(julienne_string_m) julienne_string_s
   use julienne_test_diagnosis_m, only : operator(.equalsExpected.)
   implicit none
 
-  integer, parameter :: integer_width_supremum = 11, default_real_width_supremum = 20, double_precision_width_supremum = 25
-  integer, parameter :: logical_width=2, comma_width = 1, parenthesis_width = 1, space=1
+  integer, parameter :: default_integer_width_supremum = 11, default_real_width_supremum = 20, double_precision_width_supremum = 25
+  integer, parameter :: integer_c_size_t_width_supremum = 19, logical_width=2, comma_width = 1, parenthesis_width = 1, space=1
   
 contains
 
@@ -28,7 +28,13 @@ contains
   end procedure
 
   module procedure from_default_integer
-    allocate(character(len=integer_width_supremum) :: string%string_)
+    allocate(character(len=default_integer_width_supremum) :: string%string_)
+    write(string%string_, '(g0)') i
+    string%string_ = trim(adjustl(string%string_))
+  end procedure
+
+  module procedure from_integer_c_size_t
+    allocate(character(len=integer_c_size_t_width_supremum) :: string%string_)
     write(string%string_, '(g0)') i
     string%string_ = trim(adjustl(string%string_))
   end procedure
