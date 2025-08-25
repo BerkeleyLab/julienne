@@ -10,6 +10,22 @@ submodule(julienne_test_diagnosis_m) julienne_test_diagnosis_s
   implicit none
 contains
 
+  module procedure append_string_if_test_failed
+    if (lhs%test_passed_) then
+      lhs_cat_rhs = lhs
+    else
+      lhs_cat_rhs = test_diagnosis_t(lhs%test_passed_, lhs%diagnostics_string_ // rhs)
+    end if
+  end procedure 
+
+  module procedure append_character_if_test_failed
+    if (lhs%test_passed_) then
+      lhs_cat_rhs = lhs
+    else
+      lhs_cat_rhs = test_diagnosis_t(lhs%test_passed_, lhs%diagnostics_string_ // rhs)
+    end if
+  end procedure 
+
   module procedure also
      diagnosis = .all. ([lhs,rhs])
   end procedure 

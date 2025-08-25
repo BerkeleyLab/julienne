@@ -99,7 +99,6 @@ contains
       ,assigns_string_t_to_character_ptr            => assigns_string_t_to_character &
       ,assigns_character_to_string_t_ptr            => assigns_character_to_string_t &
       ,supports_concatenation_operator_ptr          => supports_concatenation_operator &
-      ,constructs_from_default_integer_ptr          => constructs_from_default_integer &
       ,constructs_from_integers_ptr                 => constructs_from_integers &
       ,constructs_from_default_real_ptr             => constructs_from_default_real &
       ,constructs_from_double_precision_ptr         => constructs_from_double_precision &

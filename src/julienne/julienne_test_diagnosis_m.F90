@@ -12,23 +12,24 @@ module julienne_test_diagnosis_m
   private
   public :: test_diagnosis_t
   public :: diagnosis_function_i
+  public :: operator(//)
   public :: operator(.all.)
-  public :: operator(.and.)
   public :: operator(.also.)
+  public :: operator(.and.)
   public :: operator(.approximates.)
+  public :: operator(.isAfter.)
   public :: operator(.isAtLeast.)
   public :: operator(.isAtMost.)
   public :: operator(.isBefore.)
-  public :: operator(.isAfter.)
+  public :: operator(.equalsExpected.)
+  public :: operator(.expect.)
+  public :: operator(.greaterThan.)
+  public :: operator(.greaterThanOrEqualTo.)
+  public :: operator(.lessThan.)
+  public :: operator(.lessThanOrEqualTo.)
   public :: operator(.within.)
   public :: operator(.withinFraction.)
   public :: operator(.withinPercentage.)
-  public :: operator(.equalsExpected.)
-  public :: operator(.expect.)
-  public :: operator(.lessThan.)
-  public :: operator(.lessThanOrEqualTo.)
-  public :: operator(.greaterThan.)
-  public :: operator(.greaterThanOrEqualTo.)
 
   type test_diagnosis_t
     !! Encapsulate test outcome and diagnostic information
@@ -36,8 +37,8 @@ module julienne_test_diagnosis_m
     logical :: test_passed_ = .false.
     character(len=:), allocatable :: diagnostics_string_
   contains
-    procedure test_passed
-    procedure diagnostics_string
+    procedure, non_overridable :: test_passed
+    procedure, non_overridable ::  diagnostics_string
   end type
 
   abstract interface
@@ -64,6 +65,24 @@ module julienne_test_diagnosis_m
     double precision actual, expected 
   end type
 #endif
+
+  interface operator(//)
+
+    elemental module function append_string_if_test_failed(lhs, rhs) result(lhs_cat_rhs)
+      implicit none
+      class(test_diagnosis_t), intent(in) :: lhs
+      type(string_t), intent(in) :: rhs
+      type(test_diagnosis_t) lhs_cat_rhs
+    end function
+
+    elemental module function append_character_if_test_failed(lhs, rhs) result(lhs_cat_rhs)
+      implicit none
+      class(test_diagnosis_t), intent(in) :: lhs
+      character(len=*), intent(in) :: rhs
+      type(test_diagnosis_t) lhs_cat_rhs
+    end function
+
+  end interface
 
   interface operator(.all.)
      

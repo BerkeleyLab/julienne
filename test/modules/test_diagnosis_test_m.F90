@@ -12,9 +12,12 @@ module test_diagnosis_test_m
     ,test_description_t &
     ,test_diagnosis_t &
     ,test_result_t &
+    ,operator(//) &
     ,operator(.all.) &
+    ,operator(.also.) &
     ,operator(.and.) &
     ,operator(.equalsExpected.) &
+    ,operator(.expect.) &
     ,operator(.approximates.) &
     ,operator(.within.) &
     ,operator(.withinFraction.) &
@@ -75,6 +78,8 @@ contains
       ,test_description_t("construction from the integer expression '[i,j] .greaterThanOrEqualTo. k"                           , check_greater_than_or_equal_to_integer) &
       ,test_description_t("construction from the scalar test_diagnostics_t expression 't .and. u'"                             , check_and_with_scalar_operands) &
       ,test_description_t("construction from the vector test_diagnostics_t expressions 'i .equalsExpected. [j,k]'"             , check_and_with_vector_operands) &
+      ,test_description_t("construction from string concatenation"                                                             , check_string_concatentation) &
+      ,test_description_t("construction from character concatenation"                                                          , check_character_concatentation) &
     ]
 #else
      ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
@@ -100,7 +105,9 @@ contains
        ,check_greater_than_integer_ptr             => check_greater_than_integer &
        ,check_greater_than_or_equal_to_integer_ptr => check_greater_than_or_equal_to_integer &
        ,check_and_with_scalar_operands_ptr         => check_and_with_scalar_operands &
-       ,check_and_with_vector_operands_ptr         => check_and_with_vector_operands
+       ,check_and_with_vector_operands_ptr         => check_and_with_vector_operands &
+       ,check_string_concatentation_ptr            => check_string_concatentation &
+       ,check_character_concatentation_ptr         => check_character_concatentation
 
      test_descriptions = [ &
        test_description_t("construction from the real expression 'x .approximates. y .within. tolerance'"                      , check_approximates_real_ptr) &
@@ -125,6 +132,8 @@ contains
       ,test_description_t("construction from the integer expression '[i,j] .greaterThanOrEqualTo. k"                           , check_greater_than_or_equal_to_integer_ptr) &
       ,test_description_t("construction from the scalar test_diagnostics_t expression 't .and. u'"                             , check_and_with_scalar_operands_ptr) &
       ,test_description_t("construction from the vector test_diagnostics_t expressions 'i .equalsExpected. [j,k]'"             , check_and_with_vector_operands_ptr) &
+      ,test_description_t("construction from string concatenation"                                                             , check_string_concatentation_ptr) &
+      ,test_description_t("construction from character concatenation"                                                          , check_character_concatentation_ptr) &
      ]
 #endif
     test_results = test_diagnosis_test%run(test_descriptions)
@@ -263,9 +272,54 @@ contains
     test_diagnosis = (2 .isAtLeast. expected_min) .and. (1 .equalsExpected. 1)
   end function
 
-  function check_and_with_vector_operands() result(test_diagnoses)
-    type(test_diagnosis_t) test_diagnoses
-    test_diagnoses = .all. ((2 .equalsExpected. [2,2,2]) .and. ([0,1,2] .equalsExpected. [0,1,2]))
+  function check_and_with_vector_operands() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    test_diagnosis = .all. ((2 .equalsExpected. [2,2,2]) .and. ([0,1,2] .equalsExpected. [0,1,2]))
+  end function
+
+  function check_string_concatentation() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+
+#ifndef __GFORTRAN__
+    associate(diagnosis_cat_string => test_diagnosis_t(test_passed=.false., diagnostics_string="blah blah") // string_t(" yada yada"))
+      test_diagnosis = diagnosis_cat_string%diagnostics_string() .equalsExpected. "blah blah yada yada"
+    end associate
+    associate(diagnosis_do_not_cat_string => test_diagnosis_t(test_passed=.true., diagnostics_string="blah blah") // string_t(" yada yada"))
+      test_diagnosis = test_diagnosis .also. (diagnosis_do_not_cat_string%diagnostics_string() .equalsExpected. "blah blah")
+    end associate
+#else
+    block
+      type(test_diagnosis_t) diagnosis_cat_string, diagnosis_do_not_cat_string
+
+      diagnosis_cat_string = test_diagnosis_t(test_passed=.false., diagnostics_string="blah blah") // string_t(" yada yada")
+      test_diagnosis = diagnosis_cat_string%diagnostics_string() .equalsExpected. "blah blah yada yada"
+
+      diagnosis_do_not_cat_string = test_diagnosis_t(test_passed=.true., diagnostics_string="blah blah") // string_t(" yada yada")
+      test_diagnosis = test_diagnosis .also. (diagnosis_do_not_cat_string%diagnostics_string() .equalsExpected. "blah blah")
+    end block
+#endif
+  end function
+
+  function check_character_concatentation() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+#ifndef __GFORTRAN__
+    associate(diagnosis_cat_string => test_diagnosis_t(test_passed=.false., diagnostics_string="blah blah") // " yada yada")
+      test_diagnosis = diagnosis_cat_string%diagnostics_string() .equalsExpected. "blah blah yada yada"
+    end associate
+    associate(diagnosis_do_not_cat_string => test_diagnosis_t(test_passed=.true., diagnostics_string="blah blah") // " yada yada")
+      test_diagnosis = test_diagnosis .also. (diagnosis_do_not_cat_string%diagnostics_string() .equalsExpected. "blah blah")
+    end associate
+#else
+    block
+      type(test_diagnosis_t) diagnosis_cat_string, diagnosis_do_not_cat_string
+
+      diagnosis_cat_string = test_diagnosis_t(test_passed=.false., diagnostics_string="blah blah") // " yada yada"
+      test_diagnosis = diagnosis_cat_string%diagnostics_string() .equalsExpected. "blah blah yada yada"
+
+      diagnosis_do_not_cat_string = test_diagnosis_t(test_passed=.true., diagnostics_string="blah blah") // " yada yada"
+      test_diagnosis = test_diagnosis .also. (diagnosis_do_not_cat_string%diagnostics_string() .equalsExpected. "blah blah")
+    end block
+#endif
   end function
 
 end module test_diagnosis_test_m
