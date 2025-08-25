@@ -16,16 +16,17 @@ module julienne_m
     ,operator(.sv.)
   use julienne_test_description_m, only : test_description_t, filter
   use julienne_test_diagnosis_m, only   : test_diagnosis_t, diagnosis_function_i  &
+    ,operator(//) &
     ,operator(.all.) &
-    ,operator(.and.) &
     ,operator(.also.) &
+    ,operator(.and.) &
     ,operator(.approximates.) &
     ,operator(.equalsExpected.) &
     ,operator(.expect.) &
+    ,operator(.isAfter.) &
     ,operator(.isAtLeast.) &
     ,operator(.isAtMost.) &
     ,operator(.isBefore.) &
-    ,operator(.isAfter.) &
     ,operator(.lessThan.) &
     ,operator(.lessThanOrEqualTo.) &    ! same as operator(.isAtMost.)
     ,operator(.greaterThan.) &

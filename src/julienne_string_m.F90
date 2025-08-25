@@ -2,7 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 
 module julienne_string_m
-  use iso_c_binding, only : c_bool
+  use iso_c_binding, only : c_bool, c_size_t
   implicit none
   
   private
@@ -68,6 +68,12 @@ module julienne_string_m
     elemental module function from_default_integer(i) result(string)
       implicit none
       integer, intent(in) :: i
+      type(string_t) string
+    end function
+
+    elemental module function from_integer_c_size_t(i) result(string)
+      implicit none
+      integer(c_size_t), intent(in) :: i
       type(string_t) string
     end function
 
