@@ -14,7 +14,7 @@ operators in addition to overloading Fortran's intrinsic operators.  The
 following table provides examples of the expressions Julienne supports:
 
 Example expressions                               | Operand types
---------------------------------------------------|--------------------------------------
+--------------------------------------------------|-----------------------------------------------------------
 `x .approximates. y .within. tolerance`           | `real`, `double precision`
 `x .approximates. y .withinFraction. tolerance`   | `real`, `double precision`
 `x .approximates. y .withinPercentage. tolerance` | `real`, `double precision`
@@ -24,7 +24,7 @@ Example expressions                               | Operand types
 `(i .lessThan. j) .also. (k .equalsExpected. m))` | `integer`, `real`, `double precision`
 `x .lessThan. y`                                  | `integer`, `real`, `double precision`
 `x .greaterThan. y`                               | `integer`, `real`, `double precision`
-`i .equalsExpected. j`                            | `integer`, `character`
+`i .equalsExpected. j`                            | `integer`, `character`, `type(c_ptr)`
 `i .isAtLeast. j`                                 | `integer`, `real`, `double precision`
 `i .isAtMost. j`                                  | `integer`, `real`, `double precision`
 `s .isBefore. t`                                  | `character`
@@ -34,6 +34,7 @@ Example expressions                               | Operand types
 where 
 * `.isAtLeast.` and `.isAtMost.` can alternatively be spelled `.greaterThanOrEqualTo.` and `.lessThanOrEqualTo.`, respectively;
 * `.equalsExpected.` uses `==`, which implies that trailing blank spaces are ignored in character operands;  
+* `.equalsExpected.` with integer operands supports default integers and `integer(c_size_t)`;
 * `.isBefore.` and `.isAfter.` verify alphabetical and reverse-alphabetical  order, respectively; 
 * `.all.` aggregates arrays of expression results, reports a consensus result, passes, and shows diagnostics only for failing tests, if any; and
 * `.equalsExpected.` generates asymmetric diagnostic output for failures, denoting the left- and right-hand sides as the actual value and expected values, respectively.

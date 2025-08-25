@@ -7,6 +7,7 @@
 submodule(julienne_test_diagnosis_m) julienne_test_diagnosis_s
   use assert_m
   use julienne_string_m, only : operator(.cat.)
+  use iso_c_binding, only : c_associated, c_intptr_t
   implicit none
 contains
 
@@ -16,7 +17,7 @@ contains
     else
       lhs_cat_rhs = test_diagnosis_t(lhs%test_passed_, lhs%diagnostics_string_ // rhs)
     end if
-  end procedure 
+  end procedure
 
   module procedure append_character_if_test_failed
     if (lhs%test_passed_) then
@@ -24,7 +25,7 @@ contains
     else
       lhs_cat_rhs = test_diagnosis_t(lhs%test_passed_, lhs%diagnostics_string_ // rhs)
     end if
-  end procedure 
+  end procedure
 
   module procedure also
      diagnosis = .all. ([lhs,rhs])
@@ -250,6 +251,26 @@ contains
     else
       test_diagnosis = test_diagnosis_t(test_passed=.false., diagnostics_string="expected to be true")
     end if
+  end procedure
+
+  module procedure equals_expected_c_ptr
+
+    if (c_associated(actual, expected)) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      block
+        integer(c_intptr_t) actual_c_loc, expected_c_loc
+        integer(c_intptr_t), parameter :: mold = 0_c_intptr_t
+
+        associate(actual_c_loc => transfer(actual, mold), expected_c_loc => transfer(expected, mold))
+          test_diagnosis = test_diagnosis_t( &
+             test_passed = .false. &
+            ,diagnostics_string = "expected " // string_t(expected_c_loc) // "; actual value is " // string_t(actual_c_loc) &
+          )
+        end associate
+     end block
+    end if
+
   end procedure
 
   module procedure equals_expected_integer

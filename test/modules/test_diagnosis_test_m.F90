@@ -31,6 +31,7 @@ module test_diagnosis_test_m
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
   use julienne_m, only : diagnosis_function_i
 #endif
+  use iso_c_binding, only : c_ptr, c_loc
   implicit none
 
   private
@@ -70,6 +71,7 @@ contains
       ,test_description_t("construction from string_t/character expressions 'a .isAfter. b'"                                   , check_reverse_alphabetical) &
       ,test_description_t("construction from string_t/character expressions 'a .equalsExpected. b'"                            , check_equals_character_vs_string) &
       ,test_description_t("construction from the character expression 'a .equalsExpected. b'"                                  , check_equals_character) &
+      ,test_description_t("construction from the type(c_ptr) expression 'p .equalsExpected. q'"                                , check_equals_c_ptr) &
       ,test_description_t("construction from the string_t expression 'a .equalsExpected. b'"                                   , check_equals_string) &
       ,test_description_t("construction from the integer expression 'i .equalsExpected. j'"                                    , check_equals_integer) &
       ,test_description_t("construction from the integer expression 'i .lessThan. j"                                           , check_less_than_integer) &
@@ -95,6 +97,7 @@ contains
        ,check_less_than_double_ptr                 => check_less_than_double &
        ,check_greater_than_double_ptr              => check_greater_than_double &
        ,check_equals_character_ptr                 => check_equals_character &
+       ,check_equals_c_ptr_ptr                     => check_equals_c_ptr &
        ,check_equals_string_ptr                    => check_equals_string &
        ,check_equals_character_vs_string_ptr       => check_equals_character_vs_string &
        ,check_reverse_alphabetical_ptr             => check_reverse_alphabetical &
@@ -124,6 +127,7 @@ contains
       ,test_description_t("construction from string_t/character expressions 'a .equalsExpected. b'"                            , check_equals_character_vs_string_ptr) &
       ,test_description_t("construction from string_t/character expressions 'a .isAfter. b'"                                   , check_reverse_alphabetical_ptr) &
       ,test_description_t("construction from the character expression 'a .equalsExpected. b'"                                  , check_equals_character_ptr) &
+      ,test_description_t("construction from the type(c_ptr) expression 'p .equalsExpected. q'"                                , check_equals_c_ptr_ptr) &
       ,test_description_t("construction from the string_t expression 'a .equalsExpected. b'"                                   , check_equals_string_ptr) &
       ,test_description_t("construction from the integer expression 'i .equalsExpected. j"                                     , check_equals_integer_ptr) &
       ,test_description_t("construction from the integer expression 'i .lessThan. j"                                           , check_less_than_integer_ptr) &
@@ -195,6 +199,15 @@ contains
     type(test_diagnosis_t) test_diagnosis
     character(len=*), parameter :: expected_value = "foo"
     test_diagnosis = "foo" .equalsExpected. expected_value
+  end function
+
+  function check_equals_c_ptr() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    logical, target :: t
+    type(c_ptr) t_ptr
+    t = .true.
+    t_ptr = c_loc(t)
+    test_diagnosis = t_ptr .equalsExpected. c_loc(t)
   end function
 
   function check_equals_string() result(test_diagnosis)
