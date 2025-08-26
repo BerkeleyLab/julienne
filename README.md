@@ -201,26 +201,19 @@ the framework supports.
 Building and Testing
 --------------------
 ### Compiler support
-The table below shows the compilers that Julienne fully or partially supports.
-When built with a fully supported compiler, all Julienne tests pass.  When built
-with a partially supported compiler, the Julienne test suite skips some tests
-due to compiler bugs.  The test output reports which tests are skipped and
-thereby details any features Julienne does not supported with a given compiler.
+When built with the compiler versions tabulated below, all Julienne tests pass.
 
-Compiler         | Version(s) Tested        | Known Issues
------------------|--------------------------|-------------
-LLVM `flang-new` | 19, 20                   | none
-NAG `nagfor`     | 7.2 Build 7227           | none
-GCC `gfortran`   | 13, 14, 15               | see 1 below
-Intel `ifx`      | 2025.1.1 Build 20250418  | see 2 below
+Compiler         | Version(s) Tested      | Known Issues
+-----------------|------------------------|-------------
+LLVM `flang-new` | 19, 20                 | none
+NAG `nagfor`     | 7.2 Build 7227         | none
+Intel `ifx`      | 2025.2.1               | none
+GCC `gfortran`   | 13.4.0, 14.3.0, 15.1.0 | see below
 
-1. `gfortran` issues:
-   - With GCC 14.2.0 or earlier, the `test_description_t` constructor's
-     `diagnosis_function` actual argument must be a procedure pointer conforming
-     conforming with the `diagnosis_function_i` abstract interface.
-   - The `string_t` `bracket` type-bound function crashes for GCC 14.2.0 or earlier.
-2. `ifx` issue:
-   - Two `string_t` tests fail as described in issue [#51].
+With `gfortran` 13 through 14.2.0,
+   - The `test_description_t` constructor's `diagnosis_function` actual argument
+     must be a procedure pointer declared with `procedure(diagnosis_function_i)`.
+   - The `string_t` type-bound  function `bracket` crashes.
 
 ### Build/test commands
 
