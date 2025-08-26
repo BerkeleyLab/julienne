@@ -7,7 +7,7 @@ submodule(julienne_formats_m) julienne_formats_s
 
 contains
 
-#ifndef _CRAYFTN
+#if HAVE_ASSUMED_RANK
 
   module procedure separated_values
     character(len=*), parameter :: prefix = "(*(G0,:,'"

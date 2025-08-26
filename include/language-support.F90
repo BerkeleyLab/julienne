@@ -14,6 +14,28 @@
 #define GCC_GE_MINIMUM
 #endif
 
+! If not already determined, make a compiler-dependent determination of whether Julienne may 
+! define an internal procedure inside a module subprogram definition in a submodule
+
+#ifndef INTERNAL_PROCEDURE_IN_MODULE_SUBPROGRAM
+#if defined(__LFORTRAN__)
+#     define INTERNAL_PROCEDURE_IN_MODULE_SUBPROGRAM 0
+#   else
+#     define INTERNAL_PROCEDURE_IN_MODULE_SUBPROGRAM 1
+#  endif
+#endif
+   
+! If not already determined, make a compiler-dependent determination of whether Julienne may use
+! assumed-rank dummy arguments, a feature introduced in Fortran 2018.
+
+#ifndef HAVE_ASSUMED_RANK
+#if  defined(__INTEL_COMPILER) || defined(NAGFOR) || defined(__flang__)
+#    define HAVE_ASSUMED_RANK 1
+#  else
+#    define HAVE_ASSUMED_RANK 0
+#  endif
+#endif
+
 ! If not already determined, make a compiler-dependent determination of whether Julienne may pass
 ! procedure actual arguments to procedure pointer dummy arguments, a feature introduced in
 ! Fortran 2008 and described in Fortran 2023 clause 15.5.2.10 paragraph 5.
@@ -29,7 +51,7 @@
 ! If not already determined, make a compiler-dependent determination of whether Julienne may use
 ! multi-image features such as `this_image()` and `sync all`.
 #ifndef HAVE_MULTI_IMAGE_SUPPORT
-#  if defined(__flang__)
+#  if defined(__flang__) || defined(__LFORTRAN__)
 #    define HAVE_MULTI_IMAGE_SUPPORT 0
 #  else
 #    define HAVE_MULTI_IMAGE_SUPPORT 1

@@ -2,6 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 
 #include "assert_macros.h"
+#include "language-support.F90"
 
 submodule(julienne_file_m) julienne_file_s
   use iso_fortran_env, only : iostat_end, iostat_eor, output_unit
@@ -50,10 +51,8 @@ contains
 
   module procedure from_file_with_string_name
 
-    integer io_status, file_unit, line_num
+    integer file_unit, line_num
     character(len=:), allocatable :: line
-    integer, parameter :: max_message_length=128
-    character(len=max_message_length) error_message
     integer, allocatable :: lengths(:)
 
     open(newunit=file_unit, file=file_name%string(), form='formatted', status='old')
@@ -75,11 +74,15 @@ contains
 
     close(file_unit)
 
+#if INTERNAL_PROCEDURE_IN_MODULE_SUBPROGRAM
   contains
+#else
+  end procedure
+#endif
    
     function line_count(file_unit) result(num_lines)
       integer, intent(in) :: file_unit
-      integer num_lines
+      integer num_lines, io_status
     
       rewind(file_unit)
       num_lines = 0 
@@ -91,11 +94,14 @@ contains
       rewind(file_unit)
     end function
 
+
     function line_lengths(file_unit) result(lengths)
       integer, intent(in) :: file_unit
       integer, allocatable ::  lengths(:)
       integer io_status, l
       character(len=1) c
+      integer, parameter :: max_message_length=128
+      character(len=max_message_length) error_message
 
       associate(num_lines => line_count(file_unit))
 
@@ -117,6 +123,8 @@ contains
       end associate
     end function
 
+#if INTERNAL_PROCEDURE_IN_MODULE_SUBPROGRAM
   end procedure
+#endif
 
 end submodule julienne_file_s

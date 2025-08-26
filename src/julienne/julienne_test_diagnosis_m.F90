@@ -86,7 +86,7 @@ module julienne_test_diagnosis_m
 
   interface operator(.all.)
      
-#ifndef __GFORTRAN__
+#if HAVE_ASSUMED_RANK
 
     pure module function aggregate_diagnosis(diagnoses) result(diagnosis)
       implicit none
