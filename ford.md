@@ -1,7 +1,8 @@
 project: Julienne
-summary: A standalone, minimal unit-testing and string/command-line-handling utility.
-src_dir: src/
+summary: A Fortran 2023 correctness-checking framework supporting expressive idioms for writing assertions and tests
+src_dir: src
 src_dir: example
+src_dir: app
 exclude_dir: doc
 output_dir: doc/html
 preprocess: true
