@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="description" content="A standalone, minimal unit-testing and string/command-line-handling utility.">
+      <meta name="description" content="A Fortran 2023 correctness-checking framework supporting expressive idioms for writing assertions and tests">
     <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="../favicon.png">
 
@@ -248,7 +248,7 @@
 </g>
 </g>
 <!-- module~julienne_m&#45;&gt;module~julienne_test_m -->
-<g id="module~~julienne_command_line_m~~UsedByGraph_edge10" class="edge">
+<g id="module~~julienne_command_line_m~~UsedByGraph_edge11" class="edge">
 <title>module~julienne_m&#45;&gt;module~julienne_test_m</title>
 <path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M623.5,-132C519.33,-122.13 397.14,-125.39 326.97,-128.68"/>
 <polygon fill="#cc00ff" stroke="#cc00ff" points="326.41,-125.2 316.59,-129.18 326.75,-132.19 326.41,-125.2"/>
@@ -263,22 +263,22 @@
 </g>
 </g>
 <!-- module~julienne_m&#45;&gt;module~julienne_test_fixture_m -->
-<g id="module~~julienne_command_line_m~~UsedByGraph_edge13" class="edge">
+<g id="module~~julienne_command_line_m~~UsedByGraph_edge14" class="edge">
 <title>module~julienne_m&#45;&gt;module~julienne_test_fixture_m</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M623.5,-132C575.88,-127.49 522.42,-143.15 487.7,-156.18"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="486.05,-153.06 477.99,-159.94 488.58,-159.59 486.05,-153.06"/>
 </g>
 <!-- module~julienne_test_harness_m -->
-<g id="module~~julienne_command_line_m~~UsedByGraph_node14" class="node">
+<g id="module~~julienne_command_line_m~~UsedByGraph_node15" class="node">
 <title>module~julienne_test_harness_m</title>
-<g id="a_module~~julienne_command_line_m~~UsedByGraph_node14"><a xlink:href="../module/julienne_test_harness_m.html" xlink:title="julienne_test_harness_m">
+<g id="a_module~~julienne_command_line_m~~UsedByGraph_node15"><a xlink:href="../module/julienne_test_harness_m.html" xlink:title="julienne_test_harness_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="696,-184 553,-184 553,-160 696,-160 696,-184"/>
 <text text-anchor="middle" x="624.5" y="-169.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_harness_m</text>
 </a>
 </g>
 </g>
 <!-- module~julienne_m&#45;&gt;module~julienne_test_harness_m -->
-<g id="module~~julienne_command_line_m~~UsedByGraph_edge16" class="edge">
+<g id="module~~julienne_command_line_m~~UsedByGraph_edge17" class="edge">
 <title>module~julienne_m&#45;&gt;module~julienne_test_harness_m</title>
 <path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M765.11,-156C748.1,-157.95 726.88,-160.38 706.15,-162.76"/>
 <polygon fill="#00ffff" stroke="#00ffff" points="705.58,-159.3 696.04,-163.92 706.37,-166.25 705.58,-159.3"/>
@@ -314,7 +314,7 @@
 <polygon fill="#ff0000" stroke="#ff0000" points="130.16,-143.39 119.59,-144.04 128.26,-150.13 130.16,-143.39"/>
 </g>
 <!-- module~julienne_test_harness_s&#45;&gt;module~julienne_test_harness_m -->
-<g id="module~~julienne_command_line_m~~UsedByGraph_edge17" class="edge">
+<g id="module~~julienne_command_line_m~~UsedByGraph_edge18" class="edge">
 <title>module~julienne_test_harness_s&#45;&gt;module~julienne_test_harness_m</title>
 <path fill="none" stroke="#00ffff" d="M759.53,-211.94C734.62,-204.52 702.49,-194.94 675.93,-187.03"/>
 <polygon fill="#00ffff" stroke="#00ffff" points="676.64,-183.59 666.05,-184.09 674.64,-190.3 676.64,-183.59"/>
@@ -326,7 +326,7 @@
 <polygon fill="#ff0000" stroke="#ff0000" points="165.22,-128.5 155.22,-132 165.22,-135.5 165.22,-128.5"/>
 </g>
 <!-- module~julienne_test_fixture_m&#45;&gt;module~julienne_test_m -->
-<g id="module~~julienne_command_line_m~~UsedByGraph_edge11" class="edge">
+<g id="module~~julienne_command_line_m~~UsedByGraph_edge12" class="edge">
 <title>module~julienne_test_fixture_m&#45;&gt;module~julienne_test_m</title>
 <path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M394.79,-160C373.27,-155.19 348.44,-149.64 326.59,-144.76"/>
 <polygon fill="#cc00ff" stroke="#cc00ff" points="327.31,-141.33 316.79,-142.57 325.78,-148.16 327.31,-141.33"/>
@@ -341,7 +341,7 @@
 </g>
 </g>
 <!-- module~julienne_test_s&#45;&gt;module~julienne_test_m -->
-<g id="module~~julienne_command_line_m~~UsedByGraph_edge12" class="edge">
+<g id="module~~julienne_command_line_m~~UsedByGraph_edge13" class="edge">
 <title>module~julienne_test_s&#45;&gt;module~julienne_test_m</title>
 <path fill="none" stroke="#cc00ff" d="M403.79,-101.99C380.49,-107.2 351.74,-113.62 326.82,-119.19"/>
 <polygon fill="#cc00ff" stroke="#cc00ff" points="325.76,-115.84 316.76,-121.44 327.29,-122.67 325.76,-115.84"/>
@@ -350,79 +350,94 @@
 <g id="module~~julienne_command_line_m~~UsedByGraph_node9" class="node">
 <title>module~julienne_test_suite_s</title>
 <g id="a_module~~julienne_command_line_m~~UsedByGraph_node9"><a xlink:href="../module/julienne_test_suite_s.html" xlink:title="julienne_test_suite_s">
-<polygon fill="#5bc0de" stroke="#5bc0de" points="1069.5,-227 948.5,-227 948.5,-203 1069.5,-203 1069.5,-227"/>
-<text text-anchor="middle" x="1009" y="-212.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_suite_s</text>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="1069.5,-248 948.5,-248 948.5,-224 1069.5,-224 1069.5,-248"/>
+<text text-anchor="middle" x="1009" y="-233.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_suite_s</text>
 </a>
 </g>
 </g>
 <!-- module~julienne_test_suite_s&#45;&gt;module~julienne_m -->
 <g id="module~~julienne_command_line_m~~UsedByGraph_edge6" class="edge">
 <title>module~julienne_test_suite_s&#45;&gt;module~julienne_m</title>
-<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M948.49,-204.63C934.43,-201.67 919.59,-198.11 906,-194 882.61,-186.93 857.17,-176.7 837.3,-168.11"/>
-<polygon fill="#cbff00" stroke="#cbff00" points="838.59,-164.86 828.03,-164.04 835.78,-171.27 838.59,-164.86"/>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M948.48,-227.3C934.29,-224.26 919.38,-220.25 906,-215 876.9,-203.58 846.66,-184.29 826.35,-170.06"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="828.19,-167.07 818.01,-164.12 824.12,-172.77 828.19,-167.07"/>
 </g>
 <!-- program~assertions -->
 <g id="module~~julienne_command_line_m~~UsedByGraph_node10" class="node">
 <title>program~assertions</title>
 <g id="a_module~~julienne_command_line_m~~UsedByGraph_node10"><a xlink:href="../program/assertions.html" xlink:title="assertions">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1042.5,-185 975.5,-185 975.5,-161 1042.5,-161 1042.5,-185"/>
-<text text-anchor="middle" x="1009" y="-170.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assertions</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1042.5,-206 975.5,-206 975.5,-182 1042.5,-182 1042.5,-206"/>
+<text text-anchor="middle" x="1009" y="-191.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assertions</text>
 </a>
 </g>
 </g>
 <!-- program~assertions&#45;&gt;module~julienne_m -->
 <g id="module~~julienne_command_line_m~~UsedByGraph_edge7" class="edge">
 <title>program~assertions&#45;&gt;module~julienne_m</title>
-<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M975.36,-169.67C940.57,-166.13 885.28,-160.49 846.52,-156.54"/>
-<polygon fill="#cbff00" stroke="#cbff00" points="846.85,-153.05 836.55,-155.52 846.14,-160.02 846.85,-153.05"/>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M975.36,-187.34C940.57,-180.25 885.28,-168.98 846.52,-161.08"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="847.05,-157.61 836.55,-159.04 845.65,-164.47 847.05,-157.61"/>
 </g>
 <!-- program~check_for_command_line_argument -->
 <g id="module~~julienne_command_line_m~~UsedByGraph_node11" class="node">
 <title>program~check_for_command_line_argument</title>
 <g id="a_module~~julienne_command_line_m~~UsedByGraph_node11"><a xlink:href="../program/check_for_command_line_argument.html" xlink:title="check_for_command_line_argument">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1112,-143 906,-143 906,-119 1112,-119 1112,-143"/>
-<text text-anchor="middle" x="1009" y="-128.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">check_for_command_line_argument</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1112,-164 906,-164 906,-140 1112,-140 1112,-164"/>
+<text text-anchor="middle" x="1009" y="-149.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">check_for_command_line_argument</text>
 </a>
 </g>
 </g>
 <!-- program~check_for_command_line_argument&#45;&gt;module~julienne_m -->
 <g id="module~~julienne_command_line_m~~UsedByGraph_edge8" class="edge">
 <title>program~check_for_command_line_argument&#45;&gt;module~julienne_m</title>
-<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M905.91,-141.41C885.29,-143.51 864.64,-145.61 847.23,-147.39"/>
-<polygon fill="#cbff00" stroke="#cbff00" points="846.44,-143.95 836.84,-148.45 847.15,-150.92 846.44,-143.95"/>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M905.91,-152C885.29,-152 864.64,-152 847.23,-152"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="846.84,-148.5 836.84,-152 846.84,-155.5 846.84,-148.5"/>
 </g>
 <!-- program~get_command_line_flag_value -->
 <g id="module~~julienne_command_line_m~~UsedByGraph_node12" class="node">
 <title>program~get_command_line_flag_value</title>
 <g id="a_module~~julienne_command_line_m~~UsedByGraph_node12"><a xlink:href="../program/get_command_line_flag_value.html" xlink:title="get_command_line_flag_value">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1096,-101 922,-101 922,-77 1096,-77 1096,-101"/>
-<text text-anchor="middle" x="1009" y="-86.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_command_line_flag_value</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1096,-122 922,-122 922,-98 1096,-98 1096,-122"/>
+<text text-anchor="middle" x="1009" y="-107.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_command_line_flag_value</text>
 </a>
 </g>
 </g>
 <!-- program~get_command_line_flag_value&#45;&gt;module~julienne_m -->
 <g id="module~~julienne_command_line_m~~UsedByGraph_edge9" class="edge">
 <title>program~get_command_line_flag_value&#45;&gt;module~julienne_m</title>
-<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M940.9,-101.01C929.18,-103.62 917.16,-106.63 906,-110 882.61,-117.07 857.17,-127.3 837.3,-135.89"/>
-<polygon fill="#cbff00" stroke="#cbff00" points="835.78,-132.73 828.03,-139.96 838.59,-139.14 835.78,-132.73"/>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M948.97,-122.04C916.42,-128.67 876.67,-136.78 846.72,-142.88"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="845.66,-139.53 836.56,-144.95 847.06,-146.39 845.66,-139.53"/>
+</g>
+<!-- program~scaffold -->
+<g id="module~~julienne_command_line_m~~UsedByGraph_node13" class="node">
+<title>program~scaffold</title>
+<g id="a_module~~julienne_command_line_m~~UsedByGraph_node13"><a xlink:href="../program/scaffold.html" xlink:title="scaffold">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1036.5,-80 981.5,-80 981.5,-56 1036.5,-56 1036.5,-80"/>
+<text text-anchor="middle" x="1009" y="-65.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">scaffold</text>
+</a>
+</g>
+</g>
+<!-- program~scaffold&#45;&gt;module~julienne_m -->
+<g id="module~~julienne_command_line_m~~UsedByGraph_edge10" class="edge">
+<title>program~scaffold&#45;&gt;module~julienne_m</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M981.3,-70.96C960.29,-73.89 930.57,-79.36 906,-89 876.9,-100.42 846.66,-119.71 826.35,-133.94"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="824.12,-131.23 818.01,-139.88 828.19,-136.93 824.12,-131.23"/>
 </g>
 <!-- module~julienne_test_fixture_s -->
-<g id="module~~julienne_command_line_m~~UsedByGraph_node13" class="node">
+<g id="module~~julienne_command_line_m~~UsedByGraph_node14" class="node">
 <title>module~julienne_test_fixture_s</title>
-<g id="a_module~~julienne_command_line_m~~UsedByGraph_node13"><a xlink:href="../module/julienne_test_fixture_s.html" xlink:title="julienne_test_fixture_s">
+<g id="a_module~~julienne_command_line_m~~UsedByGraph_node14"><a xlink:href="../module/julienne_test_fixture_s.html" xlink:title="julienne_test_fixture_s">
 <polygon fill="#5bc0de" stroke="#5bc0de" points="689.5,-226 559.5,-226 559.5,-202 689.5,-202 689.5,-226"/>
 <text text-anchor="middle" x="624.5" y="-211.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_fixture_s</text>
 </a>
 </g>
 </g>
 <!-- module~julienne_test_fixture_s&#45;&gt;module~julienne_test_fixture_m -->
-<g id="module~~julienne_command_line_m~~UsedByGraph_edge15" class="edge">
+<g id="module~~julienne_command_line_m~~UsedByGraph_edge16" class="edge">
 <title>module~julienne_test_fixture_s&#45;&gt;module~julienne_test_fixture_m</title>
 <path fill="none" stroke="#ff0000" d="M573.93,-201.96C553.93,-197.11 530.69,-191.47 509.81,-186.4"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="510.63,-183 500.08,-184.04 508.97,-189.8 510.63,-183"/>
 </g>
 <!-- module~julienne_test_harness_m&#45;&gt;module~julienne_test_fixture_m -->
-<g id="module~~julienne_command_line_m~~UsedByGraph_edge14" class="edge">
+<g id="module~~julienne_command_line_m~~UsedByGraph_edge15" class="edge">
 <title>module~julienne_test_harness_m&#45;&gt;module~julienne_test_fixture_m</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M552.64,-172C544.28,-172 535.72,-172 527.28,-172"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="527.08,-168.5 517.08,-172 527.08,-175.5 527.08,-168.5"/>
@@ -692,7 +707,7 @@ by the longest list element ("--benchmark" above)</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-08-26 04:13 +0000             </p>
+ on 2025-08-28 15:31 +0000             </p>
           </div>
         </div>
         <br>
