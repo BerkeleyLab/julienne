@@ -39,7 +39,6 @@ where
 * `.all.` aggregates arrays of expression results, reports a consensus result, passes, and shows diagnostics only for failing tests, if any; and
 * `.equalsExpected.` generates asymmetric diagnostic output for failures, denoting the left- and right-hand sides as the actual value and expected values, respectively.
 
-
 Expressive idioms 
 -----------------
 ### Assertions
@@ -263,6 +262,13 @@ Older versions of `ifx` might require adding `-coarray` to the quoted argument j
 Documentation
 -------------
 See our online [documentation] or build the documentation locally by installing [FORD] and executing `ford ford.md`.
+
+Known Software Using Julienne
+-----------------------------
+* [Fiats](https://go.lbl.gov/fiats): Functional inference and training for surrogates
+* [Matcha](https://go.lbl.gov/matcha): Motility analysis of T-cell histories in activation
+* [TRACE](https://www.nrc.gov/docs/ML1200/ML120060218.pdf) two-phase flow solver for nuclear reactors
+* nQMCC: Quantum Monte Carlo simulation software for nuclear physics
 
 [#51]: https://github.com/BerkeleyLab/julienne/issues/51
 [Assertions]: #assertions
