@@ -12,6 +12,7 @@ module test_diagnosis_test_m
     ,test_description_t &
     ,test_diagnosis_t &
     ,test_result_t &
+    ,bless &
     ,operator(//) &
     ,operator(.all.) &
     ,operator(.also.) &
@@ -28,9 +29,6 @@ module test_diagnosis_test_m
     ,operator(.isAtMost.) &
     ,operator(.greaterThan.) &
     ,operator(.isAtLeast.)
-#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-  use julienne_m, only : diagnosis_function_i
-#endif
   use iso_c_binding, only : c_ptr, c_loc, c_bool
   implicit none
 
@@ -55,94 +53,34 @@ contains
     type(test_description_t), allocatable :: test_descriptions(:)
     type(test_diagnosis_test_t) test_diagnosis_test
 
-#if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_descriptions = [ &
-       test_description_t("construction from the real expression 'x .approximates. y .within. tolerance'"                      , check_approximates_real) &
-      ,test_description_t("construction from the real expression 'x .approximates. y .withinFraction. tolerance'"              , check_approximates_real_fraction) &
-      ,test_description_t("construction from the real expression 'x .approximates. y .withinPercentage. tolerance'"            , check_approximates_real_percentage) &
-      ,test_description_t("construction from the real expression 'x .lessThan. y"                                              , check_less_than_real) &
-      ,test_description_t("construction from the real expression 'x .greaterThan. y"                                           , check_greater_than_real) &
-      ,test_description_t("construction from the double precision expression 'x .approximates. y .within. tolerance'"          , check_approximates_double) &
-      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinFraction. tolerance'"  , check_approximates_double_fraction) &
-      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinPercentage. tolerance'", check_approximates_double_percentage) &
-      ,test_description_t("construction from the double precision expression 'x .lessThan. y"                                  , check_less_than_double) &
-      ,test_description_t("construction from the double precision expression 'x .greaterThan. y"                               , check_greater_than_double) &
-      ,test_description_t("construction from string_t/character expressions 'a .isBefore. b'"                                  , check_alphabetical) &
-      ,test_description_t("construction from string_t/character expressions 'a .isAfter. b'"                                   , check_reverse_alphabetical) &
-      ,test_description_t("construction from string_t/character expressions 'a .equalsExpected. b'"                            , check_equals_character_vs_string) &
-      ,test_description_t("construction from the character expression 'a .equalsExpected. b'"                                  , check_equals_character) &
-      ,test_description_t("construction from the type(c_ptr) expression 'p .equalsExpected. q'"                                , check_equals_c_ptr) &
-      ,test_description_t("construction from the string_t expression 'a .equalsExpected. b'"                                   , check_equals_string) &
-      ,test_description_t("construction from the integer expression 'i .equalsExpected. j'"                                    , check_equals_integer) &
-      ,test_description_t("construction from the integer expression 'i .lessThan. j"                                           , check_less_than_integer) &
-      ,test_description_t("construction from the integer expression '[i,j] .lessThanOrEqualTo. k"                              , check_less_than_or_equal_to_integer) &
-      ,test_description_t("construction from the integer expression 'i .greaterThan. j"                                        , check_greater_than_integer) &
-      ,test_description_t("construction from the integer expression '[i,j] .greaterThanOrEqualTo. k"                           , check_greater_than_or_equal_to_integer) &
-      ,test_description_t("construction from the scalar test_diagnostics_t expression 't .and. u'"                             , check_and_with_scalar_operands) &
-      ,test_description_t("construction from the vector test_diagnostics_t expressions 'i .equalsExpected. [j,k]'"             , check_and_with_vector_operands) &
-      ,test_description_t("construction from string concatenation"                                                             , check_string_concatentation) &
-      ,test_description_t("construction from character concatenation"                                                          , check_character_concatentation) &
-      ,test_description_t("construction from (.expects. logical-expression) // 'user-defined message'"                         , check_expects_logical) &
+       test_description_t("construction from the real expression 'x .approximates. y .within. tolerance'"                      , bless(check_approximates_real)) &
+      ,test_description_t("construction from the real expression 'x .approximates. y .withinFraction. tolerance'"              , bless(check_approximates_real_fraction)) &
+      ,test_description_t("construction from the real expression 'x .approximates. y .withinPercentage. tolerance'"            , bless(check_approximates_real_percentage)) &
+      ,test_description_t("construction from the real expression 'x .lessThan. y"                                              , bless(check_less_than_real)) &
+      ,test_description_t("construction from the real expression 'x .greaterThan. y"                                           , bless(check_greater_than_real)) &
+      ,test_description_t("construction from the double precision expression 'x .approximates. y .within. tolerance'"          , bless(check_approximates_double)) &
+      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinFraction. tolerance'"  , bless(check_approximates_double_fraction)) &
+      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinPercentage. tolerance'", bless(check_approximates_double_percentage)) &
+      ,test_description_t("construction from the double precision expression 'x .lessThan. y"                                  , bless(check_less_than_double)) &
+      ,test_description_t("construction from the double precision expression 'x .greaterThan. y"                               , bless(check_greater_than_double)) &
+      ,test_description_t("construction from string_t/character expressions 'a .isBefore. b'"                                  , bless(check_alphabetical)) &
+      ,test_description_t("construction from string_t/character expressions 'a .isAfter. b'"                                   , bless(check_reverse_alphabetical)) &
+      ,test_description_t("construction from string_t/character expressions 'a .equalsExpected. b'"                            , bless(check_equals_character_vs_string)) &
+      ,test_description_t("construction from the character expression 'a .equalsExpected. b'"                                  , bless(check_equals_character)) &
+      ,test_description_t("construction from the type(c_ptr) expression 'p .equalsExpected. q'"                                , bless(check_equals_c_ptr)) &
+      ,test_description_t("construction from the string_t expression 'a .equalsExpected. b'"                                   , bless(check_equals_string)) &
+      ,test_description_t("construction from the integer expression 'i .equalsExpected. j'"                                    , bless(check_equals_integer)) &
+      ,test_description_t("construction from the integer expression 'i .lessThan. j"                                           , bless(check_less_than_integer)) &
+      ,test_description_t("construction from the integer expression '[i,j] .lessThanOrEqualTo. k"                              , bless(check_less_than_or_equal_to_integer)) &
+      ,test_description_t("construction from the integer expression 'i .greaterThan. j"                                        , bless(check_greater_than_integer)) &
+      ,test_description_t("construction from the integer expression '[i,j] .greaterThanOrEqualTo. k"                           , bless(check_greater_than_or_equal_to_integer)) &
+      ,test_description_t("construction from the scalar test_diagnostics_t expression 't .and. u'"                             , bless(check_and_with_scalar_operands)) &
+      ,test_description_t("construction from the vector test_diagnostics_t expressions 'i .equalsExpected. [j,k]'"             , bless(check_and_with_vector_operands)) &
+      ,test_description_t("construction from string concatenation"                                                             , bless(check_string_concatentation)) &
+      ,test_description_t("construction from character concatenation"                                                          , bless(check_character_concatentation)) &
+      ,test_description_t("construction from (.expects. logical-expression) // 'user-defined message'"                         , bless(check_expects_logical)) &
     ]
-#else
-     ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
-     procedure(diagnosis_function_i), pointer :: &
-        check_approximates_real_ptr                => check_approximates_real &
-       ,check_approximates_real_fraction_ptr       => check_approximates_real_fraction &
-       ,check_approximates_real_percentage_ptr     => check_approximates_real_percentage &
-       ,check_less_than_real_ptr                   => check_less_than_real &
-       ,check_greater_than_real_ptr                => check_greater_than_real &
-       ,check_approximates_double_percentage_ptr   => check_approximates_double_percentage &
-       ,check_approximates_double_ptr              => check_approximates_double &
-       ,check_approximates_double_fraction_ptr     => check_approximates_double_fraction &
-       ,check_less_than_double_ptr                 => check_less_than_double &
-       ,check_greater_than_double_ptr              => check_greater_than_double &
-       ,check_equals_character_ptr                 => check_equals_character &
-       ,check_equals_c_ptr_ptr                     => check_equals_c_ptr &
-       ,check_equals_string_ptr                    => check_equals_string &
-       ,check_equals_character_vs_string_ptr       => check_equals_character_vs_string &
-       ,check_reverse_alphabetical_ptr             => check_reverse_alphabetical &
-       ,check_alphabetical_ptr                     => check_alphabetical &
-       ,check_equals_integer_ptr                   => check_equals_integer &
-       ,check_less_than_integer_ptr                => check_less_than_integer &
-       ,check_less_than_or_equal_to_integer_ptr    => check_less_than_or_equal_to_integer &
-       ,check_greater_than_integer_ptr             => check_greater_than_integer &
-       ,check_greater_than_or_equal_to_integer_ptr => check_greater_than_or_equal_to_integer &
-       ,check_and_with_scalar_operands_ptr         => check_and_with_scalar_operands &
-       ,check_and_with_vector_operands_ptr         => check_and_with_vector_operands &
-       ,check_string_concatentation_ptr            => check_string_concatentation &
-       ,check_character_concatentation_ptr         => check_character_concatentation &
-       ,check_expects_logical_ptr                  => check_expects_logical
-
-     test_descriptions = [ &
-       test_description_t("construction from the real expression 'x .approximates. y .within. tolerance'"                      , check_approximates_real_ptr) &
-      ,test_description_t("construction from the real expression 'x .approximates. y .withinFraction. tolerance'"              , check_approximates_real_fraction_ptr) &
-      ,test_description_t("construction from the real expression 'x .approximates. y .withinPercentage. tolerance'"            , check_approximates_real_percentage_ptr) &
-      ,test_description_t("construction from the real expression 'x .lessThan. y"                                              , check_less_than_real_ptr) &
-      ,test_description_t("construction from the real expression 'x .greaterThan. y"                                           , check_greater_than_real_ptr) &
-      ,test_description_t("construction from the double precision expression 'x .approximates. y .within. tolerance'"          , check_approximates_double_ptr) &
-      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinFraction. tolerance'"  , check_approximates_double_fraction_ptr) &
-      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinPercentage. tolerance'", check_approximates_double_percentage_ptr) &
-      ,test_description_t("construction from the double precision expression 'x .lessThan. y"                                  , check_less_than_double_ptr) &
-      ,test_description_t("construction from the double precision expression 'x .greaterThan. y"                               , check_greater_than_double_ptr) &
-      ,test_description_t("construction from string_t/character expressions 'a .isBefore. b'"                                  , check_alphabetical_ptr) &
-      ,test_description_t("construction from string_t/character expressions 'a .equalsExpected. b'"                            , check_equals_character_vs_string_ptr) &
-      ,test_description_t("construction from string_t/character expressions 'a .isAfter. b'"                                   , check_reverse_alphabetical_ptr) &
-      ,test_description_t("construction from the character expression 'a .equalsExpected. b'"                                  , check_equals_character_ptr) &
-      ,test_description_t("construction from the type(c_ptr) expression 'p .equalsExpected. q'"                                , check_equals_c_ptr_ptr) &
-      ,test_description_t("construction from the string_t expression 'a .equalsExpected. b'"                                   , check_equals_string_ptr) &
-      ,test_description_t("construction from the integer expression 'i .equalsExpected. j"                                     , check_equals_integer_ptr) &
-      ,test_description_t("construction from the integer expression 'i .lessThan. j"                                           , check_less_than_integer_ptr) &
-      ,test_description_t("construction from the integer expression '[i,j] .lessThanOrEqualTo. k"                              , check_less_than_or_equal_to_integer_ptr) &
-      ,test_description_t("construction from the integer expression 'i .greaterThan. j"                                        , check_greater_than_integer_ptr) &
-      ,test_description_t("construction from the integer expression '[i,j] .greaterThanOrEqualTo. k"                           , check_greater_than_or_equal_to_integer_ptr) &
-      ,test_description_t("construction from the scalar test_diagnostics_t expression 't .and. u'"                             , check_and_with_scalar_operands_ptr) &
-      ,test_description_t("construction from the vector test_diagnostics_t expressions 'i .equalsExpected. [j,k]'"             , check_and_with_vector_operands_ptr) &
-      ,test_description_t("construction from string concatenation"                                                             , check_string_concatentation_ptr) &
-      ,test_description_t("construction from character concatenation"                                                          , check_character_concatentation_ptr) &
-      ,test_description_t("construction from (.expects. logical-expression) // 'user-defined message'"                         , check_expects_logical_ptr) &
-     ]
-#endif
     test_results = test_diagnosis_test%run(test_descriptions)
   end function
 

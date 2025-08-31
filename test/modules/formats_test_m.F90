@@ -12,10 +12,8 @@ module formats_test_m
    ,test_description_t &
    ,test_diagnosis_t &
    ,test_result_t &
+   ,bless &
    ,test_t
-#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-  use julienne_m, only : diagnosis_function_i
-#endif
 
   implicit none
 
@@ -40,33 +38,13 @@ contains
     type(test_description_t), allocatable :: test_descriptions(:)
     type(formats_test_t) formats_test
 
-#if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_descriptions = [ &
-      test_description_t(string_t("yielding a comma-separated list of real numbers"), check_csv_reals), &
-      test_description_t(string_t("yielding a comma-separated list of double-precision numbers"), check_csv_double_precision), &
-      test_description_t(string_t("yielding a space-separated list of complex numbers"), check_space_separated_complex), &
-      test_description_t(string_t("yielding a comma- and space-separated list of character values"), check_csv_character), &
-      test_description_t(string_t("yielding a new-line-separated list of integer numbers"), check_new_line_separated_integers) &
+      test_description_t(string_t("yielding a comma-separated list of real numbers"), bless(check_csv_reals)), &
+      test_description_t(string_t("yielding a comma-separated list of double-precision numbers"), bless(check_csv_double_precision)), &
+      test_description_t(string_t("yielding a space-separated list of complex numbers"), bless(check_space_separated_complex)), &
+      test_description_t(string_t("yielding a comma- and space-separated list of character values"), bless(check_csv_character)), &
+      test_description_t(string_t("yielding a new-line-separated list of integer numbers"), bless(check_new_line_separated_integers)) &
     ]
-#else
-    ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
-    procedure(diagnosis_function_i), pointer :: &
-      check_csv_reals_ptr, check_space_ptr, check_csv_char_ptr, check_new_line_ptr, check_csv_double_precision_ptr
-
-    check_csv_reals_ptr => check_csv_reals
-    check_csv_double_precision_ptr => check_csv_double_precision
-    check_space_ptr => check_space_separated_complex
-    check_csv_char_ptr => check_csv_character
-    check_new_line_ptr => check_new_line_separated_integers
-
-    test_descriptions = [ &
-      test_description_t(string_t("yielding a comma-separated list of real numbers"), check_csv_reals_ptr), &
-      test_description_t(string_t("yielding a comma-separated list of double-precision numbers"), check_csv_double_precision_ptr), &
-      test_description_t(string_t("yielding a space-separated list of complex numbers"), check_space_ptr), &
-      test_description_t(string_t("yielding a comma- and space-separated list of character values"), check_csv_char_ptr), &
-      test_description_t(string_t("yielding a new-line-separated list of integer numbers"), check_new_line_ptr) &
-    ]
-#endif
     test_results = formats_test%run(test_descriptions)
   end function
 

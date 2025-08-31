@@ -14,6 +14,7 @@ module assert_test_m
     ,operator(.equalsExpected.) &
     ,test_diagnosis_t &
     ,test_t &
+    ,bless &
     ,test_description_t &
     ,test_result_t &
     ,operator(.approximates.) &
@@ -36,43 +37,18 @@ contains
     specimen = "The julienne_assert subroutine"
   end function
 
-#if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
     type(assert_test_t) assert_test
 
     test_descriptions = [ &
-       test_description_t("invocation via the call_julienne_assert macro", check_call_julienne_assert_macro) &
-      ,test_description_t("invocation via direct call", check_julienne_assert_call) &
-      ,test_description_t("invocation removal after undefining the ASSERTIONS macro", check_macro_removal) &
+       test_description_t("invocation via the call_julienne_assert macro", bless(check_call_julienne_assert_macro)) &
+      ,test_description_t("invocation via direct call", bless(check_julienne_assert_call)) &
+      ,test_description_t("invocation removal after undefining the ASSERTIONS macro", bless(check_macro_removal)) &
     ]
     test_results = assert_test%run(test_descriptions)
   end function
-
-#else
-
-  function results() result(test_results)
-    !! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument
-    use julienne_m, only : diagnosis_function_i
-    type(test_result_t), allocatable :: test_results(:)
-    type(test_description_t), allocatable :: test_descriptions(:)
-    type(assert_test_t) assert_test
-    procedure(diagnosis_function_i), pointer :: &
-       check_call_julienne_assert_macro_ptr => check_call_julienne_assert_macro &
-      ,check_julienne_assert_call_ptr => check_julienne_assert_call &
-      ,check_macro_removal_ptr => check_macro_removal
-
-    test_descriptions = [ &
-       test_description_t("invoking the call_julienne_assert macro", check_call_julienne_assert_macro_ptr) &
-      ,test_description_t("directly calling julienne_assert", check_julienne_assert_call_ptr) &
-      ,test_description_t("removal when the ASSERTIONS macro is defined as 0", check_macro_removal_ptr) &
-    ]
-    test_results = assert_test%run(test_descriptions)
-  end function
-
-#endif
 
   function check_call_julienne_assert_macro() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
