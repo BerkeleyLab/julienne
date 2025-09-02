@@ -3,7 +3,7 @@
 
 module widget_test_m
   use julienne_m, only : test_t, test_description_t, test_diagnosis_t, test_result_t
-  use julienne_m, only : operator(.approximates.), operator(.within.), operator(.all.)
+  use julienne_m, only : operator(.approximates.), operator(.within.), operator(.all.), operator(//)
   use widget_m, only : widget_t
   implicit none
 
@@ -33,7 +33,7 @@ contains
   function check_something() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     type(widget_t) widget
-    test_diagnosis = .all.([22./7., 3.14159] .approximates. widget%pi() .within. 0.001)
+    test_diagnosis = .all.([22./7., 3.14159] .approximates. widget%pi() .within. 0.001) // ' (pi approximation)'
   end function
 
   function do_something() result(test_diagnosis)

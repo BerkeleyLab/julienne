@@ -101,7 +101,7 @@ contains
        string_t(copyright_and_license) // new_line('') &
       ,string_t("module ") // test_module &
       ,string_t("  use julienne_m, only : test_t, test_description_t, test_diagnosis_t, test_result_t")&
-      ,string_t("  use julienne_m, only : operator(.approximates.), operator(.within.), operator(.all.)")&
+      ,string_t("  use julienne_m, only : operator(.approximates.), operator(.within.), operator(.all.), operator(//)")&
       ,string_t("  use " // subject_module // ", only : " // subject_type) &
       ,string_t("  implicit none") // new_line('') &
       ,string_t("  type, extends(test_t) :: ") // test_type &
@@ -126,7 +126,7 @@ contains
       ,string_t("  function check_something() result(test_diagnosis)") &
       ,string_t("    type(test_diagnosis_t) test_diagnosis") &
       ,string_t("    type(") // subject_type // ") " // subject &
-      ,string_t("    test_diagnosis = .all.([22./7., 3.14159] .approximates. ") // subject // "%pi() .within. 0.001)" &
+      ,string_t("    test_diagnosis = .all.([22./7., 3.14159] .approximates. ") // subject // "%pi() .within. 0.001) // ' (pi approximation)'" &
       ,string_t("  end function") // new_line('')  &
       ,string_t("  function do_something() result(test_diagnosis)") &
       ,string_t("    type(test_diagnosis_t) test_diagnosis") &
