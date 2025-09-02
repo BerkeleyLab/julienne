@@ -76,12 +76,14 @@ Running the demonstration tests
 With the Fortran Package Manager (`fpm`) installed, please set the `demo` subdirectory as your present working directory in a shell.
 Then run the demonstration test suite using the command below for your compiler.
 
-|Vendor | Version(s) Tested       | Example shell command                            |
-|-------|-------------------------|--------------------------------------------------|
-|LLVM   | 20.1.8                  | `fpm test --compiler flang-new --flag "-O3"`     |
-|GCC    | 14.3.0, 15.1.0          | `fpm test --compiler gfortran --profile release` |
-|NAG    | 7.2 Build 7235          | `fpm test --compiler nagfor --flag "-O3 -fpp"`   |
-|Intel  | 2025.1.0 Build 20250728 | `fpm test --compiler ifx --flag "-fpp -O3"`      |
+|Vendor | Version(s) Tested                   | Example shell command                            |
+|-------|-------------------------------------|--------------------------------------------------|
+|LLVM   | 20.1.8, 21.1.0                      | `fpm test --compiler flang-new --flag "-O3"`     |
+|GCC    | 13.4.0<sup>1</sup>, 14.3.0, 15.1.0  | `fpm test --compiler gfortran --profile release` |
+|NAG    | 7.2 Build 7235                      | `fpm test --compiler nagfor --flag "-O3 -fpp"`   |
+|Intel  | 2025.1.0 Build 20250728             | `fpm test --compiler ifx --flag "-fpp -O3"`      |
+
+<sup>1</sup>With GCC 13, please append `--flag "-ffree-line-length-none"` to the listed `fpm test` command.
 
 Generating test scaffolding
 ---------------------------
@@ -94,7 +96,7 @@ To recreate the `test` directory contents, pass the following `test-suite.json` 
 }
 ```
 Please maintain the above format by introducing by not inserting, deleting, or combining any lines.
-Please run following command in a `zsh` shell with the root of Julienne's source tree as your present working directory:
+Please run following command in a `bash` or `zsh` shell with the root of Julienne's source tree as your present working directory:
 ```
 fpm run scaffold \
   --compiler flang-new \
