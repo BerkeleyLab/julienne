@@ -74,7 +74,7 @@ program legacy_driver
 
     call one_image_prints( &
       "_____ In total, " // string_t(passes) // " of " // string_t(tests) //  " tests pass.  " // &
-      string_t(skips), " tests were skipped. _____" &
+      string_t(skips) // " tests were skipped. _____" &
     )
     if (passes + skips /= tests) error stop "Some executed tests failed."
 
