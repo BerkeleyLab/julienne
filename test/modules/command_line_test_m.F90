@@ -42,6 +42,14 @@ contains
     type(test_description_t), allocatable :: test_descriptions(:)
     type(command_line_test_t) command_line_test
     type(command_line_t) command_line
+
+    image_number: &
+#if HAVE_MULTI_IMAGE_SUPPORT
+    associate(me => this_image())
+#else
+    associate(me => 1)
+#endif
+
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     procedure(diagnosis_function_i), pointer :: &
        check_flag_value_ptr         &
@@ -66,11 +74,13 @@ contains
         ,test_description_t(string_t("argument_present() result is .false. if a command-line argument is missing")) &
         ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present")) &
       ]
-      print "(*(a))"  &
+      if (me==1) then
+        print "(*(a))"  &
         ,new_line('') &
         ,"----> Skipping the command_line_t tests in GitHub CI.", new_line('') &
         ,"----> To test locally, append the following flags to the 'fpm test' command: -- --test command_line_t --type" &
         ,new_line('')
+      end if
     else if (.not. command_line%argument_present(["--test"])) then ! skip the tests if not explicitly requested
       test_descriptions = [ &
          test_description_t(string_t("flag_value() result is the value passed after a command-line flag")) &
@@ -79,10 +89,12 @@ contains
         ,test_description_t(string_t("argument_present() result is .false. if a command-line argument is missing")) &
         ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present")) &
       ]
-      print "(*(a))"  &
+      if (me==1) then
+        print "(*(a))"  &
         ,new_line('') &
         ,"-----> To test command_line_t, append the following to the 'fpm test' command: -- --test command_line_t --type" &
         ,new_line('')
+      end if
     else ! run the tests
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
       test_descriptions = [ &
@@ -102,6 +114,8 @@ contains
       ]
 #endif
     end if skip_all_tests_if_running_github_ci
+
+    end associate image_number
 
     test_results = command_line_test%run(test_descriptions)
   end function
