@@ -5,6 +5,8 @@
 
 submodule(julienne_test_harness_m) julienne_test_harness_s
   use julienne_command_line_m, only : command_line_t
+  use julienne_one_image_prints_m, only : one_image_prints
+  use julienne_string_m, only : string_t
   implicit none
 
 contains
@@ -34,7 +36,7 @@ contains
       associate(me => this_image())
 #endif
         if (me==1) then
-          print '(a,*(a,:,g0))', new_line(''), "_____ ", passes, " of ", tests, " tests passed. ", skips, " tests were skipped _____"
+          call one_image_prints(new_line('') //  "_____ " // string_t(passes) // " of " // string_t(tests) // " tests passed. " // string_t(skips) // " tests were skipped _____")
           if (passes + skips /= tests) error stop "Some tests failed."
         end if
 
@@ -66,13 +68,12 @@ contains
             'the tests with test subjects or test descriptions containing the user-specified substring.' // new_line('')
 
           if (command_line%argument_present([character(len=len("--help"))::"--help","-h"])) then
-            if (me==1) print '(*(a))', usage
+            call one_image_prints(usage)
             stop
           end if
         end block
 
-        if (me==1) &
-          print "(a)", new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
+        call one_image_prints(new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information.")
 
       end associate
 
