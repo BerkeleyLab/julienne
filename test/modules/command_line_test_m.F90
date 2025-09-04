@@ -8,6 +8,7 @@ module command_line_test_m
   use julienne_m, only : &
      command_line_t &
     ,GitHub_CI &
+    ,one_image_prints &
     ,operator(.equalsExpected.) &
     ,operator(.expect.) &
     ,string_t &
@@ -76,11 +77,12 @@ contains
         ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present")) &
       ]
       if (me==1) then
-        print "(*(a))"  &
-        ,new_line('') &
-        ,"----> Skipping the command_line_t tests in GitHub CI.", new_line('') &
-        ,"----> To test locally, append the following flags to the 'fpm test' command: -- --test command_line_t --type" &
-        ,new_line('')
+        call one_image_prints( &
+          new_line('') &
+          // "----> Skipping the command_line_t tests in GitHub CI." // new_line('') &
+          // "----> To test locally, append the following flags to the 'fpm test' command: -- --test command_line_t --type" &
+          // new_line('') &
+          )
       end if
     else if (.not. command_line%argument_present(["--test"])) then ! skip the tests if not explicitly requested
       test_descriptions = [ &
@@ -91,10 +93,11 @@ contains
         ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present")) &
       ]
       if (me==1) then
-        print "(*(a))"  &
-        ,new_line('') &
-        ,"-----> To test command_line_t, append the following to the 'fpm test' command: -- --test command_line_t --type" &
-        ,new_line('')
+        call one_image_prints( &
+          new_line('') &
+          // "-----> To test command_line_t, append the following to the 'fpm test' command: -- --test command_line_t --type" &
+          // new_line('') &
+        )
       end if
     else ! run the tests
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY

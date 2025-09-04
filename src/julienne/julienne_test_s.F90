@@ -5,6 +5,8 @@
 
 submodule(julienne_test_m) julienne_test_s
   use julienne_test_description_m, only : test_description_t
+  use julienne_one_image_prints_m, only : one_image_prints
+  use julienne_string_m, only : string_t
   implicit none
 
 contains
@@ -47,18 +49,17 @@ contains
               character(len=:), allocatable :: search_string
               search_string = command_line%flag_value("--contains")
               if (len(search_string)==0) then
-                print '(*(a))',           new_line('') // &
+                call one_image_prints( new_line('')    // &
                   "Running all tests." // new_line('') // &
-                  "(Add '-- --contains <string>' to run only tests with subjects or descriptions containing the specified string.)"
+                  "(Add '-- --contains <string>' to run only tests with subjects or descriptions containing the specified string.)")
               else
-                print '(*(a))',           new_line('') // &
-                  "Running only tests with subjects or descriptions containing '", search_string, "'."
+                call one_image_prints(new_line('') // "Running only tests with subjects or descriptions containing '" // search_string // "'.")
               end if
             end block
           end if first_report
         end block
 
-        print '(*(a))', new_line(''), test%subject()
+        call one_image_prints(new_line('') // test%subject())
 
       end if image_1_prints_usage_info
 
@@ -70,7 +71,7 @@ contains
             block
               integer i
               do i=1,num_tests
-                if (me==1) print '(3x,a)', test_results(i)%characterize()
+                call one_image_prints(test_results(i)%characterize())
               end do
             end block
           end if
@@ -84,7 +85,7 @@ contains
             call co_all(skipped_tests)
 
             associate(num_passes => count(passing_tests), num_skipped => count(skipped_tests))
-              if (me==1) print '(a,3(i0,a))'," ",num_passes," of ", num_tests," tests passed. ", num_skipped, " tests were skipped."
+              call one_image_prints(" " // string_t(num_passes) // " of " // string_t(num_tests) // " tests passed. " // string_t(num_skipped) // " tests were skipped.")
               passes = passes + num_passes
               skips  = skips  + num_skipped
             end associate
@@ -105,13 +106,13 @@ contains
           tests = tests + num_tests
           if (me==1) then
             do i=1,num_tests
-              if (me==1) print '(3x,a)', test_results(i)%characterize()
+              call one_image_prints(test_results(i)%characterize())
             end do
           end if
           passing_tests = test_results%passed()
           call co_all(passing_tests)
           associate(num_passes => count(passing_tests))
-            if (me==1) print '(a,2(i0,a))'," ",num_passes," of ", num_tests," tests passed."
+            call one_image_prints(" " // string_t(num_passes) // " of " // string_t(num_tests) // " tests passed.")
             passes = passes + num_passes
           end associate
         end associate
