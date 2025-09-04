@@ -35,9 +35,10 @@ where
 * `.isAtLeast.` and `.isAtMost.` can alternatively be spelled `.greaterThanOrEqualTo.` and `.lessThanOrEqualTo.`, respectively;
 * `.equalsExpected.` uses `==`, which implies that trailing blank spaces are ignored in character operands;  
 * `.equalsExpected.` with integer operands supports default integers and `integer(c_size_t)`;
-* `.isBefore.` and `.isAfter.` verify alphabetical and reverse-alphabetical  order, respectively; 
-* `.all.` aggregates arrays of expression results, reports a consensus result, passes, and shows diagnostics only for failing tests, if any; and
-* `.equalsExpected.` generates asymmetric diagnostic output for failures, denoting the left- and right-hand sides as the actual value and expected values, respectively.
+* `.isBefore.` and `.isAfter.` verify alphabetical and reverse-alphabetical  order, respectively; and
+* `.all.` aggregates arrays of expression results, reports a consensus result, passes, and shows diagnostics only for failing tests, if any;
+* `.equalsExpected.` generates asymmetric diagnostic output for failures, denoting the left- and right-hand sides as the actual value and expected values, respectively; and.
+* appending a trailing string to an idiom with `operator(//)` appends the string to the resulting diagnostics string, if any.
 
 Expressive idioms 
 -----------------
