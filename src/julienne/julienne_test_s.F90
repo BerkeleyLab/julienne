@@ -53,13 +53,21 @@ contains
                   "Running all tests." // new_line('') // &
                   "(Add '-- --contains <string>' to run only tests with subjects or descriptions containing the specified string.)")
               else
+#ifndef NAGFOR
                 call one_image_prints(new_line('') // "Running only tests with subjects or descriptions containing '" // search_string // "'.")
+#else
+                call one_image_prints(new_line('') // "Running only tests with subjects or descriptions containing '" // string_t(search_string) // "'.")
+#endif
               end if
             end block
           end if first_report
         end block
 
+#ifndef NAGFOR
         call one_image_prints(new_line('') // test%subject())
+#else
+        call one_image_prints(new_line('') // string_t(test%subject()))
+#endif
 
       end if image_1_prints_usage_info
 
