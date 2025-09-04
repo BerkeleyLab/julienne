@@ -9,7 +9,7 @@ program legacy_driver
 #ifdef __GNUC__
 #if (GCC_VERSION < 140300)
   ! Internal utilities
-  use julienne_m                     ,only : command_line_t, GitHub_CI, one_image_prints
+  use julienne_m                     ,only : command_line_t, GitHub_CI, one_image_prints, string_t
 
   ! Test modules
   use assert_test_m                  ,only :                  assert_test_t
