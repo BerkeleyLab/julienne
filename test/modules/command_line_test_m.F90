@@ -79,7 +79,7 @@ contains
       if (me==1) then
         call one_image_prints( &
           new_line('') &
-          // "----> Skipping the command_line_t tests in GitHub CI.", new_line('') &
+          // "----> Skipping the command_line_t tests in GitHub CI." // new_line('') &
           // "----> To test locally, append the following flags to the 'fpm test' command: -- --test command_line_t --type" &
           // new_line('') &
           )
