@@ -43,14 +43,6 @@ contains
     type(command_line_test_t) command_line_test
     type(command_line_t) command_line
 
-#if HAVE_MULTI_IMAGE_SUPPORT
-    image_number: &
-    associate(me => this_image())
-#else
-    image_number: &
-    associate(me => 1)
-#endif
-
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     procedure(diagnosis_function_i), pointer :: &
        check_flag_value_ptr         &
@@ -64,6 +56,14 @@ contains
       check_flag_missing_ptr       => check_flag_missing
       check_argument_missing_ptr   => check_argument_missing
       check_argument_present_ptr   => check_argument_present
+#endif
+
+#if HAVE_MULTI_IMAGE_SUPPORT
+    image_number: &
+    associate(me => this_image())
+#else
+    image_number: &
+    associate(me => 1)
 #endif
 
     skip_all_tests_if_running_github_ci: &
