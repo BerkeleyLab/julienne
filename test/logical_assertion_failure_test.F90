@@ -6,7 +6,7 @@
 
 program logical_assertion_failure_test
   !! Conditionally test an assertion that is hardwired to fail.
-  use julienne_m, only : call_julienne_assert_, command_line_t, operator(.equalsExpected.)
+  use julienne_m, only : call_julienne_assert_, command_line_t, operator(.equalsExpected.),one_image_prints 
   implicit none
   integer, allocatable :: array(:)
 
@@ -17,17 +17,16 @@ program logical_assertion_failure_test
 #endif
     if (.not. command_line%argument_present([character(len=len("--help"))::"--help","-h"])) then
 #ifdef RUN_FALSE_ASSERTIONS
-      if (me==1) print '(a)', new_line('') // 'Test the intentional failure of a logical assertion: ' // new_line('')
+      call one_image_prints(new_line('') // 'Test the intentional failure of a logical assertion: ' // new_line(''))
       if (allocated(array)) deallocate(array)
       call_julienne_assert(allocated(array))
 #else
-      if (me==1) then
-        print '(a)', &
+      call one_image_prints( &
           new_line('') // &
           'Skipping the test in ' // __FILE__ // '.' // new_line('') // &
           'Add the following to your fpm command to test assertion failures: --flag "-DASSERTIONS -DRUN_FALSE_ASSERTIONS"' // &
-          new_line('')
-      end if
+          new_line('') &
+      )
 #endif
     end if
   end associate
