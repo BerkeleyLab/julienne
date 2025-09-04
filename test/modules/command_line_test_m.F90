@@ -42,16 +42,23 @@ contains
     type(test_description_t), allocatable :: test_descriptions(:)
     type(command_line_test_t) command_line_test
     type(command_line_t) command_line
-    integer me
+#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
+    procedure(diagnosis_function_i), pointer :: &
+       check_flag_value_ptr         &
+      ,check_flag_value_missing_ptr &
+      ,check_flag_missing_ptr       &
+      ,check_argument_missing_ptr   &
+      ,check_argument_present_ptr
 
-#if HAVE_MULTI_IMAGE_SUPPORT
-    me = this_image()
-#else
-    me = 1
+      check_flag_value_ptr         => check_flag_value
+      check_flag_value_missing_ptr => check_flag_value_missing
+      check_flag_missing_ptr       => check_flag_missing
+      check_argument_missing_ptr   => check_argument_missing
+      check_argument_present_ptr   => check_argument_present
 #endif
 
-    skip_tests_if_CI_or_not_requested: &
-    if (GitHub_CI() .or. (.not. command_line%argument_present(["--test"]))) then
+    skip_all_tests_if_running_github_ci: &
+    if (GitHub_CI()) then
       test_descriptions = [ &
          test_description_t(string_t("flag_value() result is the value passed after a command-line flag")) &
         ,test_description_t(string_t("flag_value() result is an empty string if command-line flag value is missing")) &
@@ -59,6 +66,23 @@ contains
         ,test_description_t(string_t("argument_present() result is .false. if a command-line argument is missing")) &
         ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present")) &
       ]
+      print "(*(a))"  &
+        ,new_line('') &
+        ,"----> Skipping the command_line_t tests in GitHub CI.", new_line('') &
+        ,"----> To test locally, append the following flags to the 'fpm test' command: -- --test command_line_t --type" &
+        ,new_line('')
+    else if (.not. command_line%argument_present(["--test"])) then ! skip the tests if not explicitly requested
+      test_descriptions = [ &
+         test_description_t(string_t("flag_value() result is the value passed after a command-line flag")) &
+        ,test_description_t(string_t("flag_value() result is an empty string if command-line flag value is missing")) &
+        ,test_description_t(string_t("flag_value() result is an empty string if command-line flag is missing")) &
+        ,test_description_t(string_t("argument_present() result is .false. if a command-line argument is missing")) &
+        ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present")) &
+      ]
+      print "(*(a))"  &
+        ,new_line('') &
+        ,"-----> To test command_line_t, append the following to the 'fpm test' command: -- --test command_line_t --type" &
+        ,new_line('')
     else ! run the tests
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
       test_descriptions = [ &
@@ -69,13 +93,6 @@ contains
         ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present"), check_argument_present) &
       ]
 #else
-      block
-      procedure(diagnosis_function_i), pointer :: &
-         check_flag_value_ptr         => check_flag_value &
-        ,check_flag_value_missing_ptr => check_flag_value_missing &
-        ,check_flag_missing_ptr       => check_flag_missing &
-        ,check_argument_missing_ptr   => check_argument_missing &
-        ,check_argument_present_ptr   => check_argument_present
       test_descriptions = [ &
          test_description_t(string_t("flag_value() result is the value passed after a command-line flag"), check_flag_value_ptr) &
         ,test_description_t(string_t("flag_value() result is an empty string if command-line flag value is missing"), check_flag_value_missing_ptr) &
@@ -83,26 +100,10 @@ contains
         ,test_description_t(string_t("argument_present() result is .false. if a command-line argument is missing"), check_argument_missing_ptr) &
         ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present"), check_argument_present_ptr) &
       ]
-      end block
 #endif
-    end if skip_tests_if_CI_or_not_requested
+    end if skip_all_tests_if_running_github_ci
 
     test_results = command_line_test%run(test_descriptions)
-
-    if (me==1) then
-      if (GitHub_CI()) then
-        print "(*(a))"  &
-        ,new_line('') &
-        ,"----> Skipping the command_line_t tests in GitHub CI.", new_line('') &
-        ,"----> To test locally, append the following flags to the 'fpm test' command: -- --test command_line_t --type" &
-        ,new_line('')
-      else if (.not. command_line%argument_present(["--test"])) then ! skip the tests if not explicitly requested
-        print "(*(a))"  &
-        ,new_line('') &
-        ,"-----> To test command_line_t, append the following to the 'fpm test' command: -- --test command_line_t --type" &
-        ,new_line('')
-      end if
-    end if
   end function
 
   function check_flag_value() result(test_diagnosis)
