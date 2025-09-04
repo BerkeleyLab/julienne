@@ -71,10 +71,10 @@ contains
 #else
       block
       procedure(diagnosis_function_i), pointer :: &
-        ,check_flag_value_ptr         => check_flag_value
-        ,check_flag_value_missing_ptr => check_flag_value_missing
-        ,check_flag_missing_ptr       => check_flag_missing
-        ,check_argument_missing_ptr   => check_argument_missing
+        ,check_flag_value_ptr         => check_flag_value &
+        ,check_flag_value_missing_ptr => check_flag_value_missing &
+        ,check_flag_missing_ptr       => check_flag_missing &
+        ,check_argument_missing_ptr   => check_argument_missing &
         ,check_argument_present_ptr   => check_argument_present
       test_descriptions = [ &
          test_description_t(string_t("flag_value() result is the value passed after a command-line flag"), check_flag_value_ptr) &
