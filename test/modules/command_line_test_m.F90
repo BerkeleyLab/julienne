@@ -43,10 +43,11 @@ contains
     type(command_line_test_t) command_line_test
     type(command_line_t) command_line
 
-    image_number: &
 #if HAVE_MULTI_IMAGE_SUPPORT
+    image_number: &
     associate(me => this_image())
 #else
+    image_number: &
     associate(me => 1)
 #endif
 
