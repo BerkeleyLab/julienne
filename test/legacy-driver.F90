@@ -63,7 +63,7 @@ program legacy_driver
         new_line("") // &
         "To test Julienne's command_line_t type, append the following to your fpm command:" // &
         new_line("") // &
-        "-- --test command_line_t --type"
+        "-- --test command_line_t --type" &
       )
     end if
   end if
