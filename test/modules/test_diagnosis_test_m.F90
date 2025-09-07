@@ -31,7 +31,7 @@ module test_diagnosis_test_m
 #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
   use julienne_m, only : diagnosis_function_i
 #endif
-  use iso_c_binding, only : c_ptr, c_loc
+  use iso_c_binding, only : c_ptr, c_loc, c_bool
   implicit none
 
   private
@@ -82,6 +82,7 @@ contains
       ,test_description_t("construction from the vector test_diagnostics_t expressions 'i .equalsExpected. [j,k]'"             , check_and_with_vector_operands) &
       ,test_description_t("construction from string concatenation"                                                             , check_string_concatentation) &
       ,test_description_t("construction from character concatenation"                                                          , check_character_concatentation) &
+      ,test_description_t("construction from (.expects. logical-expression) // 'user-defined message'"                         , check_expects_logical) &
     ]
 #else
      ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
@@ -110,7 +111,8 @@ contains
        ,check_and_with_scalar_operands_ptr         => check_and_with_scalar_operands &
        ,check_and_with_vector_operands_ptr         => check_and_with_vector_operands &
        ,check_string_concatentation_ptr            => check_string_concatentation &
-       ,check_character_concatentation_ptr         => check_character_concatentation
+       ,check_character_concatentation_ptr         => check_character_concatentation &
+       ,check_expects_logical_ptr                  => check_expects_logical
 
      test_descriptions = [ &
        test_description_t("construction from the real expression 'x .approximates. y .within. tolerance'"                      , check_approximates_real_ptr) &
@@ -138,6 +140,7 @@ contains
       ,test_description_t("construction from the vector test_diagnostics_t expressions 'i .equalsExpected. [j,k]'"             , check_and_with_vector_operands_ptr) &
       ,test_description_t("construction from string concatenation"                                                             , check_string_concatentation_ptr) &
       ,test_description_t("construction from character concatenation"                                                          , check_character_concatentation_ptr) &
+      ,test_description_t("construction from (.expects. logical-expression) // 'user-defined message'"                         , check_expects_logical_ptr) &
      ]
 #endif
     test_results = test_diagnosis_test%run(test_descriptions)
@@ -203,9 +206,9 @@ contains
 
   function check_equals_c_ptr() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
-    logical, target :: t
+    logical(c_bool), target :: t
     type(c_ptr) t_ptr
-    t = .true.
+    t = .true._c_bool
     t_ptr = c_loc(t)
     test_diagnosis = t_ptr .equalsExpected. c_loc(t)
   end function
@@ -333,6 +336,12 @@ contains
       test_diagnosis = test_diagnosis .also. (diagnosis_do_not_cat_string%diagnostics_string() .equalsExpected. "blah blah")
     end block
 #endif
+  end function
+
+  function check_expects_logical() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    integer, allocatable :: A(:)
+    test_diagnosis = .expect. (.not. allocated(A)) // "(expected unallocated array A)"
   end function
 
 end module test_diagnosis_test_m
