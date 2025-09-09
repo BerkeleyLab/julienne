@@ -13,32 +13,32 @@ uniquely flexible Fortran capability allowing developers to define _new_
 operators in addition to overloading Fortran's intrinsic operators.  The
 following table provides examples of the expressions Julienne supports:
 
-Example expressions                               | Operand types
---------------------------------------------------|-----------------------------------------------------------
-`x .approximates. y .within. tolerance`           | `real`, `double precision`
-`x .approximates. y .withinFraction. tolerance`   | `real`, `double precision`
-`x .approximates. y .withinPercentage. tolerance` | `real`, `double precision`
-`.all. ([i,j] .lessThan. k)`                      | `integer`, `real`, `double precision`
-`.all. ([i,j] .lessThan. [k,m])`                  | `integer`, `real`, `double precision`
-`.all. (i .lessThan. [k,m])`                      | `integer`, `real`, `double precision`
-`(i .lessThan. j) .also. (k .equalsExpected. m))` | `integer`, `real`, `double precision`
-`x .lessThan. y`                                  | `integer`, `real`, `double precision`
-`x .greaterThan. y`                               | `integer`, `real`, `double precision`
-`i .equalsExpected. j`                            | `integer`, `character`, `type(c_ptr)`
-`i .isAtLeast. j`                                 | `integer`, `real`, `double precision`
-`i .isAtMost. j`                                  | `integer`, `real`, `double precision`
-`s .isBefore. t`                                  | `character`
-`s .isAfter. t`                                   | `character`
-`.expect. command_line%argument_present("--help")`| `logical`
+Example expressions                                  | Operand types
+-----------------------------------------------------|--------------------------------------
+`x .approximates. y .within. tolerance`              | `real`, `double precision`
+`x .approximates. y .withinFraction. tolerance`      | `real`, `double precision`
+`x .approximates. y .withinPercentage. tolerance`    | `real`, `double precision`
+`.all. ([i,j] .lessThan. k)`                         | `integer`, `real`, `double precision`
+`.all. ([i,j] .lessThan. [k,m])`                     | `integer`, `real`, `double precision`
+`.all. (i .lessThan. [k,m])`                         | `integer`, `real`, `double precision`
+`(i .lessThan. j) .also. (k .equalsExpected. m))`    | `integer`, `real`, `double precision`
+`x .lessThan. y`                                     | `integer`, `real`, `double precision`
+`x .greaterThan. y`                                  | `integer`, `real`, `double precision`
+`i .equalsExpected. j`                               | `integer`, `character`, `type(c_ptr)`
+`i .isAtLeast. j`                                    | `integer`, `real`, `double precision`
+`i .isAtMost. j`                                     | `integer`, `real`, `double precision`
+`s .isBefore. t`                                     | `character`
+`s .isAfter. t`                                      | `character`
+`.expect. allocated(A)` // " (expected allocated A)" | `logical`
 
 where 
 * `.isAtLeast.` and `.isAtMost.` can alternatively be spelled `.greaterThanOrEqualTo.` and `.lessThanOrEqualTo.`, respectively;
 * `.equalsExpected.` uses `==`, which implies that trailing blank spaces are ignored in character operands;  
 * `.equalsExpected.` with integer operands supports default integers and `integer(c_size_t)`;
 * `.isBefore.` and `.isAfter.` verify alphabetical and reverse-alphabetical  order, respectively; and
-* `.all.` aggregates arrays of expression results, reports a consensus result, passes, and shows diagnostics only for failing tests, if any;
+* `.all.` aggregates arrays of expression results, reports a consensus result, and shows diagnostics only for failing tests, if any;
 * `.equalsExpected.` generates asymmetric diagnostic output for failures, denoting the left- and right-hand sides as the actual value and expected values, respectively; and.
-* appending a trailing string to an idiom with `operator(//)` appends the string to the resulting diagnostics string, if any.
+* `//` appends the subsequent string to diagnostics strings, if any.
 
 Expressive idioms 
 -----------------
@@ -205,60 +205,70 @@ When built with the compiler versions tabulated below, all Julienne tests pass.
 
 Compiler         | Version(s) Tested      | Known Issues
 -----------------|------------------------|-------------
-LLVM `flang-new` | 19, 20                 | none
-NAG `nagfor`     | 7.2 Build 7227         | none
+LLVM `flang-new` | 19, 20, 21             | none
+NAG `nagfor`     | 7.2 Build 7235         | none
 Intel `ifx`      | 2025.2.1               | none
 GCC `gfortran`   | 13.4.0, 14.3.0, 15.1.0 | see below
 
 With `gfortran` 13 through 14.2.0,
-   - The `test_description_t` constructor's `diagnosis_function` actual argument
-     must be a procedure pointer declared with `procedure(diagnosis_function_i)`.
-   - The `string_t` type-bound  function `bracket` crashes.
+- The `test_description_t` constructor's `diagnosis_function` actual argument
+  must be a procedure pointer declared with `procedure(diagnosis_function_i)`.
+- The `string_t` type-bound  function `bracket` crashes.
 
 ### Build/test commands
 
 #### LLVM (`flang-new`) compiler
-##### `flang-new` version 20 or later
+With version 20 or later, please run
 ```
-fpm test --compiler flang-new
+fpm test --compiler flang-new --flag "-O3"
+```
+With version 19, please run
+```
+fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"
+```
+to enable support for assumed-rank dummy arguments.
+
+#### NAG (`nagfor`) compiler
+##### Serial execution
+```
+fpm test --compiler nagfor --flag "-fpp -O3"
 ```
 
-##### `flang-new` version 19
-Add the following command before the `fpm` command recommended above for
-LLVM 20 or later:
-```bash
-export FPM_FFLAGS="-mmlir -allow-assumed-rank"
+##### Parallel execution
+To execute build and run parallel tests in 2 images, please run
 ```
-where this `FPM_FFLAGS` setting turns on the support for Fortran's assumed-rank
-dummy arguments.
-
-If you do not have access to LLVM 19 or 20, we recommend building the
-llvm-project main branch from source.  A script that might help with
-doing so is in the [handy-dandy] repository.
-
-### NAG (`nagfor`) compiler
+export NAGFORTRAN_NUM_IMAGES=2
+fpm test --compiler nagfor --flag "-fpp -O3 -coarray"
 ```
-fpm test --compiler nagfor --flag -fpp
-```
+Replace the "2" above with any number up to the compiler limit of 1000 images.
 
 #### GNU (`gfortran`) compiler
-##### `gfortran` versions 14 or higher
+##### Serial execution
+For compiler versions 14 or higher, plese use
 ```
 fpm test --compiler gfortran --profile release
 ```
+For version 13, please append ` --flag "-ffree-line-length-none"` to the above
+command to enable the Fortran 2023 line-length maximum of 5000 characters.
 
-##### `gfortran` version 13
-```
-fpm test --compiler gfortran --profile release --flag "-ffree-line-length-none"
-```
-where the `-ffree-line-length-none` turns on support for lines exceeding the Fortran 2018 limit of 132 columns.
-(Fortran 2023 expands the allowable line length to 5,000 characters.)
+##### Parallel execution
+With OpenCoarrays installed, please replace `--compiler gfortran` with
+`--compiler caf` and please append ` --runner "cafrun -n 2"` to the above
+command.
 
 #### Intel (`ifx`) compiler
+##### Serial execution
 ```
 fpm test --compiler ifx --flag "-fpp -O3" --profile release
 ```
-Older versions of `ifx` might require adding `-coarray` to the quoted argument just after `--flag` above.
+
+##### Parallel execution
+To execute build and run parallel tests in 2 images, please run
+```
+export FOR_COARRAY_NUM_IMAGES=2
+fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release
+```
+Replace the "2" above with any desired number of images.
 
 Documentation
 -------------

@@ -4,6 +4,7 @@
 #include "language-support.F90"
 
 submodule(julienne_test_harness_m) julienne_test_harness_s
+  use iso_fortran_env, only : int64, real64
   use julienne_command_line_m, only : command_line_t
   use julienne_one_image_prints_m, only : one_image_prints
   use julienne_string_m, only : string_t
@@ -18,69 +19,54 @@ contains
     module procedure report_results
 
       integer i, passes, tests, skips
+      integer(int64) start_time, end_time, clock_rate
 
       passes=0; tests=0; skips=0
 
       call print_usage_info_and_stop_if_requested
+      call system_clock(start_time, clock_rate)
 
       do i = 1, size(self%test_fixture_)
         call self%test_fixture_(i)%report(passes, tests, skips)
       end do
 
-#if ! HAVE_MULTI_IMAGE_SUPPORT
-      my_image_number: &
-      block
-        integer, parameter :: me = 1
-#else
-      my_image_number: &
-      associate(me => this_image())
-#endif
-        if (me==1) then
-          call one_image_prints(new_line('') //  "_____ " // string_t(passes) // " of " // string_t(tests) // " tests passed. " // string_t(skips) // " tests were skipped _____")
-          if (passes + skips /= tests) error stop "Some tests failed."
-        end if
+      call system_clock(end_time)
 
 #if HAVE_MULTI_IMAGE_SUPPORT
-      end associate my_image_number
+      associate(me => this_image(), image_count => num_images())
 #else
-      end block my_image_number
+      associate(me => 1, image_count => 1)
 #endif
+        call one_image_prints("")
+        call one_image_prints("Test-suite execution time: " // string_t(real(end_time - start_time, real64)/real(clock_rate, real64)) // " seconds")
+        call one_image_prints("Number of images: " // string_t(image_count))
+        call one_image_prints("")
+        call one_image_prints("_____ " // string_t(passes) // " of " // string_t(tests) // " tests passed. " // string_t(skips) // " tests were skipped _____")
+        if (passes + skips /= tests .and. me==1) error stop "Some tests failed."
+      end associate
 
     end procedure
 
     subroutine print_usage_info_and_stop_if_requested
 
-#if ! HAVE_MULTI_IMAGE_SUPPORT
-      integer, parameter :: me = 1
-#else
-      my_image_number: &
-      associate(me => this_image())
-#endif
+      character(len=*), parameter :: usage = &
+        new_line('') // new_line('') // &
+        'Usage: fpm test -- [--help] | [--contains <substring>]' // &
+        new_line('') // new_line('') // &
+        'where square brackets ([]) denote optional arguments, a pipe (|) separates alternative arguments,' // new_line('') // &
+        'angular brackets (<>) denote a user-provided value, and passing a substring limits execution to' // new_line('') // &
+        'the tests with test subjects or test descriptions containing the user-specified substring.' // new_line('')
 
       associate(command_line => command_line_t())
-        block
-          character(len=*), parameter :: usage = &
-            new_line('') // new_line('') // &
-            'Usage: fpm test -- [--help] | [--contains <substring>]' // &
-            new_line('') // new_line('') // &
-            'where square brackets ([]) denote optional arguments, a pipe (|) separates alternative arguments,' // new_line('') // &
-            'angular brackets (<>) denote a user-provided value, and passing a substring limits execution to' // new_line('') // &
-            'the tests with test subjects or test descriptions containing the user-specified substring.' // new_line('')
 
-          if (command_line%argument_present([character(len=len("--help"))::"--help","-h"])) then
-            call one_image_prints(usage)
-            stop
-          end if
-        end block
+        if (command_line%argument_present([character(len=len("--help"))::"--help","-h"])) then
+          call one_image_prints(usage)
+          stop
+        end if
 
         call one_image_prints(new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information.")
 
       end associate
-
-#if HAVE_MULTI_IMAGE_SUPPORT
-      end associate my_image_number
-#endif
-
     end subroutine
 
 end submodule julienne_test_harness_s
