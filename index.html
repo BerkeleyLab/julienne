@@ -178,7 +178,7 @@ following table provides examples of the expressions Julienne supports:</p>
 <td><code>character</code></td>
 </tr>
 <tr>
-<td><code>.expect. command_line%argument_present("--help")</code></td>
+<td><code>.expect. allocated(A)</code> // " (expected allocated A)"</td>
 <td><code>logical</code></td>
 </tr>
 </tbody>
@@ -188,9 +188,9 @@ following table provides examples of the expressions Julienne supports:</p>
 * <code>.equalsExpected.</code> uses <code>==</code>, which implies that trailing blank spaces are ignored in character operands;<br>
 * <code>.equalsExpected.</code> with integer operands supports default integers and <code>integer(c_size_t)</code>;
 * <code>.isBefore.</code> and <code>.isAfter.</code> verify alphabetical and reverse-alphabetical  order, respectively; and
-* <code>.all.</code> aggregates arrays of expression results, reports a consensus result, passes, and shows diagnostics only for failing tests, if any;
+* <code>.all.</code> aggregates arrays of expression results, reports a consensus result, and shows diagnostics only for failing tests, if any;
 * <code>.equalsExpected.</code> generates asymmetric diagnostic output for failures, denoting the left- and right-hand sides as the actual value and expected values, respectively; and.
-* appending a trailing string to an idiom with <code>operator(//)</code> appends the string to the resulting diagnostics string, if any.</p>
+* <code>//</code> appends the subsequent string to diagnostics strings, if any.</p>
 <h2 id="expressive-idioms">Expressive idioms</h2>
 <h3 id="assertions">Assertions</h3>
 <p>Any of the above expressions can be the actual argument in an invocation
@@ -382,12 +382,12 @@ the framework supports.</p>
 <tbody>
 <tr>
 <td>LLVM <code>flang-new</code></td>
-<td>19, 20</td>
+<td>19, 20, 21</td>
 <td>none</td>
 </tr>
 <tr>
 <td>NAG <code>nagfor</code></td>
-<td>7.2 Build 7227</td>
+<td>7.2 Build 7235</td>
 <td>none</td>
 </tr>
 <tr>
@@ -403,46 +403,56 @@ the framework supports.</p>
 </tbody>
 </table>
 <p>With <code>gfortran</code> 13 through 14.2.0,
-   - The <code>test_description_t</code> constructor's <code>diagnosis_function</code> actual argument
-     must be a procedure pointer declared with <code>procedure(diagnosis_function_i)</code>.
-   - The <code>string_t</code> type-bound  function <code>bracket</code> crashes.</p>
+- The <code>test_description_t</code> constructor's <code>diagnosis_function</code> actual argument
+  must be a procedure pointer declared with <code>procedure(diagnosis_function_i)</code>.
+- The <code>string_t</code> type-bound  function <code>bracket</code> crashes.</p>
 <h3 id="buildtest-commands">Build/test commands</h3>
 <h4 id="llvm-flang-new-compiler">LLVM (<code>flang-new</code>) compiler</h4>
-<h5 id="flang-new-version-20-or-later"><code>flang-new</code> version 20 or later</h5>
-<div class="codehilite"><pre><span></span><code>fpm test --compiler flang-new
+<p>With version 20 or later, please run</p>
+<div class="codehilite"><pre><span></span><code>fpm test --compiler flang-new --flag &quot;-O3&quot;
 </code></pre></div>
 
-<h5 id="flang-new-version-19"><code>flang-new</code> version 19</h5>
-<p>Add the following command before the <code>fpm</code> command recommended above for
-LLVM 20 or later:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">FPM_FFLAGS</span><span class="o">=</span><span class="s2">&quot;-mmlir -allow-assumed-rank&quot;</span>
+<p>With version 19, please run</p>
+<div class="codehilite"><pre><span></span><code>fpm test --compiler flang-new --flag &quot;-O3 -mmlir -allow-assumed-rank&quot;
 </code></pre></div>
 
-<p>where this <code>FPM_FFLAGS</code> setting turns on the support for Fortran's assumed-rank
-dummy arguments.</p>
-<p>If you do not have access to LLVM 19 or 20, we recommend building the
-llvm-project main branch from source.  A script that might help with
-doing so is in the <a href="https://github.com/rouson/handy-dandy/blob/7caaa4dc3d6e5331914a3025f0cb1db5ac1a886f/src/fresh-llvm-build.sh">handy-dandy</a> repository.</p>
-<h3 id="nag-nagfor-compiler">NAG (<code>nagfor</code>) compiler</h3>
-<div class="codehilite"><pre><span></span><code>fpm test --compiler nagfor --flag -fpp
+<p>to enable support for assumed-rank dummy arguments.</p>
+<h4 id="nag-nagfor-compiler">NAG (<code>nagfor</code>) compiler</h4>
+<h5 id="serial-execution">Serial execution</h5>
+<div class="codehilite"><pre><span></span><code>fpm test --compiler nagfor --flag &quot;-fpp -O3&quot;
 </code></pre></div>
 
+<h5 id="parallel-execution">Parallel execution</h5>
+<p>To execute build and run parallel tests in 2 images, please run</p>
+<div class="codehilite"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="n">NAGFORTRAN_NUM_IMAGES</span><span class="o">=</span><span class="mi">2</span>
+<span class="n">fpm</span><span class="w"> </span><span class="n">test</span><span class="w"> </span><span class="o">--</span><span class="n">compiler</span><span class="w"> </span><span class="n">nagfor</span><span class="w"> </span><span class="o">--</span><span class="n">flag</span><span class="w"> </span><span class="s2">&quot;-fpp -O3 -coarray&quot;</span>
+</code></pre></div>
+
+<p>Replace the "2" above with any number up to the compiler limit of 1000 images.</p>
 <h4 id="gnu-gfortran-compiler">GNU (<code>gfortran</code>) compiler</h4>
-<h5 id="gfortran-versions-14-or-higher"><code>gfortran</code> versions 14 or higher</h5>
+<h5 id="serial-execution_1">Serial execution</h5>
+<p>For compiler versions 14 or higher, plese use</p>
 <div class="codehilite"><pre><span></span><code>fpm test --compiler gfortran --profile release
 </code></pre></div>
 
-<h5 id="gfortran-version-13"><code>gfortran</code> version 13</h5>
-<div class="codehilite"><pre><span></span><code>fpm test --compiler gfortran --profile release --flag &quot;-ffree-line-length-none&quot;
-</code></pre></div>
-
-<p>where the <code>-ffree-line-length-none</code> turns on support for lines exceeding the Fortran 2018 limit of 132 columns.
-(Fortran 2023 expands the allowable line length to 5,000 characters.)</p>
+<p>For version 13, please append <code>--flag "-ffree-line-length-none"</code> to the above
+command to enable the Fortran 2023 line-length maximum of 5000 characters.</p>
+<h5 id="parallel-execution_1">Parallel execution</h5>
+<p>With OpenCoarrays installed, please replace <code>--compiler gfortran</code> with
+<code>--compiler caf</code> and please append <code>--runner "cafrun -n 2"</code> to the above
+command.</p>
 <h4 id="intel-ifx-compiler">Intel (<code>ifx</code>) compiler</h4>
+<h5 id="serial-execution_2">Serial execution</h5>
 <div class="codehilite"><pre><span></span><code>fpm test --compiler ifx --flag &quot;-fpp -O3&quot; --profile release
 </code></pre></div>
 
-<p>Older versions of <code>ifx</code> might require adding <code>-coarray</code> to the quoted argument just after <code>--flag</code> above.</p>
+<h5 id="parallel-execution_2">Parallel execution</h5>
+<p>To execute build and run parallel tests in 2 images, please run</p>
+<div class="codehilite"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="n">FOR_COARRAY_NUM_IMAGES</span><span class="o">=</span><span class="mi">2</span>
+<span class="n">fpm</span><span class="w"> </span><span class="n">test</span><span class="w"> </span><span class="o">--</span><span class="n">compiler</span><span class="w"> </span><span class="n">ifx</span><span class="w"> </span><span class="o">--</span><span class="n">flag</span><span class="w"> </span><span class="s2">&quot;-fpp -O3 -coarray&quot;</span><span class="w"> </span><span class="o">--</span><span class="n">profile</span><span class="w"> </span><span class="n">release</span>
+</code></pre></div>
+
+<p>Replace the "2" above with any desired number of images.</p>
 <h2 id="documentation">Documentation</h2>
 <p>See our online <a href="https:///berkeleylab.github.io/julienne/">documentation</a> or build the documentation locally by installing <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a> and executing <code>ford ford.md</code>.</p>
 <h2 id="known-software-using-julienne">Known Software Using Julienne</h2>
@@ -533,7 +543,7 @@ doing so is in the <a href="https://github.com/rouson/handy-dandy/blob/7caaa4dc3
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-04 21:37 +0000             </p>
+ on 2025-09-09 20:07 +0000             </p>
           </div>
         </div>
         <br>
