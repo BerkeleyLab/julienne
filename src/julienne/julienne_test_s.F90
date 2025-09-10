@@ -79,7 +79,11 @@ contains
             block
               integer i
               do i=1,num_tests
+#ifndef NAGFOR
                 call one_image_prints("   " // test_results(i)%characterize())
+#else
+                call one_image_prints("   " // string_t(test_results(i)%characterize()))
+#endif
               end do
             end block
           end if
