@@ -79,7 +79,7 @@ contains
             block
               integer i
               do i=1,num_tests
-                call one_image_prints(test_results(i)%characterize())
+                call one_image_prints("   " // test_results(i)%characterize())
               end do
             end block
           end if
