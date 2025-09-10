@@ -244,7 +244,7 @@ Replace the "2" above with any number up to the compiler limit of 1000 images.
 
 #### GNU (`gfortran`) compiler
 ##### Serial execution
-For compiler versions 14 or higher, plese use
+For compiler versions 14 or higher, please use
 ```
 fpm test --compiler gfortran --profile release
 ```
