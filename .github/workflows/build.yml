@@ -13,7 +13,7 @@ jobs:
         os: [macos-13, macos-14, macos-15, ubuntu-22.04, ubuntu-24.04]
         compiler: [ gfortran ]
         version: [ 12, 13, 14 ]
-        extra_flags: [ -g ]
+        extra_flags: [ -g -O3 ]
 
         exclude:
           - os: ubuntu-22.04
@@ -52,20 +52,16 @@ jobs:
           - os: ubuntu-24.04
             compiler: flang
             version: 19
-            extra_flags: -g -mmlir -allow-assumed-rank
+            extra_flags: -g -mmlir -allow-assumed-rank -O3
             container: phhargrove/llvm-flang:19.1.1-1
-#          - os: ubuntu-24.04
-#            compiler: flang
-#            version: new
-#            container: gmao/llvm-flang:latest
 
           # --- Intel coverage ---
 
           - os: ubuntu-24.04
             compiler: ifx
-            version: 2025.1.0
+            version: 2025.1.2
             error_stop_code: 128
-            container: intel/fortran-essentials:2025.1.0-0-devel-ubuntu24.04
+            container: intel/fortran-essentials:2025.1.2-0-devel-ubuntu24.04
             #container: intel/oneapi-hpckit:2025.1.0-0-devel-ubuntu24.04
           - os: ubuntu-22.04
             compiler: ifx
@@ -169,10 +165,12 @@ jobs:
         ${FPM_FC} --version
         fpm --version
 
-    #- name: Build and Test (Assertions OFF)
-    #  run: |
-    #    set -x
-    #    fpm test                              ${FPM_FLAGS} --flag "$FFLAGS"
+    - name: Build and Test (Assertions OFF)
+      run: |
+        set -x
+        fpm test                              ${FPM_FLAGS} --flag "$FFLAGS"
+        cd demo 
+        fpm test                              ${FPM_FLAGS} --flag "$FFLAGS"
     #    fpm run  --example false-assertion    ${FPM_FLAGS} --flag "$FFLAGS"
     #    fpm run  --example simple-assertions  ${FPM_FLAGS} --flag "$FFLAGS"
     #    fpm run  --example invoke-via-macro   ${FPM_FLAGS} --flag "$FFLAGS"
