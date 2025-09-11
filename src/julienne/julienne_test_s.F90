@@ -34,8 +34,7 @@ contains
 #if HAVE_MULTI_IMAGE_SUPPORT
     associate(me => this_image())
 #else
-    integer me
-    me = 1
+    associate(me => 1)
 #endif
       image_1_prints_usage_info: &
       if (me==1) then
@@ -84,16 +83,13 @@ contains
             call co_all(skipped_tests)
 
             associate(num_passes => count(passing_tests), num_skipped => count(skipped_tests))
-              if (me==1) print *, " ", num_passes, " of ", num_tests, " tests passed. ", num_skipped, " tests were skipped."
+              if (me==1) print '(*(a,:,i0))', " ", num_passes, " of ", num_tests, " tests passed. ", num_skipped, " tests were skipped."
               passes = passes + num_passes
               skips  = skips  + num_skipped
             end associate
           end block
         end associate
-#if HAVE_MULTI_IMAGE_SUPPORT
       end associate
-#endif
-
 #else
       block
         logical, allocatable :: passing_tests(:)

@@ -37,11 +37,12 @@ contains
       associate(me => 1, image_count => 1)
 #endif
         if (me==1) then
-          print *, ""
-          print *, "Test-suite execution time: ", real(end_time - start_time, real64)/real(clock_rate, real64), " seconds"
-          print *, "Number of images: ", image_count
-          print *, ""
-          print *, "_____ ", passes, " of ", tests, " tests passed. ", skips, " tests were skipped _____"
+          print *
+          print '(*(a,:,en10.2))', "Test-suite run time: ", real(end_time - start_time, real64)/real(clock_rate, real64), " seconds"
+          print '(a,i0)',      "Number of images: ", image_count
+          print *
+          print '(*(a,:,i0))', "_____ ", passes, " of ", tests, " tests passed. ", skips, " tests were skipped _____"
+          print *
         end if
         if (passes + skips /= tests .and. me==1) error stop "Some tests failed."
       end associate
@@ -59,9 +60,9 @@ contains
         'the tests with test subjects or test descriptions containing the user-specified substring.' // new_line('')
 
 #if HAVE_MULTI_IMAGE_SUPPORT
-      associate(me => this_image(), image_count => num_images())
+      associate(me => this_image())
 #else
-      associate(me => 1, image_count => 1)
+      associate(me => 1)
 #endif
         associate(command_line => command_line_t())
 
