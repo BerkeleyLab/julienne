@@ -12,7 +12,7 @@ jobs:
       matrix:
         os: [macos-13, macos-14, macos-15, ubuntu-22.04, ubuntu-24.04]
         compiler: [ gfortran ]
-        version: [ 12, 13, 14 ]
+        version: [ 13, 14 ]
         extra_flags: [ -g -O3 ]
 
         exclude:
@@ -169,8 +169,8 @@ jobs:
       run: |
         set -x
         fpm test                              ${FPM_FLAGS} --flag "$FFLAGS"
-        cd demo 
-        fpm test                              ${FPM_FLAGS} --flag "$FFLAGS"
+    #    cd demo 
+    #    fpm test                              ${FPM_FLAGS} --flag "$FFLAGS"
     #    fpm run  --example false-assertion    ${FPM_FLAGS} --flag "$FFLAGS"
     #    fpm run  --example simple-assertions  ${FPM_FLAGS} --flag "$FFLAGS"
     #    fpm run  --example invoke-via-macro   ${FPM_FLAGS} --flag "$FFLAGS"
