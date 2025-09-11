@@ -6,7 +6,6 @@
 submodule(julienne_test_harness_m) julienne_test_harness_s
   use iso_fortran_env, only : int64, real64
   use julienne_command_line_m, only : command_line_t
-  use julienne_one_image_prints_m, only : one_image_prints
   use julienne_string_m, only : string_t
   implicit none
 
@@ -37,11 +36,13 @@ contains
 #else
       associate(me => 1, image_count => 1)
 #endif
-        call one_image_prints("")
-        call one_image_prints("Test-suite execution time: " // string_t(real(end_time - start_time, real64)/real(clock_rate, real64)) // " seconds")
-        call one_image_prints("Number of images: " // string_t(image_count))
-        call one_image_prints("")
-        call one_image_prints("_____ " // string_t(passes) // " of " // string_t(tests) // " tests passed. " // string_t(skips) // " tests were skipped _____")
+        if (me==1) then
+          print *, ""
+          print *, "Test-suite execution time: ", real(end_time - start_time, real64)/real(clock_rate, real64), " seconds"
+          print *, "Number of images: ", image_count
+          print *, ""
+          print *, "_____ ", passes, " of ", tests, " tests passed. ", skips, " tests were skipped _____"
+        end if
         if (passes + skips /= tests .and. me==1) error stop "Some tests failed."
       end associate
 
@@ -57,15 +58,21 @@ contains
         'angular brackets (<>) denote a user-provided value, and passing a substring limits execution to' // new_line('') // &
         'the tests with test subjects or test descriptions containing the user-specified substring.' // new_line('')
 
-      associate(command_line => command_line_t())
+#if HAVE_MULTI_IMAGE_SUPPORT
+      associate(me => this_image(), image_count => num_images())
+#else
+      associate(me => 1, image_count => 1)
+#endif
+        associate(command_line => command_line_t())
 
-        if (command_line%argument_present([character(len=len("--help"))::"--help","-h"])) then
-          call one_image_prints(usage)
-          stop
-        end if
+          if (command_line%argument_present([character(len=len("--help"))::"--help","-h"])) then
+            if (me==1) print '(a)', usage
+            stop
+          end if
 
-        call one_image_prints(new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information.")
+          if (me==1) print '(a)', new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
 
+        end associate
       end associate
     end subroutine
 

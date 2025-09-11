@@ -5,7 +5,6 @@
 
 submodule(julienne_test_m) julienne_test_s
   use julienne_test_description_m, only : test_description_t
-  use julienne_one_image_prints_m, only : one_image_prints
   use julienne_string_m, only : string_t
   implicit none
 
@@ -49,25 +48,17 @@ contains
               character(len=:), allocatable :: search_string
               search_string = command_line%flag_value("--contains")
               if (len(search_string)==0) then
-                call one_image_prints( new_line('')    // &
+                if (me==1) print '(a)', new_line('') // &
                   "Running all tests." // new_line('') // &
-                  "(Add '-- --contains <string>' to run only tests with subjects or descriptions containing the specified string.)")
+                  "(Add '-- --contains <string>' to run only tests with subjects or descriptions containing the specified string.)"
               else
-#ifndef NAGFOR
-                call one_image_prints(new_line('') // "Running only tests with subjects or descriptions containing '" // search_string // "'.")
-#else
-                call one_image_prints(new_line('') // "Running only tests with subjects or descriptions containing '" // string_t(search_string) // "'.")
-#endif
+                if (me==1) print '(a)', new_line('') // "Running only tests with subjects or descriptions containing '" // search_string // "'."
               end if
             end block
           end if first_report
         end block
 
-#ifndef NAGFOR
-        call one_image_prints(new_line('') // test%subject())
-#else
-        call one_image_prints(new_line('') // string_t(test%subject()))
-#endif
+        if (me==1) print '(a)', new_line('') // test%subject()
 
       end if image_1_prints_usage_info
 
@@ -79,11 +70,7 @@ contains
             block
               integer i
               do i=1,num_tests
-#ifndef NAGFOR
-                call one_image_prints("   " // test_results(i)%characterize())
-#else
-                call one_image_prints("   " // string_t(test_results(i)%characterize()))
-#endif
+                if (me==1) print '(a)', "   " // test_results(i)%characterize()
               end do
             end block
           end if
@@ -97,7 +84,7 @@ contains
             call co_all(skipped_tests)
 
             associate(num_passes => count(passing_tests), num_skipped => count(skipped_tests))
-              call one_image_prints(" " // string_t(num_passes) // " of " // string_t(num_tests) // " tests passed. " // string_t(num_skipped) // " tests were skipped.")
+              if (me==1) print *, " ", num_passes, " of ", num_tests, " tests passed. ", num_skipped, " tests were skipped."
               passes = passes + num_passes
               skips  = skips  + num_skipped
             end associate
@@ -118,13 +105,13 @@ contains
           tests = tests + num_tests
           if (me==1) then
             do i=1,num_tests
-              call one_image_prints(test_results(i)%characterize())
+              print '(a)', test_results(i)%characterize()
             end do
           end if
           passing_tests = test_results%passed()
           call co_all(passing_tests)
           associate(num_passes => count(passing_tests))
-            call one_image_prints(" " // string_t(num_passes) // " of " // string_t(num_tests) // " tests passed.")
+            if (me==1) print '(a)', " " // string_t(num_passes) // " of " // string_t(num_tests) // " tests passed."
             passes = passes + num_passes
           end associate
         end associate

@@ -16,15 +16,14 @@ program idiomatic_assertion_failure_test
 #endif
     if (.not. command_line%argument_present([character(len=len("--help"))::"--help","-h"])) then
 #ifdef RUN_FALSE_ASSERTIONS
-      call one_image_prints(new_line('') // 'Test the intentional failure of an idiomatic assertion: ' // new_line(''))
+      if (me==1) print '(a)', new_line('') // 'Test the intentional failure of an idiomatic assertion: ' // new_line('')
       call_julienne_assert(1 .equalsExpected. 2)
 #else
-      call one_image_prints( &
+      if (me==1) print '(a)',  &
            new_line('') // &
            'Skipping the test in ' // __FILE__ // '.' // new_line('') // &
            'Add the following to your fpm command to test assertion failures: --flag "-DASSERTIONS -DRUN_FALSE_ASSERTIONS"' // &
-           new_line('') &
-      )
+           new_line('')
 #endif
     end if
   end associate
