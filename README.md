@@ -207,7 +207,7 @@ Compiler         | Version(s) Tested      | Known Issues
 -----------------|------------------------|-------------
 LLVM `flang-new` | 19, 20, 21             | none
 NAG `nagfor`     | 7.2 Build 7235         | none
-Intel `ifx`      | 2025.2.1               | none
+Intel `ifx`      | 2025.2.{0-2}           | none
 GCC `gfortran`   | 13.4.0, 14.3.0, 15.1.0 | see below
 
 With `gfortran` 13 through 14.2.0,
