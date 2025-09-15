@@ -36,30 +36,7 @@ contains
 #else
     associate(me => 1)
 #endif
-      image_1_prints_usage_info: &
-      if (me==1) then
-        block
-          type(command_line_t) command_line
-          first_report: &
-          if (do_first_report) then
-            do_first_report = .false.
-            block
-              character(len=:), allocatable :: search_string
-              search_string = command_line%flag_value("--contains")
-              if (len(search_string)==0) then
-                if (me==1) print '(a)', new_line('') // &
-                  "Running all tests." // new_line('') // &
-                  "(Add '-- --contains <string>' to run only tests with subjects or descriptions containing the specified string.)"
-              else
-                if (me==1) print '(a)', new_line('') // "Running only tests with subjects or descriptions containing '" // search_string // "'."
-              end if
-            end block
-          end if first_report
-        end block
-
-        if (me==1) print '(a)', new_line('') // test%subject()
-
-      end if image_1_prints_usage_info
+      if (me==1) print '(a)', new_line('') // test%subject()
 
       associate(test_results => test%results())
         associate(num_tests => size(test_results))
