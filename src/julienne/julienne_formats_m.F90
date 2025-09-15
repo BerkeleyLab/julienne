@@ -8,8 +8,6 @@ module julienne_formats_m
   character(len=*), parameter :: csv = "(*(G25.20,:,','))" !! comma-separated values
   character(len=*), parameter :: cscv = "(*('(',G25.20,',',G25.20,')',:,',')))" !! comma-separated complex values
 
-#ifndef _CRAYFTN
-
   interface
 
     pure module function separated_values(separator, mold) result(format_string)
@@ -19,19 +17,5 @@ module julienne_formats_m
     end function
 
   end interface
-
-#else
-
-  interface separated_values
-
-    pure module function separated_values_1D(separator, mold) result(format_string)
-      character(len=*), intent(in) :: separator 
-      class(*), intent(in) :: mold(:)
-      character(len=:), allocatable :: format_string
-    end function
-
-  end interface
-
-#endif
 
 end module julienne_formats_m
