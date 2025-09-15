@@ -61,7 +61,6 @@ contains
 
       end if image_1_prints_usage_info
 
-#ifndef _CRAYFTN
       associate(test_results => test%results())
         associate(num_tests => size(test_results))
           tests = tests + num_tests
@@ -90,30 +89,6 @@ contains
           end block
         end associate
       end associate
-#else
-      block
-        logical, allocatable :: passing_tests(:)
-        type(test_result_t), allocatable :: test_results(:)
-        integer i
-
-        test_results = test%results()
-        associate(num_tests => size(test_results))
-          tests = tests + num_tests
-          if (me==1) then
-            do i=1,num_tests
-              print '(a)', test_results(i)%characterize()
-            end do
-          end if
-          passing_tests = test_results%passed()
-          call co_all(passing_tests)
-          associate(num_passes => count(passing_tests))
-            if (me==1) print '(a)', " " // string_t(num_passes) // " of " // string_t(num_tests) // " tests passed."
-            passes = passes + num_passes
-          end associate
-        end associate
-      end block
-#endif
-
     end associate
 
   end procedure

@@ -142,8 +142,8 @@
       </a>
       <div id="inters-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/julienne_test_m.html#interface-report~2">report</a>
-            <a class="list-group-item" href="../module/julienne_test_m.html#interface-run~2">run</a>
+            <a class="list-group-item" href="../module/julienne_test_m.html#interface-report">report</a>
+            <a class="list-group-item" href="../module/julienne_test_m.html#interface-run">run</a>
         </div>
       </div>
     </div>
@@ -739,7 +739,7 @@ large graphs.</div>
           <h2>Interfaces</h2>
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-report~2"></span>
+      <span class="anchor" id="interface-report"></span>
       <h3>        interface
       </h3>
     </div>
@@ -751,101 +751,6 @@ large graphs.</div>
 
     </h3>
   <p>Print the test results and increment the tallies of passing tests, total tests, and skipped tests.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-test~3"></span>
-              class(<a href='../type/test_t.html'>test_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>test</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-passes~3"></span>
-              integer,
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>passes</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tests~3"></span>
-              integer,
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>tests</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-skips~3"></span>
-              integer,
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>skips</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-        </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-run~2"></span>
-      <h3>        interface
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>
-    private module function run(test, test_descriptions) result(test_results)  
-    <a href="../proc/run~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  <p>Construct an array of test results from a set of tests filtered for descriptions and subjects with
-the '--contains' flag's value if the flag was included on the command line at program launch.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -875,7 +780,102 @@ the '--contains' flag's value if the flag was included on the command line at pr
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-test_descriptions~2"></span>
+              <span class="anchor" id="variable-passes"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>passes</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tests"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tests</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-skips"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>skips</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-run"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private module function run(test, test_descriptions) result(test_results)  
+    <a href="../proc/run~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  <p>Construct an array of test results from a set of tests filtered for descriptions and subjects with
+the '--contains' flag's value if the flag was included on the command line at program launch.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-test"></span>
+              class(<a href='../type/test_t.html'>test_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>test</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-test_descriptions"></span>
               type(<a href='../type/test_description_t.html'>test_description_t</a>),
             </td>
 <td>intent(in)</td>
@@ -979,7 +979,7 @@ the '--contains' flag's value if the flag was included on the command line at pr
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/test_t.html#boundprocedure-report~2'>report</a></strong></td>
+  <strong><a href='../type/test_t.html#boundprocedure-report'>report</a></strong></td>
                   <td></td>
               </tr>
               <tr>
@@ -989,12 +989,12 @@ the '--contains' flag's value if the flag was included on the command line at pr
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/test_t.html#boundprocedure-run~2'>run</a></strong></td>
+  <strong><a href='../type/test_t.html#boundprocedure-run'>run</a></strong></td>
                   <td></td>
               </tr>
               <tr>
                 <td>  procedure(<a href='../interface/subject_interface.html'>subject_interface</a>), public, deferred, nopass ::
-  <strong><a href='../type/test_t.html#boundprocedure-subject~3'>subject</a></strong></td>
+  <strong><a href='../type/test_t.html#boundprocedure-subject'>subject</a></strong></td>
                   <td></td>
               </tr>
           </tbody>
@@ -1027,7 +1027,7 @@ the '--contains' flag's value if the flag was included on the command line at pr
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-12 18:13 +0000             </p>
+ on 2025-09-15 23:05 +0000             </p>
           </div>
         </div>
         <br>
