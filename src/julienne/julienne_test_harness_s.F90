@@ -51,7 +51,6 @@ contains
 
     subroutine print_usage_info_and_stop_if_requested
 
-      character(len=:), allocatable :: search_string
       character(len=*), parameter :: usage = &
         new_line('') // new_line('') // &
         'Usage: fpm test -- [--help] | [--contains <substring>]' // &
@@ -76,16 +75,17 @@ contains
 
             print '(a)', new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
 
-            search_string = command_line%flag_value("--contains")
+            associate(search_string => command_line%flag_value("--contains"))
 
-            if (len(search_string)==0) then
-              print '(a)', new_line('') // &
-                "Running all tests." // new_line('') // &
-                "(Add '-- --contains <string>' to run only tests with subjects or descriptions containing the specified string.)"
-            else
-              print '(a)', new_line('') // "Running only tests with subjects or descriptions containing '" // search_string // "'."
-            end if
+              if (len(search_string)==0) then
+                print '(a)', new_line('') // &
+                  "Running all tests." // new_line('') // &
+                  "(Add '-- --contains <string>' to run only tests with subjects or descriptions containing the specified string.)"
+              else
+                print '(a)', new_line('') // "Running only tests with subjects or descriptions containing '" // search_string // "'."
+              end if
 
+            end associate
           end if
         end associate
       end associate
