@@ -11,13 +11,14 @@ module julienne_user_defined_collectives_m
 
   interface
 
-    impure elemental module subroutine co_all(boolean)
+    impure elemental module subroutine co_all(boolean, result_image)
       !! If any image in a team calls this subroutine, then every image in the 
       !! the same team must call this subroutine.  This subroutine sets the
       !! "boolean" argument .true. if it is true in all participating images
       !! upon entry and .false. otherwise.
       implicit none
       logical, intent(inout) :: boolean
+      integer, intent(in), optional :: result_image
     end subroutine
 
   end interface

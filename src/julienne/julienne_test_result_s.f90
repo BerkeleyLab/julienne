@@ -35,12 +35,10 @@ contains
       else
         test_passed = self%diagnosis_%test_passed()
       end if
-      call co_all(test_passed)
     end procedure
 
     module procedure skipped
       test_skipped = merge(.false., .true., allocated(self%diagnosis_))
-      call co_all(test_skipped)
     end procedure
 
     module procedure description_contains_string
