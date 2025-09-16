@@ -4,7 +4,8 @@
 #include "language-support.F90"
 
 submodule(julienne_test_m) julienne_test_s
-  use julienne_test_description_m, only : test_description_t
+  use julienne_user_defined_collectives_m, only : co_all
+  use julienne_test_description_m, only : filter
   use julienne_string_m, only : string_t
   implicit none
 
