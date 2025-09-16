@@ -29,7 +29,6 @@ contains
 #endif
 
   module procedure report
-    logical, save :: do_first_report = .true.
 
 #if HAVE_MULTI_IMAGE_SUPPORT
     associate(me => this_image())
