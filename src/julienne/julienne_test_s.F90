@@ -4,8 +4,8 @@
 #include "language-support.F90"
 
 submodule(julienne_test_m) julienne_test_s
-  use julienne_user_defined_collectives_m, only : co_all
   use julienne_test_description_m, only : filter
+  use julienne_user_defined_collectives_m, only : co_all
   use julienne_string_m, only : string_t
   implicit none
 
@@ -31,6 +31,9 @@ contains
 
   module procedure report
 
+    integer t
+    logical, allocatable :: passing_tests(:), skipped_tests(:)
+
 #if HAVE_MULTI_IMAGE_SUPPORT
     associate(me => this_image())
 #else
@@ -39,32 +42,29 @@ contains
       if (me==1) print '(a)', new_line('') // test%subject()
 
       associate(test_results => test%results())
-        associate(num_tests => size(test_results))
-          tests = tests + num_tests
-          if (me==1) then
-            block
-              integer i
-              do i=1,num_tests
-                if (me==1) print '(a)', "   " // test_results(i)%characterize()
+          associate(num_tests => size(test_results))
+
+            tests = tests + num_tests
+
+            if (me==1) then
+              do t = 1, num_tests
+                print '(a)', "   " // test_results(t)%characterize()
               end do
-            end block
-          end if
-          block
-            logical, allocatable :: passing_tests(:), skipped_tests(:)
+            end if
 
             passing_tests = test_results%passed()
             skipped_tests = test_results%skipped()
+            call co_all(passing_tests, result_image=1)
+            call co_all(skipped_tests, result_image=1)
 
-            call co_all(passing_tests)
-            call co_all(skipped_tests)
-
-            associate(num_passes => count(passing_tests), num_skipped => count(skipped_tests))
-              if (me==1) print '(*(a,:,i0))', " ", num_passes, " of ", num_tests, " tests passed. ", num_skipped, " tests were skipped."
-              passes = passes + num_passes
-              skips  = skips  + num_skipped
-            end associate
-          end block
-        end associate
+            if (me==1) then
+              associate(num_passes => count(passing_tests), num_skipped => count(skipped_tests))
+                print '(*(a,:,i0))', " ", num_passes, " of ", num_tests, " tests passed. ", num_skipped, " tests were skipped."
+                passes = passes + num_passes
+                skips  = skips  + num_skipped
+              end associate
+            end if
+          end associate
       end associate
     end associate
 
