@@ -38,7 +38,7 @@ contains
     end procedure
 
     module procedure skipped
-      test_skipped = merge(.false., .true., allocated(self%diagnosis_))
+      test_skipped = .not. allocated(self%diagnosis_)
     end procedure
 
     module procedure description_contains_string
