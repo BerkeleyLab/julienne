@@ -5,7 +5,6 @@
 
 submodule(julienne_test_m) julienne_test_s
   use julienne_test_description_m, only : filter
-  use julienne_string_m, only : string_t
   implicit none
 
 contains
@@ -40,12 +39,13 @@ contains
 #endif
       if (me==1) print '(a)', new_line('') // test%subject()
 
+      !associate(test_results => .aggregate. test%results())
       associate(test_results => test%results())
 
-        passing_tests = test_results%passed()
-        skipped_tests = test_results%skipped()
-
         if (me==1) then
+
+          passing_tests = test_results%passed()
+          skipped_tests = test_results%skipped()
 
           associate(num_tests => size(test_results))
 
@@ -66,6 +66,7 @@ contains
         end if
 
       end associate
+
     end associate
 
   end procedure

@@ -18,6 +18,7 @@ module julienne_test_m
 
   type, abstract :: test_t
     !! Facilitate testing and test reporting
+
   contains
     procedure(subject_interface), nopass, deferred :: subject 
     procedure(results_interface), nopass, deferred :: results

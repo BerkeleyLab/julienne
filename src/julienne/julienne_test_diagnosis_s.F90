@@ -7,6 +7,7 @@
 submodule(julienne_test_diagnosis_m) julienne_test_diagnosis_s
   use assert_m
   use julienne_string_m, only : operator(.cat.)
+  use julienne_user_defined_collectives_m, only : co_all
   use iso_c_binding, only : c_associated, c_intptr_t
   implicit none
 contains

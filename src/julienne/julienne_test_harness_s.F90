@@ -75,7 +75,7 @@ contains
 
             print '(a)', new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
 
-#ifndef __GFORTRAN__
+#if (! defined(__GFORTRAN__)) && (! defined(NAGFOR))
             associate(search_string => command_line%flag_value("--contains"))
 #else
             block; character(len=:), allocatable :: search_string; search_string = command_line%flag_value("--contains")
@@ -87,7 +87,7 @@ contains
               else
                 print '(a)', new_line('') // "Running only tests with subjects or descriptions containing '" // search_string // "'."
               end if
-#ifndef __GFORTRAN__
+#if (! defined(__GFORTRAN__)) && (! defined(NAGFOR))
             end associate
 #else
             end block

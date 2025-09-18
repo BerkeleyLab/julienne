@@ -25,7 +25,11 @@ contains
     end procedure
 
     module procedure run
+
+      type(test_diagnosis_t) test_diagnosis
+
       call_assert(allocated(self%description_))
+
       if (associated(self%diagnosis_function_)) then
         test_result = test_result_t(self%description_, self%diagnosis_function_())
       else
