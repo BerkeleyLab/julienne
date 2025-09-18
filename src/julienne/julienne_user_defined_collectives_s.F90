@@ -1,11 +1,8 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
-<<<<<<< HEAD
-=======
 
 #include "language-support.F90"
 
->>>>>>> @{-1}
 submodule(julienne_user_defined_collectives_m) julienne_user_defined_collectives_s
   implicit none
 
