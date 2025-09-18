@@ -1,13 +1,19 @@
-!
-!     (c) 2019-2020 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
-!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
-!     contract # NRC-HQ-60-17-C-0007
-!
+! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
+! Terms of use are as specified in LICENSE.txt
 
 module julienne_user_defined_collectives_m
-  !! User-defined collective subroutines.
+  !! User-defined collective procedures.
   implicit none
+
+  interface co_gather
+
+    module function co_gather(my_string) result(all_strings)
+      implicit none
+      character(len=*), intent(in) :: my_string
+      character(len=:), allocatable :: all_strings(:)
+    end function
+
+  end interface
 
   interface
 
