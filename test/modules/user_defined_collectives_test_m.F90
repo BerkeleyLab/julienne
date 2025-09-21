@@ -53,7 +53,7 @@ contains
     type(user_defined_collectives_test_t) user_defined_collectives_test
     procedure(diagnosis_function_i), pointer :: &
        check_gather_characters_ptr => check_gather_characters &
-      ,check_co_all => check_co_all
+      ,check_co_all_ptr => check_co_all
 
     test_results = user_defined_collectives_test%run([ &
       test_description_t("co_gather gathering distributed strings into one array", check_gather_characters_ptr) &
