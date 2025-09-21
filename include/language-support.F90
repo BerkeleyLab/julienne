@@ -14,6 +14,17 @@
 #define GCC_GE_MINIMUM
 #endif
 
+! If not already determined, make a compiler-dependent determination of whether Julienne may invoke
+! co_max with a character array first argument, a feature used in Julienne's co_gather function
+
+#ifndef HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
+#if defined(_CRAYFTN) || defined(NAGFOR) || defined(__flang__)
+#  define HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT 1
+#else
+#  define HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT 0
+#endif
+#endif
+
 ! If not already determined, make a compiler-dependent determination of whether Julienne may pass
 ! procedure actual arguments to procedure pointer dummy arguments, a feature introduced in
 ! Fortran 2008 and described in Fortran 2023 clause 15.5.2.10 paragraph 5.

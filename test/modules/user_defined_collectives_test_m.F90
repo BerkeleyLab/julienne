@@ -43,7 +43,7 @@ contains
     type(user_defined_collectives_test_t) user_defined_collectives_test
 
     test_results = user_defined_collectives_test%run([ &
-#if ! __GFORTRAN__
+#if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
        test_description_t("co_gather gathering distributed strings into one array", check_gather_characters) &
 #else
        test_description_t("co_gather gathering distributed strings into one array") &
@@ -60,7 +60,7 @@ contains
       ,check_co_all_ptr => check_co_all
 
     test_results = user_defined_collectives_test%run([ &
-#if ! __GFORTRAN__
+#if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
        test_description_t("co_gather gathering distributed strings into one array", check_gather_characters_ptr) &
 #else
        test_description_t("co_gather gathering distributed strings into one array") &
