@@ -39,36 +39,27 @@ contains
 #endif
       if (me==1) print '(a)', new_line('') // test%subject()
 
-      !associate(test_results => .aggregate. test%results())
-      associate(test_results => test%results())
+      associate(test_results =>  test%results())
 
-        if (me==1) then
+        passing_tests = test_results%passed()
+        skipped_tests = test_results%skipped()
 
-          passing_tests = test_results%passed()
-          skipped_tests = test_results%skipped()
+        associate(num_tests => size(test_results))
 
-          associate(num_tests => size(test_results))
+          do t = 1, num_tests
+            call test_results(t)%characterize()
+          end do
 
-            do t = 1, num_tests
-              print '(a)', "   " // test_results(t)%characterize()
-            end do
+          tests = tests + num_tests
 
-            tests = tests + num_tests
-
-            associate(num_passes => count(passing_tests), num_skipped => count(skipped_tests))
-              print '(*(a,:,i0))', " ", num_passes, " of ", num_tests, " tests passed. ", num_skipped, " tests were skipped."
-              passes = passes + num_passes
-              skips  = skips  + num_skipped
-            end associate
-
+          associate(num_passes => count(passing_tests), num_skipped => count(skipped_tests))
+            if (me==1) print '(*(a,:,i0))', " ", num_passes, " of ", num_tests, " tests passed. ", num_skipped, " tests were skipped."
+            passes = passes + num_passes
+            skips  = skips  + num_skipped
           end associate
-
-        end if
-
+        end associate
       end associate
-
     end associate
-
   end procedure
 
 end submodule julienne_test_s

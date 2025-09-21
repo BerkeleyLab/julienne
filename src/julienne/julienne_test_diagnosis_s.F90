@@ -7,7 +7,6 @@
 submodule(julienne_test_diagnosis_m) julienne_test_diagnosis_s
   use assert_m
   use julienne_string_m, only : operator(.cat.)
-  use julienne_user_defined_collectives_m, only : co_all
   use iso_c_binding, only : c_associated, c_intptr_t
   implicit none
 contains
@@ -568,7 +567,7 @@ contains
   module procedure within_double_precision_percentage
 
     if (abs((operands%actual - operands%expected)) <= abs(operands%expected*percentage_tolerance/1D02)) then
-      ! We use <= to allow for tolerance=0, which could never be satisfied if we used < instead:
+      ! Using <= above supports the tolerance=0 use case
       test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
     else
       test_diagnosis = test_diagnosis_t(test_passed=.false. &
@@ -596,7 +595,7 @@ contains
 
   module procedure diagnostics_string
     call_assert(allocated(self%diagnostics_string_))
-    string_ = string_t(self%diagnostics_string_)
+    string = self%diagnostics_string_
   end procedure
 
 end submodule julienne_test_diagnosis_s
