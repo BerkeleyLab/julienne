@@ -25,38 +25,52 @@ contains
       if (present(diagnosis)) test_result%diagnosis_ = diagnosis
     end procedure
 
+#if HAVE_MULTI_IMAGE_SUPPORT
+
     module procedure characterize
 
       logical test_skipped, test_passed
-      character(len=*), parameter :: indent = "   ", double_indent = indent // indent
+      character(len=*), parameter :: indent = "   "
 
       test_skipped = .not. allocated(self%diagnosis_)
 
-      if (test_skipped) then
-#if HAVE_MULTI_IMAGE_SUPPORT
-        call co_all(test_skipped)
-        call_julienne_assert(test_skipped)
-#endif
-        print '(a)', indent // "SKIPS  on " // trim(self%description_%string()) // "."
-      else
-        test_passed = self%diagnosis_%test_passed()
-#if HAVE_MULTI_IMAGE_SUPPORT
-        call co_all(test_passed)
-        associate(me => this_image(), me_ => string_t(this_image()), test_failed => .not. test_passed)
-#else
-        associate(me => 1, me_ => string_t("1"), test_failed => .not. test_passed)
-#endif
+      associate(me => this_image())
+        if (test_skipped) then
+          call co_all(test_skipped)
+          call_julienne_assert(test_skipped)
+          if (me==1) print '(a)', indent // "SKIPS  on " // trim(self%description_%string()) // "."
+        else
+          test_passed = self%diagnosis_%test_passed()
           if (me==1) print '(a)', indent // merge("passes on ", "FAILS  on ", test_passed) // trim(self%description_%string()) // "."
 #if ! ASYNCHRONOUS_DIAGNOSTICS
           sync all
 #endif
-          if (test_failed) print '(a)', double_indent // "diagnostics on image " // me_%string() // ": " // self%diagnosis_%diagnostics_string()
+          associate(image => string_t(me))
+            if (.not. test_passed) print '(a)', indent // indent // "diagnostics on image " // image%string() // ": " // self%diagnosis_%diagnostics_string()
+          end associate
 #if ! ASYNCHRONOUS_DIAGNOSTICS
           sync all
 #endif
+        end if
+      end associate
+    end procedure
+
+#else
+
+    module procedure characterize
+
+      character(len=*), parameter :: indent = "   "
+
+      if (.not. allocated(self%diagnosis_)) then
+        print '(a)', indent // "SKIPS  on " // trim(self%description_%string()) // "."
+      else
+        associate(test_passed => self%diagnosis_%test_passed())
+          print '(a)', indent // merge("passes on ", "FAILS  on ", test_passed) // trim(self%description_%string()) // "."
+          if (.not. test_passed) print '(a)', indent //indent // "diagnostics: " // self%diagnosis_%diagnostics_string()
         end associate
       end if
     end procedure
+#endif
 
     module procedure passed
       if (.not. allocated(self%diagnosis_)) then
