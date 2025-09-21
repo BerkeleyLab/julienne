@@ -60,8 +60,12 @@ contains
       ,check_co_all_ptr => check_co_all
 
     test_results = user_defined_collectives_test%run([ &
-       test_description_t("co_gather gathering distributed strings into one array") &  ! skip test with gfortran
-      ,test_description_t("co_all returning .false. if the argument is .false. on only one image ", check_co_all) &
+#if ! __GFORTRAN__
+       test_description_t("co_gather gathering distributed strings into one array", check_gather_characters_ptr) &
+#else
+       test_description_t("co_gather gathering distributed strings into one array") &
+#endif
+      ,test_description_t("co_all returning .false. if the argument is .false. on only one image ", check_co_all_ptr) &
     ])
   end function
 #endif

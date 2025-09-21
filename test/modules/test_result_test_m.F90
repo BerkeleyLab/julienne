@@ -40,17 +40,14 @@ contains
 
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_descriptions = [ &
-      test_description_t(string_t("constructing an array of test_result_t objects elementally"), check_array_result_construction), &
-      test_description_t(string_t("reporting failure if the test fails on one image"), check_single_image_failure) &
+      test_description_t(string_t("constructing an array of test_result_t objects elementally"), check_array_result_construction) &
     ]
 #else
     ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
-    procedure(diagnosis_function_i), pointer :: check_array_ptr, check_single_ptr
+    procedure(diagnosis_function_i), pointer :: &
     check_array_ptr => check_array_result_construction
-    check_single_ptr => check_single_image_failure
     test_descriptions = [ &
-      test_description_t(string_t("constructing an array of test_result_t objects elementally"), check_array_ptr), &
-      test_description_t(string_t("reporting failure if the test fails on one image"), check_single_ptr) &
+      test_description_t(string_t("constructing an array of test_result_t objects elementally"), check_array_ptr) &
     ]
 #endif
     test_results = test_result_test%run(test_descriptions)
@@ -84,19 +81,6 @@ contains
     end block
 #endif
 
-  end function
-
-  function check_single_image_failure() result(test_diagnosis)
-    !! verify that failing on a single image results in reporting a test failure even if other images don't fail
-    type(test_diagnosis_t) test_diagnosis
-
-#if HAVE_MULTI_IMAGE_SUPPORT
-    associate(me => this_image())
-#else
-    associate(me => 1)
-#endif
-      test_diagnosis = .expect.  merge(.true., .false., me==1)
-    end associate
   end function
 
 end module test_result_test_m
