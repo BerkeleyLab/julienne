@@ -198,7 +198,7 @@ Building and Testing
 Compiler/Runtime  | Supported Versions  | `bash` commands for building/testing (replace `2`s below with the number of images)
 ------------------|---------------------|------------------------------------------------------------------------------------------
 LLVM/[Caffeine]   | 19                  | serial: `fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"`
-                  | 20-21               |         `fpm test --compiler flang-new --flag "-O3"`
+                  | 20-21               |         `fpm test --compiler flang-new --flag -O3`
                   | 22                  | parallel: please contact fortan@lbl.gov
 ------------------|---------------------|------------------------------------------------------------------------------------------
 NAG               | 7.2 (Build 7235-)   | parallel: `export NAGFORTRAN_NUM_IMAGES=2`
@@ -209,13 +209,26 @@ Intel             | 2025.2.0- r         | parallel: `export FOR_COARRAY_NUM_IMAG
                   |                     |           `fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release`
                   |                     | serial: remove `-coarray` or set `FOR_COARRAY_NUM_IMAGES=2`
 ------------------|---------------------|------------------------------------------------------------------------------------------
-GCC/[OpenCoarrays]| 13 (see notes below)| parallel: `fpm test --compiler caf --runner "cafrun -n 2" --profile release -ffree-line-length-none`
-                  | 14 or later         |           (`-free-line-length-none` can be removed when using GCC 14 or later)
+GCC/[OpenCoarrays]| 13 (see notes below)| parallel: `fpm test --compiler caf --runner "cafrun -n 2" --profile release --flag -ffree-line-length-none`
+                  | 14 or later         |           With GCC 14 or later, `--flag -free-line-length-none` is unnecessary.
                   |                     | serial: replace `caf` with `gfortran` and remove `--runner "cafrun -n 2"` 
+
+Add `-- --flag --test command_line_t --type` to any of the above `fpm` commands to test Julienne's command-line argument parsing utility.
+Otherwise, the Julienne will report and tally the command-line tests as skipped.
 
 **Notes:** With `gfortran` 13 through 14.2.0,
 - The `test_description_t` constructor's second actual argument must be a procedure pointer declared with `procedure(diagnosis_function_i)`.
 - The `string_t` type-bound  function `bracket` crashes and is therefore skipped automatically.
+
+### Useful proprocessor macros:
+To set any of the following macros add `--flag -D<macro-name>` to an `fpm` command:
+
+- `ASYNCHRONOUS_DIAGNOSTICS`: removes synchronizations that partially order test-failure diagnostics output for clarity
+- `ASSERTIONS`: enables checks for Julienne's own runtime assertions
+- `RUN_FALSE_ASSERTIONS`: runs tests of false assertions if ASSERTIONS is also defined
+
+Julienne defines additional macros in the `include` directory.
+Users may also explicitly undefine or define any of Julienne's macros with `-D`.
 
 Documentation
 -------------
