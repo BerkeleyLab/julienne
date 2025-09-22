@@ -195,30 +195,33 @@ the framework supports.
 Building and Testing
 --------------------
 
+With the Fortran Package Manager (`fpm`) installed and in your `PATH`, the
+commands in the table below build and run the Julienne test suite.  With `fpm`
+versions higher than 0.12.0, `flang-new` can be replaced with `flang`.
+
 Compiler/Runtime  | Supported Versions  | `bash` commands for building/testing (replace `2`s below with the number of images)
 ------------------|---------------------|------------------------------------------------------------------------------------------
-LLVM/[Caffeine]   | 19                  | serial: `fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"`
-                  | 20-21               |         `fpm test --compiler flang-new --flag -O3`
-                  | 22                  | parallel: please contact fortan@lbl.gov
+LLVM/[Caffeine]   | 22                  | parallel: please contact fortran@lbl.gov
+                  | 20-22               | serial:  `fpm test --compiler flang-new --flag -O3`
+                  | 19                  | serial:  `fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"`        
 ------------------|---------------------|------------------------------------------------------------------------------------------
-NAG               | 7.2 (Build 7235-)   | parallel: `export NAGFORTRAN_NUM_IMAGES=2`
-                  |                     |           `fpm test --compiler nagfor --flag "-fpp -O3 -coarray"`
-                  |                     | serial: remove `-coarray` or set `NAGFORTRAN_NUM_IMAGES=1`
+NAG               | 7.2 (Build 7235-)   | `export NAGFORTRAN_NUM_IMAGES=2`
+                  |                     | `fpm test --compiler nagfor --flag "-fpp -O3 -coarray"`
 ------------------|---------------------|------------------------------------------------------------------------------------------
-Intel             | 2025.2.0- r         | parallel: `export FOR_COARRAY_NUM_IMAGES=2`
-                  |                     |           `fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release`
-                  |                     | serial: remove `-coarray` or set `FOR_COARRAY_NUM_IMAGES=2`
+Intel             | 2025.2.{0-1}        | `export FOR_COARRAY_NUM_IMAGES=2`
+                  |                     | `fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release` 
 ------------------|---------------------|------------------------------------------------------------------------------------------
-GCC/[OpenCoarrays]| 13 (see notes below)| parallel: `fpm test --compiler caf --runner "cafrun -n 2" --profile release --flag -ffree-line-length-none`
-                  | 14 or later         |           With GCC 14 or later, `--flag -free-line-length-none` is unnecessary.
-                  |                     | serial: replace `caf` with `gfortran` and remove `--runner "cafrun -n 2"` 
+GCC/[OpenCoarrays]| 14-15               | serial:   `fpm test --compiler gfortran --profile release`
+                  |                     | parallel: `fpm test --compiler caf --runnner "cafrun -n 2" --profile release`
+                  | 13                  | serial:   `fpm test --compiler gfortran --profile release --flag -ffree-line-length-none`
+                  |                     | parallel: `fpm test --compiler caf --runnner "cafrun -n 2" --profile release --flag -ffree-line-length-none`
 
-Add `-- --flag --test command_line_t --type` to any of the above `fpm` commands to test Julienne's command-line argument parsing utility.
-Otherwise, the Julienne will report and tally the command-line tests as skipped.
-
-**Notes:** With `gfortran` 13 through 14.2.0,
-- The `test_description_t` constructor's second actual argument must be a procedure pointer declared with `procedure(diagnosis_function_i)`.
-- The `string_t` type-bound  function `bracket` crashes and is therefore skipped automatically.
+The test output reports a test skipped if there is a known issue that blocks the
+tested feature with the compiler version employed or on a given platform.  By
+default, the test suite skips the tests for Julienn's command-line parsing
+utility, `command_line_t`, due to an issue with GitHub continuous-integration
+testing.  To test `command_line_t`, add `-- --flag --test command_line_t --type`
+to any of the above `fpm` commands
 
 ### Useful proprocessor macros:
 To set any of the following macros add `--flag -D<macro-name>` to an `fpm` command:
