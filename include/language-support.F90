@@ -14,25 +14,36 @@
 #define GCC_GE_MINIMUM
 #endif
 
+! If not already determined, make a compiler-dependent determination of whether Julienne may use
+! multi-image features such as `this_image()` and `sync all`.
+#ifndef HAVE_MULTI_IMAGE_SUPPORT
+#  if defined(__flang__) || __INTEL_COMPILER < 20250201
+#    define HAVE_MULTI_IMAGE_SUPPORT 0
+#  else
+#    define HAVE_MULTI_IMAGE_SUPPORT 1
+#  endif
+#endif
+
+! If not already determined, make a compiler-dependent determination of whether Julienne may invoke
+! co_max with a character array first argument, a feature used in Julienne's co_gather function
+#ifndef HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
+#  if ! HAVE_MULTI_IMAGE_SUPPORT
+#    define HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT 0
+#  elif defined(_CRAYFTN) || defined(NAGFOR) || defined(__flang__)
+#    define HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT 1
+#  else
+#    define HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT 0
+#  endif
+#endif
+
 ! If not already determined, make a compiler-dependent determination of whether Julienne may pass
 ! procedure actual arguments to procedure pointer dummy arguments, a feature introduced in
 ! Fortran 2008 and described in Fortran 2023 clause 15.5.2.10 paragraph 5.
-
 #ifndef HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
 #if defined(_CRAYFTN) || defined(__INTEL_COMPILER) || defined(NAGFOR) || defined(__flang__) || (GCC_VERSION > 140200)
 #    define HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY 1
 #  else
 #    define HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY 0
-#  endif
-#endif
-
-! If not already determined, make a compiler-dependent determination of whether Julienne may use
-! multi-image features such as `this_image()` and `sync all`.
-#ifndef HAVE_MULTI_IMAGE_SUPPORT
-#  if defined(__flang__)
-#    define HAVE_MULTI_IMAGE_SUPPORT 0
-#  else
-#    define HAVE_MULTI_IMAGE_SUPPORT 1
 #  endif
 #endif
 
