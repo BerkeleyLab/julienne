@@ -5,6 +5,7 @@ module julienne_user_defined_collectives_m
   !! User-defined collective procedures.
   implicit none
 
+#ifndef __INTEL_COMPILER
   interface co_gather
 
     module function co_gather(my_string) result(all_strings)
@@ -14,6 +15,7 @@ module julienne_user_defined_collectives_m
     end function
 
   end interface
+#endif
 
   interface
 

@@ -7,7 +7,9 @@ module user_defined_collectives_test_m
   !! Verify collectives_t object behavior
   use julienne_m, only : &
      co_all &
+#ifndef __INTEL_COMPILER
     ,co_gather &
+#endif
     ,operator(.all.) &
     ,operator(.csv.) &
     ,operator(.expect.) &
@@ -43,7 +45,7 @@ contains
     type(user_defined_collectives_test_t) user_defined_collectives_test
 
     test_results = user_defined_collectives_test%run([ &
-#if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
+#if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT && ! defined(__INTEL_COMPILER)
        test_description_t("co_gather gathering distributed strings into one array", check_gather_characters) &
 #else
        test_description_t("co_gather gathering distributed strings into one array") &
@@ -60,7 +62,7 @@ contains
       ,check_co_all_ptr => check_co_all
 
     test_results = user_defined_collectives_test%run([ &
-#if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
+#if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT && ! defined(__INTEL_COMPILER)
        test_description_t("co_gather gathering distributed strings into one array", check_gather_characters_ptr) &
 #else
        test_description_t("co_gather gathering distributed strings into one array") &
@@ -70,6 +72,7 @@ contains
   end function
 #endif
 
+#if ! __INTEL_COMPILER
   function check_gather_characters() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     character(len=*), parameter :: strings(*) = [character(len=len("234567")) :: "1", "234567", "890"]
@@ -91,6 +94,7 @@ contains
       element = 1 + mod(image-1, num_elements)
     end function
   end function
+#endif
 
   function check_co_all() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis

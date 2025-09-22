@@ -8,6 +8,7 @@ submodule(julienne_user_defined_collectives_m) julienne_user_defined_collectives
 
 contains
 
+#ifndef __INTEL_COMPILER
   module procedure co_gather
 
     integer i, max_len
@@ -29,6 +30,7 @@ contains
     all_strings = [my_string]
 #endif
   end procedure
+#endif
 
   module procedure co_all
 #if HAVE_MULTI_IMAGE_SUPPORT

@@ -40,7 +40,11 @@ module julienne_m
   use julienne_test_result_m,  only : test_result_t
   use julienne_test_suite_m,   only : test_suite_t
   use julienne_test_m,         only : test_t
+#if ! __INTEL_COMPILER
   use julienne_user_defined_collectives_m, only : co_all, co_gather
+#else
+  use julienne_user_defined_collectives_m, only : co_all
+#endif
 
   implicit none
 end module julienne_m
