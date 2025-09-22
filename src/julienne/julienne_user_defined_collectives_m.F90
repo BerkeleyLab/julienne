@@ -1,11 +1,12 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
+#if HAVE_MULTI_IMAGE_SUPPORT
 module julienne_user_defined_collectives_m
   !! User-defined collective procedures.
   implicit none
 
-#ifndef __INTEL_COMPILER
+#if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
   interface co_gather
 
     module function co_gather(my_string) result(all_strings)
@@ -31,3 +32,4 @@ module julienne_user_defined_collectives_m
   end interface
 
 end module julienne_user_defined_collectives_m
+#endif

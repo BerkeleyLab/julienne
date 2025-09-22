@@ -71,9 +71,7 @@ program legacy_driver
     end if
   end if
 
-#if HAVE_MULTI_IMAGE_SUPPORT
   if (this_image()==1) then
-#endif
 
     call one_image_prints( &
       "_____ In total, " // string_t(passes) // " of " // string_t(tests) //  " tests pass.  " // &
@@ -81,9 +79,7 @@ program legacy_driver
     )
     if (passes + skips /= tests) error stop "Some executed tests failed."
 
-#if HAVE_MULTI_IMAGE_SUPPORT
   end if
-#endif
 
 #endif
 #endif

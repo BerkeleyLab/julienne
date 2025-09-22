@@ -3,11 +3,13 @@
 
 #include "language-support.F90"
 
+#if HAVE_MULTI_IMAGE_SUPPORT
+
 module user_defined_collectives_test_m
   !! Verify collectives_t object behavior
   use julienne_m, only : &
      co_all &
-#ifndef __INTEL_COMPILER
+#if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
     ,co_gather &
 #endif
     ,operator(.all.) &
@@ -18,9 +20,6 @@ module user_defined_collectives_test_m
     ,test_diagnosis_t &
     ,test_result_t &
     ,test_t
-#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-  use julienne_m, only : diagnosis_function_i
-#endif
   implicit none
 
   private
@@ -45,7 +44,7 @@ contains
     type(user_defined_collectives_test_t) user_defined_collectives_test
 
     test_results = user_defined_collectives_test%run([ &
-#if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT && ! defined(__INTEL_COMPILER)
+#if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
        test_description_t("co_gather gathering distributed strings into one array", check_gather_characters) &
 #else
        test_description_t("co_gather gathering distributed strings into one array") &
@@ -62,7 +61,7 @@ contains
       ,check_co_all_ptr => check_co_all
 
     test_results = user_defined_collectives_test%run([ &
-#if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT && ! defined(__INTEL_COMPILER)
+#if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
        test_description_t("co_gather gathering distributed strings into one array", check_gather_characters_ptr) &
 #else
        test_description_t("co_gather gathering distributed strings into one array") &
@@ -72,19 +71,14 @@ contains
   end function
 #endif
 
-#if ! __INTEL_COMPILER
+#if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
   function check_gather_characters() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     character(len=*), parameter :: strings(*) = [character(len=len("234567")) :: "1", "234567", "890"]
     integer s
 
-#if HAVE_MULTI_IMAGE_SUPPORT
-    associate(me => this_image(), images => num_images())
-#else
-    associate(me => 1, images => 1)
-#endif
       associate(num_strings => size(strings))
-        test_diagnosis = .all. (co_gather(strings(mine(me, num_strings))) .equalsExpected. [(strings(mine(s, num_strings)), s = 1, images)])
+        test_diagnosis = .all. (co_gather(strings(mine(me, num_strings))) .equalsExpected. [(strings(mine(s, num_strings)), s = 1, num_images())])
       end associate
     end associate
   contains
@@ -100,15 +94,11 @@ contains
     type(test_diagnosis_t) test_diagnosis
     logical boolean
 
-#if HAVE_MULTI_IMAGE_SUPPORT
-    associate(me => this_image(), images => num_images())
-#else
-    associate(me => 1, images => 1)
-#endif
-      boolean = merge(.false., .true., me==images) 
-      call co_all(boolean)
-      test_diagnosis = .expect. (.not. boolean)
-    end associate
+    boolean = merge(.false., .true., this_image()==num_images())
+    call co_all(boolean)
+    test_diagnosis = .expect. (.not. boolean)
   end function
 
 end module user_defined_collectives_test_m
+
+#endif

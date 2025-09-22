@@ -1,6 +1,8 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
+#include "language-support.F90"
+
 module julienne_m
   !! Global aggregation of all public entities
   use julienne_assert_m, only : call_julienne_assert_, julienne_assert
@@ -40,10 +42,12 @@ module julienne_m
   use julienne_test_result_m,  only : test_result_t
   use julienne_test_suite_m,   only : test_suite_t
   use julienne_test_m,         only : test_t
-#if ! __INTEL_COMPILER
-  use julienne_user_defined_collectives_m, only : co_all, co_gather
+#if HAVE_MULTI_IMAGE_SUPPORT
+#if   HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
+        use julienne_user_defined_collectives_m, only : co_all, co_gather
 #else
-  use julienne_user_defined_collectives_m, only : co_all
+        use julienne_user_defined_collectives_m, only : co_all
+#endif
 #endif
 
   implicit none
