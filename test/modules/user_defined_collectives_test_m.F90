@@ -41,21 +41,32 @@ contains
     specimen = "The user-defined collective procedures"
   end function
 
-#if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
+#if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY && HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
+
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
     type(user_defined_collectives_test_t) user_defined_collectives_test
 
     test_results = user_defined_collectives_test%run([ &
-#if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
        test_description_t("co_gather gathering distributed strings into one array", check_gather_characters) &
-#else
-       test_description_t("co_gather gathering distributed strings into one array") &
-#endif
       ,test_description_t("co_all returning .false. if the argument is .false. on only one image ", check_co_all) &
     ])
   end function
-#else
+
+#elif HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
+
+  function results() result(test_results)
+    type(test_result_t), allocatable :: test_results(:)
+    type(user_defined_collectives_test_t) user_defined_collectives_test
+
+    test_results = user_defined_collectives_test%run([ &
+       test_description_t("co_gather gathering distributed strings into one array") &
+      ,test_description_t("co_all returning .false. if the argument is .false. on only one image ", check_co_all) &
+    ])
+  end function
+
+#elif HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
+
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
     type(user_defined_collectives_test_t) user_defined_collectives_test
@@ -64,14 +75,25 @@ contains
       ,check_co_all_ptr => check_co_all
 
     test_results = user_defined_collectives_test%run([ &
-#if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
        test_description_t("co_gather gathering distributed strings into one array", check_gather_characters_ptr) &
-#else
-       test_description_t("co_gather gathering distributed strings into one array") &
-#endif
       ,test_description_t("co_all returning .false. if the argument is .false. on only one image ", check_co_all_ptr) &
     ])
   end function
+
+#else
+
+  function results() result(test_results)
+    type(test_result_t), allocatable :: test_results(:)
+    type(user_defined_collectives_test_t) user_defined_collectives_test
+    procedure(diagnosis_function_i), pointer :: &
+       check_co_all_ptr => check_co_all
+
+    test_results = user_defined_collectives_test%run([ &
+       test_description_t("co_gather gathering distributed strings into one array") &
+      ,test_description_t("co_all returning .false. if the argument is .false. on only one image ", check_co_all_ptr) &
+    ])
+  end function
+
 #endif
 
 #if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
