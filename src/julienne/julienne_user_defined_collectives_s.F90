@@ -12,7 +12,7 @@ contains
 
 #if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
 
-  module procedure co_gather
+  module procedure co_gather_1D_character_array
 
     integer i, max_len
     character(len=:), allocatable :: array(:)

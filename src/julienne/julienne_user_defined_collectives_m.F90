@@ -13,7 +13,7 @@ module julienne_user_defined_collectives_m
 
   interface co_gather
 
-    module function co_gather_character_array(my_string) result(all_strings)
+    module function co_gather_1D_character_array(my_string) result(all_strings)
       implicit none
       character(len=*), intent(in) :: my_string
       character(len=:), allocatable :: all_strings(:)
