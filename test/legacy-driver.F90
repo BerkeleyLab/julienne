@@ -6,8 +6,6 @@
 program legacy_driver
   !! Julienne unit tests driver
 
-#if ! __INTEL_COMPILER
-
 #ifdef __GNUC__
 #if (GCC_VERSION < 140300)
   ! Internal utilities
@@ -87,7 +85,6 @@ program legacy_driver
   end if
 #endif
 
-#endif
 #endif
 #endif
 end program
