@@ -175,6 +175,8 @@ jobs:
     - name: Build and Test (Assertions OFF)
       run: |
         set -x
+        echo "FPM_FLAGS=${FPM_FLAGS}"
+        echo "FFLAGS=$FFLAGS"
         fpm test                              ${FPM_FLAGS} --flag "$FFLAGS"
     #    cd demo 
     #    fpm test                              ${FPM_FLAGS} --flag "$FFLAGS"
