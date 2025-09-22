@@ -105,14 +105,12 @@ https://github.com/sourceryinstitute/julienne" role="button">GitHub</a>
 </p>
 
 <h1 id="julienne-idiomatic-correctness-checking-for-fortran-2023">Julienne: Idiomatic Correctness Checking for Fortran 2023</h1>
-<p>The Julienne framework offers a unified approach to unit testing and runtime
-assertion checking.  Julienne defines idioms for specifying correctness
-conditions in a common way when writing tests that wrap the tested procedures
-or assertions that conditionally execute inside procedures to check correctness.
-Julienne's idioms center around expressions built from defined operations: a
-uniquely flexible Fortran capability allowing developers to define <em>new</em>
-operators in addition to overloading Fortran's intrinsic operators.  The
-following table provides examples of the expressions Julienne supports:</p>
+<p>The Julienne framework offers a unified approach to writing unit tests and
+assertions.  Julienne defines idioms for specifying correctness conditions in a
+common in tests that wrap the tested procedures or assertions that conditionally
+execute inside procedures.  Julienne idioms center around expressions built from
+defined operations: a uniquely flexible Fortran capability allowing developers
+to define <em>new</em> operators or to overloading Fortran's intrinsic operators.</p>
 <table>
 <thead>
 <tr>
@@ -193,45 +191,42 @@ following table provides examples of the expressions Julienne supports:</p>
 * <code>//</code> appends the subsequent string to diagnostics strings, if any.</p>
 <h2 id="expressive-idioms">Expressive idioms</h2>
 <h3 id="assertions">Assertions</h3>
-<p>Any of the above expressions can be the actual argument in an invocation
-of Julienne's <code>call_julienne_assert</code> function-line preprocessor macro:</p>
+<p>Any of the above expressions can be the actual argument in an invocation of
+Julienne's <code>call_julienne_assert</code> function-line preprocessor macro:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">call_julienne_assert</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="p">.</span><span class="n">lessThan</span><span class="p">.</span><span class="w"> </span><span class="n">y</span><span class="p">)</span>
 </code></pre></div>
 
 <p>which a preprocessor will replace with a call to Julienne's assertion subroutine
 when compiling with <code>-DASSERTIONS</code>.  Otherwise, the preprocessor will remove the
-above line entirely when <code>-DASSERTIONS</code> is not present.</p>
+above line entirely.</p>
 <h3 id="unit-tests">Unit tests</h3>
-<p>The above tabulated expressions can also serve as function results in unit tests.</p>
+<p>The above tabulated expressions can also serve as results in unit-test functions.</p>
 <h3 id="constraints">Constraints</h3>
 <p>All operands in an expression must be compatible in type and kind as well as
-conformable in rank, where the latter condition implies that the operands must
-be all scalars or all arrays with the same shape or a combination of scalars and
-arrays with the same shape. This constraint follows from each of the binary
-operators being <code>elemental</code>.  The unary <code>.all.</code> operator applies to operands of
-any rank.</p>
-<p>Each tabulated expression above produces a <code>test_diagnosis_t</code> object with two
+conformable in rank. Conformability implies that the operands must be all
+scalars or all arrays with the same shape or a combination of scalars and arrays
+with the same shape. This constraint follows from each of the binary operators
+being <code>elemental</code>.  The unary <code>.all.</code> operator applies to operands of any rank.</p>
+<p>Each expression tabulated above produces a <code>test_diagnosis_t</code> object with two
 components:</p>
 <ul>
 <li>a <code>logical</code> indicator of test success if <code>.true</code>. or failure if <code>.false.</code> and</li>
 <li>an automated diagnostic messages generated only if the test or assertion fails.</li>
 </ul>
 <h2 id="custom-test-diagnostics">Custom Test Diagnostics</h2>
-<p>For cases in which Julienne's operators do not support the desired correctness
-condition, the framework provides string-handling utilities for use in crafting
-custom diagnostic messages.  The string utilities center around Julienne's
-<code>string_t</code> derived type, which offers <code>elemental</code> constructor functions, i.e., 
-functions that one invokes via the same name as the derived type: <code>string_t()</code>.
-The <code>string_t()</code> constructor functions convert data of numeric type to
-<code>character</code> type, storing the resulting <code>character</code> representation in a private
-component of the constructor function result.  The actual argument provided to
-the constructor function can be of any one of several types, kinds, and ranks.</p>
+<p>For cases in which the defeind operations do not support a desired correctness
+condition, Julienne provides string-handling utilities for use in crafting
+custom diagnostic messages.  The string utilities center around a <code>string_t</code>
+derived type, which offers <code>elemental</code> constructor functions, i.e., functions
+that one invokes via the same name as the derived type: <code>string_t()</code>.  The
+<code>string_t()</code> constructor functions convert data of numeric type to <code>character</code>
+type, storing the resulting <code>character</code> representation in a private component
+of the constructor function result.  The actual argument provided to the
+constructor function can be of any one of several types, kinds, and ranks.</p>
 <p>Julienne provides defined operations for concatenating <code>string_t</code> objects
 (<code>//</code>), forming a concatenated <code>string_t</code> object from an array of <code>string_t</code>
 objects (<code>.cat.</code>), forming a separated-value list (<code>.separatedBy.</code> or
-equivalently <code>.sv.</code>), including a comma-separated value list <code>(.csv.)</code>.  The
-table below shows some expressions that Julienne supports with these defined
-operations.</p>
+equivalently <code>.sv.</code>), including a comma-separated value list <code>(.csv.)</code>.</p>
 <table>
 <thead>
 <tr>
@@ -282,8 +277,7 @@ operations.</p>
 </tr>
 </tbody>
 </table>
-<p>One can use such expressions to craft a diagnostic message when constructing
-a custom test function result:</p>
+<p>One can use such expressions to craft a diagnostic message:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="p">(</span><span class="n">test_diagnosis_t</span><span class="p">)</span><span class="w"> </span><span class="n">test_diagnosis</span>
 <span class="n">test_diagnosis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">test_diagnosis_t</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">  </span><span class="n">test_passed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="o">==</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
@@ -369,90 +363,105 @@ the <a href="https://github.com/sourceryinstitute/sourcery">Sourcery</a> reposit
 across compilers, Julienne's chief innovation now lies in the expressive idioms
 the framework supports.</p>
 <h2 id="building-and-testing">Building and Testing</h2>
-<h3 id="compiler-support">Compiler support</h3>
-<p>When built with the compiler versions tabulated below, all Julienne tests pass.</p>
+<p>With the Fortran Package Manager (<code>fpm</code>) installed and in your <code>PATH</code>, the
+commands in the table below build and run the Julienne test suite.  With <code>fpm</code>
+versions higher than 0.12.0, <code>flang-new</code> can be replaced with <code>flang</code>.</p>
 <table>
 <thead>
 <tr>
-<th>Compiler</th>
-<th>Version(s) Tested</th>
-<th>Known Issues</th>
+<th>Compiler/Runtime</th>
+<th>Supported Versions</th>
+<th><code>bash</code> commands for building/testing (replace <code>2</code>s below with the number of images)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>LLVM <code>flang-new</code></td>
-<td>19, 20, 21</td>
-<td>none</td>
+<td>LLVM/<a href="https://go.lbl.gov/caffeine">Caffeine</a></td>
+<td>22</td>
+<td>parallel: please contact fortran@lbl.gov</td>
 </tr>
 <tr>
-<td>NAG <code>nagfor</code></td>
-<td>7.2 Build 7235</td>
-<td>none</td>
+<td></td>
+<td>20-22</td>
+<td>serial:  <code>fpm test --compiler flang-new --flag -O3</code></td>
 </tr>
 <tr>
-<td>Intel <code>ifx</code></td>
-<td>2025.2.{0-2}</td>
-<td>none</td>
+<td></td>
+<td>19</td>
+<td>serial:  <code>fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"</code></td>
 </tr>
 <tr>
-<td>GCC <code>gfortran</code></td>
-<td>13.4.0, 14.3.0, 15.1.0</td>
-<td>see below</td>
+<td>------------------</td>
+<td>---------------------</td>
+<td>------------------------------------------------------------------------------------------</td>
+</tr>
+<tr>
+<td>NAG</td>
+<td>7.2 (Build 7235-)</td>
+<td><code>export NAGFORTRAN_NUM_IMAGES=2</code></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>fpm test --compiler nagfor --flag "-fpp -O3 -coarray"</code></td>
+</tr>
+<tr>
+<td>------------------</td>
+<td>---------------------</td>
+<td>------------------------------------------------------------------------------------------</td>
+</tr>
+<tr>
+<td>Intel</td>
+<td>2025.2.{0-1}</td>
+<td><code>export FOR_COARRAY_NUM_IMAGES=2</code></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release</code></td>
+</tr>
+<tr>
+<td>------------------</td>
+<td>---------------------</td>
+<td>------------------------------------------------------------------------------------------</td>
+</tr>
+<tr>
+<td>GCC/<a href="https://github.com/sourceryinstitute/opencoarrays">OpenCoarrays</a></td>
+<td>14-15</td>
+<td>serial:   <code>fpm test --compiler gfortran --profile release</code></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>parallel: <code>fpm test --compiler caf --runnner "cafrun -n 2" --profile release</code></td>
+</tr>
+<tr>
+<td></td>
+<td>13</td>
+<td>serial:   <code>fpm test --compiler gfortran --profile release --flag -ffree-line-length-none</code></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>parallel: <code>fpm test --compiler caf --runnner "cafrun -n 2" --profile release --flag -ffree-line-length-none</code></td>
 </tr>
 </tbody>
 </table>
-<p>With <code>gfortran</code> 13 through 14.2.0,
-- The <code>test_description_t</code> constructor's <code>diagnosis_function</code> actual argument
-  must be a procedure pointer declared with <code>procedure(diagnosis_function_i)</code>.
-- The <code>string_t</code> type-bound  function <code>bracket</code> crashes.</p>
-<h3 id="buildtest-commands">Build/test commands</h3>
-<h4 id="llvm-flang-new-compiler">LLVM (<code>flang-new</code>) compiler</h4>
-<p>With version 20 or later, please run</p>
-<div class="codehilite"><pre><span></span><code>fpm test --compiler flang-new --flag &quot;-O3&quot;
-</code></pre></div>
-
-<p>With version 19, please run</p>
-<div class="codehilite"><pre><span></span><code>fpm test --compiler flang-new --flag &quot;-O3 -mmlir -allow-assumed-rank&quot;
-</code></pre></div>
-
-<p>to enable support for assumed-rank dummy arguments.</p>
-<h4 id="nag-nagfor-compiler">NAG (<code>nagfor</code>) compiler</h4>
-<h5 id="serial-execution">Serial execution</h5>
-<div class="codehilite"><pre><span></span><code>fpm test --compiler nagfor --flag &quot;-fpp -O3&quot;
-</code></pre></div>
-
-<h5 id="parallel-execution">Parallel execution</h5>
-<p>To execute build and run parallel tests in 2 images, please run</p>
-<div class="codehilite"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="n">NAGFORTRAN_NUM_IMAGES</span><span class="o">=</span><span class="mi">2</span>
-<span class="n">fpm</span><span class="w"> </span><span class="n">test</span><span class="w"> </span><span class="o">--</span><span class="n">compiler</span><span class="w"> </span><span class="n">nagfor</span><span class="w"> </span><span class="o">--</span><span class="n">flag</span><span class="w"> </span><span class="s2">&quot;-fpp -O3 -coarray&quot;</span>
-</code></pre></div>
-
-<p>Replace the "2" above with any number up to the compiler limit of 1000 images.</p>
-<h4 id="gnu-gfortran-compiler">GNU (<code>gfortran</code>) compiler</h4>
-<h5 id="serial-execution_1">Serial execution</h5>
-<p>For compiler versions 14 or higher, please use</p>
-<div class="codehilite"><pre><span></span><code>fpm test --compiler gfortran --profile release
-</code></pre></div>
-
-<p>For version 13, please append <code>--flag "-ffree-line-length-none"</code> to the above
-command to enable the Fortran 2023 line-length maximum of 5000 characters.</p>
-<h5 id="parallel-execution_1">Parallel execution</h5>
-<p>With OpenCoarrays installed, please replace <code>--compiler gfortran</code> with
-<code>--compiler caf</code> and please append <code>--runner "cafrun -n 2"</code> to the above
-command.</p>
-<h4 id="intel-ifx-compiler">Intel (<code>ifx</code>) compiler</h4>
-<h5 id="serial-execution_2">Serial execution</h5>
-<div class="codehilite"><pre><span></span><code>fpm test --compiler ifx --flag &quot;-fpp -O3&quot; --profile release
-</code></pre></div>
-
-<h5 id="parallel-execution_2">Parallel execution</h5>
-<p>To execute build and run parallel tests in 2 images, please run</p>
-<div class="codehilite"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="n">FOR_COARRAY_NUM_IMAGES</span><span class="o">=</span><span class="mi">2</span>
-<span class="n">fpm</span><span class="w"> </span><span class="n">test</span><span class="w"> </span><span class="o">--</span><span class="n">compiler</span><span class="w"> </span><span class="n">ifx</span><span class="w"> </span><span class="o">--</span><span class="n">flag</span><span class="w"> </span><span class="s2">&quot;-fpp -O3 -coarray&quot;</span><span class="w"> </span><span class="o">--</span><span class="n">profile</span><span class="w"> </span><span class="n">release</span>
-</code></pre></div>
-
-<p>Replace the "2" above with any desired number of images.</p>
+<p>The test output reports a test skipped if there is a known issue that blocks the
+tested feature with the compiler version employed or on a given platform.  By
+default, the test suite skips the tests for Julienn's command-line parsing
+utility, <code>command_line_t</code>, due to an issue with GitHub continuous-integration
+testing.  To test <code>command_line_t</code>, add <code>-- --flag --test command_line_t --type</code>
+to any of the above <code>fpm</code> commands</p>
+<h3 id="useful-proprocessor-macros">Useful proprocessor macros:</h3>
+<p>To set any of the following macros add <code>--flag -D&lt;macro-name&gt;</code> to an <code>fpm</code> command:</p>
+<ul>
+<li><code>ASYNCHRONOUS_DIAGNOSTICS</code>: removes synchronizations that partially order test-failure diagnostics output for clarity</li>
+<li><code>ASSERTIONS</code>: enables checks for Julienne's own runtime assertions</li>
+<li><code>RUN_FALSE_ASSERTIONS</code>: runs tests of false assertions if ASSERTIONS is also defined</li>
+</ul>
+<p>Julienne defines additional macros in the <code>include</code> directory.
+Users may also explicitly undefine or define any of Julienne's macros with <code>-D</code>.</p>
 <h2 id="documentation">Documentation</h2>
 <p>See our online <a href="https:///berkeleylab.github.io/julienne/">documentation</a> or build the documentation locally by installing <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a> and executing <code>ford ford.md</code>.</p>
 <h2 id="known-software-using-julienne">Known Software Using Julienne</h2>
@@ -543,7 +552,7 @@ command.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-15 23:05 +0000             </p>
+ on 2025-09-22 22:27 +0000             </p>
           </div>
         </div>
         <br>

@@ -71,8 +71,28 @@ contains
             stop
           end if
 
-          if (me==1) print '(a)', new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
+          if (me==1) then
 
+            print '(a)', new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
+
+#if (! defined(__GFORTRAN__)) && (! defined(NAGFOR))
+            associate(search_string => command_line%flag_value("--contains"))
+#else
+            block; character(len=:), allocatable :: search_string; search_string = command_line%flag_value("--contains")
+#endif
+              if (len(search_string)==0) then
+                print '(a)', new_line('') // &
+                  "Running all tests." // new_line('') // &
+                  "(Add '-- --contains <string>' to run only tests with subjects or descriptions containing the specified string.)"
+              else
+                print '(a)', new_line('') // "Running only tests with subjects or descriptions containing '" // search_string // "'."
+              end if
+#if (! defined(__GFORTRAN__)) && (! defined(NAGFOR))
+            end associate
+#else
+            end block
+#endif
+          end if
         end associate
       end associate
     end subroutine

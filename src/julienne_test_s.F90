@@ -4,8 +4,7 @@
 #include "language-support.F90"
 
 submodule(julienne_test_m) julienne_test_s
-  use julienne_test_description_m, only : test_description_t
-  use julienne_string_m, only : string_t
+  use julienne_test_description_m, only : filter
   implicit none
 
 contains
@@ -29,68 +28,38 @@ contains
 #endif
 
   module procedure report
-    logical, save :: do_first_report = .true.
+
+    integer t
+    logical, allocatable :: passing_tests(:), skipped_tests(:)
 
 #if HAVE_MULTI_IMAGE_SUPPORT
     associate(me => this_image())
 #else
     associate(me => 1)
 #endif
-      image_1_prints_usage_info: &
-      if (me==1) then
-        block
-          type(command_line_t) command_line
-          first_report: &
-          if (do_first_report) then
-            do_first_report = .false.
-            block
-              character(len=:), allocatable :: search_string
-              search_string = command_line%flag_value("--contains")
-              if (len(search_string)==0) then
-                if (me==1) print '(a)', new_line('') // &
-                  "Running all tests." // new_line('') // &
-                  "(Add '-- --contains <string>' to run only tests with subjects or descriptions containing the specified string.)"
-              else
-                if (me==1) print '(a)', new_line('') // "Running only tests with subjects or descriptions containing '" // search_string // "'."
-              end if
-            end block
-          end if first_report
-        end block
+      if (me==1) print '(a)', new_line('') // test%subject()
 
-        if (me==1) print '(a)', new_line('') // test%subject()
+      associate(test_results =>  test%results())
 
-      end if image_1_prints_usage_info
+        passing_tests = test_results%passed()
+        skipped_tests = test_results%skipped()
 
-      associate(test_results => test%results())
         associate(num_tests => size(test_results))
+
+          do t = 1, num_tests
+            call test_results(t)%characterize()
+          end do
+
           tests = tests + num_tests
-          if (me==1) then
-            block
-              integer i
-              do i=1,num_tests
-                if (me==1) print '(a)', "   " // test_results(i)%characterize()
-              end do
-            end block
-          end if
-          block
-            logical, allocatable :: passing_tests(:), skipped_tests(:)
 
-            passing_tests = test_results%passed()
-            skipped_tests = test_results%skipped()
-
-            call co_all(passing_tests)
-            call co_all(skipped_tests)
-
-            associate(num_passes => count(passing_tests), num_skipped => count(skipped_tests))
-              if (me==1) print '(*(a,:,i0))', " ", num_passes, " of ", num_tests, " tests passed. ", num_skipped, " tests were skipped."
-              passes = passes + num_passes
-              skips  = skips  + num_skipped
-            end associate
-          end block
+          associate(num_passes => count(passing_tests), num_skipped => count(skipped_tests))
+            if (me==1) print '(*(a,:,i0))', " ", num_passes, " of ", num_tests, " tests passed. ", num_skipped, " tests were skipped."
+            passes = passes + num_passes
+            skips  = skips  + num_skipped
+          end associate
         end associate
       end associate
     end associate
-
   end procedure
 
 end submodule julienne_test_s
