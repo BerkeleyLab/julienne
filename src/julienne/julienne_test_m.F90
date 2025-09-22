@@ -8,8 +8,7 @@ module julienne_test_m
   !! used by a type-bound procedure ("report") for reporting test results.  The "report"
   !! procedure thus represents an implementation of the Template Method pattern.
   use julienne_test_result_m, only : test_result_t
-  use julienne_test_description_m, only : test_description_t, filter
-  use julienne_user_defined_collectives_m, only : co_all
+  use julienne_test_description_m, only : test_description_t
   use julienne_command_line_m, only : command_line_t
 
   implicit none
@@ -19,6 +18,7 @@ module julienne_test_m
 
   type, abstract :: test_t
     !! Facilitate testing and test reporting
+
   contains
     procedure(subject_interface), nopass, deferred :: subject 
     procedure(results_interface), nopass, deferred :: results

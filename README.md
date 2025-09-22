@@ -4,14 +4,12 @@
 
 Julienne: Idiomatic Correctness Checking for Fortran 2023
 =========================================================
-The Julienne framework offers a unified approach to unit testing and runtime
-assertion checking.  Julienne defines idioms for specifying correctness
-conditions in a common way when writing tests that wrap the tested procedures
-or assertions that conditionally execute inside procedures to check correctness.
-Julienne's idioms center around expressions built from defined operations: a
-uniquely flexible Fortran capability allowing developers to define _new_
-operators in addition to overloading Fortran's intrinsic operators.  The
-following table provides examples of the expressions Julienne supports:
+The Julienne framework offers a unified approach to writing unit tests and
+assertions.  Julienne defines idioms for specifying correctness conditions in a
+common in tests that wrap the tested procedures or assertions that conditionally
+execute inside procedures.  Julienne idioms center around expressions built from
+defined operations: a uniquely flexible Fortran capability allowing developers
+to define _new_ operators or to overloading Fortran's intrinsic operators.
 
 Example expressions                                  | Operand types
 -----------------------------------------------------|--------------------------------------
@@ -43,27 +41,26 @@ where
 Expressive idioms 
 -----------------
 ### Assertions
-Any of the above expressions can be the actual argument in an invocation
-of Julienne's `call_julienne_assert` function-line preprocessor macro:
+Any of the above expressions can be the actual argument in an invocation of
+Julienne's `call_julienne_assert` function-line preprocessor macro:
 ```fortran
 call_julienne_assert(x .lessThan. y)
 ```
 which a preprocessor will replace with a call to Julienne's assertion subroutine
 when compiling with `-DASSERTIONS`.  Otherwise, the preprocessor will remove the
-above line entirely when `-DASSERTIONS` is not present.
+above line entirely.
 
 ### Unit tests
-The above tabulated expressions can also serve as function results in unit tests.
+The above tabulated expressions can also serve as results in unit-test functions.
 
 ### Constraints
 All operands in an expression must be compatible in type and kind as well as
-conformable in rank, where the latter condition implies that the operands must
-be all scalars or all arrays with the same shape or a combination of scalars and
-arrays with the same shape. This constraint follows from each of the binary
-operators being `elemental`.  The unary `.all.` operator applies to operands of
-any rank.
+conformable in rank. Conformability implies that the operands must be all
+scalars or all arrays with the same shape or a combination of scalars and arrays
+with the same shape. This constraint follows from each of the binary operators
+being `elemental`.  The unary `.all.` operator applies to operands of any rank.
 
-Each tabulated expression above produces a `test_diagnosis_t` object with two
+Each expression tabulated above produces a `test_diagnosis_t` object with two
 components:
 
 - a `logical` indicator of test success if `.true`. or failure if `.false.` and
@@ -71,22 +68,20 @@ components:
 
 Custom Test Diagnostics
 -----------------------
-For cases in which Julienne's operators do not support the desired correctness
-condition, the framework provides string-handling utilities for use in crafting
-custom diagnostic messages.  The string utilities center around Julienne's
-`string_t` derived type, which offers `elemental` constructor functions, i.e., 
-functions that one invokes via the same name as the derived type: `string_t()`.
-The `string_t()` constructor functions convert data of numeric type to
-`character` type, storing the resulting `character` representation in a private
-component of the constructor function result.  The actual argument provided to
-the constructor function can be of any one of several types, kinds, and ranks.
+For cases in which the defeind operations do not support a desired correctness
+condition, Julienne provides string-handling utilities for use in crafting
+custom diagnostic messages.  The string utilities center around a `string_t`
+derived type, which offers `elemental` constructor functions, i.e., functions
+that one invokes via the same name as the derived type: `string_t()`.  The
+`string_t()` constructor functions convert data of numeric type to `character`
+type, storing the resulting `character` representation in a private component
+of the constructor function result.  The actual argument provided to the
+constructor function can be of any one of several types, kinds, and ranks.
 
 Julienne provides defined operations for concatenating `string_t` objects
 (`//`), forming a concatenated `string_t` object from an array of `string_t`
 objects (`.cat.`), forming a separated-value list (`.separatedBy.` or
-equivalently `.sv.`), including a comma-separated value list `(.csv.)`.  The
-table below shows some expressions that Julienne supports with these defined
-operations.
+equivalently `.sv.`), including a comma-separated value list `(.csv.)`.
 
 Example expression                               | Result
 -------------------------------------------------|------------------------------------------------
@@ -101,8 +96,7 @@ Example expression                               | Result
 `"ab" // string_t("cd")`                         | `string_t("abcd")`
 `string_t("ab") // "cd"`                         | `string_t("abcd")`
 
-One can use such expressions to craft a diagnostic message when constructing
-a custom test function result:
+One can use such expressions to craft a diagnostic message:
 ```fortran
 type(test_diagnosis_t) test_diagnosis
 test_diagnosis = test_diagnosis_t( &
@@ -200,75 +194,44 @@ the framework supports.
 
 Building and Testing
 --------------------
-### Compiler support
-When built with the compiler versions tabulated below, all Julienne tests pass.
 
-Compiler         | Version(s) Tested      | Known Issues
------------------|------------------------|-------------
-LLVM `flang-new` | 19, 20, 21             | none
-NAG `nagfor`     | 7.2 Build 7235         | none
-Intel `ifx`      | 2025.2.{0-2}           | none
-GCC `gfortran`   | 13.4.0, 14.3.0, 15.1.0 | see below
+With the Fortran Package Manager (`fpm`) installed and in your `PATH`, the
+commands in the table below build and run the Julienne test suite.  With `fpm`
+versions higher than 0.12.0, `flang-new` can be replaced with `flang`.
 
-With `gfortran` 13 through 14.2.0,
-- The `test_description_t` constructor's `diagnosis_function` actual argument
-  must be a procedure pointer declared with `procedure(diagnosis_function_i)`.
-- The `string_t` type-bound  function `bracket` crashes.
+Compiler/Runtime  | Supported Versions  | `bash` commands for building/testing (replace `2`s below with the number of images)
+------------------|---------------------|------------------------------------------------------------------------------------------
+LLVM/[Caffeine]   | 22                  | parallel: please contact fortran@lbl.gov
+                  | 20-22               | serial:  `fpm test --compiler flang-new --flag -O3`
+                  | 19                  | serial:  `fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"`        
+------------------|---------------------|------------------------------------------------------------------------------------------
+NAG               | 7.2 (Build 7235-)   | `export NAGFORTRAN_NUM_IMAGES=2`
+                  |                     | `fpm test --compiler nagfor --flag "-fpp -O3 -coarray"`
+------------------|---------------------|------------------------------------------------------------------------------------------
+Intel             | 2025.2.{0-1}        | `export FOR_COARRAY_NUM_IMAGES=2`
+                  |                     | `fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release` 
+------------------|---------------------|------------------------------------------------------------------------------------------
+GCC/[OpenCoarrays]| 14-15               | serial:   `fpm test --compiler gfortran --profile release`
+                  |                     | parallel: `fpm test --compiler caf --runnner "cafrun -n 2" --profile release`
+                  | 13                  | serial:   `fpm test --compiler gfortran --profile release --flag -ffree-line-length-none`
+                  |                     | parallel: `fpm test --compiler caf --runnner "cafrun -n 2" --profile release --flag -ffree-line-length-none`
 
-### Build/test commands
+The test output reports a test skipped if there is a known issue that blocks the
+tested feature with the compiler version employed or on a given platform.  By
+default, the test suite skips the tests for Julienn's command-line parsing
+utility, `command_line_t`, due to an issue with GitHub continuous-integration
+testing.  To test `command_line_t`, add `-- --flag --test command_line_t --type`
+to any of the above `fpm` commands
 
-#### LLVM (`flang-new`) compiler
-With version 20 or later, please run
-```
-fpm test --compiler flang-new --flag "-O3"
-```
-With version 19, please run
-```
-fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"
-```
-to enable support for assumed-rank dummy arguments.
+### Useful proprocessor macros:
+To set any of the following macros add `--flag -D<macro-name>` to an `fpm` command:
 
-#### NAG (`nagfor`) compiler
-##### Serial execution
-```
-fpm test --compiler nagfor --flag "-fpp -O3"
-```
+- `ASYNCHRONOUS_DIAGNOSTICS`: removes synchronizations that partially order test-failure diagnostics output for clarity
+- `ASSERTIONS`: enables checks for Julienne's own runtime assertions
+- `RUN_FALSE_ASSERTIONS`: runs tests of false assertions if ASSERTIONS is also defined
 
-##### Parallel execution
-To execute build and run parallel tests in 2 images, please run
-```
-export NAGFORTRAN_NUM_IMAGES=2
-fpm test --compiler nagfor --flag "-fpp -O3 -coarray"
-```
-Replace the "2" above with any number up to the compiler limit of 1000 images.
-
-#### GNU (`gfortran`) compiler
-##### Serial execution
-For compiler versions 14 or higher, please use
-```
-fpm test --compiler gfortran --profile release
-```
-For version 13, please append ` --flag "-ffree-line-length-none"` to the above
-command to enable the Fortran 2023 line-length maximum of 5000 characters.
-
-##### Parallel execution
-With OpenCoarrays installed, please replace `--compiler gfortran` with
-`--compiler caf` and please append ` --runner "cafrun -n 2"` to the above
-command.
-
-#### Intel (`ifx`) compiler
-##### Serial execution
-```
-fpm test --compiler ifx --flag "-fpp -O3" --profile release
-```
-
-##### Parallel execution
-To execute build and run parallel tests in 2 images, please run
-```
-export FOR_COARRAY_NUM_IMAGES=2
-fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release
-```
-Replace the "2" above with any desired number of images.
+Julienne defines additional macros in the `include` directory.
+Users may also explicitly undefine or define any of Julienne's macros with `-D`.
 
 Documentation
 -------------
@@ -281,12 +244,11 @@ Known Software Using Julienne
 * [TRACE](https://www.nrc.gov/docs/ML1200/ML120060218.pdf) two-phase flow solver for nuclear reactors
 * nQMCC: Quantum Monte Carlo simulation software for nuclear physics
 
-[#51]: https://github.com/BerkeleyLab/julienne/issues/51
-[Assertions]: #assertions
 [`diagnosis_function_i`]: https://github.com/BerkeleyLab/julienne/blob/37bcc959efa8f9e27ae50fecfd37a6bf52ef0a43/src/julienne/julienne_test_description_m.f90#L16
 [documentation]: https:///berkeleylab.github.io/julienne/
 [FORD]: https://github.com/Fortran-FOSS-Programmers/ford
 [Garden]: https://gitlab.com/everythingfunctional/garden
-[handy-dandy]: https://github.com/rouson/handy-dandy/blob/7caaa4dc3d6e5331914a3025f0cb1db5ac1a886f/src/fresh-llvm-build.sh
 [Sourcery]: https://github.com/sourceryinstitute/sourcery
 [Veggies]: https://gitlab.com/everythingfunctional/veggies
+[Caffeine]: https://go.lbl.gov/caffeine
+[OpenCoarrays]: https://github.com/sourceryinstitute/opencoarrays

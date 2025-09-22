@@ -1,24 +1,45 @@
-!
-!     (c) 2019-2020 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
-!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
-!     contract # NRC-HQ-60-17-C-0007
-!
+! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
+! Terms of use are as specified in LICENSE.txt
+
+#include "language-support.F90"
+
+#if HAVE_MULTI_IMAGE_SUPPORT
+
 submodule(julienne_user_defined_collectives_m) julienne_user_defined_collectives_s
   implicit none
 
 contains
 
-  module procedure co_all
-#if HAVE_MULTI_IMAGE_SUPPORT
-    call co_reduce(boolean, both)
+#if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
+
+  module procedure co_gather_1D_character_array
+
+    integer i, max_len
+    character(len=:), allocatable :: array(:)
+
+
+    associate(me => this_image())
+      max_len = len(my_string)
+      call co_max(max_len)
+      all_strings = &
+        [ character(len=max_len) :: &
+           [( "", i = 1, me-1      )] &
+          ,my_string &
+          ,[( "", i = me+1, num_images() )] &
+        ]
+      call co_max(all_strings)
+    end associate
+  end procedure
+
 #endif
-  contains
-    pure function both(lhs,rhs) result(lhs_and_rhs)
-      logical, intent(in) :: lhs,rhs
-      logical lhs_and_rhs
-      lhs_and_rhs = lhs .and. rhs
-    end function
+
+  module procedure co_all
+    integer binary
+    binary = merge(0, 1, boolean)
+    call co_max(binary)
+    boolean = merge(.true., .false., binary==0)
   end procedure
 
 end submodule julienne_user_defined_collectives_s
+
+#endif

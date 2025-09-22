@@ -49,12 +49,11 @@ module julienne_test_result_m
 
   interface
 
-    pure module function characterize(self) result(characterization)
-      !! The result is a character description of the test and its outcome
+    module subroutine characterize(self)
+      !! Print a description of the test, its outcome, and diagnostic information if the test fails
       implicit none
       class(test_result_t), intent(in) :: self
-      character(len=:), allocatable :: characterization
-    end function
+    end subroutine
 
     impure elemental module function passed(self) result(test_passed)
       !! The result is true if and only if the test passed on all images

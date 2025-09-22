@@ -536,17 +536,17 @@ module julienne_test_diagnosis_m
   interface
 
     elemental module function test_passed(self) result(passed)
-      !! The result is .true. if the test passed and false otherwise
+      !! The result is .true. if the test passed on the executing image and false otherwise
       implicit none
       class(test_diagnosis_t), intent(in) :: self
       logical passed
     end function
 
-    elemental module function diagnostics_string(self) result(string_)
-      !! The result is a string describing the condition(s) that caused a test failure
+    pure module function diagnostics_string(self) result(string)
+      !! The result is a string describing the condition(s) that caused a test failure or is a zero-length string if no failure
       implicit none
       class(test_diagnosis_t), intent(in) :: self
-      type(string_t) string_
+      character(len=:), allocatable :: string
     end function
 
   end interface
