@@ -133,6 +133,8 @@ jobs:
           echo "FPM_FC=flang-new" >> "$GITHUB_ENV" ; \
         elif test "$FC" = "ifx" ; then \
           echo "FPM_FC=ifx" >> "$GITHUB_ENV" ; \
+          echo "FFLAGS=-fpp $FFLAGS" >> "$GITHUB_ENV" ; \
+          echo "FFLAGS=-coarray $FFLAGS" >> "$GITHUB_ENV" ; \
         elif test "$FC" = "lfortran" ; then \
           echo "FPM_FC=lfortran" >> "$GITHUB_ENV" ; \
           echo "FFLAGS=--cpp $FFLAGS" >> "$GITHUB_ENV" ; \
