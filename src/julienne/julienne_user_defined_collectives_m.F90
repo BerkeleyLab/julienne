@@ -9,7 +9,7 @@ module julienne_user_defined_collectives_m
   !! User-defined collective procedures.
   implicit none
 
-#if HAVE_CO_MAX_CHARACTER_ARRAYE_SUPPORT
+#if HAVE_CO_MAX_CHARACTER_ARRAY_SUPPORT
 
   interface co_gather
 
