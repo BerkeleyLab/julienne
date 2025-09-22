@@ -17,7 +17,7 @@
 ! If not already determined, make a compiler-dependent determination of whether Julienne may use
 ! multi-image features such as `this_image()` and `sync all`.
 #ifndef HAVE_MULTI_IMAGE_SUPPORT
-#  if defined(__flang__) || __INTEL_COMPILER < 20250201
+#  if defined(__flang__) || (defined(__INTEL_COMPILER) && (__INTEL_COMPILER < 20250201))
 #    define HAVE_MULTI_IMAGE_SUPPORT 0
 #  else
 #    define HAVE_MULTI_IMAGE_SUPPORT 1
