@@ -214,7 +214,7 @@ components:</p>
 <li>an automated diagnostic messages generated only if the test or assertion fails.</li>
 </ul>
 <h2 id="custom-test-diagnostics">Custom Test Diagnostics</h2>
-<p>For cases in which the defeind operations do not support a desired correctness
+<p>For cases in which the defined operations do not support a desired correctness
 condition, Julienne provides string-handling utilities for use in crafting
 custom diagnostic messages.  The string utilities center around a <code>string_t</code>
 derived type, which offers <code>elemental</code> constructor functions, i.e., functions
@@ -325,7 +325,7 @@ diagnostic messages during error termination.</p>
 <h2 id="getting-started">Getting Started</h2>
 <h3 id="writing-unit-tests">Writing Unit Tests</h3>
 <p>Please see <a href="./demo/README.md">demo/README.md</a> for a detailed demonstration of
-test setup.  </p>
+test setup.</p>
 <h3 id="writing-assertions">Writing Assertions</h3>
 <p>To write a Julienne assertion, insert a function-like preprocessor macro
 <code>call_julienne_assert</code> on a single line as in each of the two macro
@@ -364,104 +364,89 @@ across compilers, Julienne's chief innovation now lies in the expressive idioms
 the framework supports.</p>
 <h2 id="building-and-testing">Building and Testing</h2>
 <p>With the Fortran Package Manager (<code>fpm</code>) installed and in your <code>PATH</code>, the
-commands in the table below build and run the Julienne test suite.  With <code>fpm</code>
-versions higher than 0.12.0, <code>flang-new</code> can be replaced with <code>flang</code>.</p>
+commands in the table below will build and run the Julienne test suite.  With
+ <code>fpm</code> versions higher than 0.12.0, <code>flang-new</code> can be replaced with <code>flang</code>.</p>
 <table>
 <thead>
 <tr>
 <th>Compiler/Runtime</th>
-<th>Supported Versions</th>
-<th><code>bash</code> commands for building/testing (replace <code>2</code>s below with the number of images)</th>
+<th>Tested Versions</th>
+<th>Run Type</th>
+<th><code>bash</code> build/test commands (<code>num_images()==2</code>)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>LLVM/<a href="https://go.lbl.gov/caffeine">Caffeine</a></td>
 <td>22</td>
-<td>parallel: please contact fortran@lbl.gov</td>
+<td>parallel</td>
+<td>please contact fortran@lbl.gov</td>
 </tr>
 <tr>
-<td></td>
+<td>LLVM/<a href="https://go.lbl.gov/caffeine">Caffeine</a></td>
 <td>20-22</td>
-<td>serial:  <code>fpm test --compiler flang-new --flag -O3</code></td>
+<td>serial</td>
+<td><code>fpm test --compiler flang-new --flag -O3</code></td>
 </tr>
 <tr>
-<td></td>
+<td>LLVM/<a href="https://go.lbl.gov/caffeine">Caffeine</a></td>
 <td>19</td>
-<td>serial:  <code>fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"</code></td>
-</tr>
-<tr>
-<td>------------------</td>
-<td>---------------------</td>
-<td>------------------------------------------------------------------------------------------</td>
+<td>serial</td>
+<td><code>fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"</code></td>
 </tr>
 <tr>
 <td>NAG</td>
-<td>7.2 (Build 7235-)</td>
-<td><code>export NAGFORTRAN_NUM_IMAGES=2</code></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td><code>fpm test --compiler nagfor --flag "-fpp -O3 -coarray"</code></td>
-</tr>
-<tr>
-<td>------------------</td>
-<td>---------------------</td>
-<td>------------------------------------------------------------------------------------------</td>
+<td>7.2, Build 7235</td>
+<td>parallel</td>
+<td><code>NAGFORTRAN_NUM_IMAGES=2 fpm test --compiler nagfor --flag "-fpp -O3 -coarray"</code></td>
 </tr>
 <tr>
 <td>Intel</td>
 <td>2025.2.{0-1}</td>
-<td><code>export FOR_COARRAY_NUM_IMAGES=2</code></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td><code>fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release</code></td>
-</tr>
-<tr>
-<td>------------------</td>
-<td>---------------------</td>
-<td>------------------------------------------------------------------------------------------</td>
+<td>parallel</td>
+<td><code>FOR_COARRAY_NUM_IMAGES=2 fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release</code></td>
 </tr>
 <tr>
 <td>GCC/<a href="https://github.com/sourceryinstitute/opencoarrays">OpenCoarrays</a></td>
 <td>14-15</td>
-<td>serial:   <code>fpm test --compiler gfortran --profile release</code></td>
+<td>serial</td>
+<td><code>fpm test --compiler gfortran --profile release</code></td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td>parallel: <code>fpm test --compiler caf --runnner "cafrun -n 2" --profile release</code></td>
+<td>GCC/<a href="https://github.com/sourceryinstitute/opencoarrays">OpenCoarrays</a></td>
+<td>14-15</td>
+<td>parallel</td>
+<td><code>fpm test --compiler caf --runnner "cafrun -n 2" --profile release</code></td>
 </tr>
 <tr>
-<td></td>
+<td>GCC/<a href="https://github.com/sourceryinstitute/opencoarrays">OpenCoarrays</a></td>
 <td>13</td>
-<td>serial:   <code>fpm test --compiler gfortran --profile release --flag -ffree-line-length-none</code></td>
+<td>serial</td>
+<td><code>fpm test --compiler gfortran --profile release --flag -ffree-line-length-none</code></td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td>parallel: <code>fpm test --compiler caf --runnner "cafrun -n 2" --profile release --flag -ffree-line-length-none</code></td>
+<td>GCC/<a href="https://github.com/sourceryinstitute/opencoarrays">OpenCoarrays</a></td>
+<td>13</td>
+<td>parallel</td>
+<td><code>fpm test --compiler caf --runnner "cafrun -n 2" --profile release --flag -ffree-line-length-none</code></td>
 </tr>
 </tbody>
 </table>
-<p>The test output reports a test skipped if there is a known issue that blocks the
-tested feature with the compiler version employed or on a given platform.  By
-default, the test suite skips the tests for Julienn's command-line parsing
-utility, <code>command_line_t</code>, due to an issue with GitHub continuous-integration
-testing.  To test <code>command_line_t</code>, add <code>-- --flag --test command_line_t --type</code>
-to any of the above <code>fpm</code> commands</p>
-<h3 id="useful-proprocessor-macros">Useful proprocessor macros:</h3>
-<p>To set any of the following macros add <code>--flag -D&lt;macro-name&gt;</code> to an <code>fpm</code> command:</p>
+<p>The test output reports a test as skipped if there is a known issue that blocks
+the tested feature with the chosen compiler version or platform.  Due to a
+GitHub continuous-integration (CI) issue, the default behavior is to skip the
+tests for Julienne's command-line parsing utility: <code>command_line_t</code>.  To test
+<code>command_line_t</code>, add <code>-- --flag --test command_line_t --type</code> at the end of an
+<code>fpm</code> command.</p>
+<h3 id="useful-preprocessor-macros">Useful preprocessor macros:</h3>
+<p>To define the following macros or to override the values defined in Julienne's
+<code>include</code> directory, add <code>--flag -D&lt;macro-name&gt;=&lt;value&gt;</code> to an <code>fpm</code> command:</p>
 <ul>
-<li><code>ASYNCHRONOUS_DIAGNOSTICS</code>: removes synchronizations that partially order test-failure diagnostics output for clarity</li>
+<li><code>ASYNCHRONOUS_DIAGNOSTICS</code>: removes synchronizations that partially order
+  test-failure diagnostics output for clarity</li>
 <li><code>ASSERTIONS</code>: enables checks for Julienne's own runtime assertions</li>
-<li><code>RUN_FALSE_ASSERTIONS</code>: runs tests of false assertions if ASSERTIONS is also defined</li>
+<li><code>RUN_FALSE_ASSERTIONS</code>: runs false-assertion tests if ASSERTIONS is non-zero</li>
 </ul>
-<p>Julienne defines additional macros in the <code>include</code> directory.
-Users may also explicitly undefine or define any of Julienne's macros with <code>-D</code>.</p>
 <h2 id="documentation">Documentation</h2>
 <p>See our online <a href="https:///berkeleylab.github.io/julienne/">documentation</a> or build the documentation locally by installing <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a> and executing <code>ford ford.md</code>.</p>
 <h2 id="known-software-using-julienne">Known Software Using Julienne</h2>
@@ -552,7 +537,7 @@ Users may also explicitly undefine or define any of Julienne's macros with <code
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-22 22:27 +0000             </p>
+ on 2025-09-23 18:56 +0000             </p>
           </div>
         </div>
         <br>
