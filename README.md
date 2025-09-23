@@ -68,7 +68,7 @@ components:
 
 Custom Test Diagnostics
 -----------------------
-For cases in which the defeind operations do not support a desired correctness
+For cases in which the defined operations do not support a desired correctness
 condition, Julienne provides string-handling utilities for use in crafting
 custom diagnostic messages.  The string utilities center around a `string_t`
 derived type, which offers `elemental` constructor functions, i.e., functions
@@ -151,7 +151,7 @@ Getting Started
 ---------------
 ### Writing Unit Tests
 Please see [demo/README.md](./demo/README.md) for a detailed demonstration of
-test setup.  
+test setup.
 
 ### Writing Assertions
 To write a Julienne assertion, insert a function-like preprocessor macro
@@ -196,42 +196,36 @@ Building and Testing
 --------------------
 
 With the Fortran Package Manager (`fpm`) installed and in your `PATH`, the
-commands in the table below build and run the Julienne test suite.  With `fpm`
-versions higher than 0.12.0, `flang-new` can be replaced with `flang`.
+commands in the table below will build and run the Julienne test suite.  With
+ `fpm` versions higher than 0.12.0, `flang-new` can be replaced with `flang`.
 
-Compiler/Runtime  | Supported Versions  | `bash` commands for building/testing (replace `2`s below with the number of images)
-------------------|---------------------|------------------------------------------------------------------------------------------
-LLVM/[Caffeine]   | 22                  | parallel: please contact fortran@lbl.gov
-                  | 20-22               | serial:  `fpm test --compiler flang-new --flag -O3`
-                  | 19                  | serial:  `fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"`        
-------------------|---------------------|------------------------------------------------------------------------------------------
-NAG               | 7.2 (Build 7235-)   | `export NAGFORTRAN_NUM_IMAGES=2`
-                  |                     | `fpm test --compiler nagfor --flag "-fpp -O3 -coarray"`
-------------------|---------------------|------------------------------------------------------------------------------------------
-Intel             | 2025.2.{0-1}        | `export FOR_COARRAY_NUM_IMAGES=2`
-                  |                     | `fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release` 
-------------------|---------------------|------------------------------------------------------------------------------------------
-GCC/[OpenCoarrays]| 14-15               | serial:   `fpm test --compiler gfortran --profile release`
-                  |                     | parallel: `fpm test --compiler caf --runnner "cafrun -n 2" --profile release`
-                  | 13                  | serial:   `fpm test --compiler gfortran --profile release --flag -ffree-line-length-none`
-                  |                     | parallel: `fpm test --compiler caf --runnner "cafrun -n 2" --profile release --flag -ffree-line-length-none`
+Compiler/Runtime  |Tested Versions|Run Type|`bash` build/test commands (`num_images()==2`)
+------------------|---------------|--------|----------------------------------------------
+LLVM/[Caffeine]   |22             |parallel|please contact fortran@lbl.gov
+LLVM/[Caffeine]   |20-22          |serial  |`fpm test --compiler flang-new --flag -O3`
+LLVM/[Caffeine]   |19             |serial  |`fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"`
+NAG               |7.2, Build 7235|parallel|`NAGFORTRAN_NUM_IMAGES=2 fpm test --compiler nagfor --flag "-fpp -O3 -coarray"`
+Intel             |2025.2.{0-1}   |parallel|`FOR_COARRAY_NUM_IMAGES=2 fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release`
+GCC/[OpenCoarrays]|14-15          |serial  |`fpm test --compiler gfortran --profile release`
+GCC/[OpenCoarrays]|14-15          |parallel|`fpm test --compiler caf --runnner "cafrun -n 2" --profile release`
+GCC/[OpenCoarrays]|13             |serial  |`fpm test --compiler gfortran --profile release --flag -ffree-line-length-none`
+GCC/[OpenCoarrays]|13             |parallel|`fpm test --compiler caf --runnner "cafrun -n 2" --profile release --flag -ffree-line-length-none`
 
-The test output reports a test skipped if there is a known issue that blocks the
-tested feature with the compiler version employed or on a given platform.  By
-default, the test suite skips the tests for Julienn's command-line parsing
-utility, `command_line_t`, due to an issue with GitHub continuous-integration
-testing.  To test `command_line_t`, add `-- --flag --test command_line_t --type`
-to any of the above `fpm` commands
+The test output reports a test as skipped if there is a known issue that blocks
+the tested feature with the chosen compiler version or platform.  Due to a
+GitHub continuous-integration (CI) issue, the default behavior is to skip the
+tests for Julienne's command-line parsing utility: `command_line_t`.  To test
+`command_line_t`, add `-- --flag --test command_line_t --type` at the end of an
+`fpm` command.
 
-### Useful proprocessor macros:
-To set any of the following macros add `--flag -D<macro-name>` to an `fpm` command:
+### Useful preprocessor macros:
+To define the following macros or to override the values defined in Julienne's
+`include` directory, add `--flag -D<macro-name>=<value>` to an `fpm` command:
 
-- `ASYNCHRONOUS_DIAGNOSTICS`: removes synchronizations that partially order test-failure diagnostics output for clarity
+- `ASYNCHRONOUS_DIAGNOSTICS`: removes synchronizations that partially order
+  test-failure diagnostics output for clarity
 - `ASSERTIONS`: enables checks for Julienne's own runtime assertions
-- `RUN_FALSE_ASSERTIONS`: runs tests of false assertions if ASSERTIONS is also defined
-
-Julienne defines additional macros in the `include` directory.
-Users may also explicitly undefine or define any of Julienne's macros with `-D`.
+- `RUN_FALSE_ASSERTIONS`: runs false-assertion tests if ASSERTIONS is non-zero
 
 Documentation
 -------------
