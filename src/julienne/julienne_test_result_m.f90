@@ -20,7 +20,7 @@ module julienne_test_result_m
     type(string_t) :: description_
     type(test_diagnosis_t), allocatable :: diagnosis_
   contains
-    procedure :: characterize
+    procedure :: co_characterize
     procedure :: passed
     procedure :: skipped
     generic :: description_contains => description_contains_string, description_contains_characters
@@ -49,7 +49,7 @@ module julienne_test_result_m
 
   interface
 
-    module subroutine characterize(self)
+    module subroutine co_characterize(self)
       !! Print a description of the test, its outcome, and diagnostic information if the test fails
       implicit none
       class(test_result_t), intent(in) :: self

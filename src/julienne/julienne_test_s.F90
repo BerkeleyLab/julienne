@@ -47,7 +47,7 @@ contains
         associate(num_tests => size(test_results))
 
           do t = 1, num_tests
-            call test_results(t)%characterize()
+            call test_results(t)%co_characterize()
           end do
 
           tests = tests + num_tests
