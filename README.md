@@ -201,7 +201,7 @@ commands in the table below will build and run the Julienne test suite.  With
 
 Compiler/Runtime  |Tested Versions|Run Type|`bash` build/test commands (`num_images()==2`)
 ------------------|---------------|--------|----------------------------------------------
-LLVM/[Caffeine]   |22             |parallel| Please consult  the [parallelism documentation](./doc/parallelism/README.md).
+LLVM/[Caffeine]   |22             |parallel| Please see the [multi-image flang documentation](./doc/parallel-testing-with-flang.md).
 LLVM/[Caffeine]   |20-22          |serial  |`fpm test --compiler flang-new --flag -O3`
 LLVM/[Caffeine]   |19             |serial  |`fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"`
 NAG               |7.2, Build 7235|parallel|`NAGFORTRAN_NUM_IMAGES=2 fpm test --compiler nagfor --flag "-fpp -O3 -coarray"`
