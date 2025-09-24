@@ -11,8 +11,8 @@ as [Caffeine](https://go.lbl.gov/caffeine).
 Rough Workflow
 --------------
 The steps below are intended more for reading rather than for running. Steps
-like these worked recently on a macOS 15.5 system with Apple Silicon, with the
-Homebrew package manager installed, and with `$HOME/.local/` in the `PATH`.
+like have worked on a macOS 15.5 system with Apple Silicon, with the Homebrew
+package manager installed, and with `$HOME/.local/` in the `PATH`.
 ```bash
 brew install gcc@14
 git clone -b gcc14.3.0-julienne3.2.0-caffeine0.6.0  https://github.com/BerkeleyLab/flang-testing-project.git
@@ -21,11 +21,11 @@ chmod u+x handy-dandy/src/fresh-llvm-build.sh
 cd flang-testing-project
 ./handy-dandy/src/fresh-llvm-build.sh --prefix=$HOME/.local
 cd ..
-git clone https://github.com/BerkeleyLab/caffeine.git
+git clone -b 0.6.0 https://github.com/BerkeleyLab/caffeine.git
 cd caffeine
 FC=flang-new CC=clang CXX=clang++ ./install.sh --prefix=$HOME/.local
 cd ..
-git clone https://github.com/berkeleylab/julienne
+git clone -b 3.2.0 https://github.com/berkeleylab/julienne
 cd julienne
 fpm test --compiler flang-new --flag -O3 --link-flag <link-to-caffeine>
 ```
