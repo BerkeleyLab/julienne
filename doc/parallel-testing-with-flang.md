@@ -27,7 +27,7 @@ FC=flang-new CC=clang CXX=clang++ ./install.sh --prefix=$HOME/.local
 cd ..
 git clone -b 3.2.0 https://github.com/berkeleylab/julienne
 cd julienne
-fpm test --compiler flang-new --flag -O3 --link-flag <link-to-caffeine>
+fpm test --compiler flang-new --flag "-O3" --link-flag "-lcaffeine -lgasnet-smp-seq -L/path_to_caffeine_lib -L/path_to_gasnet_lib"
 ```
 If something similar to the above workflow does not work for you, please
 contact fortran@lbl.gov for assistance.
