@@ -6,7 +6,7 @@
 
 program logical_assertion_failure_test
   !! Conditionally test an assertion that is hardwired to fail.
-  use julienne_m, only : call_julienne_assert_, command_line_t, operator(.equalsExpected.)
+  use julienne_m, only : call_julienne_assert_, command_line_t
   implicit none
   integer, allocatable :: array(:)
 
