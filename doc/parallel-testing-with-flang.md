@@ -11,23 +11,40 @@ as [Caffeine](https://go.lbl.gov/caffeine).
 Rough Workflow
 --------------
 The steps below are intended more for reading rather than for running. Steps
-like have worked on a macOS 15.5 system with Apple Silicon, with the Homebrew
-package manager installed, and with `$HOME/.local/` in the `PATH`.
+like these have worked on a macOS 15.5 system with Apple Silicon and with the
+Homebrew package manager installed.  If similar steps fail for you, please
+contact fortran@lbl.gov.
+
+### Build a LLVM Flang
 ```bash
 brew install gcc@14
 git clone -b gcc14.3.0-julienne3.2.0-caffeine0.6.0  https://github.com/BerkeleyLab/flang-testing-project.git
 git clone https://github.com/rouson/handy-dandy
 chmod u+x handy-dandy/src/fresh-llvm-build.sh
 cd flang-testing-project
-./handy-dandy/src/fresh-llvm-build.sh --prefix=$HOME/.local
+../handy-dandy/src/fresh-llvm-build.sh --prefix=<llvm-install-path>
 cd ..
+```
+
+### Build Caffeine and GASNet
+An `.install.sh` invocation of the form below installs Caffeine and GASNet in
+`<caffeine-install-path>/lib`.
+```bash
 git clone -b 0.6.0 https://github.com/BerkeleyLab/caffeine.git
 cd caffeine
-FC=flang-new CC=clang CXX=clang++ ./install.sh --prefix=$HOME/.local
+FC=<llvm-install-path>/bin/flang-new \
+ CC=<llvm-install-path>/bin/clang \
+ CXX=<llvm-install-path>/bin/clang++ \
+ ./install.sh --prefix=<caffeine-install-path>
 cd ..
-git clone -b 3.2.0 https://github.com/berkeleylab/julienne
-cd julienne
-fpm test --compiler flang-new --flag "-O3" --link-flag "-lcaffeine -lgasnet-smp-seq -L/path_to_caffeine_lib -L/path_to_gasnet_lib"
 ```
-If something similar to the above workflow does not work for you, please
-contact fortran@lbl.gov for assistance.
+
+### Build Julienne
+```
+git clone -b 3.2.0 https://github.com/BerkeleyLab/julienne.git
+cd julienne
+fpm test \
+  --compiler flang-new \
+  --flag "-O3 -DHAVE_MULTI_IMAGE_SUPPORT -fcoarray" \
+  --link-flag "-lcaffeine -lgasnet-smp-seq -L<caffeine-install-path>/lib"
+```
