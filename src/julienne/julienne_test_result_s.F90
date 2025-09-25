@@ -49,15 +49,15 @@ contains
           else
             if (me==1) print '(a)', indent // merge("passes on ", "FAILS  on ", images_passed == images) // trim(self%description_%string()) // "."
 #if ! ASYNCHRONOUS_DIAGNOSTICS
-            sync all ! ensure image 1 reports/prints outcome before any failure diagnostics print
+            sync all ! ensure image 1 prints test outcome before any failure diagnostics print
 #endif
-            if ((.not. i_skipped) .and. (.not. i_passed)) then
+            if (.not. i_passed) then
               associate(image => string_t(me))
                 print '(a)', indent // indent // "diagnostics on image " // image%string() // ": " // self%diagnosis_%diagnostics_string()
               end associate
             end if
 #if ! ASYNCHRONOUS_DIAGNOSTICS
-            sync all ! ensure all images print failure diagnostics, if any, before any image moves on to the next test
+            sync all ! ensure all images print failure diagnostics, if any, for a given test before any image moves on to the next test
 #endif
           end if
         end associate
