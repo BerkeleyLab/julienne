@@ -39,7 +39,7 @@ FC=<llvm-install-path>/bin/flang-new \
 cd ..
 ```
 
-### Build Julienne
+### Build and Test Julienne
 ```
 git clone -b 3.2.0 https://github.com/BerkeleyLab/julienne.git
 cd julienne
@@ -48,3 +48,5 @@ fpm test \
   --flag "-O3 -DHAVE_MULTI_IMAGE_SUPPORT -fcoarray" \
   --link-flag "-lcaffeine -lgasnet-smp-seq -L<caffeine-install-path>/lib"
 ```
+If successful, the resulting output will not indicate any test failures,
+but will describe any tests that are skipped by default.
