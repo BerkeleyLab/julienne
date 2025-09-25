@@ -206,9 +206,9 @@ LLVM/[Caffeine]   |19             |serial  |`fpm test --compiler flang-new --fla
 NAG               |7.2, Build 7235|parallel|`NAGFORTRAN_NUM_IMAGES=2 fpm test --compiler nagfor --flag "-fpp -O3 -coarray"`
 Intel             |2025.2.{0-1}   |parallel|`FOR_COARRAY_NUM_IMAGES=2 fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release`
 GCC/[OpenCoarrays]|14-15          |serial  |`fpm test --compiler gfortran --profile release`
-GCC/[OpenCoarrays]|14-15          |parallel|`fpm test --compiler caf --runnner "cafrun -n 2" --profile release`
+GCC/[OpenCoarrays]|14-15          |parallel|`fpm test --compiler caf --runner "cafrun -n 2" --profile release`
 GCC/[OpenCoarrays]|13             |serial  |`fpm test --compiler gfortran --profile release --flag -ffree-line-length-none`
-GCC/[OpenCoarrays]|13             |parallel|`fpm test --compiler caf --runnner "cafrun -n 2" --profile release --flag -ffree-line-length-none`
+GCC/[OpenCoarrays]|13             |parallel|`fpm test --compiler caf --runner "cafrun -n 2" --profile release --flag -ffree-line-length-none`
 
 The test output reports a test as skipped if there is a known issue that blocks
 the tested feature with the chosen compiler version or platform.  Due to a
