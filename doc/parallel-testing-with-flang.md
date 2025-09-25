@@ -1,5 +1,5 @@
-Parallel Testing with Caffeine
-==============================
+Parallel Testing with Flang
+===========================
 
 LLVM Flang 22 supports the native Fortran parallel programming model used by
 Julienne: features that enable launching multiple images, which are instances
