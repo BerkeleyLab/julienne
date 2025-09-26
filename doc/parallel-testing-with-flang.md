@@ -25,6 +25,7 @@ cd flang-testing-project
 ../handy-dandy/src/fresh-llvm-build.sh --prefix=<llvm-install-path>
 cd ..
 ```
+where angular brackets denote user-provided values.
 
 ### Build Caffeine and GASNet
 An `.install.sh` invocation of the form below installs Caffeine and GASNet in
@@ -38,6 +39,13 @@ FC=<llvm-install-path>/bin/flang-new \
  ./install.sh --prefix=<caffeine-install-path>
 cd ..
 ```
+Because of a defect in `fpm`, the next step is to find the caffeine
+library, for example, using
+```
+find build -name libcaffeine.a
+```
+and then to move the library file (libcaffeine.a) to the
+`<caffeine-install-path>/lib` directory.
 
 ### Build and Test Julienne
 ```
