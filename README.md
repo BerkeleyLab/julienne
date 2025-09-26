@@ -200,7 +200,7 @@ commands in the table below will build and run the Julienne test suite.  With
 
 Compiler/Runtime  |Tested Versions|Run Type|Example `fpm` commands (parallel examples use 2 images)
 ------------------|---------------|--------|-------------------------------------------------------
-LLVM/[Caffeine]   |22             |parallel|`fpm test --compiler flang-new --flag "-O3 -DHAVE_MULTI_IMAGE_SUPPORT -fcoarray" --link-flag "-lcaffeine -lgasnet-smp-seq -L<caffeine-path>" -L<gasnet-path>`
+LLVM/[Caffeine]   |22.0.0git      |parallel|`fpm test --compiler flang-new --flag "-O3 -DHAVE_MULTI_IMAGE_SUPPORT -fcoarray" --link-flag "-lcaffeine -lgasnet-smp-seq -L<caffeine-path> -L<gasnet-path>"`
 LLVM/[Caffeine]   |20-22          |serial  |`fpm test --compiler flang-new --flag -O3`
 LLVM/[Caffeine]   |19             |serial  |`fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"`
 NAG               |7.2, Build 7235|parallel|`NAGFORTRAN_NUM_IMAGES=2 fpm test --compiler nagfor --flag "-fpp -O3 -coarray"`
