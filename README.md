@@ -11,34 +11,34 @@ execute inside procedures.  Julienne idioms center around expressions built from
 defined operations: a uniquely flexible Fortran capability allowing developers
 to define _new_ operators or to overloading Fortran's intrinsic operators.
 
-Example expressions                                  | Operand types
+Example expressions                                  | Supported operand types
 -----------------------------------------------------|--------------------------------------
-`x .approximates. y .within. tolerance`              | `real`, `double precision`
-`x .approximates. y .withinFraction. tolerance`      | `real`, `double precision`
-`x .approximates. y .withinPercentage. tolerance`    | `real`, `double precision`
-`.all. ([i,j] .lessThan. k)`                         | `integer`, `real`, `double precision`
-`.all. ([i,j] .lessThan. [k,m])`                     | `integer`, `real`, `double precision`
-`.all. (i .lessThan. [k,m])`                         | `integer`, `real`, `double precision`
-`(i .lessThan. j) .also. (k .equalsExpected. m))`    | `integer`, `real`, `double precision`
-`x .lessThan. y`                                     | `integer`, `real`, `double precision`
-`x .greaterThan. y`                                  | `integer`, `real`, `double precision`
-`i .equalsExpected. j`                               | `integer`, `character`, `type(c_ptr)`
-`i .isAtLeast. j`                                    | `integer`, `real`, `double precision`
-`i .isAtMost. j`                                     | `integer`, `real`, `double precision`
-`s .isBefore. t`                                     | `character`
-`s .isAfter. t`                                      | `character`
-`.expect. allocated(A)` // " (expected allocated A)" | `logical`
+`x .approximates. y .within. tolerance`              | `real`, `double precision` for `x`, `y`, `tolerance`
+`x .approximates. y .withinFraction. tolerance`      | `real`, `double precision` for `x`, `y`, `tolerance`
+`x .approximates. y .withinPercentage. tolerance`    | `real`, `double precision` for `x`, `y`, `tolerance`
+`.all. ([i,j] .lessThan. k)`                         | `test_diagnosis_t` for `.all.` operator's operand
+`.all. ([i,j] .lessThan. [k,m])`                     | `test_diagnosis_t` for `.all`. operator's operand
+`.all. (i .lessThan. [k,m])`                         | `test_diagnosis_t` for `.all.` operator's operand
+`(i .lessThan. j) .also. (k .equalsExpected. m))`    | `test_diagnosis_t` for `.also.` operator's operands
+`x .lessThan. y`                                     | `integer`, `real`, `double precision` for `x`, `y`
+`x .greaterThan. y`                                  | `integer`, `real`, `double precision` for `x`, `y`
+`i .equalsExpected. j`                               | `integer`, `character`, `type(c_ptr)` for `i`, `j`
+`i .isAtLeast. j`                                    | `integer`, `real`, `double precision` for `i`, `j`
+`i .isAtMost. j`                                     | `integer`, `real`, `double precision` for `i`, `j`
+`s .isBefore. t`                                     | `character` for `s`, `t`
+`s .isAfter. t`                                      | `character` for `s`, `t`
+`.expect. allocated(A)` // " (expected allocated A)" | `logical` for `.expect.` operator's operand
 
-where 
+where
 * `.isAtLeast.` and `.isAtMost.` can alternatively be spelled `.greaterThanOrEqualTo.` and `.lessThanOrEqualTo.`, respectively;
-* `.equalsExpected.` uses `==`, which implies that trailing blank spaces are ignored in character operands;  
+* `.equalsExpected.` uses `==`, which implies that trailing blank spaces are ignored in character operands;
 * `.equalsExpected.` with integer operands supports default integers and `integer(c_size_t)`;
-* `.isBefore.` and `.isAfter.` verify alphabetical and reverse-alphabetical  order, respectively; and
+* `.isBefore.` and `.isAfter.` verify alphabetical and reverse-alphabetical  order, respectively;
 * `.all.` aggregates arrays of expression results, reports a consensus result, and shows diagnostics only for failing tests, if any;
-* `.equalsExpected.` generates asymmetric diagnostic output for failures, denoting the left- and right-hand sides as the actual value and expected values, respectively; and.
+* `.equalsExpected.` generates asymmetric diagnostic output for failures, denoting the left- and right-hand sides as the actual value and expected values, respectively; and
 * `//` appends the subsequent string to diagnostics strings, if any.
 
-Expressive idioms 
+Expressive idioms
 -----------------
 ### Assertions
 Any of the above expressions can be the actual argument in an invocation of
@@ -114,23 +114,22 @@ file. By storing a file in a `file_t` object using the `file_t` derived type's
 constructor function one can confine a program's file input/output (I/O) to one
 or two procedures.  The resulting `file_t` object can be manipulated elsewhere
 without incurring the costs associated with file I/O.  For example, the following
-line reads a file named `data.txt` into a `file_t` object and associates the name
+lines read a file named `data.txt` into a `file_t` object and associates the name
 `file` with the resulting object.
 ```fortran
-type(file_t) file
 associate(file => file_t("data.txt"))
 end associate
 ```
 This style supports functional programming patterns in two ways. First, the rest
 of the program can be comprised of `pure` procedures, which are precluded from
 performing I/O.  Second, an associate name is immutable when associated with an
-expression, including an expression that is simply a function reference. 
+expression, including an expression that is simply a function reference.
 Functional programming revolves around creating and using immutable state.
 (By contrast, when associating a name with a variable or array instead of with
 an expression, only certain attributes, such as the entity's allocation status,
 are immutable. The value of such a variable or array can be redefined.)
 
-Functional Programming 
+Functional Programming
 ----------------------
 Functional programming patterns centered around `pure` procedures enhance
 code clarity, ease refactoring, and encourage optimization.  For example,
@@ -183,35 +182,25 @@ also inserts the file and line number into the stop code using via the `__FILE__
 and `__LINE__` macros, respectively.  Most compilers write the resulting stop code
 to `error_unit`.
 
-An Origin Story
----------------
-Julienne's name derives from the term for vegetables sliced into thin strings:
-julienned vegetables.  The [Veggies] and [Garden] unit-testing frameworks
-inspired the structure of Julienne's tests and output.  Initially developed in
-the [Sourcery] repository as lightweight alternative with greater portability
-across compilers, Julienne's chief innovation now lies in the expressive idioms
-the framework supports.
-
 Building and Testing
 --------------------
-
-With the Fortran Package Manager (`fpm`) installed and in your `PATH`, the
+With the Fortran Package Manager ([`fpm`]) installed and in your `PATH`, the
 commands in the table below will build and run the Julienne test suite.  With
- `fpm` versions higher than 0.12.0, `flang-new` can be replaced with `flang`.
-For help with installing Caffeine to support the corresponding command below,
-please see [Parallel Testing with Flang](./doc/parallel-testing-with-flang.md).
+`fpm` versions higher than 0.12.0, `flang-new` can be replaced with `flang`.
+For additional information on setting up parallel builds with LLVM, please see
+[parallel-testing-with-flang.md](./doc/parallel-testing-with-flang.md).
 
-Compiler/Runtime  |Tested Versions|Run Type|Example `fpm` commands (parallel examples use 2 images)
-------------------|---------------|--------|-------------------------------------------------------
+Compiler/Runtime  |Tested Versions|Run Type|Example build/test commands (parallel examples use 2 images)
+------------------|---------------|--------|------------------------------------------------------------
 LLVM/[Caffeine]   |22.0.0git      |parallel|`fpm test --compiler flang-new --flag "-O3 -DHAVE_MULTI_IMAGE_SUPPORT -fcoarray" --link-flag "-lcaffeine -lgasnet-smp-seq -L<caffeine-path> -L<gasnet-path>"`
-LLVM/[Caffeine]   |20-22          |serial  |`fpm test --compiler flang-new --flag -O3`
-LLVM/[Caffeine]   |19             |serial  |`fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"`
+LLVM              |20-22          |serial  |`fpm test --compiler flang-new --flag -O3`
+LLVM              |19             |serial  |`fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"`
 NAG               |7.2, Build 7235|parallel|`NAGFORTRAN_NUM_IMAGES=2 fpm test --compiler nagfor --flag "-fpp -O3 -coarray"`
 Intel             |2025.2.{0-1}   |parallel|`FOR_COARRAY_NUM_IMAGES=2 fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release`
 GCC/[OpenCoarrays]|14-15          |serial  |`fpm test --compiler gfortran --profile release`
-GCC/[OpenCoarrays]|14-15          |parallel|`fpm test --compiler caf --runner "cafrun -n 2" --profile release`
+GCC               |14-15          |parallel|`fpm test --compiler caf --runner "cafrun -n 2" --profile release`
 GCC/[OpenCoarrays]|13             |serial  |`fpm test --compiler gfortran --profile release --flag -ffree-line-length-none`
-GCC/[OpenCoarrays]|13             |parallel|`fpm test --compiler caf --runner "cafrun -n 2" --profile release --flag -ffree-line-length-none`
+GCC               |13             |parallel|`fpm test --compiler caf --runner "cafrun -n 2" --profile release --flag -ffree-line-length-none`
 
 The test output reports a test as skipped if there is a known issue that blocks
 the tested feature with the chosen compiler version or platform.  Due to a
@@ -227,8 +216,17 @@ To define the following macros or to override the values defined in Julienne's
 - `ASYNCHRONOUS_DIAGNOSTICS`: removes synchronizations that partially order
   test-failure diagnostics output for clarity
 - `ASSERTIONS`: enables checks for Julienne's own runtime assertions
-- `TEST_INTENTIONAL_FAILURE`: enables tests of unit-test failure; if ASSERTIONS
-  is non-zero, also enables tests of assertion failure
+- `TEST_INTENTIONAL_FAILURE`: enables tests of unit-test failure; also enables
+  tests of assertion failure if ASSERTIONS is non-zero.
+
+An Origin Story
+---------------
+Julienne's name derives from the term for vegetables sliced into thin strings:
+julienned vegetables.  The [Veggies] and [Garden] unit-testing frameworks
+inspired the structure of Julienne's tests and output.  Initially developed in
+the [Sourcery] repository as lightweight alternative with greater portability
+across compilers, Julienne's chief innovation now lies in the expressive idioms
+the framework supports.
 
 Documentation
 -------------
@@ -249,3 +247,4 @@ Known Software Using Julienne
 [Veggies]: https://gitlab.com/everythingfunctional/veggies
 [Caffeine]: https://go.lbl.gov/caffeine
 [OpenCoarrays]: https://github.com/sourceryinstitute/opencoarrays
+[`fpm`]: https://github.com/fortran-lang/fpm
