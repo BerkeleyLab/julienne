@@ -20,7 +20,6 @@ program legacy_driver
   use test_result_test_m        ,only :              test_result_test_t
   use test_description_test_m   ,only :         test_description_test_t
   use test_diagnosis_test_m     ,only :           test_diagnosis_test_t
-  use user_defined_collectives_test_m, only : user_defined_collectives_test_t
   implicit none
 
   type(assert_test_t) assert_test
@@ -31,7 +30,6 @@ program legacy_driver
   type(test_result_test_t) test_result_test
   type(test_description_test_t) test_description_test
   type(test_diagnosis_test_t) test_diagnosis_test
-  type(user_defined_collectives_test_t) user_defined_collectives_test
 
   type(command_line_t) command_line
 
@@ -56,7 +54,6 @@ program legacy_driver
   call test_result_test%report(passes, tests, skips)
   call test_description_test%report(passes, tests, skips)
   call test_diagnosis_test%report(passes, tests, skips)
-  call user_defined_collectives_test%report(passes, tests, skips)
 
   if (.not. GitHub_CI())  then
     if (command_line%argument_present(["--test"])) then

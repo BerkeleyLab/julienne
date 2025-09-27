@@ -5,9 +5,6 @@
 #include "language-support.F90"
 
 submodule(julienne_test_result_m) julienne_test_result_s
-#if HAVE_MULTI_IMAGE_SUPPORT
-  use julienne_user_defined_collectives_m, only : co_all
-#endif
 #if ASSERTIONS
   use julienne_assert_m, only : call_julienne_assert_
 #endif
@@ -27,37 +24,49 @@ contains
 
 #if HAVE_MULTI_IMAGE_SUPPORT
 
-    module procedure characterize
+    module procedure co_characterize
 
-      logical test_skipped, test_passed
+      logical i_passed
+      integer, parameter :: skips=1, passes=2
+      integer tally(skips:passes)
       character(len=*), parameter :: indent = "   "
 
-      test_skipped = .not. allocated(self%diagnosis_)
+      associate(i_skipped => .not. allocated(self%diagnosis_))
 
-      associate(me => this_image())
-        if (test_skipped) then
-          call co_all(test_skipped)
-          call_julienne_assert(test_skipped)
-          if (me==1) print '(a)', indent // "SKIPS  on " // trim(self%description_%string()) // "."
+        if (i_skipped) then
+          i_passed = .false.
         else
-          test_passed = self%diagnosis_%test_passed()
-          if (me==1) print '(a)', indent // merge("passes on ", "FAILS  on ", test_passed) // trim(self%description_%string()) // "."
-#if ! ASYNCHRONOUS_DIAGNOSTICS
-          sync all
-#endif
-          associate(image => string_t(me))
-            if (.not. test_passed) print '(a)', indent // indent // "diagnostics on image " // image%string() // ": " // self%diagnosis_%diagnostics_string()
-          end associate
-#if ! ASYNCHRONOUS_DIAGNOSTICS
-          sync all
-#endif
+          i_passed = self%diagnosis_%test_passed()
         end if
+
+        tally = [merge(1,0,i_skipped), merge(1,0,i_passed)]
+        call co_sum(tally)
+
+        associate(me => this_image(), images => num_images(), images_skipped => tally(skips), images_passed => tally(passes))
+          call_julienne_assert(any(images_skipped == [0,images]))
+          if (i_skipped) then
+            if (me==1) print '(a)', indent // "SKIPS  on " // trim(self%description_%string()) // "."
+          else
+            if (me==1) print '(a)', indent // merge("passes on ", "FAILS  on ", images_passed == images) // trim(self%description_%string()) // "."
+#if ! ASYNCHRONOUS_DIAGNOSTICS
+            sync all ! ensure image 1 prints test outcome before any failure diagnostics print
+#endif
+            if (.not. i_passed) then
+              associate(image => string_t(me))
+                print '(a)', indent // indent // "diagnostics on image " // image%string() // ": " // self%diagnosis_%diagnostics_string()
+              end associate
+            end if
+#if ! ASYNCHRONOUS_DIAGNOSTICS
+            sync all ! ensure all images print failure diagnostics, if any, for a given test before any image moves on to the next test
+#endif
+          end if
+        end associate
       end associate
     end procedure
 
 #else
 
-    module procedure characterize
+    module procedure co_characterize
 
       character(len=*), parameter :: indent = "   "
 
