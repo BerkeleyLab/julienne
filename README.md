@@ -182,33 +182,25 @@ also inserts the file and line number into the stop code using via the `__FILE__
 and `__LINE__` macros, respectively.  Most compilers write the resulting stop code
 to `error_unit`.
 
-An Origin Story
----------------
-Julienne's name derives from the term for vegetables sliced into thin strings:
-julienned vegetables.  The [Veggies] and [Garden] unit-testing frameworks
-inspired the structure of Julienne's tests and output.  Initially developed in
-the [Sourcery] repository as lightweight alternative with greater portability
-across compilers, Julienne's chief innovation now lies in the expressive idioms
-the framework supports.
-
 Building and Testing
 --------------------
-
-With the Fortran Package Manager (`fpm`) installed and in your `PATH`, the
+With the Fortran Package Manager ([`fpm`]) installed and in your `PATH`, the
 commands in the table below will build and run the Julienne test suite.  With
- `fpm` versions higher than 0.12.0, `flang-new` can be replaced with `flang`.
+`fpm` versions higher than 0.12.0, `flang-new` can be replaced with `flang`.
+ For additional information on setting up parallel builds with LLVM, please see
+[parallel-testing-with-flang.md](./doc/parallel-testing-with-flang.md).
 
-Compiler/Runtime  |Tested Versions|Run Type|Example `fpm` commands (parallel examples use 2 images)
-------------------|---------------|--------|-------------------------------------------------------
+Compiler/Runtime  |Tested Versions|Run Type|Example build/test commands (parallel examples use 2 images)
+------------------|---------------|--------|------------------------------------------------------------
 LLVM/[Caffeine]   |22.0.0git      |parallel|`fpm test --compiler flang-new --flag "-O3 -DHAVE_MULTI_IMAGE_SUPPORT -fcoarray" --link-flag "-lcaffeine -lgasnet-smp-seq -L<caffeine-path> -L<gasnet-path>"`
-LLVM/[Caffeine]   |20-22          |serial  |`fpm test --compiler flang-new --flag -O3`
-LLVM/[Caffeine]   |19             |serial  |`fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"`
+LLVM              |20-22          |serial  |`fpm test --compiler flang-new --flag -O3`
+LLVM              |19             |serial  |`fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"`
 NAG               |7.2, Build 7235|parallel|`NAGFORTRAN_NUM_IMAGES=2 fpm test --compiler nagfor --flag "-fpp -O3 -coarray"`
 Intel             |2025.2.{0-1}   |parallel|`FOR_COARRAY_NUM_IMAGES=2 fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release`
 GCC/[OpenCoarrays]|14-15          |serial  |`fpm test --compiler gfortran --profile release`
-GCC/[OpenCoarrays]|14-15          |parallel|`fpm test --compiler caf --runner "cafrun -n 2" --profile release`
+GCC               |14-15          |parallel|`fpm test --compiler caf --runner "cafrun -n 2" --profile release`
 GCC/[OpenCoarrays]|13             |serial  |`fpm test --compiler gfortran --profile release --flag -ffree-line-length-none`
-GCC/[OpenCoarrays]|13             |parallel|`fpm test --compiler caf --runner "cafrun -n 2" --profile release --flag -ffree-line-length-none`
+GCC               |13             |parallel|`fpm test --compiler caf --runner "cafrun -n 2" --profile release --flag -ffree-line-length-none`
 
 The test output reports a test as skipped if there is a known issue that blocks
 the tested feature with the chosen compiler version or platform.  Due to a
@@ -224,8 +216,17 @@ To define the following macros or to override the values defined in Julienne's
 - `ASYNCHRONOUS_DIAGNOSTICS`: removes synchronizations that partially order
   test-failure diagnostics output for clarity
 - `ASSERTIONS`: enables checks for Julienne's own runtime assertions
-- `TEST_INTENTIONAL_FAILURE`: enables tests of unit-test failure; if ASSERTIONS
-  is non-zero, also enables tests of assertion failure
+- `TEST_INTENTIONAL_FAILURE`: enables tests of unit-test failure; also enables
+  tests of assertion failure if ASSERTIONS is non-zero.
+
+An Origin Story
+---------------
+Julienne's name derives from the term for vegetables sliced into thin strings:
+julienned vegetables.  The [Veggies] and [Garden] unit-testing frameworks
+inspired the structure of Julienne's tests and output.  Initially developed in
+the [Sourcery] repository as lightweight alternative with greater portability
+across compilers, Julienne's chief innovation now lies in the expressive idioms
+the framework supports.
 
 Documentation
 -------------
@@ -246,3 +247,4 @@ Known Software Using Julienne
 [Veggies]: https://gitlab.com/everythingfunctional/veggies
 [Caffeine]: https://go.lbl.gov/caffeine
 [OpenCoarrays]: https://github.com/sourceryinstitute/opencoarrays
+[`fpm`]: https://github.com/fortran-lang/fpm
