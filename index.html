@@ -115,79 +115,79 @@ to define <em>new</em> operators or to overloading Fortran's intrinsic operators
 <thead>
 <tr>
 <th>Example expressions</th>
-<th>Operand types</th>
+<th>Supported operand types</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>x .approximates. y .within. tolerance</code></td>
-<td><code>real</code>, <code>double precision</code></td>
+<td><code>real</code>, <code>double precision</code> for <code>x</code>, <code>y</code>, <code>tolerance</code></td>
 </tr>
 <tr>
 <td><code>x .approximates. y .withinFraction. tolerance</code></td>
-<td><code>real</code>, <code>double precision</code></td>
+<td><code>real</code>, <code>double precision</code> for <code>x</code>, <code>y</code>, <code>tolerance</code></td>
 </tr>
 <tr>
 <td><code>x .approximates. y .withinPercentage. tolerance</code></td>
-<td><code>real</code>, <code>double precision</code></td>
+<td><code>real</code>, <code>double precision</code> for <code>x</code>, <code>y</code>, <code>tolerance</code></td>
 </tr>
 <tr>
 <td><code>.all. ([i,j] .lessThan. k)</code></td>
-<td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
+<td><code>test_diagnosis_t</code> for <code>.all.</code> operator's operand</td>
 </tr>
 <tr>
 <td><code>.all. ([i,j] .lessThan. [k,m])</code></td>
-<td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
+<td><code>test_diagnosis_t</code> for <code>.all</code>. operator's operand</td>
 </tr>
 <tr>
 <td><code>.all. (i .lessThan. [k,m])</code></td>
-<td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
+<td><code>test_diagnosis_t</code> for <code>.all.</code> operator's operand</td>
 </tr>
 <tr>
 <td><code>(i .lessThan. j) .also. (k .equalsExpected. m))</code></td>
-<td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
+<td><code>test_diagnosis_t</code> for <code>.also.</code> operator's operands</td>
 </tr>
 <tr>
 <td><code>x .lessThan. y</code></td>
-<td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
+<td><code>integer</code>, <code>real</code>, <code>double precision</code> for <code>x</code>, <code>y</code></td>
 </tr>
 <tr>
 <td><code>x .greaterThan. y</code></td>
-<td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
+<td><code>integer</code>, <code>real</code>, <code>double precision</code> for <code>x</code>, <code>y</code></td>
 </tr>
 <tr>
 <td><code>i .equalsExpected. j</code></td>
-<td><code>integer</code>, <code>character</code>, <code>type(c_ptr)</code></td>
+<td><code>integer</code>, <code>character</code>, <code>type(c_ptr)</code> for <code>i</code>, <code>j</code></td>
 </tr>
 <tr>
 <td><code>i .isAtLeast. j</code></td>
-<td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
+<td><code>integer</code>, <code>real</code>, <code>double precision</code> for <code>i</code>, <code>j</code></td>
 </tr>
 <tr>
 <td><code>i .isAtMost. j</code></td>
-<td><code>integer</code>, <code>real</code>, <code>double precision</code></td>
+<td><code>integer</code>, <code>real</code>, <code>double precision</code> for <code>i</code>, <code>j</code></td>
 </tr>
 <tr>
 <td><code>s .isBefore. t</code></td>
-<td><code>character</code></td>
+<td><code>character</code> for <code>s</code>, <code>t</code></td>
 </tr>
 <tr>
 <td><code>s .isAfter. t</code></td>
-<td><code>character</code></td>
+<td><code>character</code> for <code>s</code>, <code>t</code></td>
 </tr>
 <tr>
 <td><code>.expect. allocated(A)</code> // " (expected allocated A)"</td>
-<td><code>logical</code></td>
+<td><code>logical</code> for <code>.expect.</code> operator's operand</td>
 </tr>
 </tbody>
 </table>
-<p>where 
+<p>where
 * <code>.isAtLeast.</code> and <code>.isAtMost.</code> can alternatively be spelled <code>.greaterThanOrEqualTo.</code> and <code>.lessThanOrEqualTo.</code>, respectively;
-* <code>.equalsExpected.</code> uses <code>==</code>, which implies that trailing blank spaces are ignored in character operands;<br>
+* <code>.equalsExpected.</code> uses <code>==</code>, which implies that trailing blank spaces are ignored in character operands;
 * <code>.equalsExpected.</code> with integer operands supports default integers and <code>integer(c_size_t)</code>;
-* <code>.isBefore.</code> and <code>.isAfter.</code> verify alphabetical and reverse-alphabetical  order, respectively; and
+* <code>.isBefore.</code> and <code>.isAfter.</code> verify alphabetical and reverse-alphabetical  order, respectively;
 * <code>.all.</code> aggregates arrays of expression results, reports a consensus result, and shows diagnostics only for failing tests, if any;
-* <code>.equalsExpected.</code> generates asymmetric diagnostic output for failures, denoting the left- and right-hand sides as the actual value and expected values, respectively; and.
+* <code>.equalsExpected.</code> generates asymmetric diagnostic output for failures, denoting the left- and right-hand sides as the actual value and expected values, respectively; and
 * <code>//</code> appends the subsequent string to diagnostics strings, if any.</p>
 <h2 id="expressive-idioms">Expressive idioms</h2>
 <h3 id="assertions">Assertions</h3>
@@ -293,17 +293,16 @@ file. By storing a file in a <code>file_t</code> object using the <code>file_t</
 constructor function one can confine a program's file input/output (I/O) to one
 or two procedures.  The resulting <code>file_t</code> object can be manipulated elsewhere
 without incurring the costs associated with file I/O.  For example, the following
-line reads a file named <code>data.txt</code> into a <code>file_t</code> object and associates the name
+lines read a file named <code>data.txt</code> into a <code>file_t</code> object and associates the name
 <code>file</code> with the resulting object.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="p">(</span><span class="n">file_t</span><span class="p">)</span><span class="w"> </span><span class="k">file</span>
-<span class="k">associate</span><span class="p">(</span><span class="k">file</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">file_t</span><span class="p">(</span><span class="s2">&quot;data.txt&quot;</span><span class="p">))</span>
+<div class="codehilite"><pre><span></span><code><span class="k">associate</span><span class="p">(</span><span class="k">file</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">file_t</span><span class="p">(</span><span class="s2">&quot;data.txt&quot;</span><span class="p">))</span>
 <span class="k">end associate</span>
 </code></pre></div>
 
 <p>This style supports functional programming patterns in two ways. First, the rest
 of the program can be comprised of <code>pure</code> procedures, which are precluded from
 performing I/O.  Second, an associate name is immutable when associated with an
-expression, including an expression that is simply a function reference. 
+expression, including an expression that is simply a function reference.
 Functional programming revolves around creating and using immutable state.
 (By contrast, when associating a name with a variable or array instead of with
 an expression, only certain attributes, such as the entity's allocation status,
@@ -355,26 +354,19 @@ literal copy of the expression (e.g., <code>allocated(a)</code>).  In either cas
 also inserts the file and line number into the stop code using via the <code>__FILE__</code>
 and <code>__LINE__</code> macros, respectively.  Most compilers write the resulting stop code
 to <code>error_unit</code>.</p>
-<h2 id="an-origin-story">An Origin Story</h2>
-<p>Julienne's name derives from the term for vegetables sliced into thin strings:
-julienned vegetables.  The <a href="https://gitlab.com/everythingfunctional/veggies">Veggies</a> and <a href="https://gitlab.com/everythingfunctional/garden">Garden</a> unit-testing frameworks
-inspired the structure of Julienne's tests and output.  Initially developed in
-the <a href="https://github.com/sourceryinstitute/sourcery">Sourcery</a> repository as lightweight alternative with greater portability
-across compilers, Julienne's chief innovation now lies in the expressive idioms
-the framework supports.</p>
 <h2 id="building-and-testing">Building and Testing</h2>
-<p>With the Fortran Package Manager (<code>fpm</code>) installed and in your <code>PATH</code>, the
+<p>With the Fortran Package Manager ([<code>fpm</code>]) installed and in your <code>PATH</code>, the
 commands in the table below will build and run the Julienne test suite.  With
- <code>fpm</code> versions higher than 0.12.0, <code>flang-new</code> can be replaced with <code>flang</code>.
-For help with installing Caffeine to support the corresponding command below,
-please see <a href="./doc/parallel-testing-with-flang.md">Parallel Testing with Flang</a>.</p>
+<code>fpm</code> versions higher than 0.12.0, <code>flang-new</code> can be replaced with <code>flang</code>.
+For additional information on setting up parallel builds with LLVM, please see
+<a href="./doc/parallel-testing-with-flang.md">parallel-testing-with-flang.md</a>.</p>
 <table>
 <thead>
 <tr>
 <th>Compiler/Runtime</th>
 <th>Tested Versions</th>
 <th>Run Type</th>
-<th>Example <code>fpm</code> commands (parallel examples use 2 images)</th>
+<th>Example build/test commands (parallel examples use 2 images)</th>
 </tr>
 </thead>
 <tbody>
@@ -385,13 +377,13 @@ please see <a href="./doc/parallel-testing-with-flang.md">Parallel Testing with 
 <td><code>fpm test --compiler flang-new --flag "-O3 -DHAVE_MULTI_IMAGE_SUPPORT -fcoarray" --link-flag "-lcaffeine -lgasnet-smp-seq -L&lt;caffeine-path&gt; -L&lt;gasnet-path&gt;"</code></td>
 </tr>
 <tr>
-<td>LLVM/<a href="https://go.lbl.gov/caffeine">Caffeine</a></td>
+<td>LLVM</td>
 <td>20-22</td>
 <td>serial</td>
 <td><code>fpm test --compiler flang-new --flag -O3</code></td>
 </tr>
 <tr>
-<td>LLVM/<a href="https://go.lbl.gov/caffeine">Caffeine</a></td>
+<td>LLVM</td>
 <td>19</td>
 <td>serial</td>
 <td><code>fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"</code></td>
@@ -415,7 +407,7 @@ please see <a href="./doc/parallel-testing-with-flang.md">Parallel Testing with 
 <td><code>fpm test --compiler gfortran --profile release</code></td>
 </tr>
 <tr>
-<td>GCC/<a href="https://github.com/sourceryinstitute/opencoarrays">OpenCoarrays</a></td>
+<td>GCC</td>
 <td>14-15</td>
 <td>parallel</td>
 <td><code>fpm test --compiler caf --runner "cafrun -n 2" --profile release</code></td>
@@ -427,7 +419,7 @@ please see <a href="./doc/parallel-testing-with-flang.md">Parallel Testing with 
 <td><code>fpm test --compiler gfortran --profile release --flag -ffree-line-length-none</code></td>
 </tr>
 <tr>
-<td>GCC/<a href="https://github.com/sourceryinstitute/opencoarrays">OpenCoarrays</a></td>
+<td>GCC</td>
 <td>13</td>
 <td>parallel</td>
 <td><code>fpm test --compiler caf --runner "cafrun -n 2" --profile release --flag -ffree-line-length-none</code></td>
@@ -447,9 +439,16 @@ tests for Julienne's command-line parsing utility: <code>command_line_t</code>. 
 <li><code>ASYNCHRONOUS_DIAGNOSTICS</code>: removes synchronizations that partially order
   test-failure diagnostics output for clarity</li>
 <li><code>ASSERTIONS</code>: enables checks for Julienne's own runtime assertions</li>
-<li><code>TEST_INTENTIONAL_FAILURE</code>: enables tests of unit-test failure; if ASSERTIONS
-  is non-zero, also enables tests of assertion failure</li>
+<li><code>TEST_INTENTIONAL_FAILURE</code>: enables tests of unit-test failure; also enables
+  tests of assertion failure if ASSERTIONS is non-zero.</li>
 </ul>
+<h2 id="an-origin-story">An Origin Story</h2>
+<p>Julienne's name derives from the term for vegetables sliced into thin strings:
+julienned vegetables.  The <a href="https://gitlab.com/everythingfunctional/veggies">Veggies</a> and <a href="https://gitlab.com/everythingfunctional/garden">Garden</a> unit-testing frameworks
+inspired the structure of Julienne's tests and output.  Initially developed in
+the <a href="https://github.com/sourceryinstitute/sourcery">Sourcery</a> repository as lightweight alternative with greater portability
+across compilers, Julienne's chief innovation now lies in the expressive idioms
+the framework supports.</p>
 <h2 id="documentation">Documentation</h2>
 <p>See our online <a href="https:///berkeleylab.github.io/julienne/">documentation</a> or build the documentation locally by installing <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a> and executing <code>ford ford.md</code>.</p>
 <h2 id="known-software-using-julienne">Known Software Using Julienne</h2>
@@ -516,7 +515,7 @@ tests for Julienne's command-line parsing utility: <code>command_line_t</code>. 
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Derived Types</h3>
-              <ul><li><a href='type/bin_t.html'>bin_t</a></li><li><a href='type/command_line_t.html'>command_line_t</a></li><li><a href='type/double_precision_operands_t.html'>double_precision_operands_t</a></li><li><a href='type/file_t.html'>file_t</a></li><li><a href='type/operands_t.html'>operands_t</a></li><li><a href='type/operands_t~2.html'>operands_t</a></li><li><a href='type/string_t.html'>string_t</a></li><li><a href='type/test_description_t.html'>test_description_t</a></li><li><a href='type/test_diagnosis_t.html'>test_diagnosis_t</a></li><li><a href='type/test_fixture_t.html'>test_fixture_t</a></li></ul>
+              <ul><li><a href='type/bin_t.html'>bin_t</a></li><li><a href='type/command_line_t.html'>command_line_t</a></li><li><a href='type/double_precision_operands_t.html'>double_precision_operands_t</a></li><li><a href='type/file_t.html'>file_t</a></li><li><a href='type/operands_t~2.html'>operands_t</a></li><li><a href='type/operands_t.html'>operands_t</a></li><li><a href='type/string_t.html'>string_t</a></li><li><a href='type/test_description_t.html'>test_description_t</a></li><li><a href='type/test_diagnosis_t.html'>test_diagnosis_t</a></li><li><a href='type/test_fixture_t.html'>test_fixture_t</a></li></ul>
             </div>
             <div>
               <ul>
@@ -540,7 +539,7 @@ tests for Julienne's command-line parsing utility: <code>command_line_t</code>. 
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-27 19:32 +0000             </p>
+ on 2025-09-27 21:24 +0000             </p>
           </div>
         </div>
         <br>
