@@ -227,7 +227,8 @@ To define the following macros or to override the values defined in Julienne's
 - `ASYNCHRONOUS_DIAGNOSTICS`: removes synchronizations that partially order
   test-failure diagnostics output for clarity
 - `ASSERTIONS`: enables checks for Julienne's own runtime assertions
-- `RUN_FALSE_ASSERTIONS`: runs false-assertion tests if ASSERTIONS is non-zero
+- `TEST_INTENTIONAL_FAILURE`: enables tests of unit-test failure; if ASSERTIONS
+  is non-zero, also enables tests of assertion failure
 
 Documentation
 -------------
