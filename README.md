@@ -11,31 +11,31 @@ execute inside procedures.  Julienne idioms center around expressions built from
 defined operations: a uniquely flexible Fortran capability allowing developers
 to define _new_ operators or to overloading Fortran's intrinsic operators.
 
-Example expressions                                  | Operand types
+Example expressions                                  | Supported operand types
 -----------------------------------------------------|--------------------------------------
-`x .approximates. y .within. tolerance`              | `real`, `double precision`
-`x .approximates. y .withinFraction. tolerance`      | `real`, `double precision`
-`x .approximates. y .withinPercentage. tolerance`    | `real`, `double precision`
-`.all. ([i,j] .lessThan. k)`                         | `integer`, `real`, `double precision`
-`.all. ([i,j] .lessThan. [k,m])`                     | `integer`, `real`, `double precision`
-`.all. (i .lessThan. [k,m])`                         | `integer`, `real`, `double precision`
-`(i .lessThan. j) .also. (k .equalsExpected. m))`    | `integer`, `real`, `double precision`
-`x .lessThan. y`                                     | `integer`, `real`, `double precision`
-`x .greaterThan. y`                                  | `integer`, `real`, `double precision`
-`i .equalsExpected. j`                               | `integer`, `character`, `type(c_ptr)`
-`i .isAtLeast. j`                                    | `integer`, `real`, `double precision`
-`i .isAtMost. j`                                     | `integer`, `real`, `double precision`
-`s .isBefore. t`                                     | `character`
-`s .isAfter. t`                                      | `character`
-`.expect. allocated(A)` // " (expected allocated A)" | `logical`
+`x .approximates. y .within. tolerance`              | `real`, `double precision` for `x`, `y`, `tolerance`
+`x .approximates. y .withinFraction. tolerance`      | `real`, `double precision` for `x`, `y`, `tolerance`
+`x .approximates. y .withinPercentage. tolerance`    | `real`, `double precision` for `x`, `y`, `tolerance`
+`.all. ([i,j] .lessThan. k)`                         | `test_diagnosis_t` for `.all.` operator's operand
+`.all. ([i,j] .lessThan. [k,m])`                     | `test_diagnosis_t` for `.all`. operator's operand
+`.all. (i .lessThan. [k,m])`                         | `test_diagnosis_t` for `.all.` operator's operand
+`(i .lessThan. j) .also. (k .equalsExpected. m))`    | `test_diagnosis_t` for `.also.` operator's operands
+`x .lessThan. y`                                     | `integer`, `real`, `double precision` for `x`, `y`
+`x .greaterThan. y`                                  | `integer`, `real`, `double precision` for `x`, `y`
+`i .equalsExpected. j`                               | `integer`, `character`, `type(c_ptr)` for `i`, `j`
+`i .isAtLeast. j`                                    | `integer`, `real`, `double precision` for `i`, `j`
+`i .isAtMost. j`                                     | `integer`, `real`, `double precision` for `i`, `j`
+`s .isBefore. t`                                     | `character` for `s`, `t`
+`s .isAfter. t`                                      | `character` for `s`, `t`
+`.expect. allocated(A)` // " (expected allocated A)" | `logical` for `.expect.` operator's operand
 
 where 
 * `.isAtLeast.` and `.isAtMost.` can alternatively be spelled `.greaterThanOrEqualTo.` and `.lessThanOrEqualTo.`, respectively;
 * `.equalsExpected.` uses `==`, which implies that trailing blank spaces are ignored in character operands;  
 * `.equalsExpected.` with integer operands supports default integers and `integer(c_size_t)`;
-* `.isBefore.` and `.isAfter.` verify alphabetical and reverse-alphabetical  order, respectively; and
+* `.isBefore.` and `.isAfter.` verify alphabetical and reverse-alphabetical  order, respectively;
 * `.all.` aggregates arrays of expression results, reports a consensus result, and shows diagnostics only for failing tests, if any;
-* `.equalsExpected.` generates asymmetric diagnostic output for failures, denoting the left- and right-hand sides as the actual value and expected values, respectively; and.
+* `.equalsExpected.` generates asymmetric diagnostic output for failures, denoting the left- and right-hand sides as the actual value and expected values, respectively; and
 * `//` appends the subsequent string to diagnostics strings, if any.
 
 Expressive idioms 
@@ -114,10 +114,9 @@ file. By storing a file in a `file_t` object using the `file_t` derived type's
 constructor function one can confine a program's file input/output (I/O) to one
 or two procedures.  The resulting `file_t` object can be manipulated elsewhere
 without incurring the costs associated with file I/O.  For example, the following
-line reads a file named `data.txt` into a `file_t` object and associates the name
+lines read a file named `data.txt` into a `file_t` object and associates the name
 `file` with the resulting object.
 ```fortran
-type(file_t) file
 associate(file => file_t("data.txt"))
 end associate
 ```
