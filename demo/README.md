@@ -133,7 +133,7 @@ demo
     └── widget_test_m.f90
 ```
 The modules inside the `specimen_test_m.f90` and `widget_test_m.f90` files each
-contain three tests: 
+contain three tests:
 1. One test intentionally fails and demonstrates the construction of a test
    diagnosis via an idiom using Julienne's defined operations:
    ```
