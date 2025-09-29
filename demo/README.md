@@ -11,16 +11,16 @@ Please try [running the demonstration tests] and [generating test scaffolding].
 Writing tests
 -------------
 Testing with Julienne centers around the `test_t` abstract derived type.
-Users extend `test_t`, definoing non-abstract child types capturing groups of tests.
+Users extend `test_t`, defining non-abstract child types capturing groups of tests.
 Doing so requires defining the inherited deferred bindings: the `subject` and `results` functions.
 
-* `subject` has no argumetns and defines a `character` string result describing what is being tested,
+* `subject` has no arguments and defines a `character` string result describing what is being tested,
 * `results` has no arguments defines a `test_result_t` array result by invoking the inherited `run` function on a child instance, and
-* `run` uses a `test_descripton_t` array argument to construct a `test_result_t` array result.
+* `run` uses a `test_description_t` array argument to construct a `test_result_t` array result.
 
 Users construct each `test_description_t` array element by invoking a `test_description_t` constructor function, which has two arguments:
 
-* A `character` string describing whata the test does, typically beginning with a gerund: a word ending in `-ing`, and
+* A `character` string describing what the test does, typically beginning with a gerund: a word ending in `-ing`, and
 * The name of a function conforming to Julienne's `diagnosis_function_i` abstract interface.
 
 The `diagnosis_function_i` function implementations have no arguments and construct a `test_diagnosis_t` result by
@@ -96,7 +96,7 @@ To recreate the `test` directory contents, pass the following `test-suite.json` 
 }
 ```
 Please maintain the above format by not inserting, deleting, or combining any lines.
-Please run following command in a `bash` or `zsh` shell with Julienne's source-tree roottree as your present working directory:
+Please run following command in a `bash` or `zsh` shell with Julienne's root directory as your present working directory:
 ```
 fpm run scaffold \
   --compiler flang-new \
