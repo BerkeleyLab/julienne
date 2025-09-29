@@ -95,15 +95,18 @@ To recreate the `test` directory contents, pass the following `test-suite.json` 
     }
 }
 ```
-Please maintain the above format by introducing by not inserting, deleting, or combining any lines.
-Please run following command in a `bash` or `zsh` shell with the root of Julienne's source tree as your present working directory:
+Please maintain the above format by not inserting, deleting, or combining any lines.
+Please run following command in a `bash` or `zsh` shell with Julienne's source-tree roottree as your present working directory:
 ```
 fpm run scaffold \
   --compiler flang-new \
   -- --json-file demo/test-suite.json \
   --suite-path demo/test
 ```
-which generates the following directory tree and files inside `demo`:
+where a similar command works with the other supported compilers after changing
+the command-line arguments to mirror those used the source-tree root directory's
+[README.md](../README.md) file.  The above `fpm` command generates the files in 
+the `demo/test` subdirectory of the following `demo` source tree:
 ```
 demo
 ├── src
