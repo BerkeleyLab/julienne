@@ -152,7 +152,6 @@ contains
     write(file_unit, '(a)') "  use julienne_m, only : test_fixture_t, test_harness_t"
 
     block
-      type(string_t), allocatable :: test_modules(:)
       type(string_t) use_statement
       test_modules = self%test_modules() ! GCC 14.2 blocks the use of an association
       test_types = self%test_types()     ! GCC 14.2 blocks the use of an association
@@ -166,7 +165,6 @@ contains
     write(file_unit, '(a)') "  associate(test_harness => test_harness_t([ &"
 
     block
-      type(string_t), allocatable :: test_types(:)
       type(string_t) fixture_constructor
       test_types   = self%test_types()   ! GCC 14.2 blocks the use of an association
       fixture_constructor =  "     test_fixture_t(" // test_types(1) // "()) &"
