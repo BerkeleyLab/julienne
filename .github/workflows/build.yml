@@ -47,13 +47,17 @@ jobs:
           # https://hub.docker.com/r/phhargrove/llvm-flang/tags
           - os: ubuntu-24.04
             compiler: flang
+            version: 21
+            container: phhargrove/llvm-flang:21.1.0-latest
+          - os: ubuntu-24.04
+            compiler: flang
             version: 20
-            container: phhargrove/llvm-flang:20.1.0-1
+            container: phhargrove/llvm-flang:20.1.0-latest
           - os: ubuntu-24.04
             compiler: flang
             version: 19
             extra_flags: -g -mmlir -allow-assumed-rank -O3
-            container: phhargrove/llvm-flang:19.1.1-1
+            container: phhargrove/llvm-flang:19.1.1-latest
 
           # --- Intel coverage ---
 
