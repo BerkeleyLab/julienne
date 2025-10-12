@@ -12,7 +12,7 @@ jobs:
       matrix:
         os: [macos-13, macos-14, macos-15, macos-15-intel, ubuntu-22.04, ubuntu-24.04]
         compiler: [ gfortran ]
-        version: [ 13, 14 ]
+        version: [ 13, 14, 15 ]
         extra_flags: [ -g -O3 ]
 
         exclude:
@@ -20,6 +20,10 @@ jobs:
             version: 13 # no package available
           - os: ubuntu-22.04
             version: 14 # no package available
+          - os: ubuntu-22.04
+            version: 15 # no package available
+          - os: ubuntu-24.04
+            version: 15 # no package available
 
         include:
           # --- LLVM flang coverage ---
@@ -102,7 +106,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Install Dependencies Ubuntu
-      if: ${{ contains(matrix.os, 'ubuntu') && matrix.compiler == 'gfortran' && 0 }}
+      if: ${{ contains(matrix.os, 'ubuntu') && matrix.compiler == 'gfortran' && matrix.version == '15' }}
       run: |
         sudo apt-get update
         sudo apt list -a 'gfortran-*'
