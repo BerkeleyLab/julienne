@@ -190,6 +190,8 @@ commands in the table below will build and run the Julienne test suite.  With
 For additional information on setting up parallel builds with LLVM, please see
 [parallel-testing-with-flang.md](./doc/parallel-testing-with-flang.md).
 
+`fpm test --features parallel`
+
 Compiler/Runtime  |Tested Versions|Run Type|Example build/test commands (parallel examples use 2 images)
 ------------------|---------------|--------|------------------------------------------------------------
 LLVM/[Caffeine]   |22.0.0git      |parallel|`fpm test --compiler flang-new --flag "-O3 -DHAVE_MULTI_IMAGE_SUPPORT -fcoarray" --link-flag "-lcaffeine -lgasnet-smp-seq -L<caffeine-path> -L<gasnet-path>"`

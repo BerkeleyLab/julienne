@@ -5,3 +5,15 @@ assert = {git = "https://github.com/berkeleylab/assert", tag = "3.0.2"}
 
 [install]
 library = true
+
+#  Platform/Compiler Specific Features
+
+[features]
+#parallel.flang.link = ["caffeine", "gasnet-smp-seq"]
+#gasnet-udp.flang.link_flags = "-lcaffeine -lgasnet-udp-seq -L$CAFFEINE_LIB_PATH -L$GASNET_LIB_PATH"
+parallel.flang.flags = "-O3 -DHAVE_MULTI_IMAGE_SUPPORT -fcoarray -lcaffeine -lgasnet-smp-seq -L$CAFFEINE_LIB_PATH -L$GASNET_LIB_PATH"
+parallel.ifx.flags = "-fpp -O3 -coarray"
+
+
+#[profiles]
+#parallel = ["gasnet-smp", "gasnet-udp"]
