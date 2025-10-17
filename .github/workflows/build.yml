@@ -2,6 +2,9 @@ name: Build
 
 on: [push, pull_request]
 
+defaults:
+  run:
+    shell: bash
 
 jobs:
   build:
@@ -10,18 +13,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-13, macos-14, macos-15, macos-15-intel, ubuntu-22.04, ubuntu-24.04]
+        os: [macos-13, macos-14, macos-15, macos-15-intel, ubuntu-24.04]
         compiler: [ gfortran ]
         version: [ 13, 14, 15 ]
         extra_flags: [ -g -O3 ]
 
         exclude:
-          - os: ubuntu-22.04
-            version: 13 # no package available
-          - os: ubuntu-22.04
-            version: 14 # no package available
-          - os: ubuntu-22.04
-            version: 15 # no package available
           - os: ubuntu-24.04
             version: 15 # no package available
 
