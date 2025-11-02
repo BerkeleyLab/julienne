@@ -47,7 +47,7 @@ program legacy_driver
 
   associate(me => this_image())
 
-    if (me==1) print '(a)' new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
+    if (me==1) print '(a)', new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
 
     call assert_test%report(passes, tests, skips)
     call bin_test%report(passes, tests, skips)
