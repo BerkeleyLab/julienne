@@ -47,32 +47,33 @@ program legacy_driver
 
   associate(me => this_image())
 
-  if (me==1) print '(a)' new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
+    if (me==1) print '(a)' new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
 
-  call assert_test%report(passes, tests, skips)
-  call bin_test%report(passes, tests, skips)
-  call formats_test%report(passes, tests, skips)
-  call string_test%report(passes, tests, skips)
-  call test_result_test%report(passes, tests, skips)
-  call test_description_test%report(passes, tests, skips)
-  call test_diagnosis_test%report(passes, tests, skips)
+    call assert_test%report(passes, tests, skips)
+    call bin_test%report(passes, tests, skips)
+    call formats_test%report(passes, tests, skips)
+    call string_test%report(passes, tests, skips)
+    call test_result_test%report(passes, tests, skips)
+    call test_description_test%report(passes, tests, skips)
+    call test_diagnosis_test%report(passes, tests, skips)
 
-  if (.not. GitHub_CI())  then
-    if (command_line%argument_present(["--test"])) then
-      call command_line_test%report(passes, tests, skips)
-    else
-      if (me==1) print '(a)', &
-        new_line("") // &
-        "To test Julienne's command_line_t type, append the following to your fpm command:" // &
-        new_line("") // &
-        "-- --test command_line_t --type"
+    if (.not. GitHub_CI())  then
+      if (command_line%argument_present(["--test"])) then
+        call command_line_test%report(passes, tests, skips)
+      else
+        if (me==1) print '(a)', &
+          new_line("") // &
+          "To test Julienne's command_line_t type, append the following to your fpm command:" // &
+          new_line("") // &
+          "-- --test command_line_t --type"
+      end if
     end if
-  end if
 
-  if (me=1) print '(a)', "_____ In total, " // string_t(passes) // " of " // string_t(tests) //  " tests pass.  " &
-                         // string_t(skips) // " tests were skipped. _____" &
+    if (me=1) print '(a)', "_____ In total, " // string_t(passes) // " of " // string_t(tests) //  " tests pass.  " &
+                           // string_t(skips) // " tests were skipped. _____"
+    sync all
     if (passes + skips /= tests) error stop "Some executed tests failed."
-  end if
+    end if
   end associate
 
 #endif
