@@ -9,7 +9,7 @@ program legacy_driver
 #ifdef __GNUC__
 #if (GCC_VERSION < 140300)
   ! Internal utilities
-  use julienne_m, only : command_line_t, GitHub_CI, one_image_prints, string_t
+  use julienne_m, only : command_line_t, GitHub_CI, string_t
 
   ! Test modules
   use assert_test_m             ,only :                   assert_test_t
@@ -45,7 +45,9 @@ program legacy_driver
 
   if (command_line%argument_present([character(len=len("--help"))::"--help","-h"])) stop usage
 
-  call one_image_prints(new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information.")
+  associate(me => this_image())
+
+  if (me==1) print '(a)' new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
 
   call assert_test%report(passes, tests, skips)
   call bin_test%report(passes, tests, skips)
@@ -59,22 +61,19 @@ program legacy_driver
     if (command_line%argument_present(["--test"])) then
       call command_line_test%report(passes, tests, skips)
     else
-      call one_image_prints( &
+      if (me==1) print '(a)', &
         new_line("") // &
         "To test Julienne's command_line_t type, append the following to your fpm command:" // &
         new_line("") // &
-        "-- --test command_line_t --type" &
-      )
+        "-- --test command_line_t --type"
     end if
   end if
 
-  if (this_image()==1) then
-    call one_image_prints( &
-      "_____ In total, " // string_t(passes) // " of " // string_t(tests) //  " tests pass.  " // &
-      string_t(skips) // " tests were skipped. _____" &
-    )
+  if (me=1) print '(a)', "_____ In total, " // string_t(passes) // " of " // string_t(tests) //  " tests pass.  " &
+                         // string_t(skips) // " tests were skipped. _____" &
     if (passes + skips /= tests) error stop "Some executed tests failed."
   end if
+  end associate
 
 #endif
 #endif

@@ -11,7 +11,6 @@ module julienne_m
   use julienne_file_m, only : file_t
   use julienne_formats_m, only : separated_values, csv
   use julienne_github_ci_m, only : github_ci
-  use julienne_one_image_prints_m, only : one_image_prints
   use julienne_string_m, only : string_t, array_of_strings &
     ,operator(.cat.) &
     ,operator(.csv.) &
