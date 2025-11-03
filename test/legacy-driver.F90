@@ -9,7 +9,7 @@ program legacy_driver
 #ifdef __GNUC__
 #if (GCC_VERSION < 140300)
   ! Internal utilities
-  use julienne_m, only : command_line_t, GitHub_CI, string_t
+  use julienne_m, only : command_line_t, GitHub_CI
 
   ! Test modules
   use assert_test_m             ,only :                   assert_test_t
@@ -69,11 +69,9 @@ program legacy_driver
       end if
     end if
 
-    if (me==1) print '(a)', "_____ In total, " // string_t(passes) // " of " // string_t(tests) //  " tests pass.  " &
-                           // string_t(skips) // " tests were skipped. _____"
+    if (me==1) print '(*(a,:,i0))', "_____ In total, ", passes, " of ", tests, " tests pass.  ", skips, " tests were skipped. _____"
     sync all
     if (passes + skips /= tests) error stop "Some executed tests failed."
-    end if
   end associate
 
 #endif
