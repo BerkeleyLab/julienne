@@ -69,7 +69,7 @@ program legacy_driver
       end if
     end if
 
-    if (me=1) print '(a)', "_____ In total, " // string_t(passes) // " of " // string_t(tests) //  " tests pass.  " &
+    if (me==1) print '(a)', "_____ In total, " // string_t(passes) // " of " // string_t(tests) //  " tests pass.  " &
                            // string_t(skips) // " tests were skipped. _____"
     sync all
     if (passes + skips /= tests) error stop "Some executed tests failed."
