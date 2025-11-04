@@ -9,7 +9,7 @@ program legacy_driver
 #ifdef __GNUC__
 #if (GCC_VERSION < 140300)
   ! Internal utilities
-  use julienne_m, only : command_line_t, GitHub_CI, one_image_prints, string_t
+  use julienne_m, only : command_line_t, GitHub_CI
 
   ! Test modules
   use assert_test_m             ,only :                   assert_test_t
@@ -45,36 +45,34 @@ program legacy_driver
 
   if (command_line%argument_present([character(len=len("--help"))::"--help","-h"])) stop usage
 
-  call one_image_prints(new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information.")
+  associate(me => this_image())
 
-  call assert_test%report(passes, tests, skips)
-  call bin_test%report(passes, tests, skips)
-  call formats_test%report(passes, tests, skips)
-  call string_test%report(passes, tests, skips)
-  call test_result_test%report(passes, tests, skips)
-  call test_description_test%report(passes, tests, skips)
-  call test_diagnosis_test%report(passes, tests, skips)
+    if (me==1) print '(a)', new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
 
-  if (.not. GitHub_CI())  then
-    if (command_line%argument_present(["--test"])) then
-      call command_line_test%report(passes, tests, skips)
-    else
-      call one_image_prints( &
-        new_line("") // &
-        "To test Julienne's command_line_t type, append the following to your fpm command:" // &
-        new_line("") // &
-        "-- --test command_line_t --type" &
-      )
+    call assert_test%report(passes, tests, skips)
+    call bin_test%report(passes, tests, skips)
+    call formats_test%report(passes, tests, skips)
+    call string_test%report(passes, tests, skips)
+    call test_result_test%report(passes, tests, skips)
+    call test_description_test%report(passes, tests, skips)
+    call test_diagnosis_test%report(passes, tests, skips)
+
+    if (.not. GitHub_CI())  then
+      if (command_line%argument_present(["--test"])) then
+        call command_line_test%report(passes, tests, skips)
+      else
+        if (me==1) print '(a)', &
+          new_line("") // &
+          "To test Julienne's command_line_t type, append the following to your fpm command:" // &
+          new_line("") // &
+          "-- --test command_line_t --type"
+      end if
     end if
-  end if
 
-  if (this_image()==1) then
-    call one_image_prints( &
-      "_____ In total, " // string_t(passes) // " of " // string_t(tests) //  " tests pass.  " // &
-      string_t(skips) // " tests were skipped. _____" &
-    )
+    if (me==1) print '(*(a,:,i0))', "_____ In total, ", passes, " of ", tests, " tests pass.  ", skips, " tests were skipped. _____"
+    sync all
     if (passes + skips /= tests) error stop "Some executed tests failed."
-  end if
+  end associate
 
 #endif
 #endif

@@ -6,7 +6,7 @@
 
 program idiomatic_assertion_failure_test
   !! Conditionally test an assertion that is hardwired to fail.
-  use julienne_m, only : call_julienne_assert_, command_line_t, operator(.equalsExpected.), one_image_prints
+  use julienne_m, only : call_julienne_assert_, command_line_t, operator(.equalsExpected.)
   implicit none
 
 #if HAVE_MULTI_IMAGE_SUPPORT

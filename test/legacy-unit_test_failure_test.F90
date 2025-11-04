@@ -5,7 +5,7 @@ program legacy_unit_test_failure_test
 #  if (GCC_VERSION < 140300)
 
   ! Internal utilities
-  use julienne_m, only : command_line_t, GitHub_CI, one_image_prints, string_t
+  use julienne_m, only : command_line_t, GitHub_CI, string_t
   use test_test_m, only : test_test_t
   implicit none
 
