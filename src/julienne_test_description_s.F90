@@ -9,6 +9,7 @@ submodule(julienne_test_description_m) julienne_test_description_s
   use assert_m
   use julienne_assert_m, only : call_julienne_assert_
   use julienne_command_line_m, only : command_line_t
+  use iso_c_binding, only: c_f_procpointer
   implicit none
 contains
 
@@ -18,9 +19,33 @@ contains
       call_assert(allocated(test_description%description_))
     end procedure
 
+    module procedure construct_from_characters_funloc
+      test_description%description_ = description
+      call c_f_procpointer(diagnosis_function, test_description%diagnosis_function_)
+      call_assert(allocated(test_description%description_))
+    end procedure
+
+    module procedure construct_from_characters_bless
+      test_description%description_ = description
+      test_description%diagnosis_function_ => diagnosis_function%ptr
+      call_assert(allocated(test_description%description_))
+    end procedure
+
     module procedure construct_from_string
       test_description%description_ = description
       if (present(diagnosis_function)) test_description%diagnosis_function_ => diagnosis_function
+      call_assert(allocated(test_description%description_))
+    end procedure
+
+    module procedure construct_from_string_funloc
+      test_description%description_ = description
+      call c_f_procpointer(diagnosis_function, test_description%diagnosis_function_)
+      call_assert(allocated(test_description%description_))
+    end procedure
+
+    module procedure construct_from_string_bless
+      test_description%description_ = description
+      test_description%diagnosis_function_ => diagnosis_function%ptr
       call_assert(allocated(test_description%description_))
     end procedure
 

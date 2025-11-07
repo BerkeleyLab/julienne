@@ -16,7 +16,7 @@ module julienne_m
     ,operator(.csv.) &
     ,operator(.separatedBy.) & ! same as operator(.sv.)
     ,operator(.sv.)
-  use julienne_test_description_m, only : test_description_t, filter
+  use julienne_test_description_m, only : test_description_t, filter, bless
   use julienne_test_diagnosis_m, only   : test_diagnosis_t, diagnosis_function_i  &
     ,operator(//) &
     ,operator(.all.) &
