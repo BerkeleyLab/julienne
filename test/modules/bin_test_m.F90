@@ -12,10 +12,8 @@ module bin_test_m
     ,test_description_t &
     ,test_diagnosis_t &
     ,test_result_t &
-    ,test_t
-#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-  use julienne_m, only : diagnosis_function_i
-#endif
+    ,test_t &
+    ,bless
   use assert_m, only : assert
   implicit none
 
@@ -40,21 +38,10 @@ contains
     type(test_description_t), allocatable :: test_descriptions(:)
     type(bin_test_t) bin_test
 
-#if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_descriptions = [ &
-      test_description_t(string_t("partitioning items nearly evenly across bins"), check_block_partitioning), &
-      test_description_t(string_t("partitioning all item across all bins without item loss"), check_all_items_partitioned) &
+      test_description_t(string_t("partitioning items nearly evenly across bins"), bless(check_block_partitioning)), &
+      test_description_t(string_t("partitioning all item across all bins without item loss"), bless(check_all_items_partitioned)) &
     ]
-#else
-    ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
-    procedure(diagnosis_function_i), pointer :: check_block_partitioning_ptr, check_all_items_ptr
-    check_block_partitioning_ptr => check_block_partitioning
-    check_all_items_ptr => check_all_items_partitioned
-    test_descriptions = [ &
-      test_description_t(string_t("partitioning items nearly evenly across bins"), check_block_partitioning_ptr), &
-      test_description_t(string_t("partitioning all item across all bins without item loss"), check_all_items_ptr) &
-    ]
-#endif
     test_results = bin_test%run(test_descriptions)
   end function
 

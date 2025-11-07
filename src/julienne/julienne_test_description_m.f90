@@ -6,11 +6,13 @@ module julienne_test_description_m
   use julienne_string_m, only : string_t
   use julienne_test_result_m, only : test_result_t
   use julienne_test_diagnosis_m, only : test_diagnosis_t, diagnosis_function_i
+  use iso_c_binding, only: c_funptr
   implicit none
 
   private
   public :: test_description_t
   public :: filter
+  public :: bless
 
   type test_description_t
     !! Encapsulate test descriptions and test-functions
@@ -25,6 +27,10 @@ module julienne_test_description_m
     procedure, private ::      equals
   end type
 
+  type bless
+    procedure(diagnosis_function_i), pointer, nopass :: ptr => null()
+  end type
+
   interface test_description_t
 
     module function construct_from_string(description, diagnosis_function) result(test_description)
@@ -35,11 +41,43 @@ module julienne_test_description_m
       type(test_description_t) test_description
     end function
 
+    module function construct_from_string_funloc(description, diagnosis_function) result(test_description)
+      !! The result is a test_description_t object with the components defined by the dummy arguments
+      implicit none
+      type(string_t), intent(in) :: description
+      type(c_funptr), intent(in) :: diagnosis_function
+      type(test_description_t) test_description
+    end function
+
+    module function construct_from_string_bless(description, diagnosis_function) result(test_description)
+      !! The result is a test_description_t object with the components defined by the dummy arguments
+      implicit none
+      type(string_t), intent(in) :: description
+      type(bless), intent(in) :: diagnosis_function
+      type(test_description_t) test_description
+    end function
+
     module function construct_from_characters(description, diagnosis_function) result(test_description)
       !! The result is a test_description_t object with the components defined by the dummy arguments
       implicit none
       character(len=*), intent(in) :: description
       procedure(diagnosis_function_i), intent(in), pointer, optional :: diagnosis_function
+      type(test_description_t) test_description
+    end function
+
+    module function construct_from_characters_funloc(description, diagnosis_function) result(test_description)
+      !! The result is a test_description_t object with the components defined by the dummy arguments
+      implicit none
+      character(len=*), intent(in) :: description
+      type(c_funptr), intent(in) :: diagnosis_function
+      type(test_description_t) test_description
+    end function
+
+    module function construct_from_characters_bless(description, diagnosis_function) result(test_description)
+      !! The result is a test_description_t object with the components defined by the dummy arguments
+      implicit none
+      character(len=*), intent(in) :: description
+      type(bless), intent(in) :: diagnosis_function
       type(test_description_t) test_description
     end function
 

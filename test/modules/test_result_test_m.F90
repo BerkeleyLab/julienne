@@ -8,13 +8,11 @@ module test_result_test_m
   use julienne_m, only : &
      operator(.expect.) &
     ,string_t &
+    ,bless &
     ,test_description_t &
     ,test_diagnosis_t &
     ,test_result_t &
     ,test_t
-#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-  use julienne_m, only : diagnosis_function_i
-#endif
   implicit none
 
   private
@@ -38,18 +36,9 @@ contains
     type(test_description_t), allocatable :: test_descriptions(:)
     type(test_result_test_t) test_result_test
 
-#if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_descriptions = [ &
-      test_description_t(string_t("constructing an array of test_result_t objects elementally"), check_array_result_construction) &
+      test_description_t(string_t("constructing an array of test_result_t objects elementally"), bless(check_array_result_construction)) &
     ]
-#else
-    ! Work around missing Fortran 2008 feature: associating a procedure actual argument with a procedure pointer dummy argument:
-    procedure(diagnosis_function_i), pointer :: &
-    check_array_ptr => check_array_result_construction
-    test_descriptions = [ &
-      test_description_t(string_t("constructing an array of test_result_t objects elementally"), check_array_ptr) &
-    ]
-#endif
     test_results = test_result_test%run(test_descriptions)
   end function
 
