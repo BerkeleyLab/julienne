@@ -11,6 +11,16 @@ submodule(julienne_test_diagnosis_m) julienne_test_diagnosis_s
   implicit none
 contains
 
+  module procedure passing_test
+    test_diagnosis%test_passed_ = .true.
+    test_diagnosis%diagnostics_string_ = ""
+  end procedure
+
+  module procedure assign_logical
+    lhs%test_passed_ = rhs
+    lhs%diagnostics_string_ = ""
+  end procedure
+
   module procedure append_string_if_test_failed
     if (lhs%test_passed_) then
       lhs_cat_rhs = lhs
