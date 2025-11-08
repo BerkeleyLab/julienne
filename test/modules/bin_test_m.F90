@@ -13,7 +13,7 @@ module bin_test_m
     ,test_diagnosis_t &
     ,test_result_t &
     ,test_t &
-    ,bless
+    ,usher
   use assert_m, only : assert
   implicit none
 
@@ -39,8 +39,8 @@ contains
     type(bin_test_t) bin_test
 
     test_descriptions = [ &
-      test_description_t(string_t("partitioning items nearly evenly across bins"), bless(check_block_partitioning)), &
-      test_description_t(string_t("partitioning all item across all bins without item loss"), bless(check_all_items_partitioned)) &
+      test_description_t(string_t("partitioning items nearly evenly across bins"), usher(check_block_partitioning)), &
+      test_description_t(string_t("partitioning all item across all bins without item loss"), usher(check_all_items_partitioned)) &
     ]
     test_results = bin_test%run(test_descriptions)
   end function

@@ -12,7 +12,7 @@ module string_test_m
     ,test_result_t &
     ,test_description_t &
     ,test_diagnosis_t &
-    ,bless &
+    ,usher &
     ,string_t &
     ,operator(.all.) &
     ,operator(.also.) &
@@ -47,35 +47,35 @@ contains
     type(string_test_t) string_test
 
     test_descriptions = [ &
-       test_description_t("is_allocated() result .true. if & only if the string_t component(s) is/are allocated", bless(check_allocation))&
-      ,test_description_t("extracting a key string from a colon-separated key/value pair", bless(                           extracts_key))&
-      ,test_description_t("extracting double-precision value from colon-separated key/value pair", bless(extracts_double_precision_value))&
-      ,test_description_t("extracting a real value from a colon-separated key/value pair", bless(                    extracts_real_value))&
-      ,test_description_t("extracting a character value from a colon-separated key/value pair", bless(          extracts_character_value))&
-      ,test_description_t("extracting a string value from a colon-separated key/value pair", bless(                extracts_string_value))&
-      ,test_description_t("extracting an integer value from a colon-separated key/value pair", bless(             extracts_integer_value))&
-      ,test_description_t("extracting a logical value from a colon-separated key/value pair", bless(              extracts_logical_value))&
-      ,test_description_t("extracting an integer array value from a colon-separated key/value pair", bless( extracts_integer_array_value))&
-      ,test_description_t("extracting an real array value from a colon-separated key/value pair", bless(       extracts_real_array_value))&
-      ,test_description_t("extracting a double-precision array from a colon-separated key/value pair", bless(    extracts_dp_array_value))&
-      ,test_description_t('supporting operator(==) for string_t and character operands', bless(            supports_equivalence_operator))&
-      ,test_description_t('supporting operator(/=) for string_t and character operands', bless(        supports_non_equivalence_operator))&
-      ,test_description_t('assigning a string_t object to a character variable', bless(                    assigns_string_t_to_character))&
-      ,test_description_t('assigning a character variable to a string_t object', bless(                    assigns_character_to_string_t))&
-      ,test_description_t('supporting operator(//) for string_t and character operands', bless(          supports_concatenation_operator))&
-      ,test_description_t('constructing from a default integer and an integer(c_size_t)', bless(                constructs_from_integers))&
-      ,test_description_t('constructing from a default real value', bless(                                  constructs_from_default_real))&
-      ,test_description_t('constructing from a double-precision value', bless(                          constructs_from_double_precision))&
-      ,test_description_t('constructing from a default-precision complex value', bless(                  constructs_from_default_complex))&
-      ,test_description_t('constructing from a default-kind logical value', bless(                       constructs_from_default_logical))&
-      ,test_description_t('constructing from a logical(c_bool) value', bless(                             constructs_from_logical_c_bool))&
-      ,test_description_t('extracting a file base name', bless(                                                  extracts_file_base_name))&
-      ,test_description_t('extracting a file name extension', bless(                                        extracts_file_name_extension))&
-      ,test_description_t('supporting unary operator(.cat.) for array arguments', bless(                           concatenates_elements))&
-      ,test_description_t('constructing bracketed strings', bless(                                                      brackets_strings))&
-      ,test_description_t("extracting a string_t array value from a colon-separated key/value pair", bless(  extracts_string_array_value))&
-      ,test_description_t('constructing (comma-)separated values from character or string_t arrays', bless(  constructs_separated_values))&
-      ,test_description_t('constructing from a double-precision complex value', bless(          constructs_from_double_precision_complex))&
+       test_description_t("is_allocated() result .true. if & only if the string_t component(s) is/are allocated", usher(check_allocation))&
+      ,test_description_t("extracting a key string from a colon-separated key/value pair", usher(                           extracts_key))&
+      ,test_description_t("extracting double-precision value from colon-separated key/value pair", usher(extracts_double_precision_value))&
+      ,test_description_t("extracting a real value from a colon-separated key/value pair", usher(                    extracts_real_value))&
+      ,test_description_t("extracting a character value from a colon-separated key/value pair", usher(          extracts_character_value))&
+      ,test_description_t("extracting a string value from a colon-separated key/value pair", usher(                extracts_string_value))&
+      ,test_description_t("extracting an integer value from a colon-separated key/value pair", usher(             extracts_integer_value))&
+      ,test_description_t("extracting a logical value from a colon-separated key/value pair", usher(              extracts_logical_value))&
+      ,test_description_t("extracting an integer array value from a colon-separated key/value pair", usher( extracts_integer_array_value))&
+      ,test_description_t("extracting an real array value from a colon-separated key/value pair", usher(       extracts_real_array_value))&
+      ,test_description_t("extracting a double-precision array from a colon-separated key/value pair", usher(    extracts_dp_array_value))&
+      ,test_description_t('supporting operator(==) for string_t and character operands', usher(            supports_equivalence_operator))&
+      ,test_description_t('supporting operator(/=) for string_t and character operands', usher(        supports_non_equivalence_operator))&
+      ,test_description_t('assigning a string_t object to a character variable', usher(                    assigns_string_t_to_character))&
+      ,test_description_t('assigning a character variable to a string_t object', usher(                    assigns_character_to_string_t))&
+      ,test_description_t('supporting operator(//) for string_t and character operands', usher(          supports_concatenation_operator))&
+      ,test_description_t('constructing from a default integer and an integer(c_size_t)', usher(                constructs_from_integers))&
+      ,test_description_t('constructing from a default real value', usher(                                  constructs_from_default_real))&
+      ,test_description_t('constructing from a double-precision value', usher(                          constructs_from_double_precision))&
+      ,test_description_t('constructing from a default-precision complex value', usher(                  constructs_from_default_complex))&
+      ,test_description_t('constructing from a default-kind logical value', usher(                       constructs_from_default_logical))&
+      ,test_description_t('constructing from a logical(c_bool) value', usher(                             constructs_from_logical_c_bool))&
+      ,test_description_t('extracting a file base name', usher(                                                  extracts_file_base_name))&
+      ,test_description_t('extracting a file name extension', usher(                                        extracts_file_name_extension))&
+      ,test_description_t('supporting unary operator(.cat.) for array arguments', usher(                           concatenates_elements))&
+      ,test_description_t('constructing bracketed strings', usher(                                                      brackets_strings))&
+      ,test_description_t("extracting a string_t array value from a colon-separated key/value pair", usher(  extracts_string_array_value))&
+      ,test_description_t('constructing (comma-)separated values from character or string_t arrays', usher(  constructs_separated_values))&
+      ,test_description_t('constructing from a double-precision complex value', usher(          constructs_from_double_precision_complex))&
     ]
     test_results = string_test%run(test_descriptions)
   end function

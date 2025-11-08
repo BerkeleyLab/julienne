@@ -12,7 +12,7 @@ module test_diagnosis_test_m
     ,test_description_t &
     ,test_diagnosis_t &
     ,test_result_t &
-    ,bless &
+    ,usher &
     ,operator(//) &
     ,operator(.all.) &
     ,operator(.also.) &
@@ -54,32 +54,32 @@ contains
     type(test_diagnosis_test_t) test_diagnosis_test
 
     test_descriptions = [ &
-       test_description_t("construction from the real expression 'x .approximates. y .within. tolerance'"                      , bless(check_approximates_real)) &
-      ,test_description_t("construction from the real expression 'x .approximates. y .withinFraction. tolerance'"              , bless(check_approximates_real_fraction)) &
-      ,test_description_t("construction from the real expression 'x .approximates. y .withinPercentage. tolerance'"            , bless(check_approximates_real_percentage)) &
-      ,test_description_t("construction from the real expression 'x .lessThan. y"                                              , bless(check_less_than_real)) &
-      ,test_description_t("construction from the real expression 'x .greaterThan. y"                                           , bless(check_greater_than_real)) &
-      ,test_description_t("construction from the double precision expression 'x .approximates. y .within. tolerance'"          , bless(check_approximates_double)) &
-      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinFraction. tolerance'"  , bless(check_approximates_double_fraction)) &
-      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinPercentage. tolerance'", bless(check_approximates_double_percentage)) &
-      ,test_description_t("construction from the double precision expression 'x .lessThan. y"                                  , bless(check_less_than_double)) &
-      ,test_description_t("construction from the double precision expression 'x .greaterThan. y"                               , bless(check_greater_than_double)) &
-      ,test_description_t("construction from string_t/character expressions 'a .isBefore. b'"                                  , bless(check_alphabetical)) &
-      ,test_description_t("construction from string_t/character expressions 'a .isAfter. b'"                                   , bless(check_reverse_alphabetical)) &
-      ,test_description_t("construction from string_t/character expressions 'a .equalsExpected. b'"                            , bless(check_equals_character_vs_string)) &
-      ,test_description_t("construction from the character expression 'a .equalsExpected. b'"                                  , bless(check_equals_character)) &
-      ,test_description_t("construction from the type(c_ptr) expression 'p .equalsExpected. q'"                                , bless(check_equals_c_ptr)) &
-      ,test_description_t("construction from the string_t expression 'a .equalsExpected. b'"                                   , bless(check_equals_string)) &
-      ,test_description_t("construction from the integer expression 'i .equalsExpected. j'"                                    , bless(check_equals_integer)) &
-      ,test_description_t("construction from the integer expression 'i .lessThan. j"                                           , bless(check_less_than_integer)) &
-      ,test_description_t("construction from the integer expression '[i,j] .lessThanOrEqualTo. k"                              , bless(check_less_than_or_equal_to_integer)) &
-      ,test_description_t("construction from the integer expression 'i .greaterThan. j"                                        , bless(check_greater_than_integer)) &
-      ,test_description_t("construction from the integer expression '[i,j] .greaterThanOrEqualTo. k"                           , bless(check_greater_than_or_equal_to_integer)) &
-      ,test_description_t("construction from the scalar test_diagnostics_t expression 't .and. u'"                             , bless(check_and_with_scalar_operands)) &
-      ,test_description_t("construction from the vector test_diagnostics_t expressions 'i .equalsExpected. [j,k]'"             , bless(check_and_with_vector_operands)) &
-      ,test_description_t("construction from string concatenation"                                                             , bless(check_string_concatentation)) &
-      ,test_description_t("construction from character concatenation"                                                          , bless(check_character_concatentation)) &
-      ,test_description_t("construction from (.expects. logical-expression) // 'user-defined message'"                         , bless(check_expects_logical)) &
+       test_description_t("construction from the real expression 'x .approximates. y .within. tolerance'"                      , usher(check_approximates_real)) &
+      ,test_description_t("construction from the real expression 'x .approximates. y .withinFraction. tolerance'"              , usher(check_approximates_real_fraction)) &
+      ,test_description_t("construction from the real expression 'x .approximates. y .withinPercentage. tolerance'"            , usher(check_approximates_real_percentage)) &
+      ,test_description_t("construction from the real expression 'x .lessThan. y"                                              , usher(check_less_than_real)) &
+      ,test_description_t("construction from the real expression 'x .greaterThan. y"                                           , usher(check_greater_than_real)) &
+      ,test_description_t("construction from the double precision expression 'x .approximates. y .within. tolerance'"          , usher(check_approximates_double)) &
+      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinFraction. tolerance'"  , usher(check_approximates_double_fraction)) &
+      ,test_description_t("construction from the double precision expression 'x .approximates. y .withinPercentage. tolerance'", usher(check_approximates_double_percentage)) &
+      ,test_description_t("construction from the double precision expression 'x .lessThan. y"                                  , usher(check_less_than_double)) &
+      ,test_description_t("construction from the double precision expression 'x .greaterThan. y"                               , usher(check_greater_than_double)) &
+      ,test_description_t("construction from string_t/character expressions 'a .isBefore. b'"                                  , usher(check_alphabetical)) &
+      ,test_description_t("construction from string_t/character expressions 'a .isAfter. b'"                                   , usher(check_reverse_alphabetical)) &
+      ,test_description_t("construction from string_t/character expressions 'a .equalsExpected. b'"                            , usher(check_equals_character_vs_string)) &
+      ,test_description_t("construction from the character expression 'a .equalsExpected. b'"                                  , usher(check_equals_character)) &
+      ,test_description_t("construction from the type(c_ptr) expression 'p .equalsExpected. q'"                                , usher(check_equals_c_ptr)) &
+      ,test_description_t("construction from the string_t expression 'a .equalsExpected. b'"                                   , usher(check_equals_string)) &
+      ,test_description_t("construction from the integer expression 'i .equalsExpected. j'"                                    , usher(check_equals_integer)) &
+      ,test_description_t("construction from the integer expression 'i .lessThan. j"                                           , usher(check_less_than_integer)) &
+      ,test_description_t("construction from the integer expression '[i,j] .lessThanOrEqualTo. k"                              , usher(check_less_than_or_equal_to_integer)) &
+      ,test_description_t("construction from the integer expression 'i .greaterThan. j"                                        , usher(check_greater_than_integer)) &
+      ,test_description_t("construction from the integer expression '[i,j] .greaterThanOrEqualTo. k"                           , usher(check_greater_than_or_equal_to_integer)) &
+      ,test_description_t("construction from the scalar test_diagnostics_t expression 't .and. u'"                             , usher(check_and_with_scalar_operands)) &
+      ,test_description_t("construction from the vector test_diagnostics_t expressions 'i .equalsExpected. [j,k]'"             , usher(check_and_with_vector_operands)) &
+      ,test_description_t("construction from string concatenation"                                                             , usher(check_string_concatentation)) &
+      ,test_description_t("construction from character concatenation"                                                          , usher(check_character_concatentation)) &
+      ,test_description_t("construction from (.expects. logical-expression) // 'user-defined message'"                         , usher(check_expects_logical)) &
     ]
     test_results = test_diagnosis_test%run(test_descriptions)
   end function

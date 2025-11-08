@@ -12,7 +12,7 @@ module julienne_test_description_m
   private
   public :: test_description_t
   public :: filter
-  public :: bless
+  public :: usher
 
   type test_description_t
     !! Encapsulate test descriptions and test-functions
@@ -27,7 +27,7 @@ module julienne_test_description_m
     procedure, private ::      equals
   end type
 
-  type bless
+  type usher
     procedure(diagnosis_function_i), pointer, nopass :: ptr => null()
   end type
 
@@ -41,11 +41,11 @@ module julienne_test_description_m
       type(test_description_t) test_description
     end function
 
-    module function construct_from_string_bless(description, diagnosis_function) result(test_description)
+    module function construct_from_string_usher(description, diagnosis_function) result(test_description)
       !! The result is a test_description_t object with the components defined by the dummy arguments
       implicit none
       type(string_t), intent(in) :: description
-      type(bless), intent(in) :: diagnosis_function
+      type(usher), intent(in) :: diagnosis_function
       type(test_description_t) test_description
     end function
 
@@ -65,11 +65,11 @@ module julienne_test_description_m
       type(test_description_t) test_description
     end function
 
-    module function construct_from_characters_bless(description, diagnosis_function) result(test_description)
+    module function construct_from_characters_usher(description, diagnosis_function) result(test_description)
       !! The result is a test_description_t object with the components defined by the dummy arguments
       implicit none
       character(len=*), intent(in) :: description
-      type(bless), intent(in) :: diagnosis_function
+      type(usher), intent(in) :: diagnosis_function
       type(test_description_t) test_description
     end function
 

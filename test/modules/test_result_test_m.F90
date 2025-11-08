@@ -8,7 +8,7 @@ module test_result_test_m
   use julienne_m, only : &
      operator(.expect.) &
     ,string_t &
-    ,bless &
+    ,usher &
     ,test_description_t &
     ,test_diagnosis_t &
     ,test_result_t &
@@ -37,7 +37,7 @@ contains
     type(test_result_test_t) test_result_test
 
     test_descriptions = [ &
-      test_description_t(string_t("constructing an array of test_result_t objects elementally"), bless(check_array_result_construction)) &
+      test_description_t(string_t("constructing an array of test_result_t objects elementally"), usher(check_array_result_construction)) &
     ]
     test_results = test_result_test%run(test_descriptions)
   end function

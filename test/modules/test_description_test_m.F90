@@ -12,7 +12,7 @@ module test_description_test_m
     ,test_result_t &
     ,test_description_t &
     ,test_diagnosis_t &
-    ,bless &
+    ,usher &
     ,operator(.also.) &
     ,test_t
   implicit none
@@ -39,7 +39,7 @@ contains
     type(test_description_test_t) test_description_test
 
     test_descriptions = [ &
-      test_description_t("identical construction from equivalent arguments", bless(check_constructors_match)) &
+      test_description_t("identical construction from equivalent arguments", usher(check_constructors_match)) &
     ]
     test_results = test_description_test%run(test_descriptions)
   end function
@@ -64,16 +64,16 @@ contains
     )
 #endif
     test_diagnosis = test_diagnosis .also. test_diagnosis_t( &
-       test_passed = test_description_t("foo", tautology_ptr) == test_description_t("foo", bless(tautology)) &
-      ,diagnostics_string= 'test_description_t("foo", tautology_ptr) /= test_description_t("foo", bless(tautology))'&
+       test_passed = test_description_t("foo", tautology_ptr) == test_description_t("foo", usher(tautology)) &
+      ,diagnostics_string= 'test_description_t("foo", tautology_ptr) /= test_description_t("foo", usher(tautology))'&
     )
     test_diagnosis = test_diagnosis .also. test_diagnosis_t( &
        test_passed = test_description_t("foo", tautology_ptr) == test_description_t("foo", c_funloc(tautology)) &
       ,diagnostics_string= 'test_description_t("foo", tautology_ptr) /= test_description_t("foo", c_funloc(tautology))'&
     )
     test_diagnosis = test_diagnosis .also. test_diagnosis_t( &
-       test_passed = test_description_t(string_t("foo"), tautology_ptr) == test_description_t(string_t("foo"), bless(tautology)) &
-      ,diagnostics_string= 'test_description_t(string_t("foo"), tautology_ptr) /= test_description_t(string_t("foo"), bless(tautology))'&
+       test_passed = test_description_t(string_t("foo"), tautology_ptr) == test_description_t(string_t("foo"), usher(tautology)) &
+      ,diagnostics_string= 'test_description_t(string_t("foo"), tautology_ptr) /= test_description_t(string_t("foo"), usher(tautology))'&
     )
     test_diagnosis = test_diagnosis .also. test_diagnosis_t( &
        test_passed = test_description_t(string_t("foo"), tautology_ptr) == test_description_t(string_t("foo"), c_funloc(tautology)) &

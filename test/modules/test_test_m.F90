@@ -7,7 +7,7 @@ module test_test_m
   !! Conditionally test that failure of a test on only one image is reported as a test failure
   use julienne_m, only : &
      operator(.expect.) &
-    ,bless &
+    ,usher &
     ,test_description_t &
     ,test_diagnosis_t &
     ,test_result_t &
@@ -35,7 +35,7 @@ contains
     type(test_test_t) test_test
 
     test_results = test_test%run([ &
-      test_description_t("reporting failure if a single image fails a test", bless(check_one_image_fails)) &
+      test_description_t("reporting failure if a single image fails a test", usher(check_one_image_fails)) &
     ])
   end function
 
