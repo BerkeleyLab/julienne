@@ -33,14 +33,6 @@ module julienne_test_description_m
 
   interface test_description_t
 
-    module function construct_from_string(description, diagnosis_function) result(test_description)
-      !! The result is a test_description_t object with the components defined by the dummy arguments
-      implicit none
-      type(string_t), intent(in) :: description
-      procedure(diagnosis_function_i), intent(in), pointer, optional :: diagnosis_function
-      type(test_description_t) test_description
-    end function
-
     module function construct_from_string_funloc(description, diagnosis_function) result(test_description)
       !! The result is a test_description_t object with the components defined by the dummy arguments
       implicit none
@@ -57,10 +49,10 @@ module julienne_test_description_m
       type(test_description_t) test_description
     end function
 
-    module function construct_from_characters(description, diagnosis_function) result(test_description)
+    module function construct_from_string(description, diagnosis_function) result(test_description)
       !! The result is a test_description_t object with the components defined by the dummy arguments
       implicit none
-      character(len=*), intent(in) :: description
+      type(string_t), intent(in) :: description
       procedure(diagnosis_function_i), intent(in), pointer, optional :: diagnosis_function
       type(test_description_t) test_description
     end function
@@ -78,6 +70,14 @@ module julienne_test_description_m
       implicit none
       character(len=*), intent(in) :: description
       type(bless), intent(in) :: diagnosis_function
+      type(test_description_t) test_description
+    end function
+
+    module function construct_from_characters(description, diagnosis_function) result(test_description)
+      !! The result is a test_description_t object with the components defined by the dummy arguments
+      implicit none
+      character(len=*), intent(in) :: description
+      procedure(diagnosis_function_i), intent(in), pointer, optional :: diagnosis_function
       type(test_description_t) test_description
     end function
 
