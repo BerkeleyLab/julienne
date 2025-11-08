@@ -12,7 +12,7 @@ module formats_test_m
    ,test_description_t &
    ,test_diagnosis_t &
    ,test_result_t &
-   ,bless &
+   ,usher &
    ,test_t
 
   implicit none
@@ -39,11 +39,11 @@ contains
     type(formats_test_t) formats_test
 
     test_descriptions = [ &
-      test_description_t(string_t("yielding a comma-separated list of real numbers"), bless(check_csv_reals)), &
-      test_description_t(string_t("yielding a comma-separated list of double-precision numbers"), bless(check_csv_double_precision)), &
-      test_description_t(string_t("yielding a space-separated list of complex numbers"), bless(check_space_separated_complex)), &
-      test_description_t(string_t("yielding a comma- and space-separated list of character values"), bless(check_csv_character)), &
-      test_description_t(string_t("yielding a new-line-separated list of integer numbers"), bless(check_new_line_separated_integers)) &
+      test_description_t(string_t("yielding a comma-separated list of real numbers"), usher(check_csv_reals)), &
+      test_description_t(string_t("yielding a comma-separated list of double-precision numbers"), usher(check_csv_double_precision)), &
+      test_description_t(string_t("yielding a space-separated list of complex numbers"), usher(check_space_separated_complex)), &
+      test_description_t(string_t("yielding a comma- and space-separated list of character values"), usher(check_csv_character)), &
+      test_description_t(string_t("yielding a new-line-separated list of integer numbers"), usher(check_new_line_separated_integers)) &
     ]
     test_results = formats_test%run(test_descriptions)
   end function

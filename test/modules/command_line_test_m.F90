@@ -14,7 +14,7 @@ module command_line_test_m
     ,test_description_t &
     ,test_diagnosis_t &
     ,test_result_t &
-    ,bless &
+    ,usher &
     ,test_t
 
   implicit none
@@ -82,11 +82,11 @@ contains
       end if
     else ! run the tests
       test_descriptions = [ &
-         test_description_t(string_t("flag_value() result is the value passed after a command-line flag"), bless(check_flag_value)) &
-        ,test_description_t(string_t("flag_value() result is an empty string if command-line flag value is missing"), bless(check_flag_value_missing)) &
-        ,test_description_t(string_t("flag_value() result is an empty string if command-line flag is missing"), bless(check_flag_missing)) &
-        ,test_description_t(string_t("argument_present() result is .false. if a command-line argument is missing"), bless(check_argument_missing)) &
-        ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present"), bless(check_argument_present)) &
+         test_description_t(string_t("flag_value() result is the value passed after a command-line flag"), usher(check_flag_value)) &
+        ,test_description_t(string_t("flag_value() result is an empty string if command-line flag value is missing"), usher(check_flag_value_missing)) &
+        ,test_description_t(string_t("flag_value() result is an empty string if command-line flag is missing"), usher(check_flag_missing)) &
+        ,test_description_t(string_t("argument_present() result is .false. if a command-line argument is missing"), usher(check_argument_missing)) &
+        ,test_description_t(string_t("argument_present() result is .true. if a command-line argument is present"), usher(check_argument_present)) &
       ]
     end if skip_all_tests_if_running_github_ci
 

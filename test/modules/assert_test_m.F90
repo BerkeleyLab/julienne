@@ -14,7 +14,7 @@ module assert_test_m
     ,operator(.equalsExpected.) &
     ,test_diagnosis_t &
     ,test_t &
-    ,bless &
+    ,usher &
     ,test_description_t &
     ,test_result_t &
     ,operator(.approximates.) &
@@ -43,9 +43,9 @@ contains
     type(assert_test_t) assert_test
 
     test_descriptions = [ &
-       test_description_t("invocation via the call_julienne_assert macro", bless(check_call_julienne_assert_macro)) &
-      ,test_description_t("invocation via direct call", bless(check_julienne_assert_call)) &
-      ,test_description_t("invocation removal after undefining the ASSERTIONS macro", bless(check_macro_removal)) &
+       test_description_t("invocation via the call_julienne_assert macro", usher(check_call_julienne_assert_macro)) &
+      ,test_description_t("invocation via direct call", usher(check_julienne_assert_call)) &
+      ,test_description_t("invocation removal after undefining the ASSERTIONS macro", usher(check_macro_removal)) &
     ]
     test_results = assert_test%run(test_descriptions)
   end function

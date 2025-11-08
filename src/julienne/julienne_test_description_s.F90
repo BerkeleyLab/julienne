@@ -25,7 +25,7 @@ contains
       call_assert(allocated(test_description%description_))
     end procedure
 
-    module procedure construct_from_characters_bless
+    module procedure construct_from_characters_usher
       test_description%description_ = description
       test_description%diagnosis_function_ => diagnosis_function%ptr
       call_assert(allocated(test_description%description_))
@@ -43,7 +43,7 @@ contains
       call_assert(allocated(test_description%description_))
     end procedure
 
-    module procedure construct_from_string_bless
+    module procedure construct_from_string_usher
       test_description%description_ = description
       test_description%diagnosis_function_ => diagnosis_function%ptr
       call_assert(allocated(test_description%description_))
