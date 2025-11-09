@@ -51,8 +51,6 @@ contains
 
     module procedure run
 
-      type(test_diagnosis_t) test_diagnosis
-
       call_assert(allocated(self%description_))
 
       if (associated(self%diagnosis_function_)) then

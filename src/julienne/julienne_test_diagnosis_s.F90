@@ -259,7 +259,6 @@ contains
       test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
     else
       block
-        integer(c_intptr_t) actual_c_loc, expected_c_loc
         integer(c_intptr_t), parameter :: mold = 0_c_intptr_t
 
         associate(actual_c_loc => transfer(actual, mold), expected_c_loc => transfer(expected, mold))

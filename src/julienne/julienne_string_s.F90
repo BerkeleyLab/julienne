@@ -376,6 +376,7 @@ contains
     associate(colon => index(raw_line, ":"))
       associate(opening_bracket => colon + index(raw_line(colon+1:), "["))
         associate(closing_bracket => opening_bracket + index(raw_line(opening_bracket+1:), "]"))
+          i = 0 ! silence a harmless/bogus warning from gfortran
           associate(commas => count("," == [(raw_line(i:i), i=opening_bracket+1,closing_bracket-1)]))
             associate(num_inputs => commas + 1)
               allocate(real_array(num_inputs))
@@ -400,6 +401,7 @@ contains
     associate(colon => index(raw_line, ":"))
       associate(opening_bracket => colon + index(raw_line(colon+1:), "["))
         associate(closing_bracket => opening_bracket + index(raw_line(opening_bracket+1:), "]"))
+          i = 0 ! silence a harmless/bogus warning from gfortran
           associate(commas => count("," == [(raw_line(i:i), i=opening_bracket+1,closing_bracket-1)]))
             associate(num_inputs => commas + 1)
               allocate(double_precision_array(num_inputs))
