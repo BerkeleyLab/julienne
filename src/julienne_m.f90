@@ -17,7 +17,8 @@ module julienne_m
     ,operator(.separatedBy.) & ! same as operator(.sv.)
     ,operator(.sv.)
   use julienne_test_description_m, only : test_description_t, filter, usher
-  use julienne_test_diagnosis_m, only   : test_diagnosis_t, diagnosis_function_i  &
+  use julienne_test_diagnosis_m, only : &
+     diagnosis_function_i &
     ,operator(//) &
     ,operator(.all.) &
     ,operator(.also.) &
@@ -35,7 +36,9 @@ module julienne_m
     ,operator(.greaterThanOrEqualTo.) & ! same as operator(.isAtLeast.)
     ,operator(.within.) &
     ,operator(.withinFraction.) &
-    ,operator(.withinPercentage.)
+    ,operator(.withinPercentage.) &
+    ,passing_test &
+    ,test_diagnosis_t
   use julienne_test_fixture_m, only : test_fixture_t
   use julienne_test_harness_m, only : test_harness_t
   use julienne_test_result_m,  only : test_result_t
