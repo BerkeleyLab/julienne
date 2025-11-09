@@ -12,6 +12,7 @@ module julienne_test_diagnosis_m
   private
   public :: test_diagnosis_t
   public :: diagnosis_function_i
+  public :: passing_test
   public :: operator(//)
   public :: operator(.all.)
   public :: operator(.also.)
@@ -39,6 +40,8 @@ module julienne_test_diagnosis_m
   contains
     procedure, non_overridable :: test_passed
     procedure, non_overridable ::  diagnostics_string
+    generic :: assignment(=) => assign_logical
+    procedure, non_overridable, private ::  assign_logical
   end type
 
   abstract interface
@@ -534,6 +537,18 @@ module julienne_test_diagnosis_m
   end interface
 
   interface
+
+    module subroutine assign_logical(lhs, rhs)
+      implicit none
+      class(test_diagnosis_t), intent(out) :: lhs
+      logical, intent(in) :: rhs
+    end subroutine
+
+    elemental module function passing_test() result(test_diagnosis)
+      !! Construct a passing test diagnosis with a zero-length diagnostics string
+      implicit none
+      type(test_diagnosis_t) test_diagnosis
+    end function
 
     elemental module function test_passed(self) result(passed)
       !! The result is .true. if the test passed on the executing image and false otherwise

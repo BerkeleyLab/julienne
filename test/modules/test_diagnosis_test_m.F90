@@ -11,6 +11,7 @@ module test_diagnosis_test_m
     ,test_t &
     ,test_description_t &
     ,test_diagnosis_t &
+    ,passing_test &
     ,test_result_t &
     ,usher &
     ,operator(//) &
@@ -80,6 +81,9 @@ contains
       ,test_description_t("construction from string concatenation"                                                             , usher(check_string_concatentation)) &
       ,test_description_t("construction from character concatenation"                                                          , usher(check_character_concatentation)) &
       ,test_description_t("construction from (.expects. logical-expression) // 'user-defined message'"                         , usher(check_expects_logical)) &
+      ,test_description_t("construction from (.expects. logical-expression) // 'user-defined message'"                         , usher(check_expects_logical)) &
+      ,test_description_t("defining a test_diagnosis_t object by assigning a logical value"                                    , usher(check_assigns_logical)) &
+      ,test_description_t("hardwiring a test to pass via the passing_test() function"                                          , usher(check_passing_test_function)) &
     ]
     test_results = test_diagnosis_test%run(test_descriptions)
   end function
@@ -280,6 +284,16 @@ contains
     type(test_diagnosis_t) test_diagnosis
     integer, allocatable :: A(:)
     test_diagnosis = .expect. (.not. allocated(A)) // "(expected unallocated array A)"
+  end function
+
+  function check_assigns_logical() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    test_diagnosis = .true.
+  end function
+
+  function check_passing_test_function() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    test_diagnosis = passing_test()
   end function
 
 end module test_diagnosis_test_m
