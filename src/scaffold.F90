@@ -33,7 +33,6 @@ program scaffold
 #else
   block
     character(len=:), allocatable ::  path, subjects_file_name
-    type(file_t) driver
     subjects_file_name = command_line%flag_value("--json-file")
     if (len(subjects_file_name) == 0) call print_usage_info_and_stop
     print '(*(a))', "Reading test subject information from " // subjects_file_name
@@ -56,7 +55,6 @@ program scaffold
 contains
 
     logical function help_requested()
-      character(len=:), allocatable :: file_name
       type(command_line_t) command_line
       help_requested = command_line%argument_present([character(len=len("--help"))::"--help","-h"])
     end function

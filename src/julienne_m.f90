@@ -1,8 +1,6 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
-#include "language-support.F90"
-
 module julienne_m
   !! Global aggregation of all public entities
   use julienne_assert_m, only : call_julienne_assert_, julienne_assert
