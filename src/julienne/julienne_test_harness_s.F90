@@ -12,7 +12,11 @@ submodule(julienne_test_harness_m) julienne_test_harness_s
 contains
 
     module procedure component_constructor
-      allocate(test_harness%test_fixture_, source = test_fixtures)
+#ifndef __GNUC__
+      test_harness%test_fixture_ = test_fixtures ! causes a nagfor internal compiler error
+#else
+      allocate(test_harness%test_fixture_, source = test_fixtures) ! eliminates a harmless gfortran warning
+#endif
     end procedure
 
     module procedure report_results
