@@ -544,7 +544,7 @@ module julienne_test_diagnosis_m
       logical, intent(in) :: rhs
     end subroutine
 
-    elemental module function passing_test() result(test_diagnosis)
+    pure module function passing_test() result(test_diagnosis)
       !! Construct a passing test diagnosis with a zero-length diagnostics string
       implicit none
       type(test_diagnosis_t) test_diagnosis
