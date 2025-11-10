@@ -30,7 +30,7 @@ contains
 
 
   module procedure from_components
-    test_suite%test_subjects_ = test_subjects
+    allocate(test_suite%test_subjects_, source = test_subjects)
   end procedure
 
   module procedure from_file
@@ -142,7 +142,6 @@ contains
 
   module procedure write_driver
     integer file_unit, l
-    type(string_t) use_statement, fixture_constructor
     type(string_t), allocatable :: test_modules(:), test_types(:)
 
     open(newunit=file_unit, file=file_name, form='formatted', status='unknown', action='write')

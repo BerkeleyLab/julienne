@@ -12,7 +12,7 @@ submodule(julienne_test_harness_m) julienne_test_harness_s
 contains
 
     module procedure component_constructor
-      test_harness%test_fixture_ = test_fixtures
+      allocate(test_harness%test_fixture_, source = test_fixtures)
     end procedure
 
     module procedure report_results
