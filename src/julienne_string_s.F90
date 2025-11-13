@@ -129,7 +129,7 @@ contains
     remainder = trim(adjustl(delimited_strings))
     allocate(strings_array(0))
 
-    do  
+    do
       next_delimiter = index(remainder, delimiter)
       string_end = merge(len(remainder), next_delimiter-1, next_delimiter==0)
       next_string = trim(adjustl(remainder(:string_end)))
@@ -148,7 +148,7 @@ contains
     character(len=:), allocatable :: raw_line
   
     raw_line = self%string()
-    associate(opening_key_quotes => index(raw_line, '"'), separator => index(raw_line, ':'))
+    associate(opening_key_quotes => index(raw_line, '"'))
       associate(closing_key_quotes => opening_key_quotes + index(raw_line(opening_key_quotes+1:), '"'))
         unquoted_key = string_t(trim(raw_line(opening_key_quotes+1:closing_key_quotes-1)))
       end associate
@@ -192,6 +192,7 @@ contains
     value_ = self%get_double_precision(string_t(key), mold)
   end procedure
 
+#ifndef NAGFOR
   module procedure get_real
     character(len=:), allocatable :: raw_line, string_value
 
@@ -210,7 +211,27 @@ contains
     end associate
 
   end procedure
+#else
+  module procedure get_real
+    character(len=:), allocatable :: raw_line, string_value, text_after_colon
 
+    call_julienne_assert(self%get_json_key() .equalsExpected. key)
+
+    raw_line = self%string()
+    text_after_colon = raw_line(index(raw_line, ':')+1:)
+    associate(trailing_comma => index(text_after_colon, ','))
+      if (trailing_comma == 0) then
+        string_value = trim(adjustl((text_after_colon)))
+      else
+        string_value = trim(adjustl((text_after_colon(:trailing_comma-1))))
+      end if
+      read(string_value, fmt=*) value_
+    end associate
+
+  end procedure
+#endif
+
+#ifndef NAGFOR
   module procedure get_double_precision
     character(len=:), allocatable :: raw_line, string_value
 
@@ -221,7 +242,7 @@ contains
       associate(trailing_comma => index(text_after_colon, ','))
         if (trailing_comma == 0) then
           string_value = trim(adjustl((text_after_colon)))
-        else 
+        else
           string_value = trim(adjustl((text_after_colon(:trailing_comma-1))))
         end if
         read(string_value, fmt=*) value_
@@ -229,6 +250,26 @@ contains
     end associate
 
   end procedure
+#else
+  module procedure get_double_precision
+    character(len=:), allocatable :: raw_line, string_value, text_after_colon
+    integer trailing_comma
+
+    call_julienne_assert(self%get_json_key() .equalsExpected. key)
+
+    raw_line = self%string()
+    text_after_colon = raw_line(index(raw_line, ':')+1:)
+    associate(trailing_comma => index(text_after_colon, ','))
+      if (trailing_comma == 0) then
+        string_value = trim(adjustl((text_after_colon)))
+      else
+        string_value = trim(adjustl((text_after_colon(:trailing_comma-1))))
+      end if
+      read(string_value, fmt=*) value_
+    end associate
+
+  end procedure
+#endif
 
   module procedure get_character_with_string_key
     associate(string_value => self%get_string_with_string_key(key, string_t(mold)))
@@ -252,6 +293,7 @@ contains
     value_ = self%get_string_t_array_with_character_key(key%string(), mold)
   end procedure
 
+#ifndef NAGFOR
   module procedure get_string_t_array_with_character_key
 
     character(len=:), allocatable :: raw_line
@@ -280,7 +322,37 @@ contains
       end associate
     end associate
   end procedure
+#else
+  module procedure get_string_t_array_with_character_key
 
+    character(len=:), allocatable :: raw_line
+    integer i, comma, opening_quotes, closing_quotes, opening_bracket
+
+    call_julienne_assert(self%get_json_key() .equalsExpected. key)
+
+    raw_line = self%string()
+
+    associate(colon => index(raw_line, ':'))
+      opening_bracket = colon + index(raw_line(colon+1:), '[')
+      associate(closing_bracket => opening_bracket + index(raw_line(opening_bracket+1:), ']'))
+        associate(commas => count([(raw_line(i:i)==",", i = opening_bracket+1, closing_bracket-1)]))
+          allocate(value_(commas+1))
+          opening_quotes = opening_bracket + index(raw_line(opening_bracket+1:), '"')
+          closing_quotes = opening_quotes + index(raw_line(opening_quotes+1:), '"')
+          value_(1) = raw_line(opening_quotes+1:closing_quotes-1)
+          do i = 1, commas
+            comma = closing_quotes + index(raw_line(closing_quotes+1:), ',')
+            opening_quotes = comma + index(raw_line(comma+1:), '"')
+            closing_quotes = opening_quotes + index(raw_line(opening_quotes+1:), '"')
+            value_(i+1) = raw_line(opening_quotes+1:closing_quotes-1)
+          end do
+        end associate
+      end associate
+    end associate
+  end procedure
+#endif
+
+#ifndef NAGFOR
   module procedure get_string_with_string_key
 
     character(len=:), allocatable :: raw_line
@@ -301,11 +373,33 @@ contains
     end associate
 
   end procedure
+#else
+  module procedure get_string_with_string_key
+
+    character(len=:), allocatable :: raw_line, text_after_colon 
+    integer opening_value_quotes
+
+    call_julienne_assert(self%get_json_key() .equalsExpected. key)
+
+    raw_line = self%string()
+    text_after_colon = raw_line(index(raw_line, ':')+1:)
+    opening_value_quotes = index(text_after_colon, '"')
+    associate(closing_value_quotes => opening_value_quotes + index(text_after_colon(opening_value_quotes+1:), '"'))
+      if (any([opening_value_quotes, closing_value_quotes] == 0)) then
+        value_ = string_t(trim(adjustl((text_after_colon))))
+      else
+        value_ = string_t(text_after_colon(opening_value_quotes+1:closing_value_quotes-1))
+      end if
+    end associate
+
+  end procedure
+#endif
 
   module procedure get_logical_with_character_key
     value_ = self%get_logical(string_t(key), mold)
   end procedure
 
+#ifndef NAGFOR
   module procedure get_logical
     character(len=:), allocatable :: raw_line, string_value
 
@@ -325,7 +419,28 @@ contains
     end associate
 
   end procedure
+#else
+  module procedure get_logical
+    character(len=:), allocatable :: raw_line, string_value, text_after_colon
+    integer trailing_comma
 
+    call_julienne_assert(self%get_json_key() .equalsExpected. key)
+
+    raw_line = self%string()
+    text_after_colon = raw_line(index(raw_line, ':')+1:)
+    trailing_comma = index(text_after_colon, ',')
+    if (trailing_comma == 0) then
+      string_value = trim(adjustl((text_after_colon)))
+    else 
+      string_value = trim(adjustl((text_after_colon(:trailing_comma-1))))
+    end if
+    call_assert(any(string_value==['true ', 'false']))
+    value_ = string_value == "true"
+
+  end procedure
+#endif
+
+#ifndef NAGFOR
   module procedure get_integer
     character(len=:), allocatable :: raw_line, string_value
 
@@ -344,6 +459,25 @@ contains
     end associate
 
   end procedure
+#else
+  module procedure get_integer
+    character(len=:), allocatable :: raw_line, string_value, text_after_colon
+    integer trailing_comma 
+
+    call_julienne_assert(self%get_json_key() .equalsExpected. key)
+
+    raw_line = self%string()
+    text_after_colon = raw_line(index(raw_line, ':')+1:)
+    trailing_comma = index(text_after_colon, ',')
+    if (trailing_comma == 0) then
+      string_value = trim(adjustl((text_after_colon)))
+    else 
+      string_value = trim(adjustl((text_after_colon(:trailing_comma-1))))
+    end if
+    read(string_value, fmt=*) value_
+
+  end procedure
+#endif
 
   module procedure get_integer_with_character_key
     value_ = self%get_integer(string_t(key), mold)
