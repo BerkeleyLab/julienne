@@ -148,7 +148,7 @@ contains
     character(len=:), allocatable :: raw_line
   
     raw_line = self%string()
-    associate(opening_key_quotes => index(raw_line, '"'), separator => index(raw_line, ':'))
+    associate(opening_key_quotes => index(raw_line, '"'))
       associate(closing_key_quotes => opening_key_quotes + index(raw_line(opening_key_quotes+1:), '"'))
         unquoted_key = string_t(trim(raw_line(opening_key_quotes+1:closing_key_quotes-1)))
       end associate
