@@ -31,6 +31,7 @@ module test_diagnosis_test_m
     ,operator(.greaterThan.) &
     ,operator(.isAtLeast.)
   use iso_c_binding, only : c_ptr, c_loc, c_bool
+  use iso_fortran_env, only : int64
   implicit none
 
   private
@@ -72,6 +73,7 @@ contains
       ,test_description_t("construction from the type(c_ptr) expression 'p .equalsExpected. q'"                                , usher(check_equals_c_ptr)) &
       ,test_description_t("construction from the string_t expression 'a .equalsExpected. b'"                                   , usher(check_equals_string)) &
       ,test_description_t("construction from the integer expression 'i .equalsExpected. j'"                                    , usher(check_equals_integer)) &
+      ,test_description_t("construction from integer(int64) relational operators"                                              , usher(check_int64_comparisons)) &
       ,test_description_t("construction from the integer expression 'i .lessThan. j"                                           , usher(check_less_than_integer)) &
       ,test_description_t("construction from the integer expression '[i,j] .lessThanOrEqualTo. k"                              , usher(check_less_than_or_equal_to_integer)) &
       ,test_description_t("construction from the integer expression 'i .greaterThan. j"                                        , usher(check_greater_than_integer)) &
@@ -180,6 +182,16 @@ contains
     type(test_diagnosis_t) test_diagnosis
     real, parameter :: expected_ceiling = 1.
     test_diagnosis = 0. .lessThan. expected_ceiling
+  end function
+
+  function check_int64_comparisons() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    integer(int64), parameter :: zero = 0_int64, one = 1_int64, two = 2_int64
+    test_diagnosis = &
+             ( zero .lessThan.    one) &
+      .also. ( one  .isAtLeast.   one) &
+      .also. (-one  .isAtMost.   zero) &
+      .also. ( two  .greaterThan. one)
   end function
 
   function check_less_than_double() result(test_diagnosis)

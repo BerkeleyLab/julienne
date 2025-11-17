@@ -294,7 +294,7 @@ contains
 
   end procedure
 
-  module procedure equals_expected_integer_c_size_t
+  module procedure equals_expected_int64
 
     if (actual == expected) then
       test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
@@ -390,7 +390,31 @@ contains
 
   end procedure
 
+  module procedure less_than_int64
+
+    if (actual < expected_ceiling) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be less than " // string_t(expected_ceiling) &
+      )
+    end if
+
+  end procedure
+
   module procedure less_than_or_equal_to_integer
+
+    if (actual <= expected_max) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be less than or equal to " // string_t(expected_max) &
+      )
+    end if
+
+  end procedure
+
+  module procedure less_than_or_equal_to_int64
 
     if (actual <= expected_max) then
       test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
@@ -427,6 +451,18 @@ contains
   end procedure
 
   module procedure greater_than_or_equal_to_integer
+
+    if (actual >= expected_min) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be greater than or equal to " // string_t(expected_min) &
+      )
+    end if
+
+  end procedure
+
+  module procedure greater_than_or_equal_to_int64
 
     if (actual >= expected_min) then
       test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
@@ -487,6 +523,18 @@ contains
   end procedure
 
   module procedure greater_than_integer
+
+    if (actual > expected_floor) then
+      test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
+    else
+      test_diagnosis = test_diagnosis_t(test_passed = .false. &
+        ,diagnostics_string = "The value " // string_t(actual) // " was expected to be greater than " // string_t(expected_floor) &
+      )
+    end if
+
+  end procedure
+
+  module procedure greater_than_int64
 
     if (actual > expected_floor) then
       test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
