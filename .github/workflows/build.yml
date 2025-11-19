@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-13, macos-14, macos-15, macos-15-intel, ubuntu-24.04]
+        os: [ macos-14, macos-15, macos-15-intel, macos-26, ubuntu-24.04 ]
         compiler: [ gfortran ]
         version: [ 13, 14, 15 ]
         extra_flags: [ -g -O3 ]
@@ -164,6 +164,9 @@ jobs:
         else \
           echo "FPM_FC=gfortran-${COMPILER_VERSION}" >> "$GITHUB_ENV" ; \
           echo "FFLAGS=-ffree-line-length-0 $FFLAGS" >> "$GITHUB_ENV" ; \
+        fi
+        if [[ "${{ matrix.container }}" =~ "snowstep/llvm" ]] ; then \
+          echo "LD_LIBRARY_PATH=/usr/lib/llvm-22/lib:$LD_LIBRARY_PATH" >> "$GITHUB_ENV" ; \
         fi
         if test -n "${{ matrix.error_stop_code }}" ; then \
           echo "ERROR_STOP_CODE=${{ matrix.error_stop_code }}" >> "$GITHUB_ENV" ; \
