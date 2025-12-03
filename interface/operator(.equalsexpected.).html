@@ -149,8 +149,8 @@
             <a class="list-group-item" href="../interface/operator(.equalsexpected.).html#proc-equals_expected_c_ptr">equals_expected_c_ptr</a>
             <a class="list-group-item" href="../interface/operator(.equalsexpected.).html#proc-equals_expected_character">equals_expected_character</a>
             <a class="list-group-item" href="../interface/operator(.equalsexpected.).html#proc-equals_expected_character_vs_string">equals_expected_character_vs_string</a>
+            <a class="list-group-item" href="../interface/operator(.equalsexpected.).html#proc-equals_expected_int64">equals_expected_int64</a>
             <a class="list-group-item" href="../interface/operator(.equalsexpected.).html#proc-equals_expected_integer">equals_expected_integer</a>
-            <a class="list-group-item" href="../interface/operator(.equalsexpected.).html#proc-equals_expected_integer_c_size_t">equals_expected_integer_c_size_t</a>
             <a class="list-group-item" href="../interface/operator(.equalsexpected.).html#proc-equals_expected_string">equals_expected_string</a>
             <a class="list-group-item" href="../interface/operator(.equalsexpected.).html#proc-equals_expected_string_vs_character">equals_expected_string_vs_character</a>
         </div>
@@ -357,6 +357,66 @@
   </div>
 
             <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-equals_expected_int64"></span> <h3>private elemental module function equals_expected_int64(actual, expected) result(test_diagnosis)  
+    <a href="../proc/equals_expected_int64.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-actual~8"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>actual</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-expected~8"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>expected</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-equals_expected_integer"></span> <h3>private elemental module function equals_expected_integer(actual, expected) result(test_diagnosis)  
     <a href="../proc/equals_expected_integer.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3></div>
@@ -393,66 +453,6 @@
             <td>
               <span class="anchor" id="variable-expected~7"></span>
               integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>expected</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-equals_expected_integer_c_size_t"></span> <h3>private elemental module function equals_expected_integer_c_size_t(actual, expected) result(test_diagnosis)  
-    <a href="../proc/equals_expected_integer_c_size_t.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-        
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-actual~8"></span>
-              integer(kind=c_size_t),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>actual</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-expected~8"></span>
-              integer(kind=c_size_t),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -615,7 +615,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-11-20 00:21 +0000             </p>
+ on 2025-12-03 18:24 +0000             </p>
           </div>
         </div>
         <br>

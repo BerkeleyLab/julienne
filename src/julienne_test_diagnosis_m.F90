@@ -6,7 +6,8 @@
 module julienne_test_diagnosis_m
   !! Define abstractions, defined operations, and procedures for writing correctness checks
   use julienne_string_m, only : string_t
-  use iso_c_binding, only : c_size_t, c_ptr
+  use iso_fortran_env, only : int64
+  use iso_c_binding, only : c_ptr
   implicit none
 
   private
@@ -256,9 +257,9 @@ module julienne_test_diagnosis_m
       type(test_diagnosis_t) test_diagnosis
     end function
 
-    elemental module function equals_expected_integer_c_size_t(actual, expected) result(test_diagnosis)
+    elemental module function equals_expected_int64(actual, expected) result(test_diagnosis)
       implicit none
-      integer(c_size_t), intent(in) :: actual, expected
+      integer(int64), intent(in) :: actual, expected
       type(test_diagnosis_t) test_diagnosis
     end function
 
@@ -310,6 +311,12 @@ module julienne_test_diagnosis_m
       type(test_diagnosis_t) test_diagnosis
     end function
 
+    elemental module function less_than_int64(actual, expected_ceiling) result(test_diagnosis)
+      implicit none
+      integer(int64), intent(in) :: actual, expected_ceiling
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
   end interface
 
   interface operator(.lessThanOrEqualTo.)
@@ -317,6 +324,12 @@ module julienne_test_diagnosis_m
     elemental module function less_than_or_equal_to_integer(actual, expected_max) result(test_diagnosis)
       implicit none
       integer, intent(in) :: actual, expected_max
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    elemental module function less_than_or_equal_to_int64(actual, expected_max) result(test_diagnosis)
+      implicit none
+      integer(int64), intent(in) :: actual, expected_max
       type(test_diagnosis_t) test_diagnosis
     end function
 
@@ -336,12 +349,14 @@ module julienne_test_diagnosis_m
 
   interface operator(.isAtMost.)
     module procedure less_than_or_equal_to_integer
+    module procedure less_than_or_equal_to_int64
     module procedure less_than_or_equal_to_real
     module procedure less_than_or_equal_to_double_precision
   end interface
 
   interface operator(.isAtLeast.)
     module procedure greater_than_or_equal_to_integer
+    module procedure greater_than_or_equal_to_int64
     module procedure greater_than_or_equal_to_real
     module procedure greater_than_or_equal_to_double_precision
   end interface
@@ -414,6 +429,12 @@ module julienne_test_diagnosis_m
       type(test_diagnosis_t) test_diagnosis
     end function
 
+    elemental module function greater_than_or_equal_to_int64(actual, expected_min) result(test_diagnosis)
+      implicit none
+      integer(int64), intent(in) :: actual, expected_min
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
     elemental module function greater_than_or_equal_to_real(actual, expected_min) result(test_diagnosis)
       implicit none
       real, intent(in) :: actual, expected_min
@@ -445,6 +466,12 @@ module julienne_test_diagnosis_m
     elemental module function greater_than_integer(actual, expected_floor) result(test_diagnosis)
       implicit none
       integer, intent(in) :: actual, expected_floor
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    elemental module function greater_than_int64(actual, expected_floor) result(test_diagnosis)
+      implicit none
+      integer(int64), intent(in) :: actual, expected_floor
       type(test_diagnosis_t) test_diagnosis
     end function
 
