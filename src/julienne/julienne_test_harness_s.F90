@@ -4,7 +4,7 @@
 #include "language-support.F90"
 
 submodule(julienne_test_harness_m) julienne_test_harness_s
-  use iso_fortran_env, only : int64, real64, output_unit
+  use iso_fortran_env, only : int64, real64
   use julienne_command_line_m, only : command_line_t
   use julienne_string_m, only : string_t
   implicit none
@@ -47,12 +47,8 @@ contains
           print *
           print '(*(a,:,i0))', "_____ ", passes, " of ", tests, " tests passed. ", skips, " tests were skipped _____"
           print *
-          flush(output_unit)
         end if
-#if HAVE_MULTI_IMAGE_SUPPORT
-        sync all
-#endif
-        if (passes + skips /= tests) error stop "Some tests failed."
+        if (passes + skips /= tests .and. me==1) error stop "Some tests failed."
       end associate
 
     end procedure

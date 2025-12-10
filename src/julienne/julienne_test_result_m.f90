@@ -52,7 +52,7 @@ module julienne_test_result_m
     module subroutine co_characterize(self)
       !! Print a description of the test, its outcome, and diagnostic information if the test fails
       implicit none
-      class(test_result_t), intent(in) :: self
+      class(test_result_t), intent(inout) :: self
     end subroutine
 
     impure elemental module function passed(self) result(test_passed)
