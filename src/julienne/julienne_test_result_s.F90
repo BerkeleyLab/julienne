@@ -47,7 +47,11 @@ contains
           if (i_skipped) then
             if (me==1) print '(a)', indent // "SKIPS  on " // trim(self%description_%string()) // "."
           else
-            if (me==1) print '(a)', indent // merge("passes on ", "FAILS  on ", images_passed == images) // trim(self%description_%string()) // "."
+            if (images_passed < images .and. i_passed) then
+              ! a failure on any image becomes a failure on all images
+              self%diagnosis_ = test_diagnosis_t(test_passed=.false., diagnostics_string="peer image failure")
+            end if
+            if (me==1) print '(a)', indent // merge("passes on ", "FAILS  on ", self%diagnosis_%test_passed()) // trim(self%description_%string()) // "."
 #if ! ASYNCHRONOUS_DIAGNOSTICS
             sync all ! ensure image 1 prints test outcome before any failure diagnostics print
 #endif
