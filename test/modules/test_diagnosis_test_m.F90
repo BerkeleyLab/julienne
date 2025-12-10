@@ -86,6 +86,7 @@ contains
       ,test_description_t("construction from (.expects. logical-expression) // 'user-defined message'"                         , usher(check_expects_logical)) &
       ,test_description_t("construction from (.expects. logical-expression) // 'user-defined message'"                         , usher(check_expects_logical)) &
       ,test_description_t("defining a test_diagnosis_t object by assigning a logical value"                                    , usher(check_assigns_logical)) &
+      ,test_description_t("aggregating a test_diagnosis_t object using .also. with a logical value"                                    , usher(check_also_logical)) &
       ,test_description_t("hardwiring a test to pass via the passing_test() function"                                          , usher(check_passing_test_function)) &
     ]
     test_results = test_diagnosis_test%run(test_descriptions)
@@ -308,6 +309,13 @@ contains
   function check_assigns_logical() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     test_diagnosis = .true.
+  end function
+
+  function check_also_logical() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    test_diagnosis = .true.
+    test_diagnosis = test_diagnosis .also. .true.
+    test_diagnosis = .true. .also. test_diagnosis
   end function
 
   function check_passing_test_function() result(test_diagnosis)

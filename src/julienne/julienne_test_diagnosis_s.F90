@@ -37,8 +37,16 @@ contains
     end if
   end procedure
 
-  module procedure also
+  module procedure also_DD
      diagnosis = .all. ([lhs,rhs])
+  end procedure 
+
+  module procedure also_LD
+     diagnosis = .all. ([.expect.(lhs),rhs])
+  end procedure 
+
+  module procedure also_DL
+     diagnosis = .all. ([lhs,.expect.(rhs)])
   end procedure 
 
 #ifndef __GFORTRAN__
