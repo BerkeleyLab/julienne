@@ -95,7 +95,12 @@ contains
       integer i
       allocate(array(size(diagnoses)))
       do i = 1, size(diagnoses)
-        array(i) = string_t(new_line_indent // diagnoses(i)%diagnostics_string_)
+        if (diagnoses(i)%diagnostics_string_(1:1) == new_line('')) then
+          ! don't prepend a another newline if the string already begins with one
+          array(i) = diagnoses(i)%diagnostics_string_
+        else 
+          array(i) = string_t(new_line_indent // diagnoses(i)%diagnostics_string_)
+        end if
       end do
       diagnosis = test_diagnosis_t( &
          test_passed = all(diagnoses%test_passed_) &
@@ -119,7 +124,12 @@ contains
     integer i
     allocate(array(size(diagnoses)))
     do i = 1, size(diagnoses)
-      array(i) = string_t(new_line_indent // diagnoses(i)%diagnostics_string_)
+      if (diagnoses(i)%diagnostics_string_(1:1) == new_line('')) then
+        ! don't prepend a another newline if the string already begins with one
+        array(i) = diagnoses(i)%diagnostics_string_
+      else 
+        array(i) = string_t(new_line_indent // diagnoses(i)%diagnostics_string_)
+      end if
     end do
     diagnosis = test_diagnosis_t( &
        test_passed = all(diagnoses%test_passed_) &
