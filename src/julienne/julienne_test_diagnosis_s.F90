@@ -280,11 +280,14 @@ contains
     else
       block
         integer(c_intptr_t), parameter :: mold = 0_c_intptr_t
+        character(len=18) :: str_actual, str_expect
 
-        associate(actual_c_loc => transfer(actual, mold), expected_c_loc => transfer(expected, mold))
+        associate(actual_c_loc => transfer(actual, mold), expect_c_loc => transfer(expected, mold))
+          write(str_actual, '(A2,Z16.16)') '0x',actual_c_loc
+          write(str_expect, '(A2,Z16.16)') '0x',expect_c_loc
           test_diagnosis = test_diagnosis_t( &
              test_passed = .false. &
-            ,diagnostics_string = "expected " // string_t(expected_c_loc) // "; actual value is " // string_t(actual_c_loc) &
+            ,diagnostics_string = "expected " // str_expect // "; actual value is " // str_actual &
           )
         end associate
      end block
