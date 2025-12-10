@@ -71,6 +71,7 @@ contains
       ,test_description_t("construction from string_t/character expressions 'a .equalsExpected. b'"                            , usher(check_equals_character_vs_string)) &
       ,test_description_t("construction from the character expression 'a .equalsExpected. b'"                                  , usher(check_equals_character)) &
       ,test_description_t("construction from the type(c_ptr) expression 'p .equalsExpected. q'"                                , usher(check_equals_c_ptr)) &
+      ,test_description_t("construction from the logical expression 't .equalsExpected. t'"                                    , usher(check_equals_logical)) &
       ,test_description_t("construction from the string_t expression 'a .equalsExpected. b'"                                   , usher(check_equals_string)) &
       ,test_description_t("construction from the integer expression 'i .equalsExpected. j'"                                    , usher(check_equals_integer)) &
       ,test_description_t("construction from integer(int64) relational operators"                                              , usher(check_int64_comparisons)) &
@@ -155,6 +156,12 @@ contains
     t = .true._c_bool
     t_ptr = c_loc(t)
     test_diagnosis = t_ptr .equalsExpected. c_loc(t)
+  end function
+
+  function check_equals_logical() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    logical, parameter :: t = .true., f = .false.
+    test_diagnosis = (t .equalsExpected. t) .also. (f .equalsExpected. f)
   end function
 
   function check_equals_string() result(test_diagnosis)
