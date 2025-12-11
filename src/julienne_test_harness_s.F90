@@ -42,7 +42,7 @@ contains
 #endif
         if (me==1) then
           print *
-          print '(*(a,:,en10.2))', "Test-suite run time: ", real(end_time - start_time, real64)/real(clock_rate, real64), " seconds"
+          print '(*(a,:,f0.3))', "Test-suite run time: ", real(end_time - start_time, real64)/real(clock_rate, real64), " seconds"
           print '(a,i0)',      "Number of images: ", image_count
           print *
           print '(*(a,:,i0))', "_____ ", passes, " of ", tests, " tests passed. ", skips, " tests were skipped _____"
