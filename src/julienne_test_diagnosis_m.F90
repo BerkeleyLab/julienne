@@ -201,16 +201,32 @@ module julienne_test_diagnosis_m
 
   interface operator(.also.)
      
-    elemental module function also(lhs, rhs) result(diagnosis)
+    elemental module function also_DD(lhs, rhs) result(diagnosis)
       implicit none
       type(test_diagnosis_t), intent(in) :: lhs, rhs
+      type(test_diagnosis_t) diagnosis
+    end function
+
+    elemental module function also_DL(lhs, rhs) result(diagnosis)
+      implicit none
+      type(test_diagnosis_t), intent(in) :: lhs
+      logical, intent(in) :: rhs
+      type(test_diagnosis_t) diagnosis
+    end function
+
+    elemental module function also_LD(lhs, rhs) result(diagnosis)
+      implicit none
+      logical, intent(in) :: lhs
+      type(test_diagnosis_t), intent(in) :: rhs
       type(test_diagnosis_t) diagnosis
     end function
 
   end interface
 
   interface operator(.and.)
-     module procedure also
+     module procedure also_DD
+     module procedure also_LD
+     module procedure also_DL
   end interface
 
   interface operator(.approximates.)
@@ -244,6 +260,12 @@ module julienne_test_diagnosis_m
   end interface
 
   interface operator(.equalsExpected.)
+
+    elemental module function equals_expected_logical(actual, expected) result(test_diagnosis)
+      implicit none
+      logical, intent(in) :: actual, expected
+      type(test_diagnosis_t) test_diagnosis
+    end function
 
     elemental module function equals_expected_c_ptr(actual, expected) result(test_diagnosis)
       implicit none
