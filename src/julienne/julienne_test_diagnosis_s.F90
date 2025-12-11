@@ -679,6 +679,18 @@ contains
     test_diagnosis%diagnostics_string_ = diagnostics_string
   end procedure
 
+  module procedure copy_construct_from_string_t
+    test_diagnosis = diagnosis // diagnostics_string
+  end procedure
+
+  module procedure copy_construct_from_character
+    if (present(diagnostics_string)) then
+      test_diagnosis = diagnosis // diagnostics_string
+    else
+      test_diagnosis = diagnosis
+    end if
+  end procedure
+
   module procedure test_passed
     passed = self%test_passed_
   end procedure
