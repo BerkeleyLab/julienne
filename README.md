@@ -213,11 +213,14 @@ tests for Julienne's command-line parsing utility: `command_line_t`.  To test
 To define the following macros or to override the values defined in Julienne's
 `include` directory, add `--flag -D<macro-name>=<value>` to an `fpm` command:
 
+- `ASSERTIONS`: enables runtime enforcement of Julienne's assertions
+- `HAVE_MULTI_IMAGE_SUPPORT`: enables Julienne's use of Fortran's built-in
+  multi-image support, for testing of parallel multi-process programs.
+  The default is compiler-dependent, set to 0 to disable multi-image support.
 - `ASYNCHRONOUS_DIAGNOSTICS`: removes synchronizations that partially order
-  test-failure diagnostics output for clarity
-- `ASSERTIONS`: enables checks for Julienne's own runtime assertions
+  test-failure diagnostics output for clarity. Only relevant for multi-image execution.
 - `TEST_INTENTIONAL_FAILURE`: enables tests of unit-test failure; also enables
-  tests of assertion failure if ASSERTIONS is non-zero.
+  tests of assertion failure if `ASSERTIONS` is non-zero.
 
 An Origin Story
 ---------------
