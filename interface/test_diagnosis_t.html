@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 14 statements,  0.1% of total for procedures.">14 statements</a>
+                 title="<p> 0.3% of total for procedures.</p>Including implementation: 26 statements,  0.3% of total for procedures.">26 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -146,8 +146,10 @@
       </a>
       <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/test_diagnosis_t.html#proc-construct_from_character">construct_from_character</a>
+            <a class="list-group-item" href="../interface/test_diagnosis_t.html#proc-construct_from_character~2">construct_from_character</a>
             <a class="list-group-item" href="../interface/test_diagnosis_t.html#proc-construct_from_string_t">construct_from_string_t</a>
+            <a class="list-group-item" href="../interface/test_diagnosis_t.html#proc-copy_construct_from_character">copy_construct_from_character</a>
+            <a class="list-group-item" href="../interface/test_diagnosis_t.html#proc-copy_construct_from_string_t">copy_construct_from_string_t</a>
         </div>
       </div>
     </div>
@@ -172,8 +174,8 @@
 
         <h2>Functions</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_character"></span> <h3>private elemental module function construct_from_character(test_passed, diagnostics_string) result(test_diagnosis)  
-    <a href="../proc/construct_from_character.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_character~2"></span> <h3>private elemental module function construct_from_character(test_passed, diagnostics_string) result(test_diagnosis)  
+    <a href="../proc/construct_from_character~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3></div>
     <div class="card-body">
         <p>The result is a test_diagnosis_t object with the components defined by the dummy arguments</p>
@@ -191,7 +193,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-test_passed~3"></span>
+              <span class="anchor" id="variable-test_passed~4"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -251,7 +253,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-test_passed~2"></span>
+              <span class="anchor" id="variable-test_passed~3"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -267,6 +269,126 @@
         <tr>
             <td>
               <span class="anchor" id="variable-diagnostics_string~2"></span>
+              type(<a href='../type/string_t.html'>string_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diagnostics_string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-copy_construct_from_character"></span> <h3>private elemental module function copy_construct_from_character(diagnosis, diagnostics_string) result(test_diagnosis)  
+    <a href="../proc/copy_construct_from_character.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+        <p>The result is a copy of the provided test_diagnosis_t object, with the optional appended string</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diagnosis~24"></span>
+              type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diagnosis</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diagnostics_string~5"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diagnostics_string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-copy_construct_from_string_t"></span> <h3>private elemental module function copy_construct_from_string_t(diagnosis, diagnostics_string) result(test_diagnosis)  
+    <a href="../proc/copy_construct_from_string_t.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+        <p>The result is a copy of the provided test_diagnosis_t object, with the appended string</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diagnosis~23"></span>
+              type(<a href='../type/test_diagnosis_t.html'>test_diagnosis_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diagnosis</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diagnostics_string~4"></span>
               type(<a href='../type/string_t.html'>string_t</a>),
             </td>
 <td>intent(in)</td>
@@ -310,7 +432,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-12 18:37 +0000             </p>
+ on 2025-12-12 20:15 +0000             </p>
           </div>
         </div>
         <br>

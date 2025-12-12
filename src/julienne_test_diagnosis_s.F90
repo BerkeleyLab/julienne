@@ -132,12 +132,16 @@ contains
     integer i
     allocate(array(size(diagnoses)))
     do i = 1, size(diagnoses)
-      if (diagnoses(i)%diagnostics_string_(1:1) == new_line('')) then
-        ! don't prepend a another newline if the string already begins with one
-        array(i) = diagnoses(i)%diagnostics_string_
-      else 
-        array(i) = string_t(new_line_indent // diagnoses(i)%diagnostics_string_)
-      end if
+      associate( str => diagnoses(i)%diagnostics_string_ )
+        if (len(str) == 0) then
+          array(i) = str
+        else if (str(1:1) == new_line('')) then
+          ! don't prepend a another newline if the string already begins with one
+          array(i) = str
+        else 
+          array(i) = string_t(new_line_indent // str)
+        end if
+      end associate
     end do
     diagnosis = test_diagnosis_t( &
        test_passed = all(diagnoses%test_passed_) &
@@ -677,6 +681,18 @@ contains
   module procedure construct_from_character
     test_diagnosis%test_passed_ = test_passed
     test_diagnosis%diagnostics_string_ = diagnostics_string
+  end procedure
+
+  module procedure copy_construct_from_string_t
+    test_diagnosis = diagnosis // diagnostics_string
+  end procedure
+
+  module procedure copy_construct_from_character
+    if (present(diagnostics_string)) then
+      test_diagnosis = diagnosis // diagnostics_string
+    else
+      test_diagnosis = diagnosis
+    end if
   end procedure
 
   module procedure test_passed

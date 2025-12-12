@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="16.2% of total for source files.">473 statements</a>
+                 title="16.5% of total for source files.">485 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -1321,39 +1321,55 @@ large graphs.</div>
 <a id="ln-583" name="ln-583" href="#ln-583"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">test_diagnosis_t</span><span class="p">)</span><span class="w"> </span><span class="n">test_diagnosis</span>
 <a id="ln-584" name="ln-584" href="#ln-584"></a><span class="w">    </span><span class="k">end function</span>
 <a id="ln-585" name="ln-585" href="#ln-585"></a>
-<a id="ln-586" name="ln-586" href="#ln-586"></a><span class="k">  end interface</span>
-<a id="ln-587" name="ln-587" href="#ln-587"></a>
-<a id="ln-588" name="ln-588" href="#ln-588"></a><span class="k">  interface</span>
-<a id="ln-589" name="ln-589" href="#ln-589"></a>
-<a id="ln-590" name="ln-590" href="#ln-590"></a><span class="k">    module subroutine </span><span class="n">assign_logical</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span><span class="p">)</span>
-<a id="ln-591" name="ln-591" href="#ln-591"></a><span class="w">      </span><span class="k">implicit none</span>
-<a id="ln-592" name="ln-592" href="#ln-592"></a><span class="k">      class</span><span class="p">(</span><span class="n">test_diagnosis_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lhs</span>
-<a id="ln-593" name="ln-593" href="#ln-593"></a><span class="w">      </span><span class="kt">logical</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rhs</span>
-<a id="ln-594" name="ln-594" href="#ln-594"></a><span class="w">    </span><span class="k">end subroutine</span>
-<a id="ln-595" name="ln-595" href="#ln-595"></a>
-<a id="ln-596" name="ln-596" href="#ln-596"></a><span class="k">    pure module function </span><span class="n">passing_test</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">test_diagnosis</span><span class="p">)</span>
-<a id="ln-597" name="ln-597" href="#ln-597"></a><span class="w">      </span><span class="c">!! Construct a passing test diagnosis with a zero-length diagnostics string</span>
-<a id="ln-598" name="ln-598" href="#ln-598"></a><span class="w">      </span><span class="k">implicit none</span>
-<a id="ln-599" name="ln-599" href="#ln-599"></a><span class="k">      type</span><span class="p">(</span><span class="n">test_diagnosis_t</span><span class="p">)</span><span class="w"> </span><span class="n">test_diagnosis</span>
+<a id="ln-586" name="ln-586" href="#ln-586"></a><span class="k">    elemental module function </span><span class="n">copy_construct_from_string_t</span><span class="p">(</span><span class="n">diagnosis</span><span class="p">,</span><span class="w"> </span><span class="n">diagnostics_string</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">test_diagnosis</span><span class="p">)</span>
+<a id="ln-587" name="ln-587" href="#ln-587"></a><span class="w">      </span><span class="c">!! The result is a copy of the provided test_diagnosis_t object, with the appended string</span>
+<a id="ln-588" name="ln-588" href="#ln-588"></a><span class="w">      </span><span class="k">implicit none</span>
+<a id="ln-589" name="ln-589" href="#ln-589"></a><span class="k">      type</span><span class="p">(</span><span class="n">test_diagnosis_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">diagnosis</span>
+<a id="ln-590" name="ln-590" href="#ln-590"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">string_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">diagnostics_string</span>
+<a id="ln-591" name="ln-591" href="#ln-591"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">test_diagnosis_t</span><span class="p">)</span><span class="w"> </span><span class="n">test_diagnosis</span>
+<a id="ln-592" name="ln-592" href="#ln-592"></a><span class="w">    </span><span class="k">end function</span>
+<a id="ln-593" name="ln-593" href="#ln-593"></a>
+<a id="ln-594" name="ln-594" href="#ln-594"></a><span class="k">    elemental module function </span><span class="n">copy_construct_from_character</span><span class="p">(</span><span class="n">diagnosis</span><span class="p">,</span><span class="w"> </span><span class="n">diagnostics_string</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">test_diagnosis</span><span class="p">)</span>
+<a id="ln-595" name="ln-595" href="#ln-595"></a><span class="w">      </span><span class="c">!! The result is a copy of the provided test_diagnosis_t object, with the optional appended string</span>
+<a id="ln-596" name="ln-596" href="#ln-596"></a><span class="w">      </span><span class="k">implicit none</span>
+<a id="ln-597" name="ln-597" href="#ln-597"></a><span class="k">      type</span><span class="p">(</span><span class="n">test_diagnosis_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">diagnosis</span>
+<a id="ln-598" name="ln-598" href="#ln-598"></a><span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">diagnostics_string</span>
+<a id="ln-599" name="ln-599" href="#ln-599"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">test_diagnosis_t</span><span class="p">)</span><span class="w"> </span><span class="n">test_diagnosis</span>
 <a id="ln-600" name="ln-600" href="#ln-600"></a><span class="w">    </span><span class="k">end function</span>
 <a id="ln-601" name="ln-601" href="#ln-601"></a>
-<a id="ln-602" name="ln-602" href="#ln-602"></a><span class="k">    elemental module function </span><span class="n">test_passed</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">passed</span><span class="p">)</span>
-<a id="ln-603" name="ln-603" href="#ln-603"></a><span class="w">      </span><span class="c">!! The result is .true. if the test passed on the executing image and false otherwise</span>
-<a id="ln-604" name="ln-604" href="#ln-604"></a><span class="w">      </span><span class="k">implicit none</span>
-<a id="ln-605" name="ln-605" href="#ln-605"></a><span class="k">      class</span><span class="p">(</span><span class="n">test_diagnosis_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
-<a id="ln-606" name="ln-606" href="#ln-606"></a><span class="w">      </span><span class="kt">logical </span><span class="n">passed</span>
-<a id="ln-607" name="ln-607" href="#ln-607"></a><span class="w">    </span><span class="k">end function</span>
-<a id="ln-608" name="ln-608" href="#ln-608"></a>
-<a id="ln-609" name="ln-609" href="#ln-609"></a><span class="k">    pure module function </span><span class="n">diagnostics_string</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-<a id="ln-610" name="ln-610" href="#ln-610"></a><span class="w">      </span><span class="c">!! The result is a string describing the condition(s) that caused a test failure or is a zero-length string if no failure</span>
-<a id="ln-611" name="ln-611" href="#ln-611"></a><span class="w">      </span><span class="k">implicit none</span>
-<a id="ln-612" name="ln-612" href="#ln-612"></a><span class="k">      class</span><span class="p">(</span><span class="n">test_diagnosis_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
-<a id="ln-613" name="ln-613" href="#ln-613"></a><span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span>
-<a id="ln-614" name="ln-614" href="#ln-614"></a><span class="w">    </span><span class="k">end function</span>
-<a id="ln-615" name="ln-615" href="#ln-615"></a>
-<a id="ln-616" name="ln-616" href="#ln-616"></a><span class="k">  end interface</span>
+<a id="ln-602" name="ln-602" href="#ln-602"></a><span class="k">  end interface</span>
+<a id="ln-603" name="ln-603" href="#ln-603"></a>
+<a id="ln-604" name="ln-604" href="#ln-604"></a><span class="k">  interface</span>
+<a id="ln-605" name="ln-605" href="#ln-605"></a>
+<a id="ln-606" name="ln-606" href="#ln-606"></a><span class="k">    module subroutine </span><span class="n">assign_logical</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span><span class="p">)</span>
+<a id="ln-607" name="ln-607" href="#ln-607"></a><span class="w">      </span><span class="k">implicit none</span>
+<a id="ln-608" name="ln-608" href="#ln-608"></a><span class="k">      class</span><span class="p">(</span><span class="n">test_diagnosis_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lhs</span>
+<a id="ln-609" name="ln-609" href="#ln-609"></a><span class="w">      </span><span class="kt">logical</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rhs</span>
+<a id="ln-610" name="ln-610" href="#ln-610"></a><span class="w">    </span><span class="k">end subroutine</span>
+<a id="ln-611" name="ln-611" href="#ln-611"></a>
+<a id="ln-612" name="ln-612" href="#ln-612"></a><span class="k">    pure module function </span><span class="n">passing_test</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">test_diagnosis</span><span class="p">)</span>
+<a id="ln-613" name="ln-613" href="#ln-613"></a><span class="w">      </span><span class="c">!! Construct a passing test diagnosis with a zero-length diagnostics string</span>
+<a id="ln-614" name="ln-614" href="#ln-614"></a><span class="w">      </span><span class="k">implicit none</span>
+<a id="ln-615" name="ln-615" href="#ln-615"></a><span class="k">      type</span><span class="p">(</span><span class="n">test_diagnosis_t</span><span class="p">)</span><span class="w"> </span><span class="n">test_diagnosis</span>
+<a id="ln-616" name="ln-616" href="#ln-616"></a><span class="w">    </span><span class="k">end function</span>
 <a id="ln-617" name="ln-617" href="#ln-617"></a>
-<a id="ln-618" name="ln-618" href="#ln-618"></a><span class="k">end module </span><span class="n">julienne_test_diagnosis_m</span>
+<a id="ln-618" name="ln-618" href="#ln-618"></a><span class="k">    elemental module function </span><span class="n">test_passed</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">passed</span><span class="p">)</span>
+<a id="ln-619" name="ln-619" href="#ln-619"></a><span class="w">      </span><span class="c">!! The result is .true. if the test passed on the executing image and false otherwise</span>
+<a id="ln-620" name="ln-620" href="#ln-620"></a><span class="w">      </span><span class="k">implicit none</span>
+<a id="ln-621" name="ln-621" href="#ln-621"></a><span class="k">      class</span><span class="p">(</span><span class="n">test_diagnosis_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<a id="ln-622" name="ln-622" href="#ln-622"></a><span class="w">      </span><span class="kt">logical </span><span class="n">passed</span>
+<a id="ln-623" name="ln-623" href="#ln-623"></a><span class="w">    </span><span class="k">end function</span>
+<a id="ln-624" name="ln-624" href="#ln-624"></a>
+<a id="ln-625" name="ln-625" href="#ln-625"></a><span class="k">    pure module function </span><span class="n">diagnostics_string</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+<a id="ln-626" name="ln-626" href="#ln-626"></a><span class="w">      </span><span class="c">!! The result is a string describing the condition(s) that caused a test failure or is a zero-length string if no failure</span>
+<a id="ln-627" name="ln-627" href="#ln-627"></a><span class="w">      </span><span class="k">implicit none</span>
+<a id="ln-628" name="ln-628" href="#ln-628"></a><span class="k">      class</span><span class="p">(</span><span class="n">test_diagnosis_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<a id="ln-629" name="ln-629" href="#ln-629"></a><span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span>
+<a id="ln-630" name="ln-630" href="#ln-630"></a><span class="w">    </span><span class="k">end function</span>
+<a id="ln-631" name="ln-631" href="#ln-631"></a>
+<a id="ln-632" name="ln-632" href="#ln-632"></a><span class="k">  end interface</span>
+<a id="ln-633" name="ln-633" href="#ln-633"></a>
+<a id="ln-634" name="ln-634" href="#ln-634"></a><span class="k">end module </span><span class="n">julienne_test_diagnosis_m</span>
 </pre></div>
 
       </section>
@@ -1375,7 +1391,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-12 18:37 +0000             </p>
+ on 2025-12-12 20:15 +0000             </p>
           </div>
         </div>
         <br>
