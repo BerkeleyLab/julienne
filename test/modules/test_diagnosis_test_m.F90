@@ -88,6 +88,7 @@ contains
       ,test_description_t("defining a test_diagnosis_t object by assigning a logical value"                                    , usher(check_assigns_logical)) &
       ,test_description_t("aggregating a test_diagnosis_t object using .also. with a logical value"                                    , usher(check_also_logical)) &
       ,test_description_t("hardwiring a test to pass via the passing_test() function"                                          , usher(check_passing_test_function)) &
+      ,test_description_t("construction from another test_diagnosis_t"                                                         , usher(check_copy_construction)) &
     ]
     test_results = test_diagnosis_test%run(test_descriptions)
   end function
@@ -321,6 +322,26 @@ contains
   function check_passing_test_function() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     test_diagnosis = passing_test()
+  end function
+
+  function check_copy_construction() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    type(test_diagnosis_t) f,u
+
+    test_diagnosis = .true.
+
+    f = .false.
+    u = test_diagnosis_t(f)
+    test_diagnosis = test_diagnosis .also. &
+      (u%diagnostics_string() .equalsExpected. "")
+
+    u = test_diagnosis_t(f, "foo")
+    test_diagnosis = test_diagnosis .also. &
+      (u%diagnostics_string() .equalsExpected. "foo")
+
+    u = test_diagnosis_t(f, string_t("bar"))
+    test_diagnosis = test_diagnosis .also. &
+      (u%diagnostics_string() .equalsExpected. "bar")
   end function
 
 end module test_diagnosis_test_m

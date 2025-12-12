@@ -583,6 +583,22 @@ module julienne_test_diagnosis_m
       type(test_diagnosis_t) test_diagnosis
     end function
 
+    elemental module function copy_construct_from_string_t(diagnosis, diagnostics_string) result(test_diagnosis)
+      !! The result is a copy of the provided test_diagnosis_t object, with the appended string
+      implicit none
+      type(test_diagnosis_t), intent(in) :: diagnosis
+      type(string_t), intent(in) :: diagnostics_string
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
+    elemental module function copy_construct_from_character(diagnosis, diagnostics_string) result(test_diagnosis)
+      !! The result is a copy of the provided test_diagnosis_t object, with the optional appended string
+      implicit none
+      type(test_diagnosis_t), intent(in) :: diagnosis
+      character(len=*), intent(in), optional :: diagnostics_string
+      type(test_diagnosis_t) test_diagnosis
+    end function
+
   end interface
 
   interface
