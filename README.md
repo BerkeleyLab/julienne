@@ -237,10 +237,12 @@ See our online [documentation] or build the documentation locally by installing 
 
 Known Software Using Julienne
 -----------------------------
+* [band_distribution](https://github.com/pibion/band_distribution?tab=readme-ov-file): a utility supporting the search for dark matter 
+* [Caffeine](https://go.lbl.gov/caffeine): Coarray Fortran Framework of Efficient Interfaces to Network Environments
 * [Fiats](https://go.lbl.gov/fiats): Functional inference and training for surrogates
 * [Matcha](https://go.lbl.gov/matcha): Motility analysis of T-cell histories in activation
-* [TRACE](https://www.nrc.gov/docs/ML1200/ML120060218.pdf) two-phase flow solver for nuclear reactors
 * nQMCC: Quantum Monte Carlo simulation software for nuclear physics
+* [TRACE](https://www.nrc.gov/docs/ML1200/ML120060218.pdf):a two-phase flow solver for nuclear reactors
 
 [`diagnosis_function_i`]: https://github.com/BerkeleyLab/julienne/blob/37bcc959efa8f9e27ae50fecfd37a6bf52ef0a43/src/julienne/julienne_test_description_m.f90#L16
 [documentation]: https:///berkeleylab.github.io/julienne/
