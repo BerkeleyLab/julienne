@@ -103,12 +103,16 @@ contains
       integer i
       allocate(array(size(diagnoses)))
       do i = 1, size(diagnoses)
-        if (diagnoses(i)%diagnostics_string_(1:1) == new_line('')) then
-          ! don't prepend a another newline if the string already begins with one
-          array(i) = diagnoses(i)%diagnostics_string_
-        else 
-          array(i) = string_t(new_line_indent // diagnoses(i)%diagnostics_string_)
-        end if
+        associate( str => diagnoses(i)%diagnostics_string_ )
+          if (len(str) == 0) then
+            array(i) = str
+          else if (str(1:1) == new_line('')) then
+            ! don't prepend a another newline if the string already begins with one
+            array(i) = str
+          else 
+            array(i) = string_t(new_line_indent // str)
+          end if
+        end associate
       end do
       diagnosis = test_diagnosis_t( &
          test_passed = all(diagnoses%test_passed_) &
