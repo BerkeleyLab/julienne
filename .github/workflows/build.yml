@@ -159,8 +159,10 @@ jobs:
           echo "FPM_FC=flang-new" >> "$GITHUB_ENV" ; \
         elif test "$FC" = "ifx" ; then \
           echo "FPM_FC=ifx" >> "$GITHUB_ENV" ; \
-          echo "FFLAGS=-fpp $FFLAGS" >> "$GITHUB_ENV" ; \
-          echo "FFLAGS=-coarray $FFLAGS" >> "$GITHUB_ENV" ; \
+          echo "FFLAGS=-coarray -fpp -g -traceback $FFLAGS" >> "$GITHUB_ENV" ; \
+          echo "FOR_COARRAY_NUM_IMAGES=4" >> "$GITHUB_ENV" ; \
+          : echo "FOR_COARRAY_DEBUG_STARTUP=1" >> "$GITHUB_ENV" ; \
+          : echo "FOR_COARRAY_MPI_VERBOSE=1" >> "$GITHUB_ENV" ; \
         elif test "$FC" = "lfortran" ; then \
           echo "FPM_FC=lfortran" >> "$GITHUB_ENV" ; \
           echo "FFLAGS=--cpp $FFLAGS" >> "$GITHUB_ENV" ; \
@@ -209,32 +211,19 @@ jobs:
     - name: Build and Test (Assertions OFF)
       run: |
         set -x
-        echo "FPM_FLAGS=${FPM_FLAGS}"
-        echo "FFLAGS=$FFLAGS"
-        fpm test                              ${FPM_FLAGS} --flag "$FFLAGS"
-    #    cd demo 
-    #    fpm test                              ${FPM_FLAGS} --flag "$FFLAGS"
-    #    fpm run  --example false-assertion    ${FPM_FLAGS} --flag "$FFLAGS"
-    #    fpm run  --example simple-assertions  ${FPM_FLAGS} --flag "$FFLAGS"
-    #    fpm run  --example invoke-via-macro   ${FPM_FLAGS} --flag "$FFLAGS"
+        fpm test ${FPM_FLAGS} --flag "$FFLAGS"
 
-    #- name: Build and Test (Assertions ON)
-    #  env:
-    #    FPM_FLAGS: ${{ env.FPM_FLAGS }} --flag -DASSERTIONS
-    #  run: |
-    #    set -x
-    #               fpm test                             ${FPM_FLAGS} --flag "$FFLAGS"
-    #    ( set +e ; fpm run  --example false-assertion   ${FPM_FLAGS} --flag "$FFLAGS" ; test $? = $ERROR_STOP_CODE )
-    #    ( set +e ; fpm run  --example simple-assertions ${FPM_FLAGS} --flag "$FFLAGS" ; test $? = $ERROR_STOP_CODE )
-    #    ( set +e ; fpm run  --example invoke-via-macro  ${FPM_FLAGS} --flag "$FFLAGS" ; test $? = $ERROR_STOP_CODE )
+    - name: Build and Test (Assertions ON)
+      env:
+        FPM_FLAGS: ${{ env.FPM_FLAGS }} --flag -DASSERTIONS
+      run: |
+        set -x
+        fpm test ${FPM_FLAGS} --flag "$FFLAGS"
 
-    #- name: Test Assertions w/ Parallel Callbacks
-    #  if: ${{ matrix.compiler != 'lfortran' }} # issue #68
-    #  env:
-    #    FPM_FLAGS: ${{ env.FPM_FLAGS }} --flag -DASSERT_MULTI_IMAGE --flag -DASSERT_PARALLEL_CALLBACKS
-    #  run: |
-    #    set -x
-    #    fpm run  --example false-assertion   ${FPM_FLAGS} --flag "$FFLAGS"
-    #    fpm run  --example invoke-via-macro  ${FPM_FLAGS} --flag "$FFLAGS"
-    #    ( set +e ; fpm run  --example false-assertion   ${FPM_FLAGS} --flag "$FFLAGS -DASSERTIONS" ; test $? = $ERROR_STOP_CODE )
-    #    ( set +e ; fpm run  --example invoke-via-macro  ${FPM_FLAGS} --flag "$FFLAGS -DASSERTIONS" ; test $? = $ERROR_STOP_CODE )
+    - name: Test w/ Parallel Callbacks
+      env:
+        FPM_FLAGS: ${{ env.FPM_FLAGS }} --flag -DJULIENNE_PARALLEL_CALLBACKS --flag -DTEST_PARALLEL_CALLBACKS
+      run: |
+        set -x
+        fpm test ${FPM_FLAGS} --flag "$FFLAGS"
+
