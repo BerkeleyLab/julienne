@@ -30,6 +30,9 @@ jobs:
           - os: macos-15-intel
             compiler: flang
             version: 21
+          - os: macos-26
+            compiler: flang
+            version: 21
 
           # https://hub.docker.com/r/snowstep/llvm/tags
           - os: ubuntu-24.04
