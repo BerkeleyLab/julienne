@@ -24,6 +24,7 @@ contains
 
       integer i, passes, tests, skips
       integer(int64) start_time, end_time, clock_rate
+      integer, parameter :: ms_per_sec = 1000
 
       passes=0; tests=0; skips=0
 
@@ -39,7 +40,13 @@ contains
       associate(me => internal_this_image(), image_count => internal_num_images())
         if (me==1) then
           print *
-          print '(*(a,:,f0.3))', "Test-suite run time: ", real(end_time - start_time, real64)/real(clock_rate, real64), " seconds"
+#if defined(__flang__)
+          print '(a,f0.3,a)', "Test-suite run time: ", (end_time - start_time)/(real(clock_rate, real64)*ms_per_sec), " seconds"
+#elif defined(__INTEL_COMPILER) || defined(__LFORTRAN__) || defined(__GFORTRAN__) || defined(_CRAYFTN) || defined(NAGFOR)
+          print '(a,f0.3,a)', "Test-suite run time: ", (end_time - start_time)/ real(clock_rate, real64            ), " seconds"
+#else
+          print '(a,f0.3,a)', "Test-suite run time: ", (end_time - start_time)/ real(clock_rate, real64), " seconds (units uncertain)"
+#endif
           print '(a,i0)',      "Number of images: ", image_count
           print *
           print '(*(a,:,i0))', "_____ ", passes, " of ", tests, " tests passed. ", skips, " tests were skipped _____"
