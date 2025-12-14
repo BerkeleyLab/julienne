@@ -16,12 +16,15 @@ program test_suite_driver
   use bin_test_m                       ,only :                      bin_test_t
   use command_line_test_m              ,only :             command_line_test_t
   use formats_test_m                   ,only :                  formats_test_t
+  use multi_image_test_m               ,only :              multi_image_test_t, multi_image_setup
   use string_test_m                    ,only :                   string_test_t
   use test_description_test_m          ,only :         test_description_test_t
   use test_diagnosis_test_m            ,only :           test_diagnosis_test_t
   use test_result_test_m               ,only :              test_result_test_t
 
   implicit none
+
+  call multi_image_setup()
  
   ! Construct a test harness from an array of test fixtures, each of which is 
   ! constructed from an invocation of a test_t child type's structure constructor:
@@ -29,6 +32,7 @@ program test_suite_driver
      test_fixture_t(                  assert_test_t()) &
     ,test_fixture_t(                     bin_test_t()) &
     ,test_fixture_t(                 formats_test_t()) &
+    ,test_fixture_t(             multi_image_test_t()) &
     ,test_fixture_t(                  string_test_t()) &
     ,test_fixture_t(        test_description_test_t()) &
     ,test_fixture_t(          test_diagnosis_test_t()) &
