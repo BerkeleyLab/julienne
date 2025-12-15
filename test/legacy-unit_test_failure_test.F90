@@ -1,3 +1,5 @@
+#include "language-support.F90"
+
 program legacy_unit_test_failure_test
   !! Conditionally execute test_test_t%report
 

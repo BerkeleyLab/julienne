@@ -35,7 +35,7 @@ contains
     type(test_test_t) test_test
 
     test_results = test_test%run([ &
-      test_description_t("reporting failure if a single image fails a test", usher(check_one_image_fails)) &
+      test_description_t("(this is an intentional failure intended for visual interpretation)", usher(check_one_image_fails)) &
     ])
   end function
 
@@ -47,7 +47,7 @@ contains
 #else
     associate(me => 1, images => 1)
 #endif
-      test_diagnosis = .expect. (me == images)
+      test_diagnosis = .expect. (me /= images)
     end associate
   end function
 
