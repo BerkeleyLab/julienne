@@ -8,6 +8,7 @@ submodule(julienne_test_result_m) julienne_test_result_s
 #if ASSERTIONS
   use julienne_assert_m, only : call_julienne_assert_
 #endif
+  use julienne_multi_image_m, only : internal_this_image, internal_num_images, internal_sync_all, internal_co_sum_integer
   implicit none
 
 contains
@@ -40,9 +41,10 @@ contains
         end if
 
         tally = [merge(1,0,i_skipped), merge(1,0,i_passed)]
-        call co_sum(tally)
+        call internal_co_sum_integer(tally)
 
-        associate(me => this_image(), images => num_images(), images_skipped => tally(skips), images_passed => tally(passes))
+        associate(me => internal_this_image(), images => internal_num_images(), &
+                  images_skipped => tally(skips), images_passed => tally(passes))
           call_julienne_assert(any(images_skipped == [0,images]))
           if (i_skipped) then
             if (me==1) print '(a)', indent // "SKIPS  on " // trim(self%description_%string()) // "."
@@ -53,7 +55,7 @@ contains
             end if
             if (me==1) print '(a)', indent // merge("passes on ", "FAILS  on ", self%diagnosis_%test_passed()) // trim(self%description_%string()) // "."
 #if ! ASYNCHRONOUS_DIAGNOSTICS
-            sync all ! ensure image 1 prints test outcome before any failure diagnostics print
+            call internal_sync_all ! ensure image 1 prints test outcome before any failure diagnostics print
 #endif
             if (.not. i_passed) then
               associate(image => string_t(me))
@@ -61,7 +63,7 @@ contains
               end associate
             end if
 #if ! ASYNCHRONOUS_DIAGNOSTICS
-            sync all ! ensure all images print failure diagnostics, if any, for a given test before any image moves on to the next test
+            call internal_sync_all ! ensure all images print failure diagnostics, if any, for a given test before any image moves on to the next test
 #endif
           end if
         end associate
