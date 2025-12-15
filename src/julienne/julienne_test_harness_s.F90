@@ -40,12 +40,11 @@ contains
       associate(me => internal_this_image(), image_count => internal_num_images())
         if (me==1) then
           print *
-#if defined(__flang__)
+#if defined(__flang__) && !defined(__linux__)
+          ! workaround issue 155 observed on flang + macOS
           print '(a,f0.3,a)', "Test-suite run time: ", (end_time - start_time)/(real(clock_rate, real64)*ms_per_sec), " seconds"
-#elif defined(__INTEL_COMPILER) || defined(__LFORTRAN__) || defined(__GFORTRAN__) || defined(_CRAYFTN) || defined(NAGFOR)
-          print '(a,f0.3,a)', "Test-suite run time: ", (end_time - start_time)/ real(clock_rate, real64            ), " seconds"
 #else
-          print '(a,f0.3,a)', "Test-suite run time: ", (end_time - start_time)/ real(clock_rate, real64), " seconds (units uncertain)"
+          print '(a,f0.3,a)', "Test-suite run time: ", (end_time - start_time)/ real(clock_rate, real64            ), " seconds"
 #endif
           print '(a,i0)',      "Number of images: ", image_count
           print *
