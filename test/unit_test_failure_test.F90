@@ -1,9 +1,5 @@
-#include "language-support.F90"
-
 program unit_test_failure_test
   !! Conditionally execute test_test_t%report
-
-#if (! defined(__GNUC__)) || (GCC_VERSION >= 140300)
 
   use julienne_m, only : command_line_t, test_fixture_t, test_harness_t
   use test_test_m, only : test_test_t
@@ -33,6 +29,5 @@ program unit_test_failure_test
          end if
        end associate
 #  endif
-#endif
 
 end program

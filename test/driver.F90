@@ -1,12 +1,8 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
-#include "language-support.F90"
-
 program test_suite_driver
   !! Julienne test-suite driver
-
-#if ! defined(__GNUC__) || (GCC_VERSION >= 140300)
 
   ! Test infrastructure:
   use julienne_m, only : test_fixture_t, test_harness_t
@@ -41,7 +37,5 @@ program test_suite_driver
   ]))
     call test_harness%report_results
   end associate
-
-#endif
 
 end program
