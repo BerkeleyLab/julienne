@@ -12,6 +12,7 @@ program unit_test_failure_test
       if (.not. command_line%argument_present([character(len=len("--help"))::"--help","-h"])) then
         associate(test_harness => test_harness_t([test_fixture_t(test_test_t())]))
           call test_harness%report_results
+          print *, "If this message appears, the test did not fail as intended."
         end associate
       end if
     end associate
