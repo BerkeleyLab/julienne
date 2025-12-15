@@ -16,6 +16,7 @@ program legacy_driver
   use bin_test_m                ,only :                      bin_test_t
   use command_line_test_m       ,only :             command_line_test_t
   use formats_test_m            ,only :                  formats_test_t
+  use multi_image_test_m        ,only :              multi_image_test_t, multi_image_setup
   use string_test_m             ,only :                   string_test_t
   use test_result_test_m        ,only :              test_result_test_t
   use test_description_test_m   ,only :         test_description_test_t
@@ -26,6 +27,7 @@ program legacy_driver
   type(bin_test_t) bin_test
   type(command_line_test_t) command_line_test
   type(formats_test_t) formats_test
+  type(multi_image_test_t) multi_image_test
   type(string_test_t) string_test
   type(test_result_test_t) test_result_test
   type(test_description_test_t) test_description_test
@@ -45,6 +47,8 @@ program legacy_driver
 
   if (command_line%argument_present([character(len=len("--help"))::"--help","-h"])) stop usage
 
+  call multi_image_setup()
+
   associate(me => this_image())
 
     if (me==1) print '(a)', new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
@@ -52,6 +56,7 @@ program legacy_driver
     call assert_test%report(passes, tests, skips)
     call bin_test%report(passes, tests, skips)
     call formats_test%report(passes, tests, skips)
+    call multi_image_test%report(passes, tests, skips)
     call string_test%report(passes, tests, skips)
     call test_result_test%report(passes, tests, skips)
     call test_description_test%report(passes, tests, skips)

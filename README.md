@@ -219,6 +219,9 @@ To define the following macros or to override the values defined in Julienne's
   The default is compiler-dependent, set to 0 to disable multi-image support.
 - `ASYNCHRONOUS_DIAGNOSTICS`: removes synchronizations that partially order
   test-failure diagnostics output for clarity. Only relevant for multi-image execution.
+- `JULIENNE_PARALLEL_CALLBACKS`: activates Julienne callbacks that support
+  `HAVE_MULTI_IMAGE_SUPPORT` with external SPMD multi-process models. 
+  Contact us for more details.
 - `TEST_INTENTIONAL_FAILURE`: enables tests of unit-test failure; also enables
   tests of assertion failure if `ASSERTIONS` is non-zero.
 

@@ -5,6 +5,7 @@
 
 submodule(julienne_test_m) julienne_test_s
   use julienne_test_description_m, only : filter
+  use julienne_multi_image_m, only : internal_this_image
   implicit none
 
 contains
@@ -33,11 +34,7 @@ contains
     logical, allocatable :: passing_tests(:), skipped_tests(:)
     type(test_result_t), allocatable :: test_results(:)
 
-#if HAVE_MULTI_IMAGE_SUPPORT
-    associate(me => this_image())
-#else
-    associate(me => 1)
-#endif
+    associate(me => internal_this_image())
       if (me==1) print '(a)', new_line('') // test%subject()
 
       test_results = test%results()

@@ -7,6 +7,7 @@ submodule(julienne_test_harness_m) julienne_test_harness_s
   use iso_fortran_env, only : int64, real64
   use julienne_command_line_m, only : command_line_t
   use julienne_string_m, only : string_t
+  use julienne_multi_image_m, only : internal_this_image, internal_num_images, internal_error_stop
   implicit none
 
 contains
@@ -35,11 +36,7 @@ contains
 
       call system_clock(end_time)
 
-#if HAVE_MULTI_IMAGE_SUPPORT
-      associate(me => this_image(), image_count => num_images())
-#else
-      associate(me => 1, image_count => 1)
-#endif
+      associate(me => internal_this_image(), image_count => internal_num_images())
         if (me==1) then
           print *
           print '(*(a,:,f0.3))', "Test-suite run time: ", real(end_time - start_time, real64)/real(clock_rate, real64), " seconds"
@@ -48,7 +45,7 @@ contains
           print '(*(a,:,i0))', "_____ ", passes, " of ", tests, " tests passed. ", skips, " tests were skipped _____"
           print *
         end if
-        if (passes + skips /= tests .and. me==1) error stop "Some tests failed."
+        if (passes + skips /= tests .and. me==1) call internal_error_stop("Some tests failed.")
       end associate
 
     end procedure
@@ -63,11 +60,7 @@ contains
         'angular brackets (<>) denote a user-provided value, and passing a substring limits execution to' // new_line('') // &
         'the tests with test subjects or test descriptions containing the user-specified substring.' // new_line('')
 
-#if HAVE_MULTI_IMAGE_SUPPORT
-      associate(me => this_image())
-#else
-      associate(me => 1)
-#endif
+      associate(me => internal_this_image())
         associate(command_line => command_line_t())
 
           if (command_line%argument_present([character(len=len("--help"))::"--help","-h"])) then
