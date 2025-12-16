@@ -4,7 +4,7 @@
 #include "language-support.F90"
 
 submodule(julienne_test_harness_m) julienne_test_harness_s
-  use iso_fortran_env, only : int64, real64
+  use iso_fortran_env, only : int32, real32
   use julienne_command_line_m, only : command_line_t
   use julienne_string_m, only : string_t
   use julienne_multi_image_m, only : internal_this_image, internal_num_images, internal_error_stop
@@ -23,7 +23,7 @@ contains
     module procedure report_results
 
       integer i, passes, tests, skips
-      integer(int64) start_time, end_time, clock_rate
+      integer(int32) start_time, end_time, clock_rate
       integer, parameter :: ms_per_sec = 1000
 
       passes=0; tests=0; skips=0
@@ -40,12 +40,7 @@ contains
       associate(me => internal_this_image(), image_count => internal_num_images())
         if (me==1) then
           print *
-#if defined(__flang__) && !defined(__linux__)
-          ! workaround issue 155 observed on flang + macOS
-          print '(a,f0.3,a)', "Test-suite run time: ", (end_time - start_time)/(real(clock_rate, real64)*ms_per_sec), " seconds"
-#else
-          print '(a,f0.3,a)', "Test-suite run time: ", (end_time - start_time)/ real(clock_rate, real64            ), " seconds"
-#endif
+          print '(a,f0.3,a)', "Test-suite run time: ", (end_time - start_time)/(real(clock_rate, real32)), " seconds"
           print '(a,i0)',      "Number of images: ", image_count
           print *
           print '(*(a,:,i0))', "_____ ", passes, " of ", tests, " tests passed. ", skips, " tests were skipped _____"
