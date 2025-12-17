@@ -24,7 +24,6 @@ contains
 
       integer i, passes, tests, skips
       integer(int32) start_time, end_time, clock_rate
-      integer, parameter :: ms_per_sec = 1000
 
       passes=0; tests=0; skips=0
 
@@ -34,6 +33,8 @@ contains
       do i = 1, size(self%test_fixture_)
         call self%test_fixture_(i)%report(passes, tests, skips)
       end do
+
+      call do_random_time_consuming_stuff
 
       call system_clock(end_time)
 
@@ -48,6 +49,29 @@ contains
         end if
         if (passes + skips /= tests .and. me==1) call internal_error_stop("Some tests failed.")
       end associate
+
+    contains
+
+      subroutine do_random_time_consuming_stuff
+        use iso_fortran_env, only : int64, real64
+        implicit none
+        integer(int64) start_time, end_time, clock_rate, i
+        integer, parameter :: N = 256 
+        real(real64) A(N,N), B(N,N), C(N,N)
+   
+        call random_init(repeatable=.true., image_distinct=.true.)
+        call random_number(A)
+        call random_number(B)
+        call random_number(C)
+
+        do i = 1, 1000
+          A = matmul(B,C)
+        end do
+
+        print *,"maxval(A) = ", maxval(A)
+
+      end subroutine
+
 
     end procedure
 
