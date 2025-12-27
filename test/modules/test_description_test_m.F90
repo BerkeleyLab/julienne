@@ -53,6 +53,10 @@ contains
        test_passed = test_description_t("foo", tautology_ptr) == test_description_t(string_t("foo"), tautology_ptr) &
       ,diagnostics_string= 'test_description_t("foo", tautology_ptr) /= test_description_t(string_t("foo"), tautology_ptr)'&
     )
+    test_diagnosis = test_diagnosis_t(  &
+       test_passed = .not. (test_description_t("foo", tautology_ptr) == test_description_t("foo")) &
+      ,diagnostics_string= 'test_description_t("foo", tautology_ptr) == test_description_t("foo")'&
+    )
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_diagnosis = test_diagnosis .also. test_diagnosis_t( &
        test_passed = test_description_t("foo", tautology) == test_description_t(string_t("foo"), tautology) &
