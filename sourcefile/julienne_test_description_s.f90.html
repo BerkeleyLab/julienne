@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.3% of total for source files.">70 statements</a>
+                 title=" 2.3% of total for source files.">69 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -439,9 +439,9 @@ large graphs.</div>
 <a id="ln-72" name="ln-72" href="#ln-72"></a>
 <a id="ln-73" name="ln-73" href="#ln-73"></a><span class="k">    module procedure </span><span class="n">equals</span>
 <a id="ln-74" name="ln-74" href="#ln-74"></a><span class="w">      </span><span class="n">call_assert</span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">lhs</span><span class="p">%</span><span class="n">description_</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="nb">allocated</span><span class="p">(</span><span class="n">rhs</span><span class="p">%</span><span class="n">description_</span><span class="p">))</span>
-<a id="ln-75" name="ln-75" href="#ln-75"></a><span class="w">      </span><span class="n">lhs_eq_rhs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">lhs</span><span class="p">%</span><span class="n">description_</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rhs</span><span class="p">%</span><span class="n">description_</span><span class="p">)</span>
-<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">associated</span><span class="p">(</span><span class="n">lhs</span><span class="p">%</span><span class="n">diagnosis_function_</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="nb">associated</span><span class="p">(</span><span class="n">rhs</span><span class="p">%</span><span class="n">diagnosis_function_</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-77" name="ln-77" href="#ln-77"></a><span class="w">        </span><span class="n">lhs_eq_rhs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lhs_eq_rhs</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="nb">associated</span><span class="p">(</span><span class="n">lhs</span><span class="p">%</span><span class="n">diagnosis_function_</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span><span class="p">%</span><span class="n">diagnosis_function_</span><span class="p">)</span>
+<a id="ln-75" name="ln-75" href="#ln-75"></a><span class="w">      </span><span class="n">lhs_eq_rhs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">lhs</span><span class="p">%</span><span class="n">description_</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rhs</span><span class="p">%</span><span class="n">description_</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="w">         </span><span class="p">(</span><span class="w"> </span><span class="nb">associated</span><span class="p">(</span><span class="n">lhs</span><span class="p">%</span><span class="n">diagnosis_function_</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span><span class="p">%</span><span class="n">diagnosis_function_</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-77" name="ln-77" href="#ln-77"></a><span class="w">           </span><span class="p">(</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="nb">associated</span><span class="p">(</span><span class="n">lhs</span><span class="p">%</span><span class="n">diagnosis_function_</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="nb">associated</span><span class="p">(</span><span class="n">rhs</span><span class="p">%</span><span class="n">diagnosis_function_</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
 <a id="ln-78" name="ln-78" href="#ln-78"></a><span class="w">    </span><span class="k">end procedure</span>
 <a id="ln-79" name="ln-79" href="#ln-79"></a>
 <a id="ln-80" name="ln-80" href="#ln-80"></a><span class="k">    module procedure </span><span class="n">filter</span>
@@ -489,7 +489,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-05 18:20 +0000             </p>
+ on 2026-01-08 22:05 +0000             </p>
           </div>
         </div>
         <br>
