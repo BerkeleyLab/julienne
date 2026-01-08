@@ -291,7 +291,7 @@ contains
 
   module procedure equals_expected_c_ptr
 
-    if (c_associated(actual, expected)) then
+    if (c_associated(actual, expected) .or. (.not. c_associated(actual) .and. .not. c_associated(expected))) then
       test_diagnosis = test_diagnosis_t(test_passed=.true., diagnostics_string="")
     else
       block

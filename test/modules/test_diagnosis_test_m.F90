@@ -30,7 +30,7 @@ module test_diagnosis_test_m
     ,operator(.isAtMost.) &
     ,operator(.greaterThan.) &
     ,operator(.isAtLeast.)
-  use iso_c_binding, only : c_ptr, c_loc, c_bool
+  use iso_c_binding, only : c_ptr, c_loc, c_bool, c_null_ptr
   use iso_fortran_env, only : int64
   implicit none
 
@@ -155,9 +155,11 @@ contains
     type(test_diagnosis_t) test_diagnosis
     logical(c_bool), target :: t
     type(c_ptr) t_ptr
+    type(c_ptr) null_ptr
     t = .true._c_bool
     t_ptr = c_loc(t)
-    test_diagnosis = t_ptr .equalsExpected. c_loc(t)
+    null_ptr = c_null_ptr
+    test_diagnosis = (t_ptr .equalsExpected. c_loc(t)) .also. (null_ptr .equalsExpected. c_null_ptr)
   end function
 
   function check_equals_logical() result(test_diagnosis)
