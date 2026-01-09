@@ -238,6 +238,14 @@ Documentation
 -------------
 See our online [documentation] or build the documentation locally by installing [FORD] and executing `ford ford.md`.
 
+Publications
+------------
+
+Citing Julienne? Please use the following publication:
+
+Damian Rouson, Dan Bonachea, and Katherine Rasmussen, "[**Idiomatic Correctness-Checking via Julienne in Fortran 2023**](https://doi.org/10.25344/S4BG65)",     
+_Proceedings of the [US Research Software Engineering Conference](https://us-rse.org/usrse25/)_, October 2025. DOI: [10.25344/S4BG65](https://doi.org/10.25344/S4BG65)
+
 Known Software Using Julienne
 -----------------------------
 * [band_distribution](https://github.com/pibion/band_distribution?tab=readme-ov-file): a utility supporting the search for dark matter 
