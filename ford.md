@@ -22,9 +22,9 @@ project_github: https://github.com/berkeleylab/inference-engine
 author: Berkeley Lab
 print_creation_date: true
 creation_date: %Y-%m-%d %H:%M %z
-project_github: https://github.com/sourceryinstitute/julienne
-project_download: https://github.com/sourceryinstitute/julienne/releases
-github: https://github.com/sourceryinstitute
+project_github: https://github.com/berkeleylab/julienne
+project_download: https://github.com/berkeleylab/julienne/releases
+github: https://github.com/berkeleylab
 predocmark_alt: >
 predocmark: <
 docmark_alt:
