@@ -5,7 +5,7 @@ LLVM Flang 22 supports the native Fortran parallel programming model used by
 Julienne: features that enable launching multiple images, which are instances
 of a program.  As of this writing, "Flang 22" refers to the main branch of 
 [llvm-project](https://github.com/llvm/llvm-project), which when built from
-source, responds to `flang-new --version` with text that includes `22.0.0git`.
+source, responds to `flang --version` with text that includes `22.0.0git`.
 
 To launch multi-image runs, Flang generates calls to the Parallel Runtime
 Interface for Fortran [(PRIF)](https://go.lbl.gov/prif).  Using these features
@@ -38,7 +38,7 @@ GASNet in `<caffeine-install-path>/lib`.
 ```bash
 git clone -b 0.6.0 https://github.com/BerkeleyLab/caffeine.git
 cd caffeine
-FC=<llvm-install-path>/bin/flang-new \
+FC=<llvm-install-path>/bin/flang \
  CC=<llvm-install-path>/bin/clang \
  CXX=<llvm-install-path>/bin/clang++ \
  ./install.sh --prefix=<caffeine-install-path>
@@ -53,11 +53,12 @@ find build -name libcaffeine.a
 Then move `libcaffeine.a` to the `<caffeine-install-path>/lib` directory.
 
 ### Build and Test Julienne
+With `fpm` versions lower than 0.13.0, replace `flang` with `flang-new` below.
 ```
 git clone -b 3.2.0 https://github.com/BerkeleyLab/julienne.git
 cd julienne
 fpm test \
-  --compiler flang-new \
+  --compiler flang \
   --flag "-O3 -DHAVE_MULTI_IMAGE_SUPPORT -fcoarray" \
   --link-flag "-lcaffeine -lgasnet-smp-seq -L<caffeine-install-path>/lib"
 ```

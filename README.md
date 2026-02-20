@@ -186,15 +186,15 @@ Building and Testing
 --------------------
 With the Fortran Package Manager ([`fpm`]) installed and in your `PATH`, the
 commands in the table below will build and run the Julienne test suite.  With
-`fpm` versions higher than 0.12.0, `flang-new` can be replaced with `flang`.
+`fpm` versions lower than 0.13.0, replace `flang` with `flang-new` in the commands below.
 For additional information on setting up parallel builds with LLVM, please see
 [parallel-testing-with-flang.md](./doc/parallel-testing-with-flang.md).
 
-Compiler/Runtime  |Tested Versions|Run Type|Example build/test commands (parallel examples use 2 images)
+Vendor/Runtime    |Tested Versions|Run Type|Example build/test commands (parallel examples use 2 images)
 ------------------|---------------|--------|------------------------------------------------------------
-LLVM/[Caffeine]   |22.0.0git      |parallel|`fpm test --compiler flang-new --flag "-O3 -DHAVE_MULTI_IMAGE_SUPPORT -fcoarray" --link-flag "-lcaffeine -lgasnet-smp-seq -L<caffeine-path> -L<gasnet-path>"`
-LLVM              |20-22          |serial  |`fpm test --compiler flang-new --flag -O3`
-LLVM              |19             |serial  |`fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"`
+LLVM/[Caffeine]   |22.0.0git      |parallel|`fpm test --compiler flang --flag "-O3 -DHAVE_MULTI_IMAGE_SUPPORT -fcoarray" --link-flag "-lcaffeine -lgasnet-smp-seq -L<caffeine-path> -L<gasnet-path>"`
+LLVM              |20-22          |serial  |`fpm test --compiler flang --flag -O3`
+LLVM              |19             |serial  |`fpm test --compiler flang --flag "-O3 -mmlir -allow-assumed-rank"`
 NAG               |7.2, Build 7235|parallel|`NAGFORTRAN_NUM_IMAGES=2 fpm test --compiler nagfor --flag "-fpp -O3 -coarray"`
 Intel             |2025.2.{0-1}   |parallel|`FOR_COARRAY_NUM_IMAGES=2 fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release`
 GCC/[OpenCoarrays]|14-15          |serial  |`fpm test --compiler gfortran --profile release`
