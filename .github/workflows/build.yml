@@ -47,6 +47,10 @@ jobs:
           # https://hub.docker.com/r/phhargrove/llvm-flang/tags
           - os: ubuntu-24.04
             compiler: flang
+            version: 22
+            container: phhargrove/llvm-flang:22.1.0-latest
+          - os: ubuntu-24.04
+            compiler: flang
             version: 21
             container: phhargrove/llvm-flang:21.1.0-latest
           - os: ubuntu-24.04
