@@ -88,10 +88,11 @@ Running the demonstration tests
 With the Fortran Package Manager (`fpm`) installed, please set the `demo`
 subdirectory as your present working directory in a shell.  Then run the
 demonstration test suite using the command below for your compiler.
+With `fpm` versions lower than 0.13.0, replace `flang` with `flang-new` below.
 
-|Vendor | Version(s) Tested                   | Example shell command                            |
+|Vendor | Version(s) Tested       | Example shell command                            |
 |-------|-------------------------|--------------------------------------------------|
-|LLVM   | 20-21                   | `fpm test --compiler flang-new --flag "-O3"`     |
+|LLVM   | 20-21                   | `fpm test --compiler flang --flag "-O3"`         |
 |GCC    | 13-15<sup>1</sup>       | `fpm test --compiler gfortran --profile release` |
 |NAG    | 7.2 Build 7235          | `fpm test --compiler nagfor --flag "-O3 -fpp"`   |
 |Intel  | 2025.2.1 Build 20250806 | `fpm test --compiler ifx --flag "-fpp -O3"`      |
@@ -114,7 +115,7 @@ Please run following command in a `bash` or `zsh` shell with Julienne's root
 directory as your present working directory:
 ```
 fpm run scaffold \
-  --compiler flang-new \
+  --compiler flang \ # with `fpm` 0.12.0 or older, replace "flang" with "flang-new"
   -- --json-file demo/test-suite.json \
   --suite-path demo/test
 ```
