@@ -92,6 +92,13 @@ jobs:
           #  version: 0.54.0
           #  container: phhargrove/lfortran:0.54.0-1
 
+          # https://github.com/lfortran/lfortran/pkgs/container/lfortran
+          - os: ubuntu-22.04
+            compiler: lfortran
+            version: latest
+            container: ghcr.io/lfortran/lfortran:latest
+            extra_flags: --separate-compilation --realloc-lhs-arrays
+
     container:
       image: ${{ matrix.container }}
 
@@ -136,6 +143,12 @@ jobs:
         set -x
         apt update
         apt install -y build-essential pkg-config make git curl
+        # Add container lfortran to PATH:
+        if test "$FC" = "lfortran"; then \
+          echo "/app/bin" >> "$GITHUB_PATH" ; \
+          ls -alh /app/bin ; \
+          ls -alh /app/share/lfortran/lib/ ; \
+        fi
 
     - name: Install macOS Dependencies
       if: contains(matrix.os, 'macos')
@@ -170,6 +183,7 @@ jobs:
         elif test "$FC" = "lfortran" ; then \
           echo "FPM_FC=lfortran" >> "$GITHUB_ENV" ; \
           echo "FFLAGS=--cpp $FFLAGS" >> "$GITHUB_ENV" ; \
+          echo "FPM_FLAGS=--profile debug --verbose" >> "$GITHUB_ENV" ; : fpm 0.13 workaround ; \
         else \
           echo "FPM_FC=gfortran-${COMPILER_VERSION}" >> "$GITHUB_ENV" ; \
           echo "FFLAGS=-ffree-line-length-0 $FFLAGS" >> "$GITHUB_ENV" ; \
