@@ -36,7 +36,7 @@ where angular brackets denote variables to replace with your chosen value.
 An `.install.sh` invocation of the form below _should_ install Caffeine and
 GASNet in `<caffeine-install-path>/lib`.
 ```bash
-git clone -b 0.6.0 https://github.com/BerkeleyLab/caffeine.git
+git clone -b 0.7.0 https://github.com/BerkeleyLab/caffeine.git
 cd caffeine
 FC=<llvm-install-path>/bin/flang \
  CC=<llvm-install-path>/bin/clang \
