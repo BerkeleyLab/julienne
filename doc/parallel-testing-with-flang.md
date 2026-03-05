@@ -55,7 +55,7 @@ Then move `libcaffeine.a` to the `<caffeine-install-path>/lib` directory.
 ### Build and Test Julienne
 With `fpm` versions lower than 0.13.0, replace `flang` with `flang-new` below.
 ```
-git clone -b 3.2.0 https://github.com/BerkeleyLab/julienne.git
+git clone -b 3.6.1 https://github.com/BerkeleyLab/julienne.git
 cd julienne
 fpm test \
   --compiler flang \
