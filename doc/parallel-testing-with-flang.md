@@ -33,7 +33,7 @@ cd ..
 where angular brackets denote variables to replace with your chosen value.
 
 ### Build Caffeine and GASNet
-An `.install.sh` invocation of the form below _should_ install Caffeine and
+An `install.sh` invocation of the form below _should_ install Caffeine and
 GASNet in `<caffeine-install-path>/lib`.
 ```bash
 git clone -b 0.7.0 https://github.com/BerkeleyLab/caffeine.git
