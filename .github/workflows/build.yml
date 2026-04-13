@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ macos-14, macos-15, macos-15-intel, macos-26, ubuntu-24.04 ]
+        os: [ macos-14, macos-15, macos-15-intel, macos-26, macos-26-intel, ubuntu-24.04 ]
         compiler: [ gfortran ]
         version: [ 13, 14, 15 ]
         extra_flags: [ -g -O3 ]
@@ -31,6 +31,9 @@ jobs:
             compiler: flang
             version: 22
           - os: macos-26
+            compiler: flang
+            version: 22
+          - os: macos-26-intel
             compiler: flang
             version: 22
 
@@ -91,6 +94,11 @@ jobs:
             compiler: lfortran
             version: 0.61.0
             container: phhargrove/lfortran:0.61.0-1
+            extra_flags: --separate-compilation --realloc-lhs-arrays
+          - os: ubuntu-24.04
+            compiler: lfortran
+            version: 0.62.0
+            container: phhargrove/lfortran:0.62.0-1
             extra_flags: --separate-compilation --realloc-lhs-arrays
 
           # https://github.com/lfortran/lfortran/pkgs/container/lfortran
