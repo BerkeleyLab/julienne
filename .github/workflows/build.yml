@@ -95,6 +95,11 @@ jobs:
             version: 0.61.0
             container: phhargrove/lfortran:0.61.0-1
             extra_flags: --separate-compilation --realloc-lhs-arrays
+          - os: ubuntu-24.04
+            compiler: lfortran
+            version: 0.62.0
+            container: phhargrove/lfortran:0.62.0-1
+            extra_flags: --separate-compilation --realloc-lhs-arrays
 
           # https://github.com/lfortran/lfortran/pkgs/container/lfortran
           - os: ubuntu-22.04
