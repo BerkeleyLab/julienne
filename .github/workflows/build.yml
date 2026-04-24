@@ -94,13 +94,10 @@ jobs:
             compiler: lfortran
             version: 0.61.0
             container: phhargrove/lfortran:0.61.0-1
-            extra_flags: --separate-compilation --realloc-lhs-arrays
           - os: ubuntu-24.04
             compiler: lfortran
             version: 0.62.0
             container: phhargrove/lfortran:0.62.0-1
-            extra_flags: --separate-compilation --realloc-lhs-arrays
-
           - os: ubuntu-24.04
             compiler: lfortran
             version: 0.63.0
@@ -111,12 +108,10 @@ jobs:
             compiler: lfortran
             version: 0.63.0
             container: ghcr.io/lfortran/lfortran:v0.63.0
-
           - os: ubuntu-22.04
             compiler: lfortran
             version: latest
             container: ghcr.io/lfortran/lfortran:latest
-            extra_flags: --separate-compilation --realloc-lhs-arrays
 
     container:
       image: ${{ matrix.container }}
@@ -201,7 +196,7 @@ jobs:
           : echo "FOR_COARRAY_MPI_VERBOSE=1" >> "$GITHUB_ENV" ; \
         elif test "$FC" = "lfortran" ; then \
           echo "FPM_FC=lfortran" >> "$GITHUB_ENV" ; \
-          echo "FFLAGS=--cpp $FFLAGS" >> "$GITHUB_ENV" ; \
+          echo "FFLAGS=--cpp --separate-compilation --realloc-lhs-arrays $FFLAGS" >> "$GITHUB_ENV" ; \
           echo "FPM_FLAGS=--profile debug --verbose" >> "$GITHUB_ENV" ; : fpm 0.13 workaround ; \
         else \
           echo "FPM_FC=gfortran-${COMPILER_VERSION}" >> "$GITHUB_ENV" ; \
