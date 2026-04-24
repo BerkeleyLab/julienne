@@ -136,7 +136,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Install Dependencies Ubuntu
       if: ${{ contains(matrix.os, 'ubuntu') && matrix.compiler == 'gfortran' && matrix.version == '15' }}
