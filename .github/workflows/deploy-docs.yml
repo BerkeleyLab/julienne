@@ -2,8 +2,14 @@ name: Build and Deploy Documentation
 
 on: [push, pull_request]
 
+concurrency:
+  # De-duplicate concurrent workflow runs on the same branch/ref
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
   Build:
+    name: FORD docs
     runs-on: ubuntu-22.04
 
     steps:

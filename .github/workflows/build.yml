@@ -1,6 +1,18 @@
 name: Build
 
-on: [push, pull_request]
+on:
+  push:
+    paths-ignore: &paths_ignore
+      - 'doc/**'
+      - '**.txt'
+      - '**.md'
+  pull_request:
+    paths-ignore: *paths_ignore
+
+concurrency:
+  # De-duplicate concurrent workflow runs on the same branch/ref
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 defaults:
   run:
@@ -94,19 +106,24 @@ jobs:
             compiler: lfortran
             version: 0.61.0
             container: phhargrove/lfortran:0.61.0-1
-            extra_flags: --separate-compilation --realloc-lhs-arrays
           - os: ubuntu-24.04
             compiler: lfortran
             version: 0.62.0
             container: phhargrove/lfortran:0.62.0-1
-            extra_flags: --separate-compilation --realloc-lhs-arrays
+          - os: ubuntu-24.04
+            compiler: lfortran
+            version: 0.63.0
+            container: phhargrove/lfortran:0.63.0-1
 
           # https://github.com/lfortran/lfortran/pkgs/container/lfortran
           - os: ubuntu-22.04
             compiler: lfortran
+            version: 0.63.0
+            container: ghcr.io/lfortran/lfortran:v0.63.0
+          - os: ubuntu-22.04
+            compiler: lfortran
             version: latest
             container: ghcr.io/lfortran/lfortran:latest
-            extra_flags: --separate-compilation --realloc-lhs-arrays
 
     container:
       image: ${{ matrix.container }}
@@ -119,7 +136,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Install Dependencies Ubuntu
       if: ${{ contains(matrix.os, 'ubuntu') && matrix.compiler == 'gfortran' && matrix.version == '15' }}
@@ -191,7 +208,7 @@ jobs:
           : echo "FOR_COARRAY_MPI_VERBOSE=1" >> "$GITHUB_ENV" ; \
         elif test "$FC" = "lfortran" ; then \
           echo "FPM_FC=lfortran" >> "$GITHUB_ENV" ; \
-          echo "FFLAGS=--cpp $FFLAGS" >> "$GITHUB_ENV" ; \
+          echo "FFLAGS=--cpp --separate-compilation --realloc-lhs-arrays $FFLAGS" >> "$GITHUB_ENV" ; \
           echo "FPM_FLAGS=--profile debug --verbose" >> "$GITHUB_ENV" ; : fpm 0.13 workaround ; \
         else \
           echo "FPM_FC=gfortran-${COMPILER_VERSION}" >> "$GITHUB_ENV" ; \
