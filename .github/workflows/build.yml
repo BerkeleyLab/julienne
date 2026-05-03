@@ -79,13 +79,27 @@ jobs:
             container: phhargrove/llvm-flang:19.1.1-latest
 
           # --- Intel coverage ---
+          # Julienne requires 2025.2.0 or later
+
+          # https://hub.docker.com/r/intel/oneapi-toolkit/tags
+          - os: ubuntu-24.04
+            compiler: ifx
+            version: latest
+            error_stop_code: 128
+            container: intel/oneapi-toolkit:latest
+
+          - os: ubuntu-24.04
+            compiler: ifx
+            version: 2026.0.0
+            error_stop_code: 128
+            container: intel/oneapi-toolkit:2026.0.0-devel-ubuntu24.04
 
           # https://hub.docker.com/r/intel/fortran-essentials/tags
           - os: ubuntu-24.04
             compiler: ifx
-            version: 2025.2.0
+            version: 2025.3.0
             error_stop_code: 128
-            container: intel/fortran-essentials:2025.2.0-0-devel-ubuntu24.04
+            container: intel/fortran-essentials:2025.3.0-0-devel-ubuntu24.04
 
           - os: ubuntu-24.04
             compiler: ifx
@@ -95,9 +109,9 @@ jobs:
 
           - os: ubuntu-24.04
             compiler: ifx
-            version: latest
+            version: 2025.2.0
             error_stop_code: 128
-            container: intel/fortran-essentials:latest
+            container: intel/fortran-essentials:2025.2.0-0-devel-ubuntu24.04
 
           # --- LFortran coverage ---
 
