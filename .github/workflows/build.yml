@@ -85,32 +85,27 @@ jobs:
           - os: ubuntu-24.04
             compiler: ifx
             version: latest
-            error_stop_code: 128
             container: intel/oneapi-toolkit:latest
 
           - os: ubuntu-24.04
             compiler: ifx
             version: 2026.0.0
-            error_stop_code: 128
             container: intel/oneapi-toolkit:2026.0.0-devel-ubuntu24.04
 
           # https://hub.docker.com/r/intel/fortran-essentials/tags
           - os: ubuntu-24.04
             compiler: ifx
             version: 2025.3.0
-            error_stop_code: 128
             container: intel/fortran-essentials:2025.3.0-0-devel-ubuntu24.04
 
           - os: ubuntu-24.04
             compiler: ifx
             version: 2025.2.2
-            error_stop_code: 128
             container: intel/fortran-essentials:2025.2.2-0-devel-ubuntu24.04
 
           - os: ubuntu-24.04
             compiler: ifx
             version: 2025.2.0
-            error_stop_code: 128
             container: intel/fortran-essentials:2025.2.0-0-devel-ubuntu24.04
 
           # --- LFortran coverage ---
@@ -226,11 +221,6 @@ jobs:
         fi
         if [[ "${{ matrix.container }}" =~ "snowstep/llvm" ]] ; then
           echo "LD_LIBRARY_PATH=/usr/lib/llvm-22/lib:$LD_LIBRARY_PATH" >> "$GITHUB_ENV"
-        fi
-        if test -n "${{ matrix.error_stop_code }}" ; then
-          echo "ERROR_STOP_CODE=${{ matrix.error_stop_code }}" >> "$GITHUB_ENV"
-        else
-          echo "ERROR_STOP_CODE=1" >> "$GITHUB_ENV"
         fi
 
     - name: Setup FPM
