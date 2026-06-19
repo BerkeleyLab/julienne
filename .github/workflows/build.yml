@@ -27,7 +27,7 @@ jobs:
       matrix:
         os: [ macos-14, macos-15, macos-15-intel, macos-26, macos-26-intel, ubuntu-24.04 ]
         compiler: [ gfortran ]
-        version: [ 13, 14, 15 ]
+        version: [ 13, 14, 15, 16 ]
         extra_flags: [ -g -O3 ]
 
         include:
@@ -151,19 +151,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v6
 
-    - name: Install Dependencies Ubuntu
-      if: ${{ contains(matrix.os, 'ubuntu') && matrix.compiler == 'gfortran' && matrix.version == '15' }}
+    - name: Install Ubuntu Native Dependencies
+      if: ${{ contains(matrix.os, 'ubuntu') && matrix.container == '' && matrix.compiler == 'gfortran' }}
       run: |
         sudo apt-get update
-        sudo apt list -a 'gfortran-*'
+        #sudo apt list -a 'gfortran-*'
         sudo apt install -y build-essential
-        if [[ ${COMPILER_VERSION} < 15 ]] ; then
+        if [[ ${COMPILER_VERSION} -lt 15 ]] ; then
           sudo apt install -y gfortran-${COMPILER_VERSION}
         else
           curl -L https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o install-homebrew.sh
           chmod +x install-homebrew.sh
           env CI=1 ./install-homebrew.sh
           HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+          sudo ${HOMEBREW_PREFIX}/bin/brew setup-sandbox
           ${HOMEBREW_PREFIX}/bin/brew install -v gcc@${COMPILER_VERSION} binutils
           ls -al ${HOMEBREW_PREFIX}/bin
           echo "PATH=${HOMEBREW_PREFIX}/bin:${PATH}" >> "$GITHUB_ENV"
@@ -191,9 +192,14 @@ jobs:
     - name: Install macOS Dependencies
       if: contains(matrix.os, 'macos')
       run: |
+        # silence Homebrew tap trust warnings:
+        (set +e ; brew untap -f aws/tap hashicorp/tap 2>&1 | perl -pe 's/#*.warning./warn: /' ; brew trust azure/bicep )
         brew update
         # fpm binary distribution for macOS requires gfortran shared libraries from gcc@12
         brew install gcc@12
+        if [[ ${{ matrix.compiler }} == 'gfortran' && ${COMPILER_VERSION} -gt 15 ]] ; then
+          brew install gcc@${COMPILER_VERSION}
+        fi
 
     - name: Install LLVM flang on macOS
       if: contains(matrix.os, 'macos') && matrix.compiler == 'flang'
