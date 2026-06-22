@@ -16,7 +16,7 @@ program stop_and_print_in_pure_procedure
 #endif
     if (.not. command_line%argument_present([character(len=len("--help"))::"--help","-h"])) then
 #if TEST_INTENTIONAL_FAILURE && ASSERTIONS
-      if (me==1) print '(a)', new_line('') // 'Test the intentional failure of stop_and_print in a pure procedure: ' // new_line('')
+      if (me==1) print '(a)', new_line('') // 'Test the intentional failure of an idiomatic assertion: ' // new_line('')
       call pure_subroutine
 #else
       if (me==1) print '(a)',  &
