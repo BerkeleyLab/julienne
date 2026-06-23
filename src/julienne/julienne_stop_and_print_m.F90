@@ -4,6 +4,7 @@
 module julienne_stop_and_print_m
   !! Define a pure subroutine that terminates with an ERROR STOP message from a string_t
   use julienne_string_m, only : string_t
+  use julienne_multi_image_m, only : internal_error_stop
   implicit none
   
   private
