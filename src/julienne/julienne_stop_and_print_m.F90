@@ -14,7 +14,7 @@ contains
   pure subroutine stop_and_print(message)
     implicit none
     type(string_t), intent(in) :: message
-    error stop message%string()
+    call internal_error_stop(message%string())
   end subroutine
   
 end module
