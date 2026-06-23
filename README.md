@@ -187,8 +187,6 @@ Building and Testing
 With the Fortran Package Manager ([`fpm`]) installed and in your `PATH`, the
 commands in the table below will build and run the Julienne test suite.  With
 `fpm` versions higher than 0.12.0, `flang-new` can be replaced with `flang`.
-For additional information on setting up parallel builds with LLVM, please see
-[parallel-testing-with-flang.md](./doc/parallel-testing-with-flang.md).
 
 Compiler/Runtime  |Tested Versions|Run Type|Example build/test commands (parallel examples use 2 images)
 ------------------|---------------|--------|------------------------------------------------------------
