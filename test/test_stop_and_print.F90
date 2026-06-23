@@ -31,7 +31,7 @@ program stop_and_print_in_pure_procedure
 contains
 
   pure subroutine pure_subroutine
-    integer, parameter :: array(4) = [1,2,3,4]
+    integer, parameter :: array(*) = [1,2,3,4]
     call stop_and_print("array = " // .csv. string_t(array))
   end subroutine
 
