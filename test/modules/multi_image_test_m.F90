@@ -173,7 +173,7 @@ contains
 #   endif
   end subroutine
 
-  subroutine julienne_callback_error_stop(stop_code_char)
+  pure subroutine julienne_callback_error_stop(stop_code_char)
     implicit none
     character(len=*), intent(in) :: stop_code_char
 

@@ -19,6 +19,8 @@ module julienne_test_m
   type, abstract :: test_t
     !! Facilitate testing and test reporting
 
+    integer :: dummy = 0 ! this is to ensure the type is default-initialized, to eliminate warnings
+
   contains
     procedure(subject_interface), nopass, deferred :: subject 
     procedure(results_interface), nopass, deferred :: results
