@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.2% of total for source files.">37 statements</a>
+                 title=" 1.2% of total for source files.">38 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -628,49 +628,51 @@ large graphs.</div>
 <a id="ln-19" name="ln-19" href="#ln-19"></a><span class="w">  </span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">abstract</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test_t</span>
 <a id="ln-20" name="ln-20" href="#ln-20"></a><span class="w">    </span><span class="c">!! Facilitate testing and test reporting</span>
 <a id="ln-21" name="ln-21" href="#ln-21"></a>
-<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="w">  </span><span class="k">contains</span>
-<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="k">    procedure</span><span class="p">(</span><span class="n">subject_interface</span><span class="p">),</span><span class="w"> </span><span class="k">nopass</span><span class="p">,</span><span class="w"> </span><span class="k">deferred</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span>
-<a id="ln-24" name="ln-24" href="#ln-24"></a><span class="w">    </span><span class="k">procedure</span><span class="p">(</span><span class="n">results_interface</span><span class="p">),</span><span class="w"> </span><span class="k">nopass</span><span class="p">,</span><span class="w"> </span><span class="k">deferred</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">results</span>
-<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="w">    </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">run</span>
-<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">    </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">report</span>
-<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="w">  </span><span class="k">end type</span>
-<a id="ln-28" name="ln-28" href="#ln-28"></a>
-<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="k">  abstract interface</span>
+<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dummy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="c">! this is to ensure the type is default-initialized, to eliminate warnings</span>
+<a id="ln-23" name="ln-23" href="#ln-23"></a>
+<a id="ln-24" name="ln-24" href="#ln-24"></a><span class="w">  </span><span class="k">contains</span>
+<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="k">    procedure</span><span class="p">(</span><span class="n">subject_interface</span><span class="p">),</span><span class="w"> </span><span class="k">nopass</span><span class="p">,</span><span class="w"> </span><span class="k">deferred</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span>
+<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">    </span><span class="k">procedure</span><span class="p">(</span><span class="n">results_interface</span><span class="p">),</span><span class="w"> </span><span class="k">nopass</span><span class="p">,</span><span class="w"> </span><span class="k">deferred</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">results</span>
+<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="w">    </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">run</span>
+<a id="ln-28" name="ln-28" href="#ln-28"></a><span class="w">    </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">report</span>
+<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="w">  </span><span class="k">end type</span>
 <a id="ln-30" name="ln-30" href="#ln-30"></a>
-<a id="ln-31" name="ln-31" href="#ln-31"></a><span class="k">    pure function </span><span class="n">subject_interface</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">specimen_description</span><span class="p">)</span>
-<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="w">      </span><span class="c">!! The result is the name of the test specimen (the subject of testing)</span>
-<a id="ln-33" name="ln-33" href="#ln-33"></a><span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">specimen_description</span>
-<a id="ln-34" name="ln-34" href="#ln-34"></a><span class="w">    </span><span class="k">end function</span>
-<a id="ln-35" name="ln-35" href="#ln-35"></a>
-<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="k">    function </span><span class="n">results_interface</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">test_results</span><span class="p">)</span>
-<a id="ln-37" name="ln-37" href="#ln-37"></a><span class="w">      </span><span class="c">!! The result is an array of test results for subsequent reporting in the &quot;report&quot; type-bound procedure</span>
-<a id="ln-38" name="ln-38" href="#ln-38"></a><span class="w">      </span><span class="k">import </span><span class="n">test_result_t</span>
-<a id="ln-39" name="ln-39" href="#ln-39"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">test_result_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test_results</span><span class="p">(:)</span>
-<a id="ln-40" name="ln-40" href="#ln-40"></a><span class="w">    </span><span class="k">end function</span>
-<a id="ln-41" name="ln-41" href="#ln-41"></a>
-<a id="ln-42" name="ln-42" href="#ln-42"></a><span class="k">  end interface</span>
+<a id="ln-31" name="ln-31" href="#ln-31"></a><span class="k">  abstract interface</span>
+<a id="ln-32" name="ln-32" href="#ln-32"></a>
+<a id="ln-33" name="ln-33" href="#ln-33"></a><span class="k">    pure function </span><span class="n">subject_interface</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">specimen_description</span><span class="p">)</span>
+<a id="ln-34" name="ln-34" href="#ln-34"></a><span class="w">      </span><span class="c">!! The result is the name of the test specimen (the subject of testing)</span>
+<a id="ln-35" name="ln-35" href="#ln-35"></a><span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">specimen_description</span>
+<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="w">    </span><span class="k">end function</span>
+<a id="ln-37" name="ln-37" href="#ln-37"></a>
+<a id="ln-38" name="ln-38" href="#ln-38"></a><span class="k">    function </span><span class="n">results_interface</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">test_results</span><span class="p">)</span>
+<a id="ln-39" name="ln-39" href="#ln-39"></a><span class="w">      </span><span class="c">!! The result is an array of test results for subsequent reporting in the &quot;report&quot; type-bound procedure</span>
+<a id="ln-40" name="ln-40" href="#ln-40"></a><span class="w">      </span><span class="k">import </span><span class="n">test_result_t</span>
+<a id="ln-41" name="ln-41" href="#ln-41"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">test_result_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test_results</span><span class="p">(:)</span>
+<a id="ln-42" name="ln-42" href="#ln-42"></a><span class="w">    </span><span class="k">end function</span>
 <a id="ln-43" name="ln-43" href="#ln-43"></a>
-<a id="ln-44" name="ln-44" href="#ln-44"></a><span class="k">  interface</span>
+<a id="ln-44" name="ln-44" href="#ln-44"></a><span class="k">  end interface</span>
 <a id="ln-45" name="ln-45" href="#ln-45"></a>
-<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="k">    module function </span><span class="n">run</span><span class="p">(</span><span class="n">test</span><span class="p">,</span><span class="w"> </span><span class="n">test_descriptions</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">test_results</span><span class="p">)</span>
-<a id="ln-47" name="ln-47" href="#ln-47"></a><span class="w">      </span><span class="c">!! Construct an array of test results from a set of tests filtered for descriptions and subjects with</span>
-<a id="ln-48" name="ln-48" href="#ln-48"></a><span class="w">      </span><span class="c">!! the &#39;--contains&#39; flag&#39;s value if the flag was included on the command line at program launch.</span>
-<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="w">      </span><span class="k">implicit none</span>
-<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="k">      class</span><span class="p">(</span><span class="n">test_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test</span>
-<a id="ln-51" name="ln-51" href="#ln-51"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">test_description_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test_descriptions</span><span class="p">(:)</span>
-<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">test_result_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test_results</span><span class="p">(:)</span>
-<a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">    </span><span class="k">end function</span>
-<a id="ln-54" name="ln-54" href="#ln-54"></a>
-<a id="ln-55" name="ln-55" href="#ln-55"></a><span class="k">    module subroutine </span><span class="n">report</span><span class="p">(</span><span class="n">test</span><span class="p">,</span><span class="w"> </span><span class="n">passes</span><span class="p">,</span><span class="w"> </span><span class="n">tests</span><span class="p">,</span><span class="w"> </span><span class="n">skips</span><span class="p">)</span>
-<a id="ln-56" name="ln-56" href="#ln-56"></a><span class="w">      </span><span class="c">!! Print the test results and increment the tallies of passing tests, total tests, and skipped tests.</span>
-<a id="ln-57" name="ln-57" href="#ln-57"></a><span class="w">      </span><span class="k">implicit none</span>
-<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="k">      class</span><span class="p">(</span><span class="n">test_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test</span>
-<a id="ln-59" name="ln-59" href="#ln-59"></a><span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">passes</span><span class="p">,</span><span class="w"> </span><span class="n">tests</span><span class="p">,</span><span class="w"> </span><span class="n">skips</span>
-<a id="ln-60" name="ln-60" href="#ln-60"></a><span class="w">    </span><span class="k">end subroutine</span>
-<a id="ln-61" name="ln-61" href="#ln-61"></a>
-<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="k">  end interface</span>
+<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="k">  interface</span>
+<a id="ln-47" name="ln-47" href="#ln-47"></a>
+<a id="ln-48" name="ln-48" href="#ln-48"></a><span class="k">    module function </span><span class="n">run</span><span class="p">(</span><span class="n">test</span><span class="p">,</span><span class="w"> </span><span class="n">test_descriptions</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">test_results</span><span class="p">)</span>
+<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="w">      </span><span class="c">!! Construct an array of test results from a set of tests filtered for descriptions and subjects with</span>
+<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="w">      </span><span class="c">!! the &#39;--contains&#39; flag&#39;s value if the flag was included on the command line at program launch.</span>
+<a id="ln-51" name="ln-51" href="#ln-51"></a><span class="w">      </span><span class="k">implicit none</span>
+<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="k">      class</span><span class="p">(</span><span class="n">test_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test</span>
+<a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">test_description_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test_descriptions</span><span class="p">(:)</span>
+<a id="ln-54" name="ln-54" href="#ln-54"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">test_result_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test_results</span><span class="p">(:)</span>
+<a id="ln-55" name="ln-55" href="#ln-55"></a><span class="w">    </span><span class="k">end function</span>
+<a id="ln-56" name="ln-56" href="#ln-56"></a>
+<a id="ln-57" name="ln-57" href="#ln-57"></a><span class="k">    module subroutine </span><span class="n">report</span><span class="p">(</span><span class="n">test</span><span class="p">,</span><span class="w"> </span><span class="n">passes</span><span class="p">,</span><span class="w"> </span><span class="n">tests</span><span class="p">,</span><span class="w"> </span><span class="n">skips</span><span class="p">)</span>
+<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="w">      </span><span class="c">!! Print the test results and increment the tallies of passing tests, total tests, and skipped tests.</span>
+<a id="ln-59" name="ln-59" href="#ln-59"></a><span class="w">      </span><span class="k">implicit none</span>
+<a id="ln-60" name="ln-60" href="#ln-60"></a><span class="k">      class</span><span class="p">(</span><span class="n">test_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test</span>
+<a id="ln-61" name="ln-61" href="#ln-61"></a><span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">passes</span><span class="p">,</span><span class="w"> </span><span class="n">tests</span><span class="p">,</span><span class="w"> </span><span class="n">skips</span>
+<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="w">    </span><span class="k">end subroutine</span>
 <a id="ln-63" name="ln-63" href="#ln-63"></a>
-<a id="ln-64" name="ln-64" href="#ln-64"></a><span class="k">end module </span><span class="n">julienne_test_m</span>
+<a id="ln-64" name="ln-64" href="#ln-64"></a><span class="k">  end interface</span>
+<a id="ln-65" name="ln-65" href="#ln-65"></a>
+<a id="ln-66" name="ln-66" href="#ln-66"></a><span class="k">end module </span><span class="n">julienne_test_m</span>
 </pre></div>
 
       </section>
@@ -692,7 +694,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-19 19:05 +0000             </p>
+ on 2026-06-23 20:37 +0000             </p>
           </div>
         </div>
         <br>

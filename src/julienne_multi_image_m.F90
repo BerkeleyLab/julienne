@@ -31,7 +31,7 @@ module julienne_multi_image_m
       integer, intent(in), optional :: result_image
     end subroutine
 
-    module subroutine internal_error_stop(stop_code_char)
+    module pure subroutine internal_error_stop(stop_code_char)
       implicit none
       character(len=*), intent(in) :: stop_code_char
     end subroutine
@@ -78,7 +78,7 @@ module julienne_multi_image_m
     procedure(julienne_co_sum_integer_interface), pointer :: julienne_co_sum_integer
 
     abstract interface
-      subroutine julienne_error_stop_interface(stop_code_char)
+      pure subroutine julienne_error_stop_interface(stop_code_char)
         implicit none
         character(len=*), intent(in) :: stop_code_char
       end subroutine
