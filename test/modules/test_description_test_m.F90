@@ -51,11 +51,11 @@ contains
 
     test_diagnosis = test_diagnosis_t(  &
        test_passed = test_description_t("foo", tautology_ptr) == test_description_t(string_t("foo"), tautology_ptr) &
-      ,diagnostics_string= 'test_description_t("foo", tautology_ptr) /= test_description_t(string_t("foo"), tautology_ptr)'&
+      ,diagnostics_string= 'test_description_t("foo", tautology_ptr) /= test_description_t(string_t("foo"), tautology_ptr)' &
     )
     test_diagnosis = test_diagnosis_t(  &
        test_passed = .not. (test_description_t("foo", tautology_ptr) == test_description_t("foo")) &
-      ,diagnostics_string= 'test_description_t("foo", tautology_ptr) == test_description_t("foo")'&
+      ,diagnostics_string= 'test_description_t("foo", tautology_ptr) == test_description_t("foo")' &
     )
 #if HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
     test_diagnosis = test_diagnosis .also. test_diagnosis_t( &
@@ -69,19 +69,19 @@ contains
 #endif
     test_diagnosis = test_diagnosis .also. test_diagnosis_t( &
        test_passed = test_description_t("foo", tautology_ptr) == test_description_t("foo", usher(tautology)) &
-      ,diagnostics_string= 'test_description_t("foo", tautology_ptr) /= test_description_t("foo", usher(tautology))'&
+      ,diagnostics_string= 'test_description_t("foo", tautology_ptr) /= test_description_t("foo", usher(tautology))' &
     )
     test_diagnosis = test_diagnosis .also. test_diagnosis_t( &
        test_passed = test_description_t("foo", tautology_ptr) == test_description_t("foo", c_funloc(tautology_ptr)) &
-      ,diagnostics_string= 'test_description_t("foo", tautology_ptr) /= test_description_t("foo", c_funloc(tautology))'&
+      ,diagnostics_string= 'test_description_t("foo", tautology_ptr) /= test_description_t("foo", c_funloc(tautology))' &
     )
     test_diagnosis = test_diagnosis .also. test_diagnosis_t( &
        test_passed = test_description_t(string_t("foo"), tautology_ptr) == test_description_t(string_t("foo"), usher(tautology)) &
-      ,diagnostics_string= 'test_description_t(string_t("foo"), tautology_ptr) /= test_description_t(string_t("foo"), usher(tautology))'&
+      ,diagnostics_string= 'test_description_t(string_t("foo"), tautology_ptr) /= test_description_t(string_t("foo"), usher(tautology))' &
     )
     test_diagnosis = test_diagnosis .also. test_diagnosis_t( &
        test_passed = test_description_t(string_t("foo"), tautology_ptr) == test_description_t(string_t("foo"), c_funloc(tautology_ptr)) &
-      ,diagnostics_string= 'test_description_t(string_t("foo"), tautology_ptr) /= test_description_t(string_t("foo"), c_funloc(tautology))'&
+      ,diagnostics_string= 'test_description_t(string_t("foo"), tautology_ptr) /= test_description_t(string_t("foo"), c_funloc(tautology))' &
     )
   contains
     type(test_diagnosis_t) function tautology()
