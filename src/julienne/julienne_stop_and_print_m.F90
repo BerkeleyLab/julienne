@@ -2,7 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 
 module julienne_stop_and_print_m
-  !! Define a pure subroutine subroutine that prints string_t objects/arrays
+  !! Define a pure subroutine that terminates with an ERROR STOP message from a string_t
   use julienne_string_m, only : string_t
   implicit none
   
