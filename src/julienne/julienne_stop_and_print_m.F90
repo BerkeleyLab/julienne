@@ -17,7 +17,6 @@ module julienne_stop_and_print_m
 
 contains 
 
-
   pure subroutine print_string(message)
     implicit none
     type(string_t), intent(in) :: message
@@ -36,7 +35,7 @@ contains
     character(len=:), allocatable :: stop_code
 
     type(string_t) stringy_stuff
-    integer row
+    integer row, page
 
     select rank(stuff)
       rank(0)
@@ -56,7 +55,7 @@ contains
             stringy_stuff = string_t(stuff)
             stop_code = stringy_stuff%string()
           class default
-             error stop "character_stop_code (in print_and_stop_s): unsupported type"
+             error stop "character_stop_code (in print_and_stop_s): unsupported stop-code type for scalar"
         end select
       rank(1)
         select type(stuff)
@@ -76,7 +75,7 @@ contains
             stringy_stuff = .csv. string_t(stuff)
             stop_code = stringy_stuff%string()
           class default
-             error stop "character_stop_code (in print_and_stop_s): unsupported stop-code type"
+             error stop "character_stop_code (in print_and_stop_s): unsupported stop-code type for rank-1 array"
         end select
       rank(2)
         select type(stuff)
@@ -96,7 +95,24 @@ contains
             stringy_stuff =  [(.csv. string_t(stuff(row,:)) , row=1,size(stuff,1))] .separatedBy. new_line('')
             stop_code = stringy_stuff%string()
           class default
-             error stop "character_stop_code (in print_and_stop_s): unsupported stop-code type"
+             error stop "character_stop_code (in print_and_stop_s): unsupported stop-code type for rank-2 array"
+        end select
+      rank(3)
+        select type(stuff)
+          type is(complex)
+            stringy_stuff =  [( [(.csv. string_t(stuff(row,:,page)) , row=1,size(stuff,1))] .separatedBy. new_line(''), page = 1,size(stuff,3) )] .separatedBy. (new_line('') // new_line(''))
+            stop_code = stringy_stuff%string()
+          type is(double precision)
+            stringy_stuff =  [( [(.csv. string_t(stuff(row,:,page)) , row=1,size(stuff,1))] .separatedBy. new_line(''), page = 1,size(stuff,3) )] .separatedBy. (new_line('') // new_line(''))
+            stop_code = stringy_stuff%string()
+          type is(integer)
+            stringy_stuff =  [( [(.csv. string_t(stuff(row,:,page)) , row=1,size(stuff,1))] .separatedBy. new_line(''), page = 1,size(stuff,3) )] .separatedBy. (new_line('') // new_line(''))
+            stop_code = stringy_stuff%string()
+          type is(real)
+            stringy_stuff =  [( [(.csv. string_t(stuff(row,:,page)) , row=1,size(stuff,1))] .separatedBy. new_line(''), page = 1,size(stuff,3) )] .separatedBy. (new_line('') // new_line(''))
+            stop_code = stringy_stuff%string()
+          class default
+             error stop "character_stop_code (in print_and_stop_s): unsupported stop-code type for rank-3 array"
         end select
       rank default
         associate(stop_code_rank => string_t(stop_code))
