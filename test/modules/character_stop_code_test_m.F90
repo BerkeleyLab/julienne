@@ -7,7 +7,9 @@ module character_stop_code_test_m
   !! Check data partitioning across bins
   use julienne_m, only : &
      character_stop_code &
+    ,operator(//) &
     ,operator(.all.) &
+    ,operator(.also.) &
     ,operator(.equalsExpected.) &
     ,passing_test &
     ,string_t &
@@ -27,6 +29,10 @@ module character_stop_code_test_m
     procedure, nopass :: results
   end type
 
+  interface operator(.occurrencesIn.)
+    module procedure occurrences_in
+  end interface
+
 contains
 
   pure function subject() result(specimen)
@@ -40,23 +46,30 @@ contains
     type(character_stop_code_test_t) character_stop_code_test
 
     test_descriptions = [ &
-      test_description_t(string_t("converting a 1D array to a comma-separated-value string"), usher(check_1D_array)) &
+      test_description_t(string_t("converting a 1D array to a comma-separated-value (CSV) string"), usher(check_1D_array)) &
     ]
     test_results = character_stop_code_test%run(test_descriptions)
   end function
 
+  pure function occurrences_in(lhs, rhs) result(occurrences)
+    character(len=1), intent(in) :: lhs
+    character(len=*), intent(in) :: rhs
+    integer occurrences, c
+    occurrences = count([(rhs(c:c)==lhs, c=1,len(rhs))])
+  end function
+
   function check_1D_array() result(test_diagnosis)
-    !! Check conversion of a 1D array to a character string containing comma-separated values
     type(test_diagnosis_t) test_diagnosis
-
     integer, parameter :: expected_array(*) = [1,2,3,4]
-    integer actual_array(size(expected_array))
-
+    integer c, actual_array(size(expected_array))
 
     test_diagnosis = passing_test()
 
-    read(character_stop_code(expected_array),*) actual_array
-    test_diagnosis = .all. (actual_array .equalsExpected. expected_array)
+    associate(stop_code => character_stop_code(expected_array))
+      read(stop_code,*) actual_array
+      test_diagnosis = test_diagnosis .also. .all. (actual_array .equalsExpected. expected_array)
+      test_diagnosis = test_diagnosis .also. (("," .occurrencesIn. stop_code) .equalsExpected. size(expected_array)-1) // " commas in " // stop_code
+    end associate
   end function
 
 end module character_stop_code_test_m
