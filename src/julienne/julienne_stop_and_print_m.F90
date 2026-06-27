@@ -3,7 +3,7 @@
 
 module julienne_stop_and_print_m
   !! Define a pure subroutine subroutine that prints string_t objects/arrays
-  use julienne_string_m, only : string_t, operator(.csv.)
+  use julienne_string_m, only : string_t, operator(.csv.), operator(.separatedBy.)
   implicit none
   
   private
@@ -81,19 +81,19 @@ contains
       rank(2)
         select type(stuff)
           type is(character(len=*))
-            stringy_stuff = .csv. [(.csv. string_t(stuff(row,:)) // new_line(''), row=1,size(stuff,2))]
+            stringy_stuff =  [(.csv. string_t(stuff(row,:)) , row=1,size(stuff,1))] .separatedBy. new_line('')
             stop_code = stringy_stuff%string()
           type is(complex)
-            stringy_stuff = .csv. [(.csv. string_t(stuff(row,:)) // new_line(''), row=1,size(stuff,2))]
+            stringy_stuff =  [(.csv. string_t(stuff(row,:)) , row=1,size(stuff,1))] .separatedBy. new_line('')
             stop_code = stringy_stuff%string()
           type is(double precision)
-            stringy_stuff = .csv. [(.csv. string_t(stuff(row,:)) // new_line(''), row=1,size(stuff,2))]
+            stringy_stuff =  [(.csv. string_t(stuff(row,:)) , row=1,size(stuff,1))] .separatedBy. new_line('')
             stop_code = stringy_stuff%string()
           type is(integer)
-            stringy_stuff = .csv. [(.csv. string_t(stuff(row,:)) // new_line(''), row=1,size(stuff,2))]
+            stringy_stuff =  [(.csv. string_t(stuff(row,:)) , row=1,size(stuff,1))] .separatedBy. new_line('')
             stop_code = stringy_stuff%string()
           type is(real)
-            stringy_stuff = .csv. [(.csv. string_t(stuff(row,:)) // new_line(''), row=1,size(stuff,2))]
+            stringy_stuff =  [(.csv. string_t(stuff(row,:)) , row=1,size(stuff,1))] .separatedBy. new_line('')
             stop_code = stringy_stuff%string()
           class default
              error stop "character_stop_code (in print_and_stop_s): unsupported stop-code type"
