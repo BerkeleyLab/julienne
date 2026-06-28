@@ -104,6 +104,10 @@ contains
     real, parameter :: expected_real_array(*) = real(expected_array)
     real actual_real_array(size(expected_real_array,1))
 
+    complex, parameter :: i = (0.,1.)
+    complex, parameter :: expected_complex_array(*) = cmplx(expected_array) - expected_array*i
+    complex actual_complex_array(size(expected_complex_array,1))
+
     test_diagnosis = passing_test()
 
     associate(stop_code => character_stop_code(expected_array))
@@ -118,6 +122,12 @@ contains
       test_diagnosis = test_diagnosis .also. .all. (actual_real_array .approximates. real(expected_array) .within. 0.)
       test_diagnosis = test_diagnosis .also. (("," .occurrencesIn. stop_code) .equalsExpected. size(expected_real_array)-1) &
         // " commas in " // stop_code
+    end associate
+
+    associate(stop_code => character_stop_code(expected_complex_array), expected_imaginary_part => -expected_array*i)
+      read(stop_code,*) actual_complex_array
+      test_diagnosis = test_diagnosis .also. .all. (actual_complex_array%re .approximates. real(expected_array) .within. 0.)
+      test_diagnosis = test_diagnosis .also. .all. (actual_complex_array%im .approximates. expected_imaginary_part %im .within. 0.)
     end associate
   end function
 
