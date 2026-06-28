@@ -108,6 +108,9 @@ contains
     complex, parameter :: expected_complex_array(*) = cmplx(expected_array) - expected_array*i
     complex actual_complex_array(size(expected_complex_array,1))
 
+    double precision, parameter :: expected_dble_array(*) = dble(expected_array)
+    double precision actual_dble_array(size(expected_dble_array,1))
+
     test_diagnosis = passing_test()
 
     associate(stop_code => character_stop_code(expected_array))
@@ -129,6 +132,13 @@ contains
       test_diagnosis = test_diagnosis .also. .all. (actual_complex_array%re .approximates. real(expected_array) .within. 0.)
       test_diagnosis = test_diagnosis .also. .all. (actual_complex_array%im .approximates. expected_imaginary_part %im .within. 0.)
     end associate
+
+    associate(stop_code => character_stop_code(expected_dble_array))
+      read(stop_code,*) actual_dble_array
+      test_diagnosis = test_diagnosis .also. .all. (actual_dble_array .approximates. dble(expected_array) .within. 0D0)
+      test_diagnosis = test_diagnosis .also. (("," .occurrencesIn. stop_code) .equalsExpected. size(expected_dble_array)-1) &
+        // " commas in " // stop_code
+    end associate
   end function
 
   function check_2D_array() result(test_diagnosis)
@@ -139,6 +149,9 @@ contains
 
     real, parameter :: expected_real_array(*,*) = real(expected_array)
     real  actual_real_array(size(expected_array,1),size(expected_array,2))
+
+    double precision, parameter :: expected_dble_array(*,*) = dble(expected_array)
+    double precision actual_dble_array(size(expected_dble_array,1), size(expected_dble_array,2))
 
     test_diagnosis = passing_test()
 
@@ -165,6 +178,19 @@ contains
         test_diagnosis = test_diagnosis .also. ((new_line('') .occurrencesIn. stop_code) .equalsExpected. rows-1)
       end associate
     end associate
+
+    associate( &
+       stop_code => character_stop_code(expected_dble_array) &
+      ,rows => size(expected_dble_array,1) &
+      ,cols => size(expected_dble_array,2) &
+    )
+      associate(one_line => search_and_replace(stop_code, search_for=new_line(''), replace_with=","))
+        read(one_line,*) actual_dble_array(1,:), actual_dble_array(2,:)
+        test_diagnosis = test_diagnosis .also. .all. (actual_dble_array .approximates. dble(expected_array) .within. 0D0)
+        test_diagnosis = test_diagnosis .also. (("," .occurrencesIn. stop_code) .equalsExpected. (cols-1)*rows)
+        test_diagnosis = test_diagnosis .also. ((new_line('') .occurrencesIn. stop_code) .equalsExpected. rows-1)
+      end associate
+    end associate
   end function
 
   function check_3D_array() result(test_diagnosis)
@@ -174,6 +200,9 @@ contains
 
     real, parameter :: expected_real_array(*,*,*) = real(expected_array)
     real  actual_real_array(size(expected_real_array,1),size(expected_real_array,2),size(expected_real_array,3))
+
+    double precision, parameter :: expected_dble_array(*,*,*) = dble(expected_array)
+    double precision actual_dble_array(size(expected_dble_array,1), size(expected_dble_array,2), size(expected_dble_array,3))
 
     test_diagnosis = passing_test()
 
@@ -201,6 +230,21 @@ contains
       associate(one_line => trim(search_and_replace(stop_code, search_for=new_line(''), replace_with=",")))
         read(one_line(1:179),*) actual_real_array(1,:,1), actual_real_array(2,:,1), actual_real_array(1,:,2), actual_real_array(2,:,2), actual_real_array(1,:,3), actual_real_array(2,:,3)
         test_diagnosis = test_diagnosis .also. .all. (actual_real_array .approximates. expected_real_array .within. 0.)
+        test_diagnosis = test_diagnosis .also. (("," .occurrencesIn. stop_code) .equalsExpected. (cols-1)*rows*pages) // " commas"
+        test_diagnosis = test_diagnosis .also. ((new_line('') .occurrencesIn. stop_code) .equalsExpected. (rows*pages-1) + (pages-1)) &
+          // " new-line characters"
+      end associate
+    end associate
+
+    associate( &
+       stop_code => character_stop_code(expected_dble_array) &
+      ,rows  => size(expected_dble_array,1) &
+      ,cols  => size(expected_dble_array,2) &
+      ,pages => size(expected_dble_array,3) &
+    )
+      associate(one_line => trim(search_and_replace(stop_code, search_for=new_line(''), replace_with=",")))
+        read(one_line(1:179),*) actual_dble_array(1,:,1), actual_dble_array(2,:,1), actual_dble_array(1,:,2), actual_dble_array(2,:,2), actual_dble_array(1,:,3), actual_dble_array(2,:,3)
+        test_diagnosis = test_diagnosis .also. .all. (actual_dble_array .approximates. expected_dble_array .within. 0D0)
         test_diagnosis = test_diagnosis .also. (("," .occurrencesIn. stop_code) .equalsExpected. (cols-1)*rows*pages) // " commas"
         test_diagnosis = test_diagnosis .also. ((new_line('') .occurrencesIn. stop_code) .equalsExpected. (rows*pages-1) + (pages-1)) &
           // " new-line characters"
