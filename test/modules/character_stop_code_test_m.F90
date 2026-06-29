@@ -21,7 +21,8 @@ module character_stop_code_test_m
     ,test_diagnosis_t &
     ,test_result_t &
     ,test_t &
-    ,usher
+    ,usher &
+    ,writable_t
   use julienne_stop_and_print_m, only : character_stop_code
 
   implicit none
@@ -39,6 +40,11 @@ module character_stop_code_test_m
     module procedure occurrences_in
   end interface
 
+  type, extends(writable_t) :: write_stuff_t
+  contains
+    procedure :: write_formatted
+  end type
+
 contains
 
   pure function subject() result(specimen)
@@ -52,12 +58,13 @@ contains
     type(character_stop_code_test_t) character_stop_code_test
 
     test_descriptions = [ &
-       test_description_t(string_t("converting scalars to character stop codes")                                  , usher(check_intrinsic_scalars))   &
-      ,test_description_t(string_t("converting 1D arrays to comma-separated-value (CSV) character stop codes")    , usher(check_intrinsic_1D_arrays)) &
-      ,test_description_t(string_t("converting 2D arrays to new-line-separated CSV character stop codes")         , usher(check_intrinsic_2D_arrays)) &
-      ,test_description_t(string_t("converting 3D arrays to new-line-separated CSV character stop codes")         , usher(check_intrinsic_3D_arrays)) &
-      ,test_description_t(string_t("converting a 1D string_t array into a CSV character stop code")               , usher(check_string_t_1D_array))      &
-      ,test_description_t(string_t("converting a file_t object into a new-line-separated character stop code")    , usher(check_file_t))      &
+       test_description_t(string_t("converting scalars to character stop codes")                              , usher(check_intrinsic_scalars))   &
+      ,test_description_t(string_t("converting 1D arrays to comma-separated-value (CSV) character stop codes"), usher(check_intrinsic_1D_arrays)) &
+      ,test_description_t(string_t("converting 2D arrays to new-line-separated CSV character stop codes")     , usher(check_intrinsic_2D_arrays)) &
+      ,test_description_t(string_t("converting 3D arrays to new-line-separated CSV character stop codes")     , usher(check_intrinsic_3D_arrays)) &
+      ,test_description_t(string_t("converting a 1D string_t array into a CSV character stop code")           , usher(check_string_t_1D_array))   &
+      ,test_description_t(string_t("converting a file_t object into a new-line-separated character stop code"), usher(check_file_t))              &
+      ,test_description_t(string_t("converting a writable_t child object into character stop code")           , usher(check_writable_t))          &
     ]
     test_results = character_stop_code_test%run(test_descriptions)
   end function
@@ -503,5 +510,26 @@ contains
       end associate
     end associate
   end function
+
+  function check_writable_t() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+    type(write_stuff_t) write_stuff
+
+    test_diagnosis = passing_test()
+
+    associate(stop_code => character_stop_code(write_stuff))
+      test_diagnosis = stop_code .equalsExpected. "written stuff"
+    end associate
+  end function
+
+  subroutine write_formatted(self, unit, edit_descriptor, v_list, iostat, iomsg)
+    class(write_stuff_t), intent(in) :: self
+    integer, intent(in) :: unit
+    character(len=*), intent(in) :: edit_descriptor
+    integer, intent(in) :: v_list(:)
+    integer, intent(out) :: iostat
+    character(len=*), intent(inout) :: iomsg
+    write(unit,'(a)') "written stuff"
+  end subroutine
 
 end module character_stop_code_test_m

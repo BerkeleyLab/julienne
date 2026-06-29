@@ -9,7 +9,7 @@ module julienne_m
   use julienne_file_m, only : file_t
   use julienne_formats_m, only : separated_values, csv
   use julienne_github_ci_m, only : github_ci
-  use julienne_stop_and_print_m, only : stop_and_print
+  use julienne_stop_and_print_m, only : stop_and_print, writable_t
   use julienne_string_m, only : string_t, array_of_strings &
     ,operator(.cat.) &
     ,operator(.csv.) &
