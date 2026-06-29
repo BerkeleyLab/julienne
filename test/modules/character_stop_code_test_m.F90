@@ -6,13 +6,14 @@
 module character_stop_code_test_m
   !! Check data partitioning across bins
   use julienne_m, only : &
-     character_stop_code &
+     file_t &
     ,operator(//) &
     ,operator(.all.) &
     ,operator(.also.) &
     ,operator(.approximates.) &
     ,operator(.csv.) &
     ,operator(.equalsExpected.) &
+    ,operator(.separatedBy.) &
     ,operator(.within.) &
     ,passing_test &
     ,string_t &
@@ -21,6 +22,8 @@ module character_stop_code_test_m
     ,test_result_t &
     ,test_t &
     ,usher
+  use julienne_stop_and_print_m, only : character_stop_code
+
   implicit none
 
   private
@@ -54,6 +57,7 @@ contains
       ,test_description_t(string_t("converting 2D arrays to new-line-separated CSV character stop codes")         , usher(check_intrinsic_2D_arrays)) &
       ,test_description_t(string_t("converting 3D arrays to new-line-separated CSV character stop codes")         , usher(check_intrinsic_3D_arrays)) &
       ,test_description_t(string_t("converting a 1D string_t array into a CSV character stop code")               , usher(check_string_t_1D_array))      &
+      ,test_description_t(string_t("converting a file_t object into a new-line-separated character stop code")    , usher(check_file_t))      &
     ]
     test_results = character_stop_code_test%run(test_descriptions)
   end function
@@ -479,6 +483,21 @@ contains
       associate( &
          expected_stop_code => .csv. messages &
         ,stop_code => character_stop_code(messages) &
+      )
+        test_diagnosis = stop_code .equalsExpected. expected_stop_code
+      end associate
+    end associate
+  end function
+
+  function check_file_t() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+
+    test_diagnosis = passing_test()
+
+    associate(file_ => file_t(["yada","yada"]))
+      associate( &
+         expected_stop_code => file_%lines() .separatedBy. new_line('') &
+        ,stop_code => character_stop_code(file_) &
       )
         test_diagnosis = stop_code .equalsExpected. expected_stop_code
       end associate

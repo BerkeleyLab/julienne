@@ -4,6 +4,7 @@
 module julienne_stop_and_print_m
   !! Define a pure subroutine subroutine that prints string_t objects/arrays
   use julienne_string_m, only : string_t, operator(.csv.), operator(.separatedBy.)
+  use julienne_file_m, only : file_t
   implicit none
   
   private
@@ -55,6 +56,9 @@ contains
             stop_code = stringy_stuff%string()
           type is(double precision)
             stringy_stuff = string_t(stuff)
+            stop_code = stringy_stuff%string()
+          type is(file_t)
+            stringy_stuff = stuff%lines() .separatedBy. new_line('')
             stop_code = stringy_stuff%string()
           type is(integer)
             stringy_stuff = string_t(stuff)
