@@ -3,6 +3,7 @@
 
 module julienne_command_line_m
   !! return command line argument information
+  use julienne_string_m, only : string_t
   implicit none
 
   private
@@ -10,19 +11,27 @@ module julienne_command_line_m
 
   type command_line_t
   contains
-    procedure, nopass :: argument_present
+    generic :: argument_present => character_argument_present, string_argument_present
+    procedure, nopass :: character_argument_present, string_argument_present
     procedure, nopass :: flag_value
   end type
 
   interface
 
-    module function argument_present(acceptable_argument) result(found)
+    module function character_argument_present(acceptable_argument) result(found)
       implicit none
       !! result is .true. only if a command-line argument matches an element of this function's argument
       character(len=*), intent(in) :: acceptable_argument(:)
         !! sample list: [character(len=len(<longest_argument>)):: "--benchmark", "-b", "/benchmark", "/b"]
         !! where dashes support Linux/macOS, slashes support Windows, and <longest_argument> must be replaced
         !! by the longest list element ("--benchmark" above)
+      logical found
+    end function
+
+    module function string_argument_present(acceptable_argument) result(found)
+      implicit none
+      !! same as `character_argument_present` but allowing ragged-edged array of character values
+      type(string_t), intent(in) :: acceptable_argument(:)
       logical found
     end function
 

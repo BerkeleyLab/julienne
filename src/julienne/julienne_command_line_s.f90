@@ -1,4 +1,4 @@
-! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
+! Copyright (c) 2024-2026, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
 submodule(julienne_command_line_m) julienne_command_line_s
@@ -6,7 +6,16 @@ submodule(julienne_command_line_m) julienne_command_line_s
 
 contains
 
-  module procedure argument_present
+  module procedure string_argument_present
+     integer a
+     associate(maxlen => maxval([(len(acceptable_argument(a)%string()), a = 1,size(acceptable_argument))]))
+       found = character_argument_present( &
+          [( [character(len=maxlen) :: acceptable_argument(a)%string()], a = 1, size(acceptable_argument))] &
+       )
+     end associate
+  end procedure
+
+  module procedure character_argument_present
       !! list of acceptable arguments
       !! sample list: [character(len=len(longest_argument)):: "--benchmark", "-b", "/benchmark", "/b"]
       !! where dashes support Linux/macOS and slashes support Windows
