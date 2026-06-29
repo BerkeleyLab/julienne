@@ -11,6 +11,7 @@ module character_stop_code_test_m
     ,operator(.all.) &
     ,operator(.also.) &
     ,operator(.approximates.) &
+    ,operator(.csv.) &
     ,operator(.equalsExpected.) &
     ,operator(.within.) &
     ,passing_test &
@@ -48,10 +49,11 @@ contains
     type(character_stop_code_test_t) character_stop_code_test
 
     test_descriptions = [ &
-       test_description_t(string_t("converting scalars to character stop codes"), usher(check_scalars)) &
-      ,test_description_t(string_t("converting 1D arrays to comma-separated-value (CSV) character stop codes"), usher(check_1D_array)) &
-      ,test_description_t(string_t("converting 2D arrays to new-line-separated CSV character stop codes"), usher(check_2D_array)) &
-      ,test_description_t(string_t("converting 3D arrays to new-line-separated CSV character stop codes"), usher(check_3D_array)) &
+       test_description_t(string_t("converting scalars to character stop codes")                                  , usher(check_intrinsic_scalars))   &
+      ,test_description_t(string_t("converting 1D arrays to comma-separated-value (CSV) character stop codes")    , usher(check_intrinsic_1D_arrays)) &
+      ,test_description_t(string_t("converting 2D arrays to new-line-separated CSV character stop codes")         , usher(check_intrinsic_2D_arrays)) &
+      ,test_description_t(string_t("converting 3D arrays to new-line-separated CSV character stop codes")         , usher(check_intrinsic_3D_arrays)) &
+      ,test_description_t(string_t("converting a 1D string_t array into a CSV character stop code")               , usher(check_string_t_1D_array))      &
     ]
     test_results = character_stop_code_test%run(test_descriptions)
   end function
@@ -96,7 +98,7 @@ contains
     replacement_string = trim(replacement_string)
   end function
 
-  function check_scalars() result(test_diagnosis)
+  function check_intrinsic_scalars() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
 
     integer, parameter :: expected_integer_value  = 42
@@ -159,7 +161,7 @@ contains
 
   end function
 
-  function check_1D_array() result(test_diagnosis)
+  function check_intrinsic_1D_arrays() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
 
     integer, parameter :: expected_array(*) = [1,2,3,4]
@@ -250,7 +252,7 @@ contains
 #endif
   end function
 
-  function check_2D_array() result(test_diagnosis)
+  function check_intrinsic_2D_arrays() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
 
     integer, parameter :: expected_array(*,*) = reshape([11,21,12,22,13,23], [2,3])
@@ -352,7 +354,7 @@ contains
 #endif
   end function
 
-  function check_3D_array() result(test_diagnosis)
+  function check_intrinsic_3D_arrays() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
     integer, parameter :: expected_array(*,*,*) = reshape([111,211,121,221, 112,212,122,222, 113,213,123,223], [2,2,3])
     integer actual_array(size(expected_array,1),size(expected_array,2),size(expected_array,3))
@@ -466,6 +468,21 @@ contains
       end associate
     end block
 #endif
+  end function
+
+  function check_string_t_1D_array() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+
+    test_diagnosis = passing_test()
+
+    associate(messages => string_t(["foo","bar"]))
+      associate( &
+         expected_stop_code => .csv. messages &
+        ,stop_code => character_stop_code(messages) &
+      )
+        test_diagnosis = stop_code .equalsExpected. expected_stop_code
+      end associate
+    end associate
   end function
 
 end module character_stop_code_test_m

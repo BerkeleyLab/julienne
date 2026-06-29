@@ -62,6 +62,8 @@ contains
           type is(real)
             stringy_stuff = string_t(stuff)
             stop_code = stringy_stuff%string()
+          class is(string_t)
+            stop_code = stuff%string()
           class default
              error stop "character_stop_code (in print_and_stop_s): unsupported stop-code type for scalar"
         end select
@@ -81,6 +83,9 @@ contains
             stop_code = stringy_stuff%string()
           type is(real)
             stringy_stuff = .csv. string_t(stuff)
+            stop_code = stringy_stuff%string()
+          class is(string_t)
+            stringy_stuff = .csv. stuff
             stop_code = stringy_stuff%string()
           class default
              error stop "character_stop_code (in print_and_stop_s): unsupported stop-code type for rank-1 array"
