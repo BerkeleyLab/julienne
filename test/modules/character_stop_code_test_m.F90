@@ -484,7 +484,7 @@ contains
          expected_stop_code => .csv. messages &
         ,stop_code => character_stop_code(messages) &
       )
-        test_diagnosis = stop_code .equalsExpected. expected_stop_code
+        test_diagnosis = test_diagnosis .also. (stop_code .equalsExpected. expected_stop_code)
       end associate
     end associate
   end function
@@ -499,7 +499,7 @@ contains
          expected_stop_code => file_%lines() .separatedBy. new_line('') &
         ,stop_code => character_stop_code(file_) &
       )
-        test_diagnosis = stop_code .equalsExpected. expected_stop_code
+        test_diagnosis = test_diagnosis .also. (stop_code .equalsExpected. expected_stop_code)
       end associate
     end associate
   end function
