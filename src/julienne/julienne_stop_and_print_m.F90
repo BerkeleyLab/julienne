@@ -27,7 +27,15 @@ contains
     implicit none
     character(len=*), intent(in) :: header
     class(*), intent(in) :: data
+#ifndef __GFORTRAN__
     error stop new_line('') // header // new_line('') // character_stop_code(data)
+#else
+    block
+      character(len=:), allocatable :: code
+      code = new_line('') // header // new_line('') // character_stop_code(data)
+      error stop code
+    end block
+#endif
   end subroutine
 
   pure function character_stop_code(stuff) result(stop_code)

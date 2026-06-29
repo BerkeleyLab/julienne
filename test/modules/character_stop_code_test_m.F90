@@ -48,9 +48,10 @@ contains
     type(character_stop_code_test_t) character_stop_code_test
 
     test_descriptions = [ &
-       test_description_t(string_t("converting a 1D arrays to a comma-separated-value (CSV) strings"), usher(check_1D_array)) &
-      ,test_description_t(string_t("converting a 2D arrays to new-line-separated CSV strings"), usher(check_2D_array)) &
-      ,test_description_t(string_t("converting a 3D arrays to new-line-separated CSV strings"), usher(check_3D_array)) &
+       test_description_t(string_t("converting scalars to character stop codes"), usher(check_scalars)) &
+      ,test_description_t(string_t("converting 1D arrays to comma-separated-value (CSV) character stop codes"), usher(check_1D_array)) &
+      ,test_description_t(string_t("converting 2D arrays to new-line-separated CSV character stop codes"), usher(check_2D_array)) &
+      ,test_description_t(string_t("converting 3D arrays to new-line-separated CSV character stop codes"), usher(check_3D_array)) &
     ]
     test_results = character_stop_code_test%run(test_descriptions)
   end function
@@ -95,6 +96,69 @@ contains
     replacement_string = trim(replacement_string)
   end function
 
+  function check_scalars() result(test_diagnosis)
+    type(test_diagnosis_t) test_diagnosis
+
+    integer, parameter :: expected_integer_value  = 42
+    integer actual_value
+
+    real, parameter :: expected_real_value = real(expected_integer_value)
+    real actual_real_value
+    
+    complex, parameter :: i = (0.,1.), expected_complex_value = cmplx(expected_integer_value) - expected_integer_value*i
+    complex actual_complex_value
+
+    double precision, parameter :: expected_dble_value = dble(expected_integer_value)
+    double precision actual_dble_value
+
+    test_diagnosis = passing_test()
+
+#ifndef __GFORTRAN__
+    associate(stop_code => character_stop_code(expected_integer_value))
+      read(stop_code,*) actual_value
+    end associate
+    test_diagnosis = test_diagnosis .also. (actual_value .equalsExpected. expected_integer_value) // " for an integer value"
+
+    associate(stop_code => character_stop_code(expected_real_value))
+      read(stop_code,*) actual_real_value
+    end associate
+    test_diagnosis = test_diagnosis .also. (actual_real_value .approximates. expected_real_value .within. 0.) // " for a real value"
+
+    associate(stop_code => character_stop_code(expected_complex_value))
+      read(stop_code,*) actual_complex_value
+    end associate
+    test_diagnosis = test_diagnosis .also. (actual_complex_value%Re .approximates. expected_complex_value%Re .within. 0.) // " for the real part of a complex value"
+    test_diagnosis = test_diagnosis .also. (actual_complex_value%Im .approximates. expected_complex_value%Im .within. 0.) // " for the imaginary part of a complex value"
+
+    associate(stop_code => character_stop_code(expected_dble_value))
+      read(stop_code,*) actual_dble_value
+    end associate
+    test_diagnosis = test_diagnosis .also. (actual_dble_value .approximates. expected_dble_value .within. 0D0) // " for a double-precision value"
+#else
+    block
+      character(len=:), allocatable  :: stop_code
+
+      stop_code = character_stop_code(expected_integer_value)
+      read(stop_code,*) actual_value
+      test_diagnosis = test_diagnosis .also. (actual_value .equalsExpected. expected_integer_value)
+
+      stop_code = character_stop_code(expected_real_value)
+      read(stop_code,*) actual_real_value
+      test_diagnosis = test_diagnosis .also. (actual_real_value .approximates. expected_real_value .within. 0.)
+
+      stop_code = character_stop_code(expected_complex_value)
+      read(stop_code,*) actual_complex_value
+      test_diagnosis = test_diagnosis .also. (actual_complex_value%Re .approximates. expected_complex_value%Re .within. 0.)
+      test_diagnosis = test_diagnosis .also. (actual_complex_value%Im .approximates. expected_complex_value%Im .within. 0.)
+
+      stop_code = character_stop_code(expected_dble_value)
+      read(stop_code,*) actual_dble_value
+      test_diagnosis = test_diagnosis .also. (actual_dble_value .approximates. expected_dble_value .within. 0D0)
+    end block
+#endif
+
+  end function
+
   function check_1D_array() result(test_diagnosis)
     type(test_diagnosis_t) test_diagnosis
 
@@ -111,34 +175,79 @@ contains
     double precision, parameter :: expected_dble_array(*) = dble(expected_array)
     double precision actual_dble_array(size(expected_dble_array,1))
 
+    integer c
+
     test_diagnosis = passing_test()
 
+#ifndef __GFORTRAN__
     associate(stop_code => character_stop_code(expected_array))
       read(stop_code,*) actual_array
       test_diagnosis = test_diagnosis .also. .all. (actual_array .equalsExpected. expected_array)
       test_diagnosis = test_diagnosis .also. (("," .occurrencesIn. stop_code) .equalsExpected. size(expected_array)-1)  &
         // " commas in " // stop_code
     end associate
+#else
+    block 
+      character(len=:), allocatable :: stop_code
+      stop_code = character_stop_code(expected_array)
+      read(stop_code,*) actual_array
+      test_diagnosis = test_diagnosis .also. .all. (actual_array .equalsExpected. expected_array)
+      test_diagnosis = test_diagnosis .also.  (count([(stop_code(c:c)==",", c=1,len(stop_code))])  .equalsExpected. size(expected_array)-1) &
+        // " commas in " // stop_code
+    end block
+#endif
 
+#ifndef __GFORTRAN__
     associate(stop_code => character_stop_code(expected_real_array))
       read(stop_code,*) actual_real_array
       test_diagnosis = test_diagnosis .also. .all. (actual_real_array .approximates. real(expected_array) .within. 0.)
       test_diagnosis = test_diagnosis .also. (("," .occurrencesIn. stop_code) .equalsExpected. size(expected_real_array)-1) &
         // " commas in " // stop_code
     end associate
+#else
+    block 
+      character(len=:), allocatable :: stop_code
+      stop_code = character_stop_code(expected_real_array)
+      read(stop_code,*) actual_real_array
+      test_diagnosis = test_diagnosis .also. .all. (actual_real_array .approximates. real(expected_array) .within. 0.)
+      test_diagnosis = test_diagnosis .also.  (count([(stop_code(c:c)==",", c=1,len(stop_code))])  .equalsExpected. size(expected_real_array)-1) &
+          // " commas in " // stop_code
+    end block
+#endif
 
+#ifndef __GFORTRAN__
     associate(stop_code => character_stop_code(expected_complex_array), expected_imaginary_part => -expected_array*i)
       read(stop_code,*) actual_complex_array
-      test_diagnosis = test_diagnosis .also. .all. (actual_complex_array%re .approximates. real(expected_array) .within. 0.)
-      test_diagnosis = test_diagnosis .also. .all. (actual_complex_array%im .approximates. expected_imaginary_part %im .within. 0.)
+      test_diagnosis = test_diagnosis .also. .all. (actual_complex_array%Re .approximates. real(expected_array) .within. 0.)
+      test_diagnosis = test_diagnosis .also. .all. (actual_complex_array%Im .approximates. expected_imaginary_part%Im .within. 0.)
     end associate
+#else
+    block 
+      character(len=:), allocatable :: stop_code
+      stop_code = character_stop_code(expected_complex_array)
+      read(stop_code,*) actual_complex_array
+      test_diagnosis = test_diagnosis .also. .all. (actual_complex_array%Re .approximates. expected_complex_array%Re .within. 0.)
+      test_diagnosis = test_diagnosis .also. .all. (actual_complex_array%Im .approximates. expected_complex_array%Im .within. 0.)
+    end block
+#endif
 
+#ifndef __GFORTRAN__
     associate(stop_code => character_stop_code(expected_dble_array))
       read(stop_code,*) actual_dble_array
       test_diagnosis = test_diagnosis .also. .all. (actual_dble_array .approximates. dble(expected_array) .within. 0D0)
       test_diagnosis = test_diagnosis .also. (("," .occurrencesIn. stop_code) .equalsExpected. size(expected_dble_array)-1) &
         // " commas in " // stop_code
     end associate
+#else
+    block 
+      character(len=:), allocatable :: stop_code
+      stop_code = character_stop_code(expected_dble_array)
+      read(stop_code,*) actual_dble_array
+      test_diagnosis = test_diagnosis .also. .all. (actual_dble_array .approximates. expected_dble_array .within. 0D0)
+      test_diagnosis = test_diagnosis .also.  (count([(stop_code(c:c)==",", c=1,len(stop_code))])  .equalsExpected. size(expected_dble_array)-1) &
+        // " commas in " // stop_code
+    end block 
+#endif
   end function
 
   function check_2D_array() result(test_diagnosis)
@@ -155,6 +264,7 @@ contains
 
     test_diagnosis = passing_test()
 
+#ifndef __GFORTRAN__
     associate( &
        stop_code => character_stop_code(expected_array) &
       ,rows => size(expected_array,1) &
@@ -165,7 +275,23 @@ contains
       test_diagnosis = test_diagnosis .also. (("," .occurrencesIn. stop_code) .equalsExpected. (cols-1)*rows)
       test_diagnosis = test_diagnosis .also. ((new_line('') .occurrencesIn. stop_code) .equalsExpected. rows-1)
     end associate
+#else
+    block
+      character(len=:), allocatable :: stop_code
+      stop_code = character_stop_code(expected_array)
+      associate( &
+         rows => size(expected_array,1) &
+        ,cols => size(expected_array,2) &
+      )
+        read(stop_code,*) actual_array(1,:), actual_array(2,:)
+        test_diagnosis = test_diagnosis .also. .all. (actual_array .equalsExpected. expected_array)
+        test_diagnosis = test_diagnosis .also. (("," .occurrencesIn. stop_code) .equalsExpected. (cols-1)*rows)
+        test_diagnosis = test_diagnosis .also. ((new_line('') .occurrencesIn. stop_code) .equalsExpected. rows-1)
+      end associate
+    end block
+#endif
 
+#ifndef __GFORTRAN__
     associate( &
        stop_code => character_stop_code(expected_real_array) &
       ,rows => size(expected_real_array,1) &
@@ -178,7 +304,24 @@ contains
         test_diagnosis = test_diagnosis .also. ((new_line('') .occurrencesIn. stop_code) .equalsExpected. rows-1)
       end associate
     end associate
+#else
+    block
+      character(len=:), allocatable :: stop_code, one_line
+      stop_code = character_stop_code(expected_real_array)
+      associate( &
+         rows => size(expected_real_array,1) &
+        ,cols => size(expected_real_array,2) &
+      )
+        one_line = search_and_replace(stop_code, search_for=new_line(''), replace_with=",")
+        read(one_line,*) actual_real_array(1,:), actual_real_array(2,:)
+        test_diagnosis = test_diagnosis .also. .all. (actual_real_array .approximates. real(expected_array) .within. 0.)
+        test_diagnosis = test_diagnosis .also. (("," .occurrencesIn. stop_code) .equalsExpected. (cols-1)*rows)
+        test_diagnosis = test_diagnosis .also. ((new_line('') .occurrencesIn. stop_code) .equalsExpected. rows-1)
+      end associate
+    end block
+#endif
 
+#ifndef __GFORTRAN__
     associate( &
        stop_code => character_stop_code(expected_dble_array) &
       ,rows => size(expected_dble_array,1) &
@@ -191,6 +334,22 @@ contains
         test_diagnosis = test_diagnosis .also. ((new_line('') .occurrencesIn. stop_code) .equalsExpected. rows-1)
       end associate
     end associate
+#else
+    block
+      character(len=:), allocatable :: stop_code, one_line
+      stop_code = character_stop_code(expected_dble_array)
+      associate( &
+         rows => size(expected_dble_array,1) &
+        ,cols => size(expected_dble_array,2) &
+      )
+        one_line = search_and_replace(stop_code, search_for=new_line(''), replace_with=",")
+        read(one_line,*) actual_dble_array(1,:), actual_dble_array(2,:)
+        test_diagnosis = test_diagnosis .also. .all. (actual_dble_array .approximates. dble(expected_array) .within. 0D0)
+        test_diagnosis = test_diagnosis .also. (("," .occurrencesIn. stop_code) .equalsExpected. (cols-1)*rows)
+        test_diagnosis = test_diagnosis .also. ((new_line('') .occurrencesIn. stop_code) .equalsExpected. rows-1)
+      end associate
+    end block
+#endif
   end function
 
   function check_3D_array() result(test_diagnosis)
@@ -206,6 +365,7 @@ contains
 
     test_diagnosis = passing_test()
 
+#ifndef __GFORTRAN__
     associate( &
        stop_code => character_stop_code(expected_array) &
       ,rows  => size(expected_array,1) &
@@ -220,7 +380,26 @@ contains
           // " new-line characters"
       end associate
     end associate
+#else
+    block
+      character(len=:), allocatable :: stop_code, one_line
+      stop_code = character_stop_code(expected_array)
+      associate( &
+         rows  => size(expected_array,1) &
+        ,cols  => size(expected_array,2) &
+        ,pages => size(expected_array,3) &
+      )
+        one_line = search_and_replace(stop_code, search_for=new_line(''), replace_with=",")
+        read(one_line,'(*(i3,1x))') actual_array(1,:,1), actual_array(2,:,1), actual_array(1,:,2), actual_array(2,:,2), actual_array(1,:,3), actual_array(2,:,3)
+        test_diagnosis = test_diagnosis .also. .all. (actual_array .equalsExpected. expected_array)
+        test_diagnosis = test_diagnosis .also. (("," .occurrencesIn. stop_code) .equalsExpected. (cols-1)*rows*pages) // " commas"
+        test_diagnosis = test_diagnosis .also. ((new_line('') .occurrencesIn. stop_code) .equalsExpected. (rows*pages-1) + (pages-1)) &
+          // " new-line characters"
+      end associate
+    end block
+#endif
 
+#ifndef __GFORTRAN__
     associate( &
        stop_code => character_stop_code(expected_real_array) &
       ,rows  => size(expected_real_array,1) &
@@ -235,7 +414,26 @@ contains
           // " new-line characters"
       end associate
     end associate
+#else
+      block
+        character(len=:), allocatable :: stop_code, one_line
+        stop_code = character_stop_code(expected_real_array)
+        associate( &
+           rows  => size(expected_real_array,1) &
+          ,cols  => size(expected_real_array,2) &
+          ,pages => size(expected_real_array,3) &
+        )
+          one_line = trim(search_and_replace(stop_code, search_for=new_line(''), replace_with=","))
+          read(one_line(1:179),*) actual_real_array(1,:,1), actual_real_array(2,:,1), actual_real_array(1,:,2), actual_real_array(2,:,2), actual_real_array(1,:,3), actual_real_array(2,:,3)
+          test_diagnosis = test_diagnosis .also. .all. (actual_real_array .approximates. expected_real_array .within. 0.)
+          test_diagnosis = test_diagnosis .also. (("," .occurrencesIn. stop_code) .equalsExpected. (cols-1)*rows*pages) // " commas"
+          test_diagnosis = test_diagnosis .also. ((new_line('') .occurrencesIn. stop_code) .equalsExpected. (rows*pages-1) + (pages-1)) &
+            // " new-line characters"
+        end associate
+      end block
+#endif
 
+#ifndef __GFORTRAN__
     associate( &
        stop_code => character_stop_code(expected_dble_array) &
       ,rows  => size(expected_dble_array,1) &
@@ -250,6 +448,24 @@ contains
           // " new-line characters"
       end associate
     end associate
+#else
+    block
+      character(len=:), allocatable :: stop_code, one_line
+      stop_code = character_stop_code(expected_dble_array)
+      associate( &
+         rows  => size(expected_dble_array,1) &
+        ,cols  => size(expected_dble_array,2) &
+        ,pages => size(expected_dble_array,3) &
+      )
+        one_line = trim(search_and_replace(stop_code, search_for=new_line(''), replace_with=","))
+        read(one_line(1:179),*) actual_dble_array(1,:,1), actual_dble_array(2,:,1), actual_dble_array(1,:,2), actual_dble_array(2,:,2), actual_dble_array(1,:,3), actual_dble_array(2,:,3)
+        test_diagnosis = test_diagnosis .also. .all. (actual_dble_array .approximates. expected_dble_array .within. 0D0)
+        test_diagnosis = test_diagnosis .also. (("," .occurrencesIn. stop_code) .equalsExpected. (cols-1)*rows*pages) // " commas"
+        test_diagnosis = test_diagnosis .also. ((new_line('') .occurrencesIn. stop_code) .equalsExpected. (rows*pages-1) + (pages-1)) &
+          // " new-line characters"
+      end associate
+    end block
+#endif
   end function
 
 end module character_stop_code_test_m
