@@ -42,8 +42,12 @@ contains
     call self%write_to_character_file_name(file_name%string())
   end procedure
 
-  module procedure from_lines
+  module procedure from_string_t_lines
     allocate(file_object%lines_, source=lines)
+  end procedure
+
+  module procedure from_character_lines
+    allocate(file_object%lines_, source=string_t(lines))
   end procedure
 
   module procedure from_file_with_character_name
