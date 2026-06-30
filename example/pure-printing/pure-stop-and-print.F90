@@ -26,16 +26,19 @@ program pure_stop_and_print
 #endif
 
   associate(file_name => command_line%flag_value("--file"))
-    if (len(file_name) > 0) call stop_and_print(header = "___" // file_name // "___", data = file_t(file_name), footer = "________")
+    if (len(file_name) > 0) call pure_subroutine(.false., .false., file_t(file_name))
   end associate
-
-  associate(array => reshape([111,211,121,221, 112,212,122,222], [2,2,2]))
-    if (command_line%argument_present(["--array"])) call stop_and_print(array)
-  end associate
-
-  if (command_line%argument_present(["--derived-type"])) call stop_and_print(write_stuff_t())
+  call pure_subroutine(command_line%argument_present(["--array"]), command_line%argument_present(["--derived-type"]))
 
 contains
+
+  pure subroutine pure_subroutine(print_array, print_derived_type, file)
+    logical, intent(in) :: print_array, print_derived_type
+    type(file_t), intent(in), optional :: file
+    if (present(file))      call stop_and_print(header = "______________", data = file, footer = "______________")
+    if (print_array)        call stop_and_print(reshape([111,211,121,221, 112,212,122,222], [2,2,2]))
+    if (print_derived_type) call stop_and_print(write_stuff_t())
+  end subroutine
 
   pure function usage_info() result(message)
     character(len=:), allocatable :: message
