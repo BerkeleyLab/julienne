@@ -493,7 +493,7 @@ contains
     test_diagnosis = passing_test()
 
     associate(messages => string_t(["foo","bar"]))
-#ifdef __GFORTRAN__
+#ifndef __GFORTRAN__
       associate( &
          expected_stop_code => .csv. messages &
         ,stop_code => character_stop_code(messages) &
