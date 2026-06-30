@@ -35,22 +35,13 @@ module julienne_stop_and_print_m
 
   end interface
 
-  interface stop_and_print
-
-    pure module subroutine stop_and_print_string(message)
-      implicit none
-      type(string_t), intent(in) :: message
-    end subroutine
-
-    pure module subroutine stop_and_print_header_and_data(header, data)
-      implicit none
-      character(len=*), intent(in) :: header
-      class(*), intent(in) :: data
-    end subroutine
-
-  end interface
-
   interface
+
+    pure module subroutine stop_and_print(data, header, footer)
+      implicit none
+      class(*), intent(in) :: data(..)
+      character(len=*), intent(in), optional :: header, footer
+    end subroutine
 
     pure module subroutine set_maxlen(self, length)
       implicit none

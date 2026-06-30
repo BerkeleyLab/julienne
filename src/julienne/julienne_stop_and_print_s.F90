@@ -8,10 +8,6 @@ submodule(julienne_stop_and_print_m) julienne_stop_and_print_s
   
 contains 
 
-  module procedure stop_and_print_string
-    error stop message%string()
-  end procedure
-
   module procedure set_maxlen
     self%maxlen_ = length
   end procedure
@@ -20,16 +16,44 @@ contains
     length = self%maxlen_
   end procedure
 
-  module procedure stop_and_print_header_and_data
-#ifndef __GFORTRAN__
-    error stop new_line('') // header // new_line('') // character_stop_code(data)
-#else
-    block
+  module procedure stop_and_print
+
+    select rank(data)
+    rank(0)
+      select type(data)
+      type is(character(len=*))
+        error stop data
+      class is(string_t)
+        error stop data%string()
+      class default
+        call stop_and_print_header_data_footer(data, header, footer)
+      end select
+    rank default
+      call stop_and_print_header_data_footer(data, header, footer)
+    end select
+
+  contains
+
+    pure subroutine stop_and_print_header_data_footer(data, header, footer)
+      character(len=*), intent(in), optional :: header, footer
+      class(*), intent(in) :: data(..)
       character(len=:), allocatable :: code
-      code = new_line('') // header // new_line('') // character_stop_code(data)
+
+      if (present(header)) then
+        if (present(footer)) then
+          code = new_line('') // header // new_line('') // character_stop_code(data) // new_line('') // footer // new_line('')
+        else
+          code = new_line('') // header // new_line('') // character_stop_code(data)
+        end if
+      else if (present(footer)) then
+          code =                                           character_stop_code(data) // new_line('') // footer // new_line('')
+      else
+          code =                           new_line('') // character_stop_code(data) // new_line('')
+      end if
+
       error stop code
-    end block
-#endif
+    end subroutine
+
   end procedure
 
   module procedure character_stop_code
