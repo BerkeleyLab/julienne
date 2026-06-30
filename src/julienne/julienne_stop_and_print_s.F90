@@ -163,7 +163,7 @@ contains
             stringy_stuff =  [( [(.csv. string_t(stuff(row,:,page)) , row=1,size(stuff,1))] .separatedBy. new_line(''), page = 1,size(stuff,3) )] .separatedBy. (new_line('') // new_line(''))
             stop_code = stringy_stuff%string()
           class default
-             call internal_errorestop("character_stop_code (in print_and_stop_s): unsupported stop-code type for rank-3 array")
+             call internal_error_stop("character_stop_code (in print_and_stop_s): unsupported stop-code type for rank-3 array")
         end select
       rank default
         associate(stop_code_rank => string_t(stop_code))

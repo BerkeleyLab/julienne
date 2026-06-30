@@ -3,6 +3,8 @@
 
 submodule(julienne_formats_m) julienne_formats_s
   !! Construct separated-value formats 
+  use julienne_multi_image_m, only : internal_error_stop
+
   implicit none
 
 contains
@@ -27,10 +29,10 @@ contains
           type is(character(len=*))
             format_string = prefix // separator // suffix
           class default
-             error stop "format_s separated_values: unsupported type"
+             call internal_error_stop("format_s separated_values: unsupported type")
         end select
       rank default
-        error stop "formats_s separated_values: unsupported rank"
+        call internal_error_stop("formats_s separated_values: unsupported rank")
     end select
   end procedure
 
