@@ -1,6 +1,8 @@
 ! Copyright (c) 2024-2026, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
+#include "language-support.F90"
+
 submodule(julienne_command_line_m) julienne_command_line_s
   implicit none
 
@@ -8,14 +10,14 @@ contains
 
   module procedure string_argument_present
      integer a
-#ifndef __INTEL_COMPILER
-     associate(maxlen => maxval([(len(acceptable_argument(a)%string()), a = 1,size(acceptable_argument))]))
+#if defined(__INTEL_COMPILER) || (GCC_VERSION > 0 && GCC_VERSION < 140000)
+     associate(maxlen => 128)
        found = character_argument_present( &
           [( [character(len=maxlen) :: acceptable_argument(a)%string()], a = 1, size(acceptable_argument))] &
        )
      end associate
 #else
-     associate(maxlen => 128)
+     associate(maxlen => maxval([(len(acceptable_argument(a)%string()), a = 1,size(acceptable_argument))]))
        found = character_argument_present( &
           [( [character(len=maxlen) :: acceptable_argument(a)%string()], a = 1, size(acceptable_argument))] &
        )
