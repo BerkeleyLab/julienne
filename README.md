@@ -203,7 +203,7 @@ GCC               |14-15          |parallel|`fpm test --compiler caf --runner "c
 GCC/[OpenCoarrays]|13             |serial  |`fpm test --compiler gfortran --profile release --flag -ffree-line-length-none`
 GCC               |13             |parallel|`fpm test --compiler caf --runner "cafrun -n 2" --profile release --flag -ffree-line-length-none`
 
-(+) = Support for LLVM flang version 19 is deprecated, and may be removed in a future release.
+(+) Support for LLVM flang version 19 is deprecated, and may be removed in a future release.
 
 The test output reports a test as skipped if there is a known issue that blocks
 the tested feature with the chosen compiler version or platform.  Due to a
