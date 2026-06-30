@@ -11,6 +11,7 @@ contains
     write(unit,'(a)'     ) "write_stuff_t {" // new_line('')
     write(unit,'(a,i2,a)') "  answer = ", self%answer_, new_line('')
     write(unit,'(a)'     ) "}" // new_line('')
+    iostat = 0
   end procedure
 
 end submodule
