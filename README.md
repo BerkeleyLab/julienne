@@ -19,7 +19,7 @@ formatting of various data types and ranks inside `pure` procedures via either o
 specific subroutines:
 
 1. One with a Julienne `string_t` dummy argument and
-2. Another with `character` and unlimited-polymorphic/assumed-rank dummy arugments.
+2. Another with `character` and unlimited-polymorphic/assumed-rank dummy arguments.
 
 The first subroutine accepts Julienne `string_t` expressions that, for example, convert
 numeric arrays to comma-separated text with `.csv. string_t([1,2,3])`.  The second
