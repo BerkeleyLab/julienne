@@ -194,7 +194,7 @@ Compiler/Runtime  |Tested Versions|Run Type|Example build/test commands (paralle
 ------------------|---------------|--------|------------------------------------------------------------
 LLVM/[Caffeine]   |22.0.0git      |parallel|`fpm test --compiler flang-new --flag "-O3 -DHAVE_MULTI_IMAGE_SUPPORT -fcoarray" --link-flag "-lcaffeine -lgasnet-smp-seq -L<caffeine-path> -L<gasnet-path>"`
 LLVM              |20-22          |serial  |`fpm test --compiler flang-new --flag -O3`
-LLVM              |19             |serial  |`fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"`
+LLVM              |19 (+)         |serial  |`fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"`
 LFortran          |0.60.0-421-ge2c448c79 |serial  |`fpm test --compiler lfortran --flag "--cpp --realloc-lhs-arrays --separate-compilation"`
 NAG               |7.2, Build 7235|parallel|`NAGFORTRAN_NUM_IMAGES=2 fpm test --compiler nagfor --flag "-fpp -O3 -coarray"`
 Intel             |2025.2.{0-1}   |parallel|`FOR_COARRAY_NUM_IMAGES=2 fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release`
@@ -202,6 +202,8 @@ GCC/[OpenCoarrays]|14-15          |serial  |`fpm test --compiler gfortran --prof
 GCC               |14-15          |parallel|`fpm test --compiler caf --runner "cafrun -n 2" --profile release`
 GCC/[OpenCoarrays]|13             |serial  |`fpm test --compiler gfortran --profile release --flag -ffree-line-length-none`
 GCC               |13             |parallel|`fpm test --compiler caf --runner "cafrun -n 2" --profile release --flag -ffree-line-length-none`
+
+(+) = Support for LLVM flang version 19 is deprecated, and may be removed in a future release.
 
 The test output reports a test as skipped if there is a known issue that blocks
 the tested feature with the chosen compiler version or platform.  Due to a
