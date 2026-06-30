@@ -27,7 +27,10 @@ program test_suite_driver
   associate(test_harness => test_harness_t([           &
      test_fixture_t(                  assert_test_t()) &
     ,test_fixture_t(                     bin_test_t()) &
+#if (__FLANG_MAJOR__ > 0) && (__FLANG_MAJOR__ < 20)
+#else
     ,test_fixture_t(     character_stop_code_test_t()) &
+#endif
     ,test_fixture_t(                 formats_test_t()) &
     ,test_fixture_t(             multi_image_test_t()) &
     ,test_fixture_t(                  string_test_t()) &
