@@ -24,7 +24,15 @@ contains
       type is(character(len=*))
         error stop data
       class is(string_t)
+#ifndef __GFORTRAN__
         error stop data%string()
+#else
+        block
+          character(len=:), allocatable :: stop_code
+          stop_code = data%string()
+          error stop stop_code
+        end block
+#endif
       class default
         call stop_and_print_header_data_footer(data, header, footer)
       end select
