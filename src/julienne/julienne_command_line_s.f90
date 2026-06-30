@@ -8,11 +8,19 @@ contains
 
   module procedure string_argument_present
      integer a
+#ifndef __INTEL_COMPILER
      associate(maxlen => maxval([(len(acceptable_argument(a)%string()), a = 1,size(acceptable_argument))]))
        found = character_argument_present( &
           [( [character(len=maxlen) :: acceptable_argument(a)%string()], a = 1, size(acceptable_argument))] &
        )
      end associate
+#else
+     associate(maxlen => 128)
+       found = character_argument_present( &
+          [( [character(len=maxlen) :: acceptable_argument(a)%string()], a = 1, size(acceptable_argument))] &
+       )
+     end associate
+#endif
   end procedure
 
   module procedure character_argument_present
