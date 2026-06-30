@@ -493,12 +493,21 @@ contains
     test_diagnosis = passing_test()
 
     associate(messages => string_t(["foo","bar"]))
+#ifdef __GFORTRAN__
       associate( &
          expected_stop_code => .csv. messages &
         ,stop_code => character_stop_code(messages) &
       )
         test_diagnosis = test_diagnosis .also. (stop_code .equalsExpected. expected_stop_code)
       end associate
+#else
+      block
+        type(string_t) expected_stop_code , stop_code
+        expected_stop_code = .csv. messages
+        stop_code = character_stop_code(messages)
+        test_diagnosis = test_diagnosis .also. (stop_code .equalsExpected. expected_stop_code)
+      end block
+#endif
     end associate
   end function
 
