@@ -58,15 +58,8 @@ contains
     type(character_stop_code_test_t) character_stop_code_test
 
     test_descriptions = [ &
-#ifndef __GFORTRAN__ && __FLANG_MAJOR > 19
-       test_description_t(string_t("converting scalars to character stop codes")                              , usher(check_intrinsic_scalars))   &
-      ,test_description_t(string_t("converting 1D arrays to comma-separated-value (CSV) character stop codes"), usher(check_intrinsic_1D_arrays)) &
-      ,test_description_t(string_t("converting 2D arrays to new-line-separated CSV character stop codes")     , usher(check_intrinsic_2D_arrays)) &
-      ,test_description_t(string_t("converting 3D arrays to new-line-separated CSV character stop codes")     , usher(check_intrinsic_3D_arrays)) &
-      ,test_description_t(string_t("converting a 1D string_t array into a CSV character stop code")           , usher(check_string_t_1D_array))   &
-      ,test_description_t(string_t("converting a file_t object into a new-line-separated character stop code"), usher(check_file_t))              &
-      ,test_description_t(string_t("converting a writable_t child object into character stop code")           , usher(check_writable_t))          &
-#elif __GFORTRAN__
+#if __GFORTRAN__
+      ! Skip some tests
        test_description_t(string_t("converting scalars to character stop codes")                              , usher(check_intrinsic_scalars))   &
       ,test_description_t(string_t("converting 1D arrays to comma-separated-value (CSV) character stop codes"), usher(check_intrinsic_1D_arrays)) &
       ,test_description_t(string_t("converting 2D arrays to new-line-separated CSV character stop codes")     , usher(check_intrinsic_2D_arrays)) &
@@ -74,7 +67,8 @@ contains
       ,test_description_t(string_t("converting a 1D string_t array into a CSV character stop code")           ) &
       ,test_description_t(string_t("converting a file_t object into a new-line-separated character stop code")) &
       ,test_description_t(string_t("converting a writable_t child object into character stop code")           ) &
-#elif __flang__
+#elif __FLANG_MAJOR__ > 19
+      ! Skip all tests
        test_description_t(string_t("converting scalars to character stop codes")                              ) &
       ,test_description_t(string_t("converting 1D arrays to comma-separated-value (CSV) character stop codes")) &
       ,test_description_t(string_t("converting 2D arrays to new-line-separated CSV character stop codes")     ) &
@@ -82,6 +76,15 @@ contains
       ,test_description_t(string_t("converting a 1D string_t array into a CSV character stop code")           ) &
       ,test_description_t(string_t("converting a file_t object into a new-line-separated character stop code")) &
       ,test_description_t(string_t("converting a writable_t child object into character stop code")           ) &
+#else
+      ! Run all tests
+       test_description_t(string_t("converting scalars to character stop codes")                              , usher(check_intrinsic_scalars))   &
+      ,test_description_t(string_t("converting 1D arrays to comma-separated-value (CSV) character stop codes"), usher(check_intrinsic_1D_arrays)) &
+      ,test_description_t(string_t("converting 2D arrays to new-line-separated CSV character stop codes")     , usher(check_intrinsic_2D_arrays)) &
+      ,test_description_t(string_t("converting 3D arrays to new-line-separated CSV character stop codes")     , usher(check_intrinsic_3D_arrays)) &
+      ,test_description_t(string_t("converting a 1D string_t array into a CSV character stop code")           , usher(check_string_t_1D_array))   &
+      ,test_description_t(string_t("converting a file_t object into a new-line-separated character stop code"), usher(check_file_t))              &
+      ,test_description_t(string_t("converting a writable_t child object into character stop code")           , usher(check_writable_t))          &
 #endif
     ]
     test_results = character_stop_code_test%run(test_descriptions)
