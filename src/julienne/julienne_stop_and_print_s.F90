@@ -4,6 +4,7 @@
 submodule(julienne_stop_and_print_m) julienne_stop_and_print_s
   use julienne_string_m, only : operator(.csv.), operator(.separatedBy.)
   use julienne_file_m, only : file_t
+  use julienne_multi_image_m, only : internal_error_stop
   implicit none
   
 contains 
