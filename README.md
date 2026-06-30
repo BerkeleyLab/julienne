@@ -185,23 +185,21 @@ to `error_unit`.
 Building and Testing
 --------------------
 With the Fortran Package Manager ([`fpm`]) installed and in your `PATH`, the
-commands in the table below will build and run the Julienne test suite.  With
-`fpm` versions higher than 0.12.0, `flang-new` can be replaced with `flang`.
-For additional information on setting up parallel builds with LLVM, please see
-[parallel-testing-with-flang.md](./doc/parallel-testing-with-flang.md).
+commands in the table below will build and run the Julienne test suite.
+With `fpm` versions older than 0.13.0, replace `flang` with `flang-new` below.
 
 Compiler/Runtime  |Tested Versions|Run Type|Example build/test commands (parallel examples use 2 images)
 ------------------|---------------|--------|------------------------------------------------------------
-LLVM/[Caffeine]   |22.0.0git      |parallel|`fpm test --compiler flang-new --flag "-O3 -DHAVE_MULTI_IMAGE_SUPPORT -fcoarray" --link-flag "-lcaffeine -lgasnet-smp-seq -L<caffeine-path> -L<gasnet-path>"`
-LLVM              |20-22          |serial  |`fpm test --compiler flang-new --flag -O3`
-LLVM              |19 (+)         |serial  |`fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"`
-LFortran          |0.60.0-421-ge2c448c79 |serial  |`fpm test --compiler lfortran --flag "--cpp --realloc-lhs-arrays --separate-compilation"`
+LLVM/[Caffeine]   |22             |parallel|`fpm test --compiler flang --flag "-O3 -DHAVE_MULTI_IMAGE_SUPPORT -fcoarray" --link-flag "-lcaffeine -lgasnet-smp-seq -L<caffeine-prefix>/lib"`
+LLVM              |20-22          |serial  |`fpm test --compiler flang --flag -O3`
+LLVM              |19 (+)         |serial  |`fpm test --compiler flang --flag "-O3 -mmlir -allow-assumed-rank"`
+GCC/[OpenCoarrays]|14-15          |parallel|`fpm test --compiler caf --runner "cafrun -n 2" --profile release`
+GCC/[OpenCoarrays]|13             |parallel|`fpm test --compiler caf --runner "cafrun -n 2" --profile release --flag -ffree-line-length-none`
+GCC               |14-16          |serial  |`fpm test --compiler gfortran --profile release`
+GCC               |13             |serial  |`fpm test --compiler gfortran --profile release --flag -ffree-line-length-none`
+Intel             |2025.2-2026.0  |parallel|`FOR_COARRAY_NUM_IMAGES=2 fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release`
+LFortran          |0.61-0.63 |serial  |`fpm test --compiler lfortran --flag "--cpp --realloc-lhs-arrays --separate-compilation"`
 NAG               |7.2, Build 7235|parallel|`NAGFORTRAN_NUM_IMAGES=2 fpm test --compiler nagfor --flag "-fpp -O3 -coarray"`
-Intel             |2025.2.{0-1}   |parallel|`FOR_COARRAY_NUM_IMAGES=2 fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release`
-GCC/[OpenCoarrays]|14-15          |serial  |`fpm test --compiler gfortran --profile release`
-GCC               |14-15          |parallel|`fpm test --compiler caf --runner "cafrun -n 2" --profile release`
-GCC/[OpenCoarrays]|13             |serial  |`fpm test --compiler gfortran --profile release --flag -ffree-line-length-none`
-GCC               |13             |parallel|`fpm test --compiler caf --runner "cafrun -n 2" --profile release --flag -ffree-line-length-none`
 
 (+) Support for LLVM flang version 19 is deprecated, and may be removed in a future release.
 
@@ -256,7 +254,7 @@ Known Software Using Julienne
 * [Fiats](https://go.lbl.gov/fiats): Functional inference and training for surrogates
 * [Matcha](https://go.lbl.gov/matcha): Motility analysis of T-cell histories in activation
 * nQMCC: Quantum Monte Carlo simulation software for nuclear physics
-* [TRACE](https://www.nrc.gov/docs/ML1200/ML120060218.pdf):a two-phase flow solver for nuclear reactors
+* [TRACE](https://www.nrc.gov/docs/ML1200/ML120060218.pdf): a two-phase flow solver for nuclear reactors
 
 [`diagnosis_function_i`]: https://github.com/BerkeleyLab/julienne/blob/37bcc959efa8f9e27ae50fecfd37a6bf52ef0a43/src/julienne/julienne_test_description_m.f90#L16
 [documentation]: https:///berkeleylab.github.io/julienne/
