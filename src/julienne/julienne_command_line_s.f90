@@ -47,7 +47,11 @@ contains
 
   end procedure
 
-  module procedure flag_value
+  module procedure string_flag_value
+    flag_value = character_flag_value(flag%string())
+  end procedure
+
+  module procedure character_flag_value
     integer argnum, arglen, flag_value_length
     character(len=:), allocatable :: arg
 
