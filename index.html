@@ -356,10 +356,8 @@ and <code>__LINE__</code> macros, respectively.  Most compilers write the result
 to <code>error_unit</code>.</p>
 <h2 id="building-and-testing">Building and Testing</h2>
 <p>With the Fortran Package Manager ([<code>fpm</code>]) installed and in your <code>PATH</code>, the
-commands in the table below will build and run the Julienne test suite.  With
-<code>fpm</code> versions higher than 0.12.0, <code>flang-new</code> can be replaced with <code>flang</code>.
-For additional information on setting up parallel builds with LLVM, please see
-<a href="./doc/parallel-testing-with-flang.md">parallel-testing-with-flang.md</a>.</p>
+commands in the table below will build and run the Julienne test suite.
+With <code>fpm</code> versions older than 0.13.0, replace <code>flang</code> with <code>flang-new</code> below.</p>
 <table>
 <thead>
 <tr>
@@ -372,25 +370,55 @@ For additional information on setting up parallel builds with LLVM, please see
 <tbody>
 <tr>
 <td>LLVM/<a href="https://go.lbl.gov/caffeine">Caffeine</a></td>
-<td>22.0.0git</td>
+<td>22</td>
 <td>parallel</td>
-<td><code>fpm test --compiler flang-new --flag "-O3 -DHAVE_MULTI_IMAGE_SUPPORT -fcoarray" --link-flag "-lcaffeine -lgasnet-smp-seq -L&lt;caffeine-path&gt; -L&lt;gasnet-path&gt;"</code></td>
+<td><code>fpm test --compiler flang --flag "-O3 -DHAVE_MULTI_IMAGE_SUPPORT -fcoarray" --link-flag "-lcaffeine -lgasnet-smp-seq -L&lt;caffeine-prefix&gt;/lib"</code></td>
 </tr>
 <tr>
 <td>LLVM</td>
 <td>20-22</td>
 <td>serial</td>
-<td><code>fpm test --compiler flang-new --flag -O3</code></td>
+<td><code>fpm test --compiler flang --flag -O3</code></td>
 </tr>
 <tr>
 <td>LLVM</td>
 <td>19 (+)</td>
 <td>serial</td>
-<td><code>fpm test --compiler flang-new --flag "-O3 -mmlir -allow-assumed-rank"</code></td>
+<td><code>fpm test --compiler flang --flag "-O3 -mmlir -allow-assumed-rank"</code></td>
+</tr>
+<tr>
+<td>GCC/<a href="https://github.com/sourceryinstitute/opencoarrays">OpenCoarrays</a></td>
+<td>14-15</td>
+<td>parallel</td>
+<td><code>fpm test --compiler caf --runner "cafrun -n 2" --profile release</code></td>
+</tr>
+<tr>
+<td>GCC/<a href="https://github.com/sourceryinstitute/opencoarrays">OpenCoarrays</a></td>
+<td>13</td>
+<td>parallel</td>
+<td><code>fpm test --compiler caf --runner "cafrun -n 2" --profile release --flag -ffree-line-length-none</code></td>
+</tr>
+<tr>
+<td>GCC</td>
+<td>14-16</td>
+<td>serial</td>
+<td><code>fpm test --compiler gfortran --profile release</code></td>
+</tr>
+<tr>
+<td>GCC</td>
+<td>13</td>
+<td>serial</td>
+<td><code>fpm test --compiler gfortran --profile release --flag -ffree-line-length-none</code></td>
+</tr>
+<tr>
+<td>Intel</td>
+<td>2025.2-2026.0</td>
+<td>parallel</td>
+<td><code>FOR_COARRAY_NUM_IMAGES=2 fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release</code></td>
 </tr>
 <tr>
 <td>LFortran</td>
-<td>0.60.0-421-ge2c448c79</td>
+<td>0.61-0.63</td>
 <td>serial</td>
 <td><code>fpm test --compiler lfortran --flag "--cpp --realloc-lhs-arrays --separate-compilation"</code></td>
 </tr>
@@ -399,36 +427,6 @@ For additional information on setting up parallel builds with LLVM, please see
 <td>7.2, Build 7235</td>
 <td>parallel</td>
 <td><code>NAGFORTRAN_NUM_IMAGES=2 fpm test --compiler nagfor --flag "-fpp -O3 -coarray"</code></td>
-</tr>
-<tr>
-<td>Intel</td>
-<td>2025.2.{0-1}</td>
-<td>parallel</td>
-<td><code>FOR_COARRAY_NUM_IMAGES=2 fpm test --compiler ifx --flag "-fpp -O3 -coarray" --profile release</code></td>
-</tr>
-<tr>
-<td>GCC/<a href="https://github.com/sourceryinstitute/opencoarrays">OpenCoarrays</a></td>
-<td>14-15</td>
-<td>serial</td>
-<td><code>fpm test --compiler gfortran --profile release</code></td>
-</tr>
-<tr>
-<td>GCC</td>
-<td>14-15</td>
-<td>parallel</td>
-<td><code>fpm test --compiler caf --runner "cafrun -n 2" --profile release</code></td>
-</tr>
-<tr>
-<td>GCC/<a href="https://github.com/sourceryinstitute/opencoarrays">OpenCoarrays</a></td>
-<td>13</td>
-<td>serial</td>
-<td><code>fpm test --compiler gfortran --profile release --flag -ffree-line-length-none</code></td>
-</tr>
-<tr>
-<td>GCC</td>
-<td>13</td>
-<td>parallel</td>
-<td><code>fpm test --compiler caf --runner "cafrun -n 2" --profile release --flag -ffree-line-length-none</code></td>
 </tr>
 </tbody>
 </table>
@@ -475,7 +473,7 @@ the framework supports.</p>
 <li><a href="https://go.lbl.gov/fiats">Fiats</a>: Functional inference and training for surrogates</li>
 <li><a href="https://go.lbl.gov/matcha">Matcha</a>: Motility analysis of T-cell histories in activation</li>
 <li>nQMCC: Quantum Monte Carlo simulation software for nuclear physics</li>
-<li><a href="https://www.nrc.gov/docs/ML1200/ML120060218.pdf">TRACE</a>:a two-phase flow solver for nuclear reactors</li>
+<li><a href="https://www.nrc.gov/docs/ML1200/ML120060218.pdf">TRACE</a>: a two-phase flow solver for nuclear reactors</li>
 </ul>
         </div>
           <div class="col-md-4">
@@ -558,7 +556,7 @@ the framework supports.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-30 18:50 +0000             </p>
+ on 2026-06-30 18:57 +0000             </p>
           </div>
         </div>
         <br>
