@@ -51,7 +51,7 @@ submodule.
 
 ### Printing a text file
 
-The following command prints this repository's `fpm` mannifest: `fpm.toml`.
+The following command prints this repository's `fpm` manifest: `fpm.toml`.
 
 ```
   fpm run --example pure-stop-and-print --compiler flang -- --file fpm.toml
