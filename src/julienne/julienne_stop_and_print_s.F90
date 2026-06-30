@@ -4,6 +4,7 @@
 submodule(julienne_stop_and_print_m) julienne_stop_and_print_s
   use julienne_string_m, only : operator(.csv.), operator(.separatedBy.)
   use julienne_file_m, only : file_t
+  use julienne_multi_image_m, only : internal_error_stop
   implicit none
   
 contains 
@@ -22,15 +23,15 @@ contains
     rank(0)
       select type(data)
       type is(character(len=*))
-        error stop data
+        call internal_error_stop(data)
       class is(string_t)
 #ifndef __GFORTRAN__
-        error stop data%string()
+        call internal_error_stop(data%string())
 #else
         block
           character(len=:), allocatable :: stop_code
           stop_code = data%string()
-          error stop stop_code
+          call internal_error_stop(stop_code)
         end block
 #endif
       class default
@@ -59,7 +60,7 @@ contains
           code =                           new_line('') // character_stop_code(data) // new_line('')
       end if
 
-      error stop code
+      call internal_error_stop(code)
     end subroutine
 
   end procedure
@@ -97,12 +98,12 @@ contains
               integer io_status
               write(stop_code,*,iostat=io_status) stuff
               associate(code_maxlen => string_t(stuff%maxlen()))
-                if (io_status /= 0) error stop "Call writable_t's set_maxlen procedure to increase stop_code maximum size above " // code_maxlen%string()
+                if (io_status /= 0) call internal_error_stop("Call writable_t's set_maxlen procedure to increase stop_code maximum size above " // code_maxlen%string())
               end associate
             end block
             stop_code = trim(stop_code)
           class default
-             error stop "character_stop_code (in print_and_stop_s): unsupported stop-code type for scalar"
+             call internal_error_stop("character_stop_code (in print_and_stop_s): unsupported stop-code type for scalar")
         end select
       rank(1)
         select type(stuff)
@@ -125,7 +126,7 @@ contains
             stringy_stuff = .csv. stuff
             stop_code = stringy_stuff%string()
           class default
-             error stop "character_stop_code (in print_and_stop_s): unsupported stop-code type for rank-1 array"
+             call internal_error_stop("character_stop_code (in print_and_stop_s): unsupported stop-code type for rank-1 array")
         end select
       rank(2)
         select type(stuff)
@@ -145,7 +146,7 @@ contains
             stringy_stuff =  [(.csv. string_t(stuff(row,:)) , row=1,size(stuff,1))] .separatedBy. new_line('')
             stop_code = stringy_stuff%string()
           class default
-             error stop "character_stop_code (in print_and_stop_s): unsupported stop-code type for rank-2 array"
+             call internal_error_stop("character_stop_code (in print_and_stop_s): unsupported stop-code type for rank-2 array")
         end select
       rank(3)
         select type(stuff)
@@ -162,11 +163,11 @@ contains
             stringy_stuff =  [( [(.csv. string_t(stuff(row,:,page)) , row=1,size(stuff,1))] .separatedBy. new_line(''), page = 1,size(stuff,3) )] .separatedBy. (new_line('') // new_line(''))
             stop_code = stringy_stuff%string()
           class default
-             error stop "character_stop_code (in print_and_stop_s): unsupported stop-code type for rank-3 array"
+             call internal_errorestop("character_stop_code (in print_and_stop_s): unsupported stop-code type for rank-3 array")
         end select
       rank default
         associate(stop_code_rank => string_t(stop_code))
-          error stop "character_stop_code (in print_and_stop_s): unsupported stop-code rank: " //  stop_code_rank%string()
+          call internal_error_stop("character_stop_code (in print_and_stop_s): unsupported stop-code rank: " //  stop_code_rank%string())
         end associate
     end select
   end procedure
