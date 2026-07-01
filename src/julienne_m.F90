@@ -1,6 +1,8 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
+#include "language-support.F90"
+
 module julienne_m
   !! Global aggregation of all public entities
   use julienne_assert_m, only : call_julienne_assert_, julienne_assert
@@ -9,7 +11,9 @@ module julienne_m
   use julienne_file_m, only : file_t
   use julienne_formats_m, only : separated_values, csv
   use julienne_github_ci_m, only : github_ci
+#if HAVE_STOP_AND_PRINT_SUPPORT
   use julienne_stop_and_print_m, only : stop_and_print, writable_t
+#endif
   use julienne_string_m, only : string_t, array_of_strings &
     ,operator(.cat.) &
     ,operator(.csv.) &
