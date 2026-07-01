@@ -84,6 +84,11 @@ jobs:
           # https://hub.docker.com/r/intel/oneapi-toolkit/tags
           - os: ubuntu-24.04
             compiler: ifx
+            version: latest-coarray
+            container: intel/oneapi-toolkit:latest
+
+          - os: ubuntu-24.04
+            compiler: ifx
             version: latest
             container: intel/oneapi-toolkit:latest
 
@@ -213,10 +218,15 @@ jobs:
           echo "FPM_FC=flang-new" >> "$GITHUB_ENV"
         elif test "$FC" = "ifx" ; then
           echo "FPM_FC=ifx" >> "$GITHUB_ENV"
-          echo "FFLAGS=-coarray -fpp -g -traceback $FFLAGS" >> "$GITHUB_ENV"
-          echo "FOR_COARRAY_NUM_IMAGES=4" >> "$GITHUB_ENV"
-          : echo "FOR_COARRAY_DEBUG_STARTUP=1" >> "$GITHUB_ENV"
-          : echo "FOR_COARRAY_MPI_VERBOSE=1" >> "$GITHUB_ENV"
+          if [[ "$COMPILER_VERSION" = "latest-coarray" ]] ; then
+            echo "FOR_COARRAY_NUM_IMAGES=4" >> "$GITHUB_ENV"
+            echo "FFLAGS=-coarray -fpp -g -traceback $FFLAGS" >> "$GITHUB_ENV"
+            #echo "FOR_COARRAY_MPI_VERBOSE=1" >> "$GITHUB_ENV"
+            #echo "FOR_COARRAY_DEBUG_STARTUP=1" >> "$GITHUB_ENV"
+          else
+            # issue #162: ifx coarray support is usually disabled because it hides runtime failures
+            echo "FFLAGS=-DHAVE_MULTI_IMAGE_SUPPORT=0 -fpp -g -traceback $FFLAGS" >> "$GITHUB_ENV"
+          fi
         elif test "$FC" = "lfortran" ; then
           echo "FPM_FC=lfortran" >> "$GITHUB_ENV"
           echo "FFLAGS=--cpp --separate-compilation --realloc-lhs-arrays $FFLAGS" >> "$GITHUB_ENV"
@@ -260,13 +270,28 @@ jobs:
 
     - name: Build and Test (Assertions OFF)
       run: |
-        fpm test ${FPM_FLAGS} --flag "$FFLAGS"
+        fpm test ${FPM_FLAGS} --target driver --flag "$FFLAGS" -- --test command_line_t --type
 
     - name: Build and Test (Assertions ON)
       env:
         FPM_FLAGS: ${{ env.FPM_FLAGS }} --flag -DASSERTIONS
       run: |
-        fpm test ${FPM_FLAGS} --flag "$FFLAGS"
+        fpm test ${FPM_FLAGS} --target driver --flag "$FFLAGS" -- --test command_line_t --type
+
+    - name: Run Examples (Assertions ON)
+      env:
+        FPM_FLAGS: ${{ env.FPM_FLAGS }} --flag -DASSERTIONS
+      run: |
+        fpm run --example create-markdown-table ${FPM_FLAGS} --flag "$FFLAGS"  2>&1 | tee output
+          grep -q "|c_size_t|c_int64_t|c_intptr_t|" output
+        fpm run --example get-command-line-flag-value ${FPM_FLAGS} --flag "$FFLAGS" -- --foo bar 2>&1 | tee output
+          grep -q "foo=bar" output
+        fpm run --example check-for-command-line-argument ${FPM_FLAGS} --flag "$FFLAGS" -- --foo bar 2>&1 | tee output
+          grep -q "not present" output
+        ( set +e
+          fpm run --example assertions ${FPM_FLAGS} --flag "$FFLAGS"  2>&1 | tee output
+          test ${PIPESTATUS[0]} > 0 && grep -q "expected 2; actual value is 1" output
+        )
 
     - name: Test w/ Parallel Callbacks
       env:
