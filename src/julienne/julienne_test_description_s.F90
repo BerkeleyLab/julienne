@@ -81,7 +81,7 @@ contains
       type(command_line_t) command_line
 
 #if  defined(__flang__)
-      associate(search_string => command_line%flag_value("--contains"))
+      associate(search_string => command_line%character_flag_value("--contains"))
         filtered_test_descriptions = &
            pack( array = test_descriptions  &
                 ,mask  = index(subject, search_string) /= 0                  & ! subject contains search_string
@@ -91,7 +91,7 @@ contains
 #else
       block
         character(len=:), allocatable :: search_string
-        search_string = command_line%flag_value("--contains")
+        search_string = command_line%character_flag_value("--contains")
         filtered_test_descriptions = &
            pack( array = test_descriptions  &
                 ,mask  = index(subject, search_string) /= 0                  & ! subject contains search_string

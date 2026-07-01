@@ -10,11 +10,11 @@ program scaffold
   if (help_requested()) call print_usage_info_and_stop
 
 #if (! __GNUC__) && (! NAGFOR)
-  associate(subjects_file_name => command_line%flag_value("--json-file"))
+  associate(subjects_file_name => command_line%character_flag_value("--json-file"))
     if (len(subjects_file_name) == 0) call print_usage_info_and_stop
     print '(*(a))', "Reading test subject information from " // subjects_file_name
     associate(test_suite => test_suite_t(file_t(subjects_file_name)))
-      associate(path => command_line%flag_value("--suite-path"))
+      associate(path => command_line%character_flag_value("--suite-path"))
         print '(*(a))', "Writing test-suite scaffolding in " // path
         if (len(path) == 0) call print_usage_info_and_stop
         associate(driver => test_suite%driver_file())
@@ -33,11 +33,11 @@ program scaffold
 #else
   block
     character(len=:), allocatable ::  path, subjects_file_name
-    subjects_file_name = command_line%flag_value("--json-file")
+    subjects_file_name = command_line%character_flag_value("--json-file")
     if (len(subjects_file_name) == 0) call print_usage_info_and_stop
     print '(*(a))', "Reading test subject information from " // subjects_file_name
     associate(test_suite => test_suite_t(file_t(subjects_file_name)))
-      path = command_line%flag_value("--suite-path")
+      path = command_line%character_flag_value("--suite-path")
       if (len(path) == 0) call print_usage_info_and_stop
       print '(*(a))', "Writing test-suite scaffolding in " // path
       call test_suite%write_driver(path // "/driver.f90")
@@ -56,7 +56,7 @@ contains
 
     logical function help_requested()
       type(command_line_t) command_line
-      help_requested = command_line%argument_present([character(len=len("--help"))::"--help","-h"])
+      help_requested = command_line%character_argument_present([character(len=len("--help"))::"--help","-h"])
     end function
 
     subroutine print_usage_info_and_stop

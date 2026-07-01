@@ -18,7 +18,7 @@ contains
        do a=1,sz
          strings(a) = acceptable_argument(a)%string()
        end do
-       found = argument_present(strings)
+       found = character_argument_present(strings)
      end block
 # ifdef __INTEL_COMPILER
   ! workaround ifx bug where it thinks argument to len must be a constant expression
@@ -34,7 +34,7 @@ contains
 # endif
   end procedure
 
-  module procedure argument_present ! specific procedure for character argument
+  module procedure character_argument_present ! specific procedure for character argument
       !! list of acceptable arguments
       !! sample list: [character(len=len(longest_argument)):: "--benchmark", "-b", "/benchmark", "/b"]
       !! where dashes support Linux/macOS and slashes support Windows
@@ -67,10 +67,10 @@ contains
   end procedure
 
   module procedure string_flag_value
-    value = flag_value(flag%string())
+    value = character_flag_value(flag%string())
   end procedure
 
-  module procedure flag_value ! specific procedure for character argument
+  module procedure character_flag_value ! specific procedure for character argument
     integer argnum, arglen, value_length
     character(len=:), allocatable :: arg
 

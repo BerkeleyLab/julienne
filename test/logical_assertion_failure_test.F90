@@ -15,7 +15,7 @@ program logical_assertion_failure_test
 #else
   associate(command_line => command_line_t(), me => 1)
 #endif
-    if (.not. command_line%argument_present([character(len=len("--help"))::"--help","-h"])) then
+    if (.not. command_line%character_argument_present([character(len=len("--help"))::"--help","-h"])) then
 #if TEST_INTENTIONAL_FAILURE && ASSERTIONS
 
       if (me==1) print '(a)', new_line('') // 'Test the intentional failure of a logical assertion: ' // new_line('')

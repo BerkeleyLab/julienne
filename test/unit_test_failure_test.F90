@@ -7,7 +7,7 @@ program unit_test_failure_test
 
 #  if TEST_INTENTIONAL_FAILURE
     associate(command_line => command_line_t())
-      if (.not. command_line%argument_present([character(len=len("--help"))::"--help","-h"])) then
+      if (.not. command_line%character_argument_present([character(len=len("--help"))::"--help","-h"])) then
         associate(test_harness => test_harness_t([test_fixture_t(test_test_t())]))
           call test_harness%report_results
           print *, "If this message appears, the test did not fail as intended."
@@ -20,7 +20,7 @@ program unit_test_failure_test
 #    else
        associate(command_line => command_line_t(), me => 1)
 #    endif
-         if (.not. command_line%argument_present([character(len=len("--help"))::"--help","-h"])) then
+         if (.not. command_line%character_argument_present([character(len=len("--help"))::"--help","-h"])) then
            if (me==1) print '(a)', &
              new_line('') // &
              'Skipping the test in ' // __FILE__ // '.' // new_line('') // &

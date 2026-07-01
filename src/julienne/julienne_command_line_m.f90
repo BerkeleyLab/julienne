@@ -11,15 +11,15 @@ module julienne_command_line_m
 
   type command_line_t
   contains
-    generic :: generic_argument_present => argument_present, string_argument_present
-    procedure, nopass :: argument_present, string_argument_present
-    generic :: generic_flag_value => flag_value, string_flag_value
-    procedure, nopass :: flag_value, string_flag_value
+    generic :: argument_present => character_argument_present, string_argument_present
+    procedure, nopass :: character_argument_present, string_argument_present
+    generic :: flag_value => character_flag_value, string_flag_value
+    procedure, nopass :: character_flag_value, string_flag_value
   end type
 
   interface
 
-    module function argument_present(acceptable_argument) result(found)
+    module function character_argument_present(acceptable_argument) result(found)
       implicit none
       !! result is .true. only if a command-line argument matches an element of this function's argument
       character(len=*), intent(in) :: acceptable_argument(:)
@@ -36,7 +36,7 @@ module julienne_command_line_m
       logical found
     end function
 
-    module function flag_value(flag) result(value)
+    module function character_flag_value(flag) result(value)
       !! result = { the value passed immediately after a command-line flag if the flag is present or
       !!          { an empty string otherwise.
       implicit none
