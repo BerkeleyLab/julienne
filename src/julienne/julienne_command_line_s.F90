@@ -9,13 +9,17 @@ submodule(julienne_command_line_m) julienne_command_line_s
 contains
 
   module procedure string_argument_present
-     integer a
-     integer maxlen
+     integer a, sz, maxlen
 
-     maxlen = maxval([(len(acceptable_argument(a)%string()), a = 1,size(acceptable_argument))])
-     found = argument_present( &
-        [( [character(len=maxlen) :: acceptable_argument(a)%string()], a = 1, size(acceptable_argument))] &
-     )
+     sz = size(acceptable_argument)
+     maxlen = maxval([(len(acceptable_argument(a)%string()), a = 1,sz)])
+     block
+       character(maxlen) :: strings(size(acceptable_argument))
+       do a=1,sz
+         strings(a) = acceptable_argument(a)%string()
+       end do
+       found = argument_present(strings)
+     end block
 # ifdef __INTEL_COMPILER
   ! workaround ifx bug where it thinks argument to len must be a constant expression
   contains

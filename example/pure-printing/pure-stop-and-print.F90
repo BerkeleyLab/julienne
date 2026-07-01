@@ -15,15 +15,16 @@ program pure_stop_and_print
   implicit none
 
   type(command_line_t) command_line
-  character(len=:), allocatable :: stop_code
+  character(len=:), allocatable :: stop_code, file_name
 
   stop_code = usage_info()
   if (      command_line%string_argument_present( [string_t("--help"), string_t("-h")                                 ] ))       stop stop_code
   if (.not. command_line%string_argument_present( [string_t("--file"), string_t("--array"), string_t("--derived-type")] )) error stop stop_code
 
-  associate(file_name => command_line%flag_value("--file"))
-    if (len(file_name) > 0) call pure_subroutine(.false., .false., file_t(file_name))
-  end associate
+  file_name = command_line%flag_value("--file")
+  if (len(file_name) > 0) then
+    call pure_subroutine(.false., .false., file_t(file_name))
+  end if
   call pure_subroutine(command_line%argument_present(["--array"]), command_line%argument_present(["--derived-type"]))
 
 contains
