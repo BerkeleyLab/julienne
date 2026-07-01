@@ -10,22 +10,27 @@ contains
 
   module procedure string_argument_present
      integer a
-#if defined(__INTEL_COMPILER) || (GCC_VERSION > 0 && GCC_VERSION < 140000)
-     associate(maxlen => 128)
-       found = character_argument_present( &
-          [( [character(len=maxlen) :: acceptable_argument(a)%string()], a = 1, size(acceptable_argument))] &
-       )
-     end associate
-#else
-     associate(maxlen => maxval([(len(acceptable_argument(a)%string()), a = 1,size(acceptable_argument))]))
-       found = character_argument_present( &
-          [( [character(len=maxlen) :: acceptable_argument(a)%string()], a = 1, size(acceptable_argument))] &
-       )
-     end associate
-#endif
+     integer maxlen
+
+     maxlen = maxval([(len(acceptable_argument(a)%string()), a = 1,size(acceptable_argument))])
+     found = argument_present( &
+        [( [character(len=maxlen) :: acceptable_argument(a)%string()], a = 1, size(acceptable_argument))] &
+     )
+# ifdef __INTEL_COMPILER
+  ! workaround ifx bug where it thinks argument to len must be a constant expression
+  contains
+    pure function len(char) result(l)
+      character(len=*), intent(in) :: char
+      integer :: l
+      block
+        intrinsic :: len
+        l = len(char)
+      end block
+    end function
+# endif
   end procedure
 
-  module procedure character_argument_present
+  module procedure argument_present ! specific procedure for character argument
       !! list of acceptable arguments
       !! sample list: [character(len=len(longest_argument)):: "--benchmark", "-b", "/benchmark", "/b"]
       !! where dashes support Linux/macOS and slashes support Windows
@@ -58,11 +63,11 @@ contains
   end procedure
 
   module procedure string_flag_value
-    flag_value = character_flag_value(flag%string())
+    value = flag_value(flag%string())
   end procedure
 
-  module procedure character_flag_value
-    integer argnum, arglen, flag_value_length
+  module procedure flag_value ! specific procedure for character argument
+    integer argnum, arglen, value_length
     character(len=:), allocatable :: arg
 
     do argnum = 1,command_argument_count()-1
@@ -70,14 +75,14 @@ contains
       allocate(character(len=arglen) :: arg)
       call get_command_argument(argnum, arg)
       if (arg==flag) then
-        call get_command_argument(argnum+1, length=flag_value_length)
-        allocate(character(len=flag_value_length) :: flag_value)
-        call get_command_argument(argnum+1, flag_value)
+        call get_command_argument(argnum+1, length=value_length)
+        allocate(character(len=value_length) :: value)
+        call get_command_argument(argnum+1, value)
         return
       end if
       deallocate(arg)
     end do
-    flag_value=""
+    value=""
   end procedure
 
 end submodule
