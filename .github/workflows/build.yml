@@ -293,6 +293,25 @@ jobs:
           test ${PIPESTATUS[0]} > 0 && grep -q "expected 2; actual value is 1" output
         )
 
+    - name: Run Stop-and-Print Example (Assertions ON)
+      if: ${{ matrix.compiler == 'gfortran' || 
+             (matrix.compiler == 'flang' && (matrix.version >= 20 || matrix.version == 'latest') ) }}
+      env:
+        FPM_FLAGS: ${{ env.FPM_FLAGS }} --flag -DASSERTIONS
+      run: |
+        ( set +e
+          fpm run --example pure-stop-and-print ${FPM_FLAGS} --flag "$FFLAGS" -- --array 2>&1 | tee output
+          test ${PIPESTATUS[0]} > 0 && grep -q "212,222" output
+        )
+        ( set +e
+          fpm run --example pure-stop-and-print ${FPM_FLAGS} --flag "$FFLAGS" -- --derived-type 2>&1 | tee output
+          test ${PIPESTATUS[0]} > 0 && grep -q "answer = 42" output
+        )
+        ( set +e
+          fpm run --example pure-stop-and-print ${FPM_FLAGS} --flag "$FFLAGS" -- --file fpm.toml 2>&1 | tee output
+          test ${PIPESTATUS[0]} > 0 && grep -q "[install]" output
+        )
+
     - name: Test w/ Parallel Callbacks
       env:
         FPM_FLAGS: ${{ env.FPM_FLAGS }} --flag -DJULIENNE_PARALLEL_CALLBACKS --flag -DTEST_PARALLEL_CALLBACKS
