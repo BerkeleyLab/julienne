@@ -1,6 +1,10 @@
 ! Copyright (c), The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
+#include "language-support.F90"
+
+#if HAVE_STOP_AND_PRINT_SUPPORT
+
 module julienne_stop_and_print_m
   !! Define a pure subroutine that formats and prints various data types during error termination
   use julienne_string_m, only : string_t
@@ -64,3 +68,4 @@ module julienne_stop_and_print_m
   end interface
 
 end module julienne_stop_and_print_m
+#endif

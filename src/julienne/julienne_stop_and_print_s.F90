@@ -1,6 +1,10 @@
 ! Copyright (c), The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
+#include "language-support.F90"
+
+#if HAVE_STOP_AND_PRINT_SUPPORT
+
 submodule(julienne_stop_and_print_m) julienne_stop_and_print_s
   use julienne_string_m, only : operator(.csv.), operator(.separatedBy.)
   use julienne_file_m, only : file_t
@@ -173,3 +177,5 @@ contains
   end procedure
   
 end submodule julienne_stop_and_print_s
+
+#endif

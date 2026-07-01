@@ -3,6 +3,8 @@
 
 #include "language-support.F90"
 
+#if HAVE_STOP_AND_PRINT_SUPPORT
+
 module character_stop_code_test_m
   !! Check data partitioning across bins
   use julienne_m, only : &
@@ -64,15 +66,6 @@ contains
       ,test_description_t(string_t("converting 1D arrays to comma-separated-value (CSV) character stop codes"), usher(check_intrinsic_1D_arrays)) &
       ,test_description_t(string_t("converting 2D arrays to new-line-separated CSV character stop codes")     , usher(check_intrinsic_2D_arrays)) &
       ,test_description_t(string_t("converting 3D arrays to new-line-separated CSV character stop codes")     , usher(check_intrinsic_3D_arrays)) &
-      ,test_description_t(string_t("converting a 1D string_t array into a CSV character stop code")           ) &
-      ,test_description_t(string_t("converting a file_t object into a new-line-separated character stop code")) &
-      ,test_description_t(string_t("converting a writable_t child object into character stop code")           ) &
-#elif __FLANG_MAJOR__ > 19
-      ! Skip all tests
-       test_description_t(string_t("converting scalars to character stop codes")                              ) &
-      ,test_description_t(string_t("converting 1D arrays to comma-separated-value (CSV) character stop codes")) &
-      ,test_description_t(string_t("converting 2D arrays to new-line-separated CSV character stop codes")     ) &
-      ,test_description_t(string_t("converting 3D arrays to new-line-separated CSV character stop codes")     ) &
       ,test_description_t(string_t("converting a 1D string_t array into a CSV character stop code")           ) &
       ,test_description_t(string_t("converting a file_t object into a new-line-separated character stop code")) &
       ,test_description_t(string_t("converting a writable_t child object into character stop code")           ) &
@@ -565,3 +558,5 @@ contains
   end subroutine
 
 end module character_stop_code_test_m
+
+#endif
