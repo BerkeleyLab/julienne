@@ -1,7 +1,10 @@
 ! Copyright (c) 2024-2026, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
+#include "language-support.F90"
+
 program pure_stop_and_print
+#if HAVE_STOP_AND_PRINT_SUPPORT
   !! Demonstrate Julienne's support for printing during error termination inside pure procedures
   use julienne_m, only : &
      command_line_t &
@@ -52,4 +55,7 @@ contains
       // 'optional arguments, and angular brackets (<>) delimit user input.' // new_line('')
    end function
 
+#else
+  error stop "Julienne's stop_and_print feature is not supported on this compiler"
+#endif
 end program pure_stop_and_print
