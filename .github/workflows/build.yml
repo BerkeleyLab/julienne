@@ -278,6 +278,21 @@ jobs:
       run: |
         fpm test ${FPM_FLAGS} --target driver --flag "$FFLAGS" -- --test command_line_t --type
 
+    - name: Run Examples (Assertions ON)
+      env:
+        FPM_FLAGS: ${{ env.FPM_FLAGS }} --flag -DASSERTIONS
+      run: |
+        fpm run --example create-markdown-table ${FPM_FLAGS} --flag "$FFLAGS"  2>&1 | tee output
+          grep -q "|c_size_t|c_int64_t|c_intptr_t|" output
+        fpm run --example get-command-line-flag-value ${FPM_FLAGS} --flag "$FFLAGS" -- --foo bar 2>&1 | tee output
+          grep -q "foo=bar" output
+        fpm run --example check-for-command-line-argument ${FPM_FLAGS} --flag "$FFLAGS" -- --foo bar 2>&1 | tee output
+          grep -q "not present" output
+        ( set +e
+          fpm run --example assertions ${FPM_FLAGS} --flag "$FFLAGS"  2>&1 | tee output
+          test ${PIPESTATUS[0]} > 0 && grep -q "expected 2; actual value is 1" output
+        )
+
     - name: Test w/ Parallel Callbacks
       env:
         FPM_FLAGS: ${{ env.FPM_FLAGS }} --flag -DJULIENNE_PARALLEL_CALLBACKS --flag -DTEST_PARALLEL_CALLBACKS
