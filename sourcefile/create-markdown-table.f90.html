@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.7% of total for source files.">51 statements</a>
+                 title=" 1.7% of total for source files.">53 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -332,17 +332,19 @@ large graphs.</div>
 <a id="ln-68" name="ln-68" href="#ln-68"></a><span class="k">        </span><span class="n">compiler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;flang&quot;</span><span class="p">)</span>
 <a id="ln-69" name="ln-69" href="#ln-69"></a><span class="w">      </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="nb">index</span><span class="p">(</span><span class="n">compiler_identity</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Intel&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <a id="ln-70" name="ln-70" href="#ln-70"></a><span class="k">        </span><span class="n">compiler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;ifx&quot;</span><span class="p">)</span>
-<a id="ln-71" name="ln-71" href="#ln-71"></a><span class="w">      </span><span class="k">else</span>
-<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="cp">#if (! defined(__GFORTRAN__)) || (GCC_VERSION &gt; 140000)</span>
-<a id="ln-73" name="ln-73" href="#ln-73"></a><span class="w">          </span><span class="k">error stop</span><span class="w"> </span><span class="s2">&quot;unrecognized compiler: &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">compiler_identity</span>
-<a id="ln-74" name="ln-74" href="#ln-74"></a><span class="cp">#else</span>
-<a id="ln-75" name="ln-75" href="#ln-75"></a><span class="w">          </span><span class="k">error stop</span><span class="w"> </span><span class="s2">&quot;unrecognized compiler&quot;</span>
-<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="cp">#endif</span>
-<a id="ln-77" name="ln-77" href="#ln-77"></a><span class="w">      </span><span class="k">end if</span>
-<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="k">    end associate</span>
-<a id="ln-79" name="ln-79" href="#ln-79"></a><span class="k">  end function</span>
-<a id="ln-80" name="ln-80" href="#ln-80"></a>
-<a id="ln-81" name="ln-81" href="#ln-81"></a><span class="k">end program</span>
+<a id="ln-71" name="ln-71" href="#ln-71"></a><span class="w">      </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="nb">index</span><span class="p">(</span><span class="n">compiler_identity</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;LFortran&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="k">        </span><span class="n">compiler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;lfortran&quot;</span><span class="p">)</span>
+<a id="ln-73" name="ln-73" href="#ln-73"></a><span class="w">      </span><span class="k">else</span>
+<a id="ln-74" name="ln-74" href="#ln-74"></a><span class="cp">#if (! defined(__GFORTRAN__)) || (GCC_VERSION &gt; 140000)</span>
+<a id="ln-75" name="ln-75" href="#ln-75"></a><span class="w">          </span><span class="k">error stop</span><span class="w"> </span><span class="s2">&quot;unrecognized compiler: &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">compiler_identity</span>
+<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="cp">#else</span>
+<a id="ln-77" name="ln-77" href="#ln-77"></a><span class="w">          </span><span class="k">error stop</span><span class="w"> </span><span class="s2">&quot;unrecognized compiler&quot;</span>
+<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="cp">#endif</span>
+<a id="ln-79" name="ln-79" href="#ln-79"></a><span class="w">      </span><span class="k">end if</span>
+<a id="ln-80" name="ln-80" href="#ln-80"></a><span class="k">    end associate</span>
+<a id="ln-81" name="ln-81" href="#ln-81"></a><span class="k">  end function</span>
+<a id="ln-82" name="ln-82" href="#ln-82"></a>
+<a id="ln-83" name="ln-83" href="#ln-83"></a><span class="k">end program</span>
 </pre></div>
 
       </section>
@@ -364,7 +366,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-30 18:57 +0000             </p>
+ on 2026-07-01 23:18 +0000             </p>
           </div>
         </div>
         <br>

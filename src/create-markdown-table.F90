@@ -68,6 +68,8 @@ contains
         compiler = string_t("flang")
       else if (index(compiler_identity, "Intel") /= 0) then
         compiler = string_t("ifx")
+      else if (index(compiler_identity, "LFortran") /= 0) then
+        compiler = string_t("lfortran")
       else
 #if (! defined(__GFORTRAN__)) || (GCC_VERSION > 140000)
           error stop "unrecognized compiler: " // compiler_identity
