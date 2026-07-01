@@ -14,7 +14,7 @@
 #define GCC_GE_MINIMUM
 #endif
 
-#if defined(__GFORTRAN__) || __flang_major__ >= 20 || __INTEL_COMPILER >= 20260000
+#if defined(__GFORTRAN__) || __flang_major__ >= 20
 #  define HAVE_STOP_AND_PRINT_SUPPORT 1
 #else
 #  define HAVE_STOP_AND_PRINT_SUPPORT 0
