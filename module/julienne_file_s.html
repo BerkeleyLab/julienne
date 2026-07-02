@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 3.0% of total for modules and submodules.">87 statements</a>
+                 title=" 2.8% of total for modules and submodules.">90 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -149,9 +149,10 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/julienne_file_s.html#proc-from_character_lines">from_character_lines</a>
             <a class="list-group-item" href="../module/julienne_file_s.html#proc-from_file_with_character_name">from_file_with_character_name</a>
             <a class="list-group-item" href="../module/julienne_file_s.html#proc-from_file_with_string_name">from_file_with_string_name</a>
-            <a class="list-group-item" href="../module/julienne_file_s.html#proc-from_lines">from_lines</a>
+            <a class="list-group-item" href="../module/julienne_file_s.html#proc-from_string_t_lines">from_string_t_lines</a>
             <a class="list-group-item" href="../module/julienne_file_s.html#proc-lines">lines</a>
             <a class="list-group-item" href="../module/julienne_file_s.html#proc-write_to_character_file_name">write_to_character_file_name</a>
             <a class="list-group-item" href="../module/julienne_file_s.html#proc-write_to_output_unit">write_to_output_unit</a>
@@ -373,6 +374,51 @@ large graphs.</div>
         <section>
           <h2>Module Procedures</h2>
               <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_character_lines"></span> <h3>module procedure /home/runner/work/julienne/julienne/doc/html/module/julienne_file_s.html <a href='../proc/from_character_lines.html'>from_character_lines</a> <small>pure module function from_character_lines(lines) result(file_object)</small>  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lines~3"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lines</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/file_t.html'>file_t</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-from_file_with_character_name"></span> <h3>module procedure /home/runner/work/julienne/julienne/doc/html/module/julienne_file_s.html <a href='../proc/from_file_with_character_name.html'>from_file_with_character_name</a> <small>module function from_file_with_character_name(file_name) result(file_object)</small>  
 </h3></div>
     <div class="card-body">
@@ -392,7 +438,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-file_name~3"></span>
+              <span class="anchor" id="variable-file_name~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -437,7 +483,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-file_name~2"></span>
+              <span class="anchor" id="variable-file_name~3"></span>
               type(<a href='../type/string_t.html'>string_t</a>),
             </td>
 <td>intent(in)</td>
@@ -463,7 +509,7 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-from_lines"></span> <h3>module procedure /home/runner/work/julienne/julienne/doc/html/module/julienne_file_s.html <a href='../proc/from_lines.html'>from_lines</a> <small>pure module function from_lines(lines) result(file_object)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-from_string_t_lines"></span> <h3>module procedure /home/runner/work/julienne/julienne/doc/html/module/julienne_file_s.html <a href='../proc/from_string_t_lines.html'>from_string_t_lines</a> <small>pure module function from_string_t_lines(lines) result(file_object)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -482,7 +528,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lines~3"></span>
+              <span class="anchor" id="variable-lines~2"></span>
               type(<a href='../type/string_t.html'>string_t</a>),
             </td>
 <td>intent(in)</td>
@@ -528,7 +574,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~37"></span>
+              <span class="anchor" id="variable-self~43"></span>
               class(<a href='../type/file_t.html'>file_t</a>),
             </td>
 <td>intent(in)</td>
@@ -574,7 +620,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~40"></span>
+              <span class="anchor" id="variable-self~46"></span>
               class(<a href='../type/file_t.html'>file_t</a>),
             </td>
 <td>intent(in)</td>
@@ -589,7 +635,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-file_name~5"></span>
+              <span class="anchor" id="variable-file_name~6"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -630,7 +676,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~38"></span>
+              <span class="anchor" id="variable-self~44"></span>
               class(<a href='../type/file_t.html'>file_t</a>),
             </td>
 <td>intent(in)</td>
@@ -671,7 +717,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~39"></span>
+              <span class="anchor" id="variable-self~45"></span>
               class(<a href='../type/file_t.html'>file_t</a>),
             </td>
 <td>intent(in)</td>
@@ -686,7 +732,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-file_name~4"></span>
+              <span class="anchor" id="variable-file_name~5"></span>
               type(<a href='../type/string_t.html'>string_t</a>),
             </td>
 <td>intent(in)</td>
@@ -725,7 +771,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-07-01 23:18 +0000             </p>
+ on 2026-07-02 21:10 +0000             </p>
           </div>
         </div>
         <br>

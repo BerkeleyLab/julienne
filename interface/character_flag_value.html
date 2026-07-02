@@ -1,0 +1,459 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A Fortran 2023 correctness-checking framework supporting expressive idioms for writing assertions and tests">
+    <meta name="author" content="Berkeley Lab" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>character_flag_value &ndash; Julienne</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">Julienne </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>character_flag_value
+      <small>Interface</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.2% of total for procedures.">22 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/julienne_command_line_m.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/julienne_command_line_m.f90.html'>julienne_command_line_m.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/julienne_command_line_m.html'>julienne_command_line_m</a></li>
+            <li class="breadcrumb-item active" aria-current="page">character_flag_value</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+    <em>None</em>
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+      <h2>interface</h2>
+      
+      <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: interface~~character_flag_value~~CalledByGraph Pages: 1 -->
+<svg id="interfacecharacter_flag_valueCalledByGraph" width="641pt" height="240pt"
+ viewBox="0.00 0.00 641.00 240.13" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="interface~~character_flag_value~~CalledByGraph" class="graph" transform="scale(0.99 0.99) rotate(0) translate(4 238)">
+<title>interface~~character_flag_value~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-238 642,-238 642,4 -4,4"/>
+<!-- interface~character_flag_value -->
+<g id="interface~~character_flag_value~~CalledByGraph_node1" class="node">
+<title>interface~character_flag_value</title>
+<polygon fill="none" stroke="black" points="638,-129 416,-129 416,-105 638,-105 638,-129"/>
+<text text-anchor="middle" x="527" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50">command_line_t%character_flag_value</text>
+</g>
+<!-- none~flag_value -->
+<g id="interface~~character_flag_value~~CalledByGraph_node2" class="node">
+<title>none~flag_value</title>
+<g id="a_interface~~character_flag_value~~CalledByGraph_node2"><a xlink:href="../type/command_line_t.html#boundprocedure-flag_value" xlink:title="command_line_t%flag_value">
+<polygon fill="#a7506f" stroke="#a7506f" points="350.5,-234 185.5,-234 185.5,-210 350.5,-210 350.5,-234"/>
+<text text-anchor="middle" x="268" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">command_line_t%flag_value</text>
+</a>
+</g>
+</g>
+<!-- none~flag_value&#45;&gt;interface~character_flag_value -->
+<g id="interface~~character_flag_value~~CalledByGraph_edge1" class="edge">
+<title>none~flag_value&#45;&gt;interface~character_flag_value</title>
+<path fill="none" stroke="#ff0000" d="M349.9,-209.99C360.18,-207.51 370.44,-204.54 380,-201 425.29,-184.24 472.9,-154.15 500.99,-134.9"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="503.18,-137.64 509.4,-129.06 499.19,-131.89 503.18,-137.64"/>
+</g>
+<!-- proc~filter -->
+<g id="interface~~character_flag_value~~CalledByGraph_node3" class="node">
+<title>proc~filter</title>
+<g id="a_interface~~character_flag_value~~CalledByGraph_node3"><a xlink:href="../proc/filter.html" xlink:title="filter">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="295,-192 241,-192 241,-168 295,-168 295,-192"/>
+<text text-anchor="middle" x="268" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">filter</text>
+</a>
+</g>
+</g>
+<!-- proc~filter&#45;&gt;interface~character_flag_value -->
+<g id="interface~~character_flag_value~~CalledByGraph_edge2" class="edge">
+<title>proc~filter&#45;&gt;interface~character_flag_value</title>
+<path fill="none" stroke="#ff0000" d="M295.16,-175.76C317.75,-171.93 351.19,-165.85 380,-159 413.05,-151.14 449.81,-140.55 478.17,-131.98"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="479.29,-135.3 487.83,-129.04 477.25,-128.6 479.29,-135.3"/>
+</g>
+<!-- proc~print_usage_info_and_stop_if_requested -->
+<g id="interface~~character_flag_value~~CalledByGraph_node4" class="node">
+<title>proc~print_usage_info_and_stop_if_requested</title>
+<g id="a_interface~~character_flag_value~~CalledByGraph_node4"><a xlink:href="../proc/print_usage_info_and_stop_if_requested.html" xlink:title="print_usage_info_and_stop_if_requested">
+<polygon fill="#d9534f" stroke="#d9534f" points="380,-150 156,-150 156,-126 380,-126 380,-150"/>
+<text text-anchor="middle" x="268" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_usage_info_and_stop_if_requested</text>
+</a>
+</g>
+</g>
+<!-- proc~print_usage_info_and_stop_if_requested&#45;&gt;interface~character_flag_value -->
+<g id="interface~~character_flag_value~~CalledByGraph_edge3" class="edge">
+<title>proc~print_usage_info_and_stop_if_requested&#45;&gt;interface~character_flag_value</title>
+<path fill="none" stroke="#ff0000" d="M380.23,-128.91C388.71,-128.22 397.3,-127.52 405.83,-126.82"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="406.14,-130.31 415.82,-126 405.57,-123.33 406.14,-130.31"/>
+</g>
+<!-- proc~string_flag_value -->
+<g id="interface~~character_flag_value~~CalledByGraph_node5" class="node">
+<title>proc~string_flag_value</title>
+<g id="a_interface~~character_flag_value~~CalledByGraph_node5"><a xlink:href="../proc/string_flag_value.html" xlink:title="string_flag_value">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="319.5,-108 216.5,-108 216.5,-84 319.5,-84 319.5,-108"/>
+<text text-anchor="middle" x="268" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_flag_value</text>
+</a>
+</g>
+</g>
+<!-- proc~string_flag_value&#45;&gt;interface~character_flag_value -->
+<g id="interface~~character_flag_value~~CalledByGraph_edge4" class="edge">
+<title>proc~string_flag_value&#45;&gt;interface~character_flag_value</title>
+<path fill="none" stroke="#ff0000" d="M319.77,-100.15C344.48,-102.17 375.33,-104.69 405.58,-107.16"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="405.56,-110.67 415.81,-108 406.13,-103.69 405.56,-110.67"/>
+</g>
+<!-- program~get_command_line_flag_value -->
+<g id="interface~~character_flag_value~~CalledByGraph_node6" class="node">
+<title>program~get_command_line_flag_value</title>
+<g id="a_interface~~character_flag_value~~CalledByGraph_node6"><a xlink:href="../program/get_command_line_flag_value.html" xlink:title="get_command_line_flag_value">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="355,-66 181,-66 181,-42 355,-42 355,-66"/>
+<text text-anchor="middle" x="268" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_command_line_flag_value</text>
+</a>
+</g>
+</g>
+<!-- program~get_command_line_flag_value&#45;&gt;interface~character_flag_value -->
+<g id="interface~~character_flag_value~~CalledByGraph_edge5" class="edge">
+<title>program~get_command_line_flag_value&#45;&gt;interface~character_flag_value</title>
+<path fill="none" stroke="#ff0000" d="M337.9,-66C351.88,-68.73 366.45,-71.78 380,-75 413.05,-82.86 449.81,-93.45 478.17,-102.02"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="477.25,-105.4 487.83,-104.96 479.29,-98.7 477.25,-105.4"/>
+</g>
+<!-- program~scaffold -->
+<g id="interface~~character_flag_value~~CalledByGraph_node7" class="node">
+<title>program~scaffold</title>
+<g id="a_interface~~character_flag_value~~CalledByGraph_node7"><a xlink:href="../program/scaffold.html" xlink:title="scaffold">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="295.5,-24 240.5,-24 240.5,0 295.5,0 295.5,-24"/>
+<text text-anchor="middle" x="268" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">scaffold</text>
+</a>
+</g>
+</g>
+<!-- program~scaffold&#45;&gt;interface~character_flag_value -->
+<g id="interface~~character_flag_value~~CalledByGraph_edge6" class="edge">
+<title>program~scaffold&#45;&gt;interface~character_flag_value</title>
+<path fill="none" stroke="#ff0000" d="M295.69,-14.51C318.6,-17.26 352.23,-22.72 380,-33 425.29,-49.76 472.9,-79.85 500.99,-99.1"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="499.19,-102.11 509.4,-104.94 503.18,-96.36 499.19,-102.11"/>
+</g>
+<!-- proc~report_results -->
+<g id="interface~~character_flag_value~~CalledByGraph_node8" class="node">
+<title>proc~report_results</title>
+<g id="a_interface~~character_flag_value~~CalledByGraph_node8"><a xlink:href="../proc/report_results.html" xlink:title="report_results">
+<polygon fill="#d9534f" stroke="#d9534f" points="102.5,-150 17.5,-150 17.5,-126 102.5,-126 102.5,-150"/>
+<text text-anchor="middle" x="60" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">report_results</text>
+</a>
+</g>
+</g>
+<!-- proc~report_results&#45;&gt;proc~print_usage_info_and_stop_if_requested -->
+<g id="interface~~character_flag_value~~CalledByGraph_edge8" class="edge">
+<title>proc~report_results&#45;&gt;proc~print_usage_info_and_stop_if_requested</title>
+<path fill="none" stroke="#00ff00" d="M102.69,-138C115.51,-138 130.33,-138 145.72,-138"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="145.89,-141.5 155.89,-138 145.89,-134.5 145.89,-141.5"/>
+</g>
+<!-- program~pure_stop_and_print -->
+<g id="interface~~character_flag_value~~CalledByGraph_node9" class="node">
+<title>program~pure_stop_and_print</title>
+<g id="a_interface~~character_flag_value~~CalledByGraph_node9"><a xlink:href="../program/pure_stop_and_print.html" xlink:title="pure_stop_and_print">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="120,-234 0,-234 0,-210 120,-210 120,-234"/>
+<text text-anchor="middle" x="60" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pure_stop_and_print</text>
+</a>
+</g>
+</g>
+<!-- program~pure_stop_and_print&#45;&gt;none~flag_value -->
+<g id="interface~~character_flag_value~~CalledByGraph_edge7" class="edge">
+<title>program~pure_stop_and_print&#45;&gt;none~flag_value</title>
+<path fill="none" stroke="#ff0000" d="M120.03,-222C137.26,-222 156.52,-222 175.27,-222"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="175.32,-225.5 185.32,-222 175.32,-218.5 175.32,-225.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var paninterfacecharacter_flag_valueCalledByGraph = svgPanZoom('#interfacecharacter_flag_valueCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+      <h2>private module function character_flag_value(flag) result(value)  
+    <a href="../proc/character_flag_value.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h2>
+
+    
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-flag"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>flag</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <h3>Return Value <span class="anchor" id="variable-value"></span><small>character(len=:),allocatable</small></h3>
+    
+    <h3>Description</h3>
+    <p>result = { the value passed immediately after a command-line flag if the flag is present or
+         { an empty string otherwise.</p>
+    <br>
+
+ </div>
+</div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              Julienne
+ was developed by Berkeley Lab<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-07-02 21:10 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

@@ -69,7 +69,7 @@ contains
       associate(me => internal_this_image())
         associate(command_line => command_line_t())
 
-          if (command_line%argument_present([character(len=len("--help"))::"--help","-h"])) then
+          if (command_line%character_argument_present([character(len=len("--help"))::"--help","-h"])) then
             if (me==1) print '(a)', usage
             stop
           end if
@@ -79,9 +79,9 @@ contains
             print '(a)', new_line("") // "Append '-- --help' or '-- -h' to your `fpm test` command to display usage information."
 
 #if (! defined(__GFORTRAN__)) && (! defined(NAGFOR))
-            associate(search_string => command_line%flag_value("--contains"))
+            associate(search_string => command_line%character_flag_value("--contains"))
 #else
-            block; character(len=:), allocatable :: search_string; search_string = command_line%flag_value("--contains")
+            block; character(len=:), allocatable :: search_string; search_string = command_line%character_flag_value("--contains")
 #endif
               if (len(search_string)==0) then
                 print '(a)', new_line('') // &

@@ -1,0 +1,679 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A Fortran 2023 correctness-checking framework supporting expressive idioms for writing assertions and tests">
+    <meta name="author" content="Berkeley Lab" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>write_stuff_s.F90 &ndash; Julienne</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">Julienne </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>write_stuff_s.F90
+      <small>Source File</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.3% of total for source files.">11 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/write_stuff_s.F90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+            <li class="breadcrumb-item active" aria-current="page">write_stuff_s.F90</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#submods-0"
+         aria-expanded="false" aria-controls="submods-0">
+         <h4 class="card-header bg-primary text-white">Submodules</h4>
+      </a>
+      <div id="submods-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/write_stuff_s.html">write_stuff_s</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../sourcefile/write_stuff_s.f90.html#src">write_stuff_s.F90</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">This file depends on</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~write_stuff_s.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefilewrite_stuff_sf90EfferentGraph" width="641pt" height="148pt"
+ viewBox="0.00 0.00 641.00 148.49" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph" class="graph" transform="scale(0.37 0.37) rotate(0) translate(4 399.54)">
+<title>sourcefile~~write_stuff_s.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-399.54 1738,-399.54 1738,4 -4,4"/>
+<!-- sourcefile~write_stuff_s.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~write_stuff_s.f90</title>
+<polygon fill="none" stroke="black" points="1734,-190 1634,-190 1634,-166 1734,-166 1734,-190"/>
+<text text-anchor="middle" x="1684" y="-175.6" font-family="Helvetica,sans-Serif" font-size="10.50">write_stuff_s.F90</text>
+</g>
+<!-- sourcefile~write_stuff_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~write_stuff_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node2"><a xlink:href="../sourcefile/write_stuff_m.f90.html" xlink:title="write_stuff_m.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1598,-190 1492,-190 1492,-166 1598,-166 1598,-190"/>
+<text text-anchor="middle" x="1545" y="-175.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_stuff_m.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~write_stuff_s.f90&#45;&gt;sourcefile~write_stuff_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~write_stuff_s.f90&#45;&gt;sourcefile~write_stuff_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1633.93,-178C1625.74,-178 1617.15,-178 1608.68,-178"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1608.44,-174.5 1598.44,-178 1608.44,-181.5 1608.44,-174.5"/>
+</g>
+<!-- sourcefile~julienne_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~julienne_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node3"><a xlink:href="../sourcefile/julienne_m.f90.html" xlink:title="julienne_m.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1456,-190 1362,-190 1362,-166 1456,-166 1456,-190"/>
+<text text-anchor="middle" x="1409" y="-175.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_m.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~write_stuff_m.f90&#45;&gt;sourcefile~julienne_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~write_stuff_m.f90&#45;&gt;sourcefile~julienne_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1491.81,-178C1483.45,-178 1474.77,-178 1466.32,-178"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1466.16,-174.5 1456.16,-178 1466.16,-181.5 1466.16,-174.5"/>
+</g>
+<!-- sourcefile~julienne_assert_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~julienne_assert_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node4"><a xlink:href="../sourcefile/julienne_assert_m.f90.html" xlink:title="julienne_assert_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="934,-150 805,-150 805,-126 934,-126 934,-150"/>
+<text text-anchor="middle" x="869.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_assert_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_assert_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_assert_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1046.5,-178C1001.95,-175.23 952.49,-163.16 917.38,-152.99"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="918,-149.53 907.41,-150.05 916.01,-156.24 918,-149.53"/>
+</g>
+<!-- sourcefile~julienne_bin_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node5" class="node">
+<title>sourcefile~julienne_bin_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node5"><a xlink:href="../sourcefile/julienne_bin_m.f90.html" xlink:title="julienne_bin_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1300,-150 1187,-150 1187,-126 1300,-126 1300,-150"/>
+<text text-anchor="middle" x="1243.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_bin_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_bin_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_bin_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1361.58,-166.64C1343.5,-162.22 1322.55,-157.09 1303.42,-152.41"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1304.15,-148.99 1293.6,-150.01 1302.48,-155.79 1304.15,-148.99"/>
+</g>
+<!-- sourcefile~julienne_command_line_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node6" class="node">
+<title>sourcefile~julienne_command_line_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node6"><a xlink:href="../sourcefile/julienne_command_line_m.f90.html" xlink:title="julienne_command_line_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="766,-240 591,-240 591,-216 766,-216 766,-240"/>
+<text text-anchor="middle" x="678.5" y="-225.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_command_line_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_command_line_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_command_line_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1396.92,-190.04C1382.34,-204.89 1355.14,-229.35 1326,-239 1120.46,-307.07 857.65,-266.32 740.54,-242.09"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="741.19,-238.65 730.68,-240.02 739.75,-245.5 741.19,-238.65"/>
+</g>
+<!-- sourcefile~julienne_file_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node7" class="node">
+<title>sourcefile~julienne_file_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node7"><a xlink:href="../sourcefile/julienne_file_m.f90.html" xlink:title="julienne_file_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1104,-348 991,-348 991,-324 1104,-324 1104,-348"/>
+<text text-anchor="middle" x="1047.5" y="-333.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_file_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_file_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_file_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1403.12,-190.08C1392.25,-215.95 1363.96,-277.73 1326,-319 1296.08,-351.53 1285.44,-359.34 1244.5,-376"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1242.5,-376C1215.98,-386.79 1141.87,-366.62 1093.31,-351.2"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1094.25,-347.82 1083.66,-348.09 1092.11,-354.49 1094.25,-347.82"/>
+</g>
+<!-- sourcefile~julienne_formats_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node8" class="node">
+<title>sourcefile~julienne_formats_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node8"><a xlink:href="../sourcefile/julienne_formats_m.f90.html" xlink:title="julienne_formats_m.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1313.5,-108 1173.5,-108 1173.5,-84 1313.5,-84 1313.5,-108"/>
+<text text-anchor="middle" x="1243.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_formats_m.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_formats_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge7" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_formats_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1395.13,-165.89C1379.8,-152.11 1352.89,-129.86 1326,-117 1321.69,-114.94 1317.16,-113.07 1312.53,-111.36"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1313.52,-108 1302.92,-108.1 1311.26,-114.63 1313.52,-108"/>
+</g>
+<!-- sourcefile~julienne_github_ci_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node9" class="node">
+<title>sourcefile~julienne_github_ci_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node9"><a xlink:href="../sourcefile/julienne_github_ci_m.f90.html" xlink:title="julienne_github_ci_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1316,-66 1171,-66 1171,-42 1316,-42 1316,-66"/>
+<text text-anchor="middle" x="1243.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_github_ci_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_github_ci_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge8" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_github_ci_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1401.72,-165.7C1389.96,-143.92 1362.44,-98.63 1326,-75 1323.39,-73.31 1320.64,-71.75 1317.81,-70.32"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1319.06,-67.04 1308.51,-66.16 1316.21,-73.43 1319.06,-67.04"/>
+</g>
+<!-- sourcefile~julienne_multi_image_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node10" class="node">
+<title>sourcefile~julienne_multi_image_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node10"><a xlink:href="../sourcefile/julienne_multi_image_m.f90.html" xlink:title="julienne_multi_image_m.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1326,-24 1161,-24 1161,0 1326,0 1326,-24"/>
+<text text-anchor="middle" x="1243.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_multi_image_m.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_multi_image_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge9" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_multi_image_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1404.66,-165.7C1396.37,-137.59 1372.13,-68.37 1326,-33 1323.97,-31.44 1321.84,-30 1319.63,-28.67"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1321.23,-25.56 1310.75,-24.03 1317.99,-31.76 1321.23,-25.56"/>
+</g>
+<!-- sourcefile~julienne_stop_and_print_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node11" class="node">
+<title>sourcefile~julienne_stop_and_print_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node11"><a xlink:href="../sourcefile/julienne_stop_and_print_m.f90.html" xlink:title="julienne_stop_and_print_m.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="552,-42 375,-42 375,-18 552,-18 552,-42"/>
+<text text-anchor="middle" x="463.5" y="-27.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_stop_and_print_m.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_stop_and_print_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge10" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_stop_and_print_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1361.81,-176.75C1329.04,-176.17 1284.05,-175.99 1244.5,-178"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1242.5,-178C1156.39,-182.38 1134.56,-183.36 1048.5,-178"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1046.5,-178C989.73,-174.47 987.48,-136.35 934,-117 825.84,-77.87 793.99,-81.02 679.5,-70"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M677.5,-70C626.85,-63.8 570.08,-52.95 527.9,-44.1"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="528.55,-40.67 518.04,-42.02 527.1,-47.51 528.55,-40.67"/>
+</g>
+<!-- sourcefile~julienne_string_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node12" class="node">
+<title>sourcefile~julienne_string_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node12"><a xlink:href="../sourcefile/julienne_string_m.f90.html" xlink:title="julienne_string_m.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="129,-180 0,-180 0,-156 129,-156 129,-180"/>
+<text text-anchor="middle" x="64.5" y="-165.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_string_m.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_string_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge11" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_string_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1242.5,-376C1130.05,-421.76 1090.24,-373.8 970,-357 925.24,-350.75 915.44,-340.82 870.5,-336"/>
+</g>
+<!-- sourcefile~julienne_test_description_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node13" class="node">
+<title>sourcefile~julienne_test_description_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node13"><a xlink:href="../sourcefile/julienne_test_description_m.f90.html" xlink:title="julienne_test_description_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="769,-160 588,-160 588,-136 769,-136 769,-160"/>
+<text text-anchor="middle" x="678.5" y="-145.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_description_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_description_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge12" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_description_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1046.5,-178C968.43,-173.14 948.7,-180.05 870.5,-178"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M868.5,-178C825.85,-176.88 778.42,-169.34 741.75,-162.09"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="742.2,-158.61 731.71,-160.06 740.81,-165.48 742.2,-158.61"/>
+</g>
+<!-- sourcefile~julienne_test_diagnosis_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node14" class="node">
+<title>sourcefile~julienne_test_diagnosis_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node14"><a xlink:href="../sourcefile/julienne_test_diagnosis_m.f90.html" xlink:title="julienne_test_diagnosis_m.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="339,-180 165,-180 165,-156 339,-156 339,-180"/>
+<text text-anchor="middle" x="252" y="-165.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_diagnosis_m.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_diagnosis_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge13" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_diagnosis_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M677.5,-70C583.53,-58.51 557.66,-53.18 464.5,-70"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M462.5,-70C391.53,-82.82 317.03,-125.88 278.88,-150.45"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="276.88,-147.57 270.42,-155.98 280.71,-153.43 276.88,-147.57"/>
+</g>
+<!-- sourcefile~julienne_test_fixture_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node15" class="node">
+<title>sourcefile~julienne_test_fixture_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node15"><a xlink:href="../sourcefile/julienne_test_fixture_m.f90.html" xlink:title="julienne_test_fixture_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1125,-230 970,-230 970,-206 1125,-206 1125,-230"/>
+<text text-anchor="middle" x="1047.5" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_fixture_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_fixture_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge14" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_fixture_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1242.5,-178C1193,-180.52 1137.75,-192.88 1098.91,-203.2"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1097.64,-199.92 1088.91,-205.91 1099.47,-206.67 1097.64,-199.92"/>
+</g>
+<!-- sourcefile~julienne_test_harness_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node16" class="node">
+<title>sourcefile~julienne_test_harness_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node16"><a xlink:href="../sourcefile/julienne_test_harness_m.f90.html" xlink:title="julienne_test_harness_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1325,-230 1162,-230 1162,-206 1325,-206 1325,-230"/>
+<text text-anchor="middle" x="1243.5" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_harness_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_harness_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge15" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_harness_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1361.58,-189.36C1343.5,-193.78 1322.55,-198.91 1303.42,-203.59"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1302.48,-200.21 1293.6,-205.99 1304.15,-207.01 1302.48,-200.21"/>
+</g>
+<!-- sourcefile~julienne_test_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node17" class="node">
+<title>sourcefile~julienne_test_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node17"><a xlink:href="../sourcefile/julienne_test_m.f90.html" xlink:title="julienne_test_m.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="928.5,-230 810.5,-230 810.5,-206 928.5,-206 928.5,-230"/>
+<text text-anchor="middle" x="869.5" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_m.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge16" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1046.5,-178C998.47,-175.01 944.74,-190 909.42,-202.48"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="908.17,-199.21 899.97,-205.91 910.56,-205.78 908.17,-199.21"/>
+</g>
+<!-- sourcefile~julienne_test_result_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node18" class="node">
+<title>sourcefile~julienne_test_result_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node18"><a xlink:href="../sourcefile/julienne_test_result_m.f90.html" xlink:title="julienne_test_result_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="539,-220 388,-220 388,-196 539,-196 539,-220"/>
+<text text-anchor="middle" x="463.5" y="-205.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_result_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_result_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge17" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_result_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M868.5,-178C784.41,-175.8 763.6,-186.3 679.5,-188"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M677.5,-188C635.23,-188.85 588.44,-192.9 549.5,-197.14"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="548.82,-193.69 539.26,-198.27 549.59,-200.65 548.82,-193.69"/>
+</g>
+<!-- sourcefile~julienne_test_suite_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_node19" class="node">
+<title>sourcefile~julienne_test_suite_m.f90</title>
+<g id="a_sourcefile~~write_stuff_s.f90~~EfferentGraph_node19"><a xlink:href="../sourcefile/julienne_test_suite_m.f90.html" xlink:title="julienne_test_suite_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1317,-310 1170,-310 1170,-286 1317,-286 1317,-310"/>
+<text text-anchor="middle" x="1243.5" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_test_suite_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_suite_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge18" class="edge">
+<title>sourcefile~julienne_m.f90&#45;&gt;sourcefile~julienne_test_suite_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1400.51,-190.28C1387.7,-210.28 1359.67,-249.89 1326,-272 1319.94,-275.98 1313.23,-279.39 1306.33,-282.3"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1304.93,-279.09 1296.86,-285.96 1307.45,-285.62 1304.93,-279.09"/>
+</g>
+<!-- sourcefile~julienne_assert_m.f90&#45;&gt;sourcefile~julienne_test_diagnosis_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge19" class="edge">
+<title>sourcefile~julienne_assert_m.f90&#45;&gt;sourcefile~julienne_test_diagnosis_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M804.67,-126.11C695.06,-105.86 481.12,-67.1 464.5,-70"/>
+</g>
+<!-- sourcefile~julienne_command_line_m.f90&#45;&gt;sourcefile~julienne_string_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge20" class="edge">
+<title>sourcefile~julienne_command_line_m.f90&#45;&gt;sourcefile~julienne_string_m.f90</title>
+<path fill="none" stroke="#ffbf00" stroke-dasharray="5,2" d="M629.98,-240.07C577.38,-252.87 495.88,-270.89 464.5,-268"/>
+<path fill="none" stroke="#ffbf00" stroke-dasharray="5,2" d="M462.5,-268C366.05,-259.12 349.15,-219.68 253,-208"/>
+</g>
+<!-- sourcefile~julienne_file_m.f90&#45;&gt;sourcefile~julienne_string_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge21" class="edge">
+<title>sourcefile~julienne_file_m.f90&#45;&gt;sourcefile~julienne_string_m.f90</title>
+<path fill="none" stroke="#dfff00" stroke-dasharray="5,2" d="M990.99,-340.81C956.14,-342.65 910.4,-342.89 870.5,-336"/>
+</g>
+<!-- sourcefile~julienne_stop_and_print_m.f90&#45;&gt;sourcefile~julienne_string_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge22" class="edge">
+<title>sourcefile~julienne_stop_and_print_m.f90&#45;&gt;sourcefile~julienne_string_m.f90</title>
+<path fill="none" stroke="#00ff9f" stroke-dasharray="5,2" d="M420.06,-42.07C405.7,-46.3 389.6,-51.19 375,-56 278.03,-87.92 165.66,-129.84 106.62,-152.25"/>
+<polygon fill="#00ff9f" stroke="#00ff9f" points="105.03,-149.11 96.92,-155.94 107.51,-155.66 105.03,-149.11"/>
+</g>
+<!-- sourcefile~julienne_test_description_m.f90&#45;&gt;sourcefile~julienne_string_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge23" class="edge">
+<title>sourcefile~julienne_test_description_m.f90&#45;&gt;sourcefile~julienne_string_m.f90</title>
+<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M462.5,-168C438.91,-170.21 276.53,-210.86 253,-208"/>
+<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M251,-208C206.46,-202.59 156.81,-191.62 120.09,-182.53"/>
+<polygon fill="#009fff" stroke="#009fff" points="120.64,-179.06 110.09,-180.02 118.94,-185.85 120.64,-179.06"/>
+</g>
+<!-- sourcefile~julienne_test_description_m.f90&#45;&gt;sourcefile~julienne_test_diagnosis_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge24" class="edge">
+<title>sourcefile~julienne_test_description_m.f90&#45;&gt;sourcefile~julienne_test_diagnosis_m.f90</title>
+<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M587.85,-156.42C549.81,-159.99 504.99,-164.2 464.5,-168"/>
+<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M462.5,-168C425.67,-171.45 385.03,-172.16 349.43,-171.76"/>
+<polygon fill="#009fff" stroke="#009fff" points="349.09,-168.26 339.04,-171.62 348.99,-175.26 349.09,-168.26"/>
+</g>
+<!-- sourcefile~julienne_test_description_m.f90&#45;&gt;sourcefile~julienne_test_result_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge25" class="edge">
+<title>sourcefile~julienne_test_description_m.f90&#45;&gt;sourcefile~julienne_test_result_m.f90</title>
+<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M634.65,-160.07C600.78,-169.61 553.35,-182.97 517.17,-193.16"/>
+<polygon fill="#009fff" stroke="#009fff" points="515.96,-189.87 507.28,-195.95 517.85,-196.61 515.96,-189.87"/>
+</g>
+<!-- sourcefile~julienne_test_diagnosis_m.f90&#45;&gt;sourcefile~julienne_string_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge26" class="edge">
+<title>sourcefile~julienne_test_diagnosis_m.f90&#45;&gt;sourcefile~julienne_string_m.f90</title>
+<path fill="none" stroke="#003fff" stroke-dasharray="5,2" d="M164.77,-168C156.22,-168 147.61,-168 139.21,-168"/>
+<polygon fill="#003fff" stroke="#003fff" points="139.09,-164.5 129.09,-168 139.09,-171.5 139.09,-164.5"/>
+</g>
+<!-- sourcefile~julienne_test_fixture_m.f90&#45;&gt;sourcefile~julienne_test_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge27" class="edge">
+<title>sourcefile~julienne_test_fixture_m.f90&#45;&gt;sourcefile~julienne_test_m.f90</title>
+<path fill="none" stroke="#1f00ff" stroke-dasharray="5,2" d="M969.82,-218C959.46,-218 948.9,-218 938.71,-218"/>
+<polygon fill="#1f00ff" stroke="#1f00ff" points="938.66,-214.5 928.66,-218 938.66,-221.5 938.66,-214.5"/>
+</g>
+<!-- sourcefile~julienne_test_harness_m.f90&#45;&gt;sourcefile~julienne_test_fixture_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge28" class="edge">
+<title>sourcefile~julienne_test_harness_m.f90&#45;&gt;sourcefile~julienne_test_fixture_m.f90</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1161.91,-218C1153.06,-218 1144.02,-218 1135.11,-218"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="1135.1,-214.5 1125.1,-218 1135.1,-221.5 1135.1,-214.5"/>
+</g>
+<!-- sourcefile~julienne_test_m.f90&#45;&gt;sourcefile~julienne_command_line_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge29" class="edge">
+<title>sourcefile~julienne_test_m.f90&#45;&gt;sourcefile~julienne_command_line_m.f90</title>
+<path fill="none" stroke="#df00ff" stroke-dasharray="5,2" d="M810.25,-221.08C799.43,-221.65 787.86,-222.27 776.25,-222.88"/>
+<polygon fill="#df00ff" stroke="#df00ff" points="775.85,-219.4 766.05,-223.42 776.22,-226.39 775.85,-219.4"/>
+</g>
+<!-- sourcefile~julienne_test_m.f90&#45;&gt;sourcefile~julienne_test_description_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge30" class="edge">
+<title>sourcefile~julienne_test_m.f90&#45;&gt;sourcefile~julienne_test_description_m.f90</title>
+<path fill="none" stroke="#df00ff" stroke-dasharray="5,2" d="M837.62,-205.9C827.19,-201.67 815.52,-196.78 805,-192 788.71,-184.61 785.66,-180.52 769,-174 758.73,-169.98 747.59,-166.26 736.77,-162.96"/>
+<polygon fill="#df00ff" stroke="#df00ff" points="737.53,-159.54 726.95,-160.05 735.55,-166.25 737.53,-159.54"/>
+</g>
+<!-- sourcefile~julienne_test_m.f90&#45;&gt;sourcefile~julienne_test_result_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge31" class="edge">
+<title>sourcefile~julienne_test_m.f90&#45;&gt;sourcefile~julienne_test_result_m.f90</title>
+<path fill="none" stroke="#df00ff" stroke-dasharray="5,2" d="M822.22,-205.96C784.15,-197.19 728.66,-187.01 679.5,-188"/>
+</g>
+<!-- sourcefile~julienne_test_result_m.f90&#45;&gt;sourcefile~julienne_string_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge32" class="edge">
+<title>sourcefile~julienne_test_result_m.f90&#45;&gt;sourcefile~julienne_string_m.f90</title>
+<path fill="none" stroke="#ff00bf" stroke-dasharray="5,2" d="M387.58,-212.37C347.51,-213.6 297.41,-213.39 253,-208"/>
+</g>
+<!-- sourcefile~julienne_test_result_m.f90&#45;&gt;sourcefile~julienne_test_diagnosis_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge33" class="edge">
+<title>sourcefile~julienne_test_result_m.f90&#45;&gt;sourcefile~julienne_test_diagnosis_m.f90</title>
+<path fill="none" stroke="#ff00bf" stroke-dasharray="5,2" d="M399.64,-196C376.55,-191.59 350.2,-186.56 326.27,-181.99"/>
+<polygon fill="#ff00bf" stroke="#ff00bf" points="326.65,-178.5 316.17,-180.06 325.34,-185.38 326.65,-178.5"/>
+</g>
+<!-- sourcefile~julienne_test_suite_m.f90&#45;&gt;sourcefile~julienne_file_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge34" class="edge">
+<title>sourcefile~julienne_test_suite_m.f90&#45;&gt;sourcefile~julienne_file_m.f90</title>
+<path fill="none" stroke="#ff005f" stroke-dasharray="5,2" d="M1181.12,-310.02C1159.84,-314.19 1135.91,-318.88 1114.3,-323.11"/>
+<polygon fill="#ff005f" stroke="#ff005f" points="1113.36,-319.73 1104.22,-325.09 1114.71,-326.6 1113.36,-319.73"/>
+</g>
+<!-- sourcefile~julienne_test_suite_m.f90&#45;&gt;sourcefile~julienne_string_m.f90 -->
+<g id="sourcefile~~write_stuff_s.f90~~EfferentGraph_edge35" class="edge">
+<title>sourcefile~julienne_test_suite_m.f90&#45;&gt;sourcefile~julienne_string_m.f90</title>
+<path fill="none" stroke="#ff005f" stroke-dasharray="5,2" d="M1169.93,-299.65C1114.86,-301.6 1037.4,-305.83 970,-315 925.22,-321.09 915.04,-343.69 870.5,-336"/>
+<path fill="none" stroke="#ff005f" stroke-dasharray="5,2" d="M868.5,-336C689.43,-303 645.81,-284.7 464.5,-268"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var pansourcefilewrite_stuff_sf90EfferentGraph = svgPanZoom('#sourcefilewrite_stuff_sf90EfferentGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#EfferentGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="EfferentGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="202pt" height="32pt"
+ viewBox="0.00 0.00 201.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 197.5,-28 197.5,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="193.5,-24 88.5,-24 88.5,0 193.5,0 193.5,-24"/>
+<text text-anchor="middle" x="141" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a file to a file which it depends on. A file
+is dependent upon another if the latter must be compiled before the former
+can be.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+<br>
+      <section>
+        <h2><span class="anchor" id="src"></span>Source Code</h2>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="c">! Copyright (c) 2024-2026, The Regents of the University of California and Sourcery Institute</span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">! Terms of use are as specified in LICENSE.txt</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a>
+<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="cp">#include &quot;language-support.F90&quot;</span>
+<a id="ln-5" name="ln-5" href="#ln-5"></a>
+<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="cp">#if HAVE_STOP_AND_PRINT_SUPPORT</span>
+<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="k">submodule</span><span class="p">(</span><span class="n">write_stuff_m</span><span class="p">)</span><span class="w"> </span><span class="n">write_stuff_s</span>
+<a id="ln-8" name="ln-8" href="#ln-8"></a><span class="w">  </span><span class="k">implicit none</span>
+<a id="ln-9" name="ln-9" href="#ln-9"></a>
+<a id="ln-10" name="ln-10" href="#ln-10"></a><span class="k">contains</span>
+<a id="ln-11" name="ln-11" href="#ln-11"></a>
+<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="k">  module procedure  </span><span class="n">write_formatted</span>
+<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="w">     </span><span class="p">)</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="w">     </span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;write_stuff_t {&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="s1">&#39;(a,i2,a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;  answer = &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">answer_</span><span class="p">,</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="w">     </span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;}&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">    </span><span class="n">iostat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<a id="ln-18" name="ln-18" href="#ln-18"></a><span class="w">  </span><span class="k">end procedure</span>
+<a id="ln-19" name="ln-19" href="#ln-19"></a>
+<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="k">end submodule</span>
+<a id="ln-21" name="ln-21" href="#ln-21"></a><span class="cp">#endif</span>
+</pre></div>
+
+      </section>
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              Julienne
+ was developed by Berkeley Lab<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-07-02 21:10 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

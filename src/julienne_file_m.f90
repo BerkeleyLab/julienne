@@ -31,9 +31,15 @@ module julienne_file_m
       type(file_t) file_object
     end function
 
-    pure module function from_lines(lines) result(file_object)
+    pure module function from_string_t_lines(lines) result(file_object)
       implicit none
       type(string_t), intent(in) :: lines(:)
+      type(file_t) file_object
+    end function
+
+    pure module function from_character_lines(lines) result(file_object)
+      implicit none
+      character(len=*), intent(in) :: lines(:)
       type(file_t) file_object
     end function
 

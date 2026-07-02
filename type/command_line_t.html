@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 1.6% of total for derived types.</p>Including implementation: 5 statements,  3.8% of total for derived types.">5 statements</a>
+                 title="<p> 2.1% of total for derived types.</p>Including implementation: 7 statements,  4.7% of total for derived types.">7 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -153,7 +153,11 @@
       <div id="boundprocs-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/command_line_t.html#boundprocedure-argument_present">argument_present</a>
+            <a class="list-group-item" href="../type/command_line_t.html#boundprocedure-character_argument_present">character_argument_present</a>
+            <a class="list-group-item" href="../type/command_line_t.html#boundprocedure-character_flag_value">character_flag_value</a>
             <a class="list-group-item" href="../type/command_line_t.html#boundprocedure-flag_value">flag_value</a>
+            <a class="list-group-item" href="../type/command_line_t.html#boundprocedure-string_argument_present">string_argument_present</a>
+            <a class="list-group-item" href="../type/command_line_t.html#boundprocedure-string_flag_value">string_flag_value</a>
         </div>
       </div>
     </div>
@@ -182,8 +186,47 @@
     <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-argument_present"></span>
       <h3>
+          generic, public ::
+  <strong>argument_present</strong> => <a href='/home/runner/work/julienne/julienne/doc/html/type/command_line_t.html#boundprocedure-character_argument_present'>character_argument_present</a>, <a href='/home/runner/work/julienne/julienne/doc/html/type/command_line_t.html#boundprocedure-string_argument_present'>string_argument_present</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  interface <a href='../interface/character_argument_present.html'>character_argument_present</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+          </li>
+          <li class="list-group-item">
+                    <h3>
+    private  interface <a href='../interface/string_argument_present.html'>string_argument_present</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-character_argument_present"></span>
+      <h3>
           procedure, public, nopass ::
-  <strong>argument_present</strong>
+  <strong>character_argument_present</strong>
         
       </h3>
     </div>
@@ -191,8 +234,8 @@
           <li class="list-group-item">
                 <h3>interface </h3>
                     <h3>
-    private module function argument_present(acceptable_argument) result(found)  
-    <a href="../proc/argument_present.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private module function character_argument_present(acceptable_argument) result(found)  
+    <a href="../proc/character_argument_present.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>result is .true. only if a command-line argument matches an element of this function's argument</p>
@@ -242,10 +285,10 @@ by the longest list element ("--benchmark" above)</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-flag_value"></span>
+      <span class="anchor" id="boundprocedure-character_flag_value"></span>
       <h3>
           procedure, public, nopass ::
-  <strong>flag_value</strong>
+  <strong>character_flag_value</strong>
         
       </h3>
     </div>
@@ -253,8 +296,8 @@ by the longest list element ("--benchmark" above)</p>
           <li class="list-group-item">
                 <h3>interface </h3>
                     <h3>
-    private module function flag_value(flag)  
-    <a href="../proc/flag_value.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private module function character_flag_value(flag) result(value)  
+    <a href="../proc/character_flag_value.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   <p>result = { the value passed immediately after a command-line flag if the flag is present or
@@ -275,6 +318,165 @@ by the longest list element ("--benchmark" above)</p>
             <td>
               <span class="anchor" ></span>
               character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>flag</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-flag_value"></span>
+      <h3>
+          generic, public ::
+  <strong>flag_value</strong> => <a href='/home/runner/work/julienne/julienne/doc/html/type/command_line_t.html#boundprocedure-character_flag_value'>character_flag_value</a>, <a href='/home/runner/work/julienne/julienne/doc/html/type/command_line_t.html#boundprocedure-string_flag_value'>string_flag_value</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  interface <a href='../interface/character_flag_value.html'>character_flag_value</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+          </li>
+          <li class="list-group-item">
+                    <h3>
+    private  interface <a href='../interface/string_flag_value.html'>string_flag_value</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-string_argument_present"></span>
+      <h3>
+          procedure, public, nopass ::
+  <strong>string_argument_present</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
+    private module function string_argument_present(acceptable_argument) result(found)  
+    <a href="../proc/string_argument_present.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>same as <code>character_argument_present</code> but allowing ragged-edged array of character values</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='string_t.html'>string_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>acceptable_argument</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-string_flag_value"></span>
+      <h3>
+          procedure, public, nopass ::
+  <strong>string_flag_value</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                <h3>interface </h3>
+                    <h3>
+    private module function string_flag_value(flag) result(value)  
+    <a href="../proc/string_flag_value.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>same as <code>character_flag_value</code> but accepting a string_t dummy argument</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='string_t.html'>string_t</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -321,7 +523,7 @@ by the longest list element ("--benchmark" above)</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-07-01 23:18 +0000             </p>
+ on 2026-07-02 21:10 +0000             </p>
           </div>
         </div>
         <br>

@@ -105,12 +105,30 @@ https://github.com/berkeleylab/julienne" role="button">GitHub</a>
 </p>
 
 <h1 id="julienne-idiomatic-correctness-checking-for-fortran-2023">Julienne: Idiomatic Correctness Checking for Fortran 2023</h1>
-<p>The Julienne framework offers a unified approach to writing unit tests and
-assertions.  Julienne defines idioms for specifying correctness conditions in a
-common in tests that wrap the tested procedures or assertions that conditionally
-execute inside procedures.  Julienne idioms center around expressions built from
+<p>The Julienne framework offers unified approaches to unit testing, assertion
+enforcement, and formatted error-output inside <code>pure</code> procedures.  Julienne
+defines idioms for specifying correctness conditions in a common way in tests
+that wrap the tested procedures or assertions that conditionally execute inside
+procedures.  Julienne idioms center around expressions built from
 defined operations: a uniquely flexible Fortran capability allowing developers
 to define <em>new</em> operators or to overloading Fortran's intrinsic operators.</p>
+<h2 id="output-in-pure-procedures">Output in pure procedures</h2>
+<p>Julienne's <code>stop_and_print</code> generic interface facilitates automatic or user-defined
+formatting of various data types and ranks inside <code>pure</code> procedures via either of two
+specific subroutines:</p>
+<ol>
+<li>One with a Julienne <code>string_t</code> dummy argument and</li>
+<li>Another with <code>character</code> and unlimited-polymorphic/assumed-rank dummy arguments.</li>
+</ol>
+<p>The first subroutine accepts Julienne <code>string_t</code> expressions that, for example, convert
+numeric arrays to comma-separated text with <code>.csv. string_t([1,2,3])</code>.  The second
+subroutine prints its <code>character</code> argument as a header followed by user-formatted or
+automatically-formatted representrations of its polymorphic argument.  Julienne
+automatically formats and prints numeric scalars or arrays up to rank 3.  Users can
+format information for printing by encapsulating the text in a Julienne <code>file_t</code> object
+or passing an object, or object wrapper, that extends Julienne's <code>writable_t</code> abstract
+type and defines the so-inherited <code>write(formatted)</code> generic binding.</p>
+<h2 id="expressive-idioms">Expressive idioms</h2>
 <table>
 <thead>
 <tr>
@@ -189,7 +207,6 @@ to define <em>new</em> operators or to overloading Fortran's intrinsic operators
 * <code>.all.</code> aggregates arrays of expression results, reports a consensus result, and shows diagnostics only for failing tests, if any;
 * <code>.equalsExpected.</code> generates asymmetric diagnostic output for failures, denoting the left- and right-hand sides as the actual value and expected values, respectively; and
 * <code>//</code> appends the subsequent string to diagnostics strings, if any.</p>
-<h2 id="expressive-idioms">Expressive idioms</h2>
 <h3 id="assertions">Assertions</h3>
 <p>Any of the above expressions can be the actual argument in an invocation of
 Julienne's <code>call_julienne_assert</code> function-line preprocessor macro:</p>
@@ -499,7 +516,7 @@ the framework supports.</p>
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Source Files</h3>
-              <ul><li><a href='sourcefile/assertions.f90.html'>assertions.F90</a></li><li><a href='sourcefile/check-for-command-line-argument.f90.html'>check-for-command-line-argument.f90</a></li><li><a href='sourcefile/create-markdown-table.f90.html'>create-markdown-table.F90</a></li><li><a href='sourcefile/get-command-line-flag-value.f90.html'>get-command-line-flag-value.f90</a></li><li><a href='sourcefile/julienne_assert_m.f90.html'>julienne_assert_m.f90</a></li><li><a href='sourcefile/julienne_assert_s.f90.html'>julienne_assert_s.f90</a></li><li><a href='sourcefile/julienne_bin_m.f90.html'>julienne_bin_m.f90</a></li><li><a href='sourcefile/julienne_bin_s.f90.html'>julienne_bin_s.F90</a></li><li><a href='sourcefile/julienne_command_line_m.f90.html'>julienne_command_line_m.f90</a></li><li><a href='sourcefile/julienne_command_line_s.f90.html'>julienne_command_line_s.f90</a></li></ul>
+              <ul><li><a href='sourcefile/assertions.f90.html'>assertions.F90</a></li><li><a href='sourcefile/check-for-command-line-argument.f90.html'>check-for-command-line-argument.f90</a></li><li><a href='sourcefile/create-markdown-table.f90.html'>create-markdown-table.F90</a></li><li><a href='sourcefile/get-command-line-flag-value.f90.html'>get-command-line-flag-value.f90</a></li><li><a href='sourcefile/julienne_assert_m.f90.html'>julienne_assert_m.f90</a></li><li><a href='sourcefile/julienne_assert_s.f90.html'>julienne_assert_s.f90</a></li><li><a href='sourcefile/julienne_bin_m.f90.html'>julienne_bin_m.f90</a></li><li><a href='sourcefile/julienne_bin_s.f90.html'>julienne_bin_s.F90</a></li><li><a href='sourcefile/julienne_command_line_m.f90.html'>julienne_command_line_m.f90</a></li><li><a href='sourcefile/julienne_command_line_s.f90.html'>julienne_command_line_s.F90</a></li></ul>
             </div>
             <div>
               <ul>
@@ -521,7 +538,7 @@ the framework supports.</p>
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Procedures</h3>
-              <ul><li><a href='interface/argument_present.html'>argument_present</a></li><li><a href='interface/array_of_strings.html'>array_of_strings</a></li><li><a href='interface/as_character.html'>as_character</a></li><li><a href='interface/assign_character_to_string_t.html'>assign_character_to_string_t</a></li><li><a href='interface/assign_logical.html'>assign_logical</a></li><li><a href='interface/assign_string_t_to_character.html'>assign_string_t_to_character</a></li><li><a href='interface/base_name.html'>base_name</a></li><li><a href='interface/bin_t.html'>bin_t</a></li><li><a href='interface/bracket.html'>bracket</a></li><li><a href='interface/call_julienne_assert_.html'>call_julienne_assert_</a></li></ul>
+              <ul><li><a href='interface/array_of_strings.html'>array_of_strings</a></li><li><a href='interface/as_character.html'>as_character</a></li><li><a href='interface/assign_character_to_string_t.html'>assign_character_to_string_t</a></li><li><a href='interface/assign_logical.html'>assign_logical</a></li><li><a href='interface/assign_string_t_to_character.html'>assign_string_t_to_character</a></li><li><a href='interface/base_name.html'>base_name</a></li><li><a href='interface/bin_t.html'>bin_t</a></li><li><a href='interface/bracket.html'>bracket</a></li><li><a href='interface/call_julienne_assert_.html'>call_julienne_assert_</a></li><li><a href='interface/character_argument_present.html'>character_argument_present</a></li></ul>
             </div>
             <div>
               <ul>
@@ -532,7 +549,7 @@ the framework supports.</p>
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Derived Types</h3>
-              <ul><li><a href='type/bin_t.html'>bin_t</a></li><li><a href='type/command_line_t.html'>command_line_t</a></li><li><a href='type/double_precision_operands_t.html'>double_precision_operands_t</a></li><li><a href='type/file_t.html'>file_t</a></li><li><a href='type/operands_t.html'>operands_t</a></li><li><a href='type/operands_t~2.html'>operands_t</a></li><li><a href='type/string_t.html'>string_t</a></li><li><a href='type/test_description_t.html'>test_description_t</a></li><li><a href='type/test_diagnosis_t.html'>test_diagnosis_t</a></li><li><a href='type/test_fixture_t.html'>test_fixture_t</a></li></ul>
+              <ul><li><a href='type/bin_t.html'>bin_t</a></li><li><a href='type/command_line_t.html'>command_line_t</a></li><li><a href='type/double_precision_operands_t.html'>double_precision_operands_t</a></li><li><a href='type/file_t.html'>file_t</a></li><li><a href='type/operands_t~2.html'>operands_t</a></li><li><a href='type/operands_t.html'>operands_t</a></li><li><a href='type/string_t.html'>string_t</a></li><li><a href='type/test_description_t.html'>test_description_t</a></li><li><a href='type/test_diagnosis_t.html'>test_diagnosis_t</a></li><li><a href='type/test_fixture_t.html'>test_fixture_t</a></li></ul>
             </div>
             <div>
               <ul>
@@ -556,7 +573,7 @@ the framework supports.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-07-01 23:18 +0000             </p>
+ on 2026-07-02 21:10 +0000             </p>
           </div>
         </div>
         <br>
