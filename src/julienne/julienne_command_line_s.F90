@@ -9,6 +9,15 @@ submodule(julienne_command_line_m) julienne_command_line_s
 contains
 
   module procedure string_argument_present
+#  ifndef __GFORTRAN__
+     integer a
+     integer maxlen
+
+     maxlen = maxval([(len(acceptable_argument(a)%string()), a = 1,size(acceptable_argument))])
+     found = character_argument_present( &
+        [( [character(len=maxlen) :: acceptable_argument(a)%string()], a = 1, size(acceptable_argument))] &
+     )
+#  else
      integer a, sz, maxlen
 
      sz = size(acceptable_argument)
@@ -20,6 +29,7 @@ contains
        end do
        found = character_argument_present(strings)
      end block
+#endif
 # ifdef __INTEL_COMPILER
   ! workaround ifx bug where it thinks argument to len must be a constant expression
   contains
