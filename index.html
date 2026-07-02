@@ -104,7 +104,30 @@ https://github.com/berkeleylab/julienne" role="button">GitHub</a>
   <img width="250" height="250" src="https://github.com/user-attachments/assets/1a1c4f1a-f229-4d6d-bcaa-d5d9826ee639">
 </p>
 
+<table>
+<thead>
+<tr>
+<th>Key Features</th>
+<th>Things You Need To Know</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#expressive-idioms">Idioms for unit testing &amp; assertions</a></td>
+<td><a href="#getting-started">Getting started</a></td>
+</tr>
+<tr>
+<td><a href="#A-file-abstraction">A file abstraction</a></td>
+<td><a href="#building-and-testing">Building and Testing</a></td>
+</tr>
+<tr>
+<td><a href="#printing-in-pure-procedures">Printing in Pure Procedures</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h1 id="julienne-idiomatic-correctness-checking-for-fortran-2023">Julienne: Idiomatic Correctness Checking for Fortran 2023</h1>
+<h2 id="overview">Overview</h2>
 <p>The Julienne framework offers unified approaches to unit testing, assertion
 enforcement, and formatted error-output inside <code>pure</code> procedures.  Julienne
 defines idioms for specifying correctness conditions in a common way in tests
@@ -112,23 +135,7 @@ that wrap the tested procedures or assertions that conditionally execute inside
 procedures.  Julienne idioms center around expressions built from
 defined operations: a uniquely flexible Fortran capability allowing developers
 to define <em>new</em> operators or to overloading Fortran's intrinsic operators.</p>
-<h2 id="output-in-pure-procedures">Output in pure procedures</h2>
-<p>Julienne's <code>stop_and_print</code> generic interface facilitates automatic or user-defined
-formatting of various data types and ranks inside <code>pure</code> procedures via either of two
-specific subroutines:</p>
-<ol>
-<li>One with a Julienne <code>string_t</code> dummy argument and</li>
-<li>Another with <code>character</code> and unlimited-polymorphic/assumed-rank dummy arguments.</li>
-</ol>
-<p>The first subroutine accepts Julienne <code>string_t</code> expressions that, for example, convert
-numeric arrays to comma-separated text with <code>.csv. string_t([1,2,3])</code>.  The second
-subroutine prints its <code>character</code> argument as a header followed by user-formatted or
-automatically-formatted representrations of its polymorphic argument.  Julienne
-automatically formats and prints numeric scalars or arrays up to rank 3.  Users can
-format information for printing by encapsulating the text in a Julienne <code>file_t</code> object
-or passing an object, or object wrapper, that extends Julienne's <code>writable_t</code> abstract
-type and defines the so-inherited <code>write(formatted)</code> generic binding.</p>
-<h2 id="expressive-idioms">Expressive idioms</h2>
+<h2 id="expressive-idioms">Expressive Idioms</h2>
 <table>
 <thead>
 <tr>
@@ -302,7 +309,7 @@ equivalently <code>.sv.</code>), including a comma-separated value list <code>(.
 <span class="p">)</span>
 </code></pre></div>
 
-<h2 id="a-file-abstraction">A file abstraction</h2>
+<h2 id="a-file-abstraction">A File Abstraction</h2>
 <p>Arrays of <code>string_t</code> objects provide a convenient way to store a ragged-length
 array of <code>character</code> data.  Julienne's <code>file_t</code> derived type has a private
 component that is a <code>string_t</code> array, wherein each element is one line of a text
@@ -338,7 +345,7 @@ an expectation about the value.  Assert such expectations by writing Julienne
 expressions inspired by natural language.  A program will proceed quietly past
 a correct assertion.  An incorrect assertion produces either automated or custom
 diagnostic messages during error termination.</p>
-<h2 id="getting-started">Getting Started</h2>
+<h2 id="getting-started">Getting started</h2>
 <h3 id="writing-unit-tests">Writing Unit Tests</h3>
 <p>Please see <a href="./demo/README.md">demo/README.md</a> for a detailed demonstration of
 test setup.</p>
@@ -470,6 +477,23 @@ tests for Julienne's command-line parsing utility: <code>command_line_t</code>. 
 <li><code>TEST_INTENTIONAL_FAILURE</code>: enables tests of unit-test failure; also enables
   tests of assertion failure if <code>ASSERTIONS</code> is non-zero.</li>
 </ul>
+<h2 id="printing-in-pure-procedures">Printing in pure procedures</h2>
+<p>Julienne provides the <code>pure</code> <code>stop_and_print</code> subroutine to facilite the automatic
+or user-defined formatting and printing of various types and ranks of data as stop
+codes inside <code>pure</code> procedures.  The <code>stop_and_print</code> subroutine accepts an 
+unlimited-polymorphic, assumed-rank dummy dummy argument and <code>optional</code> <code>character</code>
+header and footer arguments for printing above and below the contents of <code>data</code>,
+respectively.</p>
+<p>Julienne automatically formats and prints numeric scalars or arrays up to rank 3.
+Alternatively, users can customize the output format by passing a <code>data</code> actual
+argument constructed from one of the following Julienne types:</p>
+<ol>
+<li>A <code>string_t</code> object constructed with the string manipulation functions
+   described in the <a href="#custom-test-diagnostics">Custom Test Diagnostics</a> section,</li>
+<li>A <code>file_t</code> object described in <a href="#a-file-abstraction">A file abstraction</a>, or</li>
+<li>A <code>writable_t</code> child object that defines the <code>write(formatted)</code> generic
+   binding inherited from the abstract <code>writable_t</code> parent.</li>
+</ol>
 <h2 id="an-origin-story">An Origin Story</h2>
 <p>Julienne's name derives from the term for vegetables sliced into thin strings:
 julienned vegetables.  The <a href="https://gitlab.com/everythingfunctional/veggies">Veggies</a> and <a href="https://gitlab.com/everythingfunctional/garden">Garden</a> unit-testing frameworks
@@ -488,6 +512,7 @@ the framework supports.</p>
 <li><a href="https://github.com/pibion/band_distribution?tab=readme-ov-file">band_distribution</a>: a utility supporting the search for dark matter </li>
 <li><a href="https://go.lbl.gov/caffeine">Caffeine</a>: Coarray Fortran Framework of Efficient Interfaces to Network Environments</li>
 <li><a href="https://go.lbl.gov/fiats">Fiats</a>: Functional inference and training for surrogates</li>
+<li><a href="https://go.lbl.gov/formal">Formal</a>: Fortran mimetic abstraction language</li>
 <li><a href="https://go.lbl.gov/matcha">Matcha</a>: Motility analysis of T-cell histories in activation</li>
 <li>nQMCC: Quantum Monte Carlo simulation software for nuclear physics</li>
 <li><a href="https://www.nrc.gov/docs/ML1200/ML120060218.pdf">TRACE</a>: a two-phase flow solver for nuclear reactors</li>
@@ -573,7 +598,7 @@ the framework supports.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-07-02 21:10 +0000             </p>
+ on 2026-07-02 23:44 +0000             </p>
           </div>
         </div>
         <br>
