@@ -7,6 +7,7 @@
 submodule(julienne_test_diagnosis_m) julienne_test_diagnosis_s
   use assert_m
   use julienne_string_m, only : operator(.cat.)
+  use julienne_multi_image_m, only : internal_error_stop
   use iso_c_binding, only : c_associated, c_intptr_t
   implicit none
 contains
@@ -89,7 +90,7 @@ contains
         diagnosis = aggregate_vector_diagnosis(reshape(diagnoses, shape=[size(diagnoses)]))
       rank default 
         associate(diagnoses_rank => string_t(rank(diagnoses)))
-          error stop "aggregate_diagnosis (julienne_test_diagnosis_s): rank " // diagnoses_rank%string() // " unspported"
+          call internal_error_stop("aggregate_diagnosis (julienne_test_diagnosis_s): rank " // diagnoses_rank%string() // " unspported")
         end associate
     end select
 

@@ -14,6 +14,12 @@
 #define GCC_GE_MINIMUM
 #endif
 
+#if defined(__GFORTRAN__) || __flang_major__ >= 20
+#  define HAVE_STOP_AND_PRINT_SUPPORT 1
+#else
+#  define HAVE_STOP_AND_PRINT_SUPPORT 0
+#endif
+
 ! If not already determined, make a compiler-dependent determination of whether Julienne may use
 ! multi-image features such as `this_image()` and `sync all`.
 #ifndef HAVE_MULTI_IMAGE_SUPPORT

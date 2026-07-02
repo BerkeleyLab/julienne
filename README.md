@@ -4,13 +4,34 @@
 
 Julienne: Idiomatic Correctness Checking for Fortran 2023
 =========================================================
-The Julienne framework offers a unified approach to writing unit tests and
-assertions.  Julienne defines idioms for specifying correctness conditions in a
-common in tests that wrap the tested procedures or assertions that conditionally
-execute inside procedures.  Julienne idioms center around expressions built from
+The Julienne framework offers unified approaches to unit testing, assertion
+enforcement, and formatted error-output inside `pure` procedures.  Julienne
+defines idioms for specifying correctness conditions in a common way in tests
+that wrap the tested procedures or assertions that conditionally execute inside
+procedures.  Julienne idioms center around expressions built from
 defined operations: a uniquely flexible Fortran capability allowing developers
 to define _new_ operators or to overloading Fortran's intrinsic operators.
 
+Output in pure procedures
+-------------------------
+Julienne's `stop_and_print` generic interface facilitates automatic or user-defined
+formatting of various data types and ranks inside `pure` procedures via either of two
+specific subroutines:
+
+1. One with a Julienne `string_t` dummy argument and
+2. Another with `character` and unlimited-polymorphic/assumed-rank dummy arguments.
+
+The first subroutine accepts Julienne `string_t` expressions that, for example, convert
+numeric arrays to comma-separated text with `.csv. string_t([1,2,3])`.  The second
+subroutine prints its `character` argument as a header followed by user-formatted or
+automatically-formatted representrations of its polymorphic argument.  Julienne
+automatically formats and prints numeric scalars or arrays up to rank 3.  Users can
+format information for printing by encapsulating the text in a Julienne `file_t` object
+or passing an object, or object wrapper, that extends Julienne's `writable_t` abstract
+type and defines the so-inherited `write(formatted)` generic binding.
+
+Expressive idioms
+-----------------
 Example expressions                                  | Supported operand types
 -----------------------------------------------------|--------------------------------------
 `x .approximates. y .within. tolerance`              | `real`, `double precision` for `x`, `y`, `tolerance`
@@ -38,8 +59,6 @@ where
 * `.equalsExpected.` generates asymmetric diagnostic output for failures, denoting the left- and right-hand sides as the actual value and expected values, respectively; and
 * `//` appends the subsequent string to diagnostics strings, if any.
 
-Expressive idioms
------------------
 ### Assertions
 Any of the above expressions can be the actual argument in an invocation of
 Julienne's `call_julienne_assert` function-line preprocessor macro:

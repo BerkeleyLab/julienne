@@ -14,7 +14,7 @@ program get_command_line_flag_value
   type(command_line_t) command_line
   character(len=:), allocatable :: foo_value
 
-  foo_value = command_line%flag_value("--foo")
+  foo_value = command_line%character_flag_value("--foo")
 
   if (len(foo_value)/=0) then 
     print '(a)', new_line('') // "foo=" // foo_value // new_line('')

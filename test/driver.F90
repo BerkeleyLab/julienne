@@ -1,6 +1,8 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
+#include "language-support.F90"
+
 program test_suite_driver
   !! Julienne test-suite driver
 
@@ -10,6 +12,9 @@ program test_suite_driver
   ! Modules containing test_t child types:
   use assert_test_m                    ,only :                   assert_test_t
   use bin_test_m                       ,only :                      bin_test_t
+#if HAVE_STOP_AND_PRINT_SUPPORT
+  use character_stop_code_test_m       ,only :      character_stop_code_test_t
+#endif
   use command_line_test_m              ,only :             command_line_test_t
   use formats_test_m                   ,only :                  formats_test_t
   use multi_image_test_m               ,only :              multi_image_test_t, multi_image_setup
@@ -17,7 +22,6 @@ program test_suite_driver
   use test_description_test_m          ,only :         test_description_test_t
   use test_diagnosis_test_m            ,only :           test_diagnosis_test_t
   use test_result_test_m               ,only :              test_result_test_t
-
   implicit none
 
   call multi_image_setup()
@@ -27,6 +31,9 @@ program test_suite_driver
   associate(test_harness => test_harness_t([           &
      test_fixture_t(                  assert_test_t()) &
     ,test_fixture_t(                     bin_test_t()) &
+#if HAVE_STOP_AND_PRINT_SUPPORT
+    ,test_fixture_t(     character_stop_code_test_t()) &
+#endif
     ,test_fixture_t(                 formats_test_t()) &
     ,test_fixture_t(             multi_image_test_t()) &
     ,test_fixture_t(                  string_test_t()) &

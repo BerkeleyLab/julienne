@@ -5,6 +5,7 @@
 #include "language-support.F90"
 
 program stop_and_print_in_pure_procedure
+#if HAVE_STOP_AND_PRINT_SUPPORT
   !! Conditionally test printing via error termination inside a pure procedure
   use julienne_m, only : command_line_t, string_t, operator(.csv.), stop_and_print
   implicit none
@@ -14,9 +15,9 @@ program stop_and_print_in_pure_procedure
 #else
   associate(command_line => command_line_t(), me => 1)
 #endif
-    if (.not. command_line%argument_present([character(len=len("--help"))::"--help","-h"])) then
+    if (.not. command_line%character_argument_present([character(len=len("--help"))::"--help","-h"])) then
 #if TEST_INTENTIONAL_FAILURE && ASSERTIONS
-      if (me==1) print '(a)', new_line('') // 'Test the intentional failure of stop_and_print in a pure procedure: ' // new_line('')
+      if (me==1) print '(a)', new_line('') // 'Test the intentional failure of an idiomatic stop_and_print: ' // new_line('')
       call pure_subroutine
 #else
       if (me==1) print '(a)',  &
@@ -35,4 +36,7 @@ contains
     call stop_and_print("array = " // .csv. string_t(array))
   end subroutine
 
+#else
+  stop "SKIPPED: Julienne's stop_and_print feature is not supported on this compiler"
+#endif
 end program

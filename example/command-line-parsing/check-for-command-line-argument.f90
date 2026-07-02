@@ -16,7 +16,7 @@ program check_for_command_line_argument
 
   type(command_line_t) command_line
 
-  if (command_line%argument_present(["--some-argument"])) then
+  if (command_line%character_argument_present(["--some-argument"])) then
      print '(a)', new_line('') // "argument 'some-argument' present" // new_line('')
   else
      print '(a)', new_line('') // "argument 'some-argument' not present" // new_line('')
