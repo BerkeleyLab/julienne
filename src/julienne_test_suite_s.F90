@@ -101,7 +101,7 @@ contains
        string_t(copyright_and_license) // new_line('') &
       ,string_t("module ") // test_module &
       ,string_t("  use julienne_m, only : &") &
-      ,string_t("     test_t, test_description_t, test_diagnosis_t, test_result_t &") &
+      ,string_t("     test_t, test_description_t, test_diagnosis_t, test_result_t, usher &") &
       ,string_t("    ,operator(.approximates.), operator(.within.), operator(.all.), operator(//)") &
       ,string_t("  use " // subject_module // ", only : " // subject_type) &
       ,string_t("  implicit none") // new_line('') &
@@ -119,8 +119,8 @@ contains
       ,string_t("    type(") // test_type // ") " // subject // "_test" &
       ,string_t("    type(test_result_t), allocatable :: test_results(:)") &
       ,string_t("    test_results = ") // subject // "_test%run( & " &
-      ,string_t("      [test_description_t('doing something', do_something) &") &
-      ,string_t("      ,test_description_t('checking something', check_something) &") &
+      ,string_t("      [test_description_t('doing something', usher(do_something)) &") &
+      ,string_t("      ,test_description_t('checking something', usher(check_something)) &") &
       ,string_t("      ,test_description_t('skipping something') &") &
       ,string_t("    ])") &
       ,string_t("  end function") // new_line('') &
