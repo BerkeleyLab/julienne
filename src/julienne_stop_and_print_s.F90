@@ -94,6 +94,9 @@ contains
           type is(real)
             stringy_stuff = string_t(stuff)
             stop_code = stringy_stuff%string()
+          type is(logical)
+            stringy_stuff = merge("T","F", stuff)
+            stop_code = stringy_stuff%string()
           class is(string_t)
             stop_code = stuff%string()
           class is(writable_t)
@@ -126,6 +129,9 @@ contains
           type is(real)
             stringy_stuff = .csv. string_t(stuff)
             stop_code = stringy_stuff%string()
+          type is(logical)
+            stringy_stuff = .csv. string_t(merge("T","F", stuff))
+            stop_code = stringy_stuff%string()
           class is(string_t)
             stringy_stuff = .csv. stuff
             stop_code = stringy_stuff%string()
@@ -149,6 +155,9 @@ contains
           type is(real)
             stringy_stuff =  [(.csv. string_t(stuff(row,:)) , row=1,size(stuff,1))] .separatedBy. new_line('')
             stop_code = stringy_stuff%string()
+          type is(logical)
+            stringy_stuff =  [(.csv. string_t(merge("T","F", stuff(row,:))), row=1,size(stuff,1))] .separatedBy. new_line('')
+            stop_code = stringy_stuff%string()
           class default
              call internal_error_stop("character_stop_code (in print_and_stop_s): unsupported stop-code type for rank-2 array")
         end select
@@ -165,6 +174,9 @@ contains
             stop_code = stringy_stuff%string()
           type is(real)
             stringy_stuff =  [( [(.csv. string_t(stuff(row,:,page)) , row=1,size(stuff,1))] .separatedBy. new_line(''), page = 1,size(stuff,3) )] .separatedBy. (new_line('') // new_line(''))
+            stop_code = stringy_stuff%string()
+          type is(logical)
+            stringy_stuff =  [( [(.csv. string_t(merge("T","F", stuff(row,:,page))) , row=1,size(stuff,1))] .separatedBy. new_line(''), page = 1,size(stuff,3) )] .separatedBy. (new_line('') // new_line(''))
             stop_code = stringy_stuff%string()
           class default
              call internal_error_stop("character_stop_code (in print_and_stop_s): unsupported stop-code type for rank-3 array")
