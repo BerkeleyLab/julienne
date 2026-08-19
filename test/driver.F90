@@ -16,6 +16,7 @@ program test_suite_driver
   use character_stop_code_test_m       ,only :      character_stop_code_test_t
 #endif
   use command_line_test_m              ,only :             command_line_test_t
+  use file_test_m                      ,only :                     file_test_t
   use formats_test_m                   ,only :                  formats_test_t
   use multi_image_test_m               ,only :              multi_image_test_t, multi_image_setup
   use string_test_m                    ,only :                   string_test_t
@@ -40,6 +41,7 @@ program test_suite_driver
     ,test_fixture_t(        test_description_test_t()) &
     ,test_fixture_t(          test_diagnosis_test_t()) &
     ,test_fixture_t(             test_result_test_t()) &
+    ,test_fixture_t(                    file_test_t()) &
     ,test_fixture_t(            command_line_test_t()) &
   ]))
     call test_harness%report_results
