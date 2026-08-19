@@ -26,16 +26,24 @@ contains
 
   module procedure write_to_character_file_name
     integer file_unit, l
-    logical file_open
+    logical file_open, i_opened
 
     call_assert(allocated(self%lines_))
 
     inquire(file=file_name, opened=file_open, number=file_unit)
-    if (.not. file_open) open(newunit=file_unit, file=file_name, form='formatted', status='unknown', action='write')
+
+    if (.not. file_open) then
+       open(newunit=file_unit, file=file_name, form='formatted', status='unknown', action='write')
+       i_opened = .true.
+    else
+       i_opened = .false.
+    end if
 
     do l = 1, size(self%lines_)
       write(file_unit, '(a)') self%lines_(l)%string()
     end do
+
+    if (i_opened) close(file_unit)
   end procedure
   
   module procedure write_to_string_file_name
@@ -70,12 +78,22 @@ contains
 
       allocate(file_object%lines_(num_lines))
   
+      read_and_store_lines: &
       do line_num = 1, num_lines
+#ifdef __LFORTRAN__
+        if (lengths(line_num)==0) then
+          file_object%lines_(line_num) = string_t("")
+          if (allocated(line)) deallocate(line)
+          allocate(character(len=1) :: line)
+          read(file_unit, '(a)') line
+          cycle read_and_store_lines
+        end if
+#endif
+        if (allocated(line)) deallocate(line)
         allocate(character(len=lengths(line_num)) :: line)
         read(file_unit, '(a)') line
         file_object%lines_(line_num) = string_t(line)
-        deallocate(line)
-      end do
+      end do read_and_store_lines
 
     end associate
 
