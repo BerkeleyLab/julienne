@@ -144,6 +144,10 @@ jobs:
             container: ghcr.io/lfortran/lfortran:v0.64.0
           - os: ubuntu-22.04
             compiler: lfortran
+            version: 0.65.0
+            container: ghcr.io/lfortran/lfortran:v0.65.0
+          - os: ubuntu-22.04
+            compiler: lfortran
             version: latest
             container: ghcr.io/lfortran/lfortran:latest
 
