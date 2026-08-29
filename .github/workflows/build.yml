@@ -35,19 +35,19 @@ jobs:
 
           - os: macos-14
             compiler: flang
-            version: 22
+            version: 23
           - os: macos-15
             compiler: flang
-            version: 22
-          - os: macos-15-intel
-            compiler: flang
-            version: 22
+            version: 23
           - os: macos-26
             compiler: flang
-            version: 22
+            version: 23
+          - os: macos-15-intel
+            compiler: flang
+            version: 23
           - os: macos-26-intel
             compiler: flang
-            version: 22
+            version: 23
 
           # https://hub.docker.com/r/snowstep/llvm/tags
           - os: ubuntu-24.04
@@ -63,7 +63,7 @@ jobs:
           - os: ubuntu-24.04
             compiler: flang
             version: 23
-            container: phhargrove/llvm-flang:23.1.0_rc2-latest
+            container: phhargrove/llvm-flang:23.1.0-latest
           - os: ubuntu-24.04
             compiler: flang
             version: 22
