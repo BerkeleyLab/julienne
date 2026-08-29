@@ -201,11 +201,23 @@ jobs:
           ls -alh /app/share/lfortran/lib/
         fi
 
-    - name: Install macOS Dependencies
-      if: contains(matrix.os, 'macos')
+    - name: Fix macOS Homebrew Configuration
+      if: ${{ contains(matrix.os, 'macos') }}
       run: |
         # silence Homebrew tap trust warnings:
         (set +e ; brew untap -f aws/tap hashicorp/tap 2>&1 | perl -pe 's/#*.warning./warn: /' ; brew trust azure/bicep )
+        # set some Homebrew knobs to accelerate installation
+        # but only when we are not simulating the user environment brew-via-install workflow
+        if [[ -z "${{ matrix.brew_via_install }}" ]] ; then
+          echo HOMEBREW_NO_ANALYTICS=1 >> "$GITHUB_ENV"
+          echo HOMEBREW_NO_AUTO_UPDATE=1 >> "$GITHUB_ENV"
+          echo HOMEBREW_NO_GITHUB_API=1 >> "$GITHUB_ENV"
+          echo HOMEBREW_NO_INSTALL_CLEANUP=1 >> "$GITHUB_ENV"
+        fi
+
+    - name: Install macOS Dependencies
+      if: contains(matrix.os, 'macos')
+      run: |
         brew update
         # fpm binary distribution for macOS requires gfortran shared libraries from gcc@12
         brew install gcc@12
