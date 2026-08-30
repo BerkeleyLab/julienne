@@ -35,19 +35,19 @@ jobs:
 
           - os: macos-14
             compiler: flang
-            version: 22
+            version: 23
           - os: macos-15
             compiler: flang
-            version: 22
-          - os: macos-15-intel
-            compiler: flang
-            version: 22
+            version: 23
           - os: macos-26
             compiler: flang
-            version: 22
-          - os: macos-26-intel
-            compiler: flang
-            version: 22
+            version: 23
+#          - os: macos-15-intel
+#            compiler: flang
+#            version: 23
+#          - os: macos-26-intel
+#            compiler: flang
+#            version: 23
 
           # https://hub.docker.com/r/snowstep/llvm/tags
           - os: ubuntu-24.04
@@ -63,7 +63,7 @@ jobs:
           - os: ubuntu-24.04
             compiler: flang
             version: 23
-            container: phhargrove/llvm-flang:23.1.0_rc2-latest
+            container: phhargrove/llvm-flang:23.1.0-latest
           - os: ubuntu-24.04
             compiler: flang
             version: 22
@@ -144,6 +144,10 @@ jobs:
             container: ghcr.io/lfortran/lfortran:v0.64.0
           - os: ubuntu-22.04
             compiler: lfortran
+            version: 0.65.0
+            container: ghcr.io/lfortran/lfortran:v0.65.0
+          - os: ubuntu-22.04
+            compiler: lfortran
             version: latest
             container: ghcr.io/lfortran/lfortran:latest
 
@@ -197,11 +201,23 @@ jobs:
           ls -alh /app/share/lfortran/lib/
         fi
 
-    - name: Install macOS Dependencies
-      if: contains(matrix.os, 'macos')
+    - name: Fix macOS Homebrew Configuration
+      if: ${{ contains(matrix.os, 'macos') }}
       run: |
         # silence Homebrew tap trust warnings:
         (set +e ; brew untap -f aws/tap hashicorp/tap 2>&1 | perl -pe 's/#*.warning./warn: /' ; brew trust azure/bicep )
+        # set some Homebrew knobs to accelerate installation
+        # but only when we are not simulating the user environment brew-via-install workflow
+        if [[ -z "${{ matrix.brew_via_install }}" ]] ; then
+          echo HOMEBREW_NO_ANALYTICS=1 >> "$GITHUB_ENV"
+          echo HOMEBREW_NO_AUTO_UPDATE=1 >> "$GITHUB_ENV"
+          echo HOMEBREW_NO_GITHUB_API=1 >> "$GITHUB_ENV"
+          echo HOMEBREW_NO_INSTALL_CLEANUP=1 >> "$GITHUB_ENV"
+        fi
+
+    - name: Install macOS Dependencies
+      if: contains(matrix.os, 'macos')
+      run: |
         brew update
         # fpm binary distribution for macOS requires gfortran shared libraries from gcc@12
         brew install gcc@12
