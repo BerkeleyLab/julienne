@@ -30,6 +30,14 @@ jobs:
         version: [ 13, 14, 15, 16 ]
         extra_flags: [ -g -O3 ]
 
+        exclude:
+
+          # Homebrew removed Intel bottles for gcc@16
+          - os: macos-15-intel
+            version: 16
+          - os: macos-26-intel
+            version: 16
+
         include:
           # --- LLVM flang coverage ---
 
