@@ -33,9 +33,6 @@ jobs:
         include:
           # --- LLVM flang coverage ---
 
-          - os: macos-14
-            compiler: flang
-            version: 23
           - os: macos-15
             compiler: flang
             version: 23
