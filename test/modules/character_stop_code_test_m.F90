@@ -3,9 +3,8 @@
 
 #include "language-support.F90"
 
-#if HAVE_STOP_AND_PRINT_SUPPORT
-
 module character_stop_code_test_m
+#if HAVE_STOP_AND_PRINT_SUPPORT
   !! Check data partitioning across bins
   use julienne_m, only : &
      file_t &
@@ -557,6 +556,5 @@ contains
     write(unit,'(a)') "written stuff"
   end subroutine
 
-end module character_stop_code_test_m
-
 #endif
+end module character_stop_code_test_m

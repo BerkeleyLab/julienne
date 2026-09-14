@@ -209,7 +209,7 @@ GCC               |14-16          |serial  |`fpm test --compiler gfortran --prof
 GCC               |13             |serial  |`fpm test --compiler gfortran --profile release --flag -ffree-line-length-none`
 Intel             |2025.2-2026.0  |parallel|`FOR_COARRAY_NUM_IMAGES=2 fpm test --compiler ifx --flag "-O3 -coarray" --profile release`
 LFortran          |0.61-0.63      |serial  |`fpm test --compiler lfortran --flag "--cpp --realloc-lhs-arrays --separate-compilation"`
-NAG               |7.2 (-)        |parallel|`NAGFORTRAN_NUM_IMAGES=2 fpm test --compiler nagfor --flag "-O4 -coarray"`
+NAG               |7.2 (-)        |parallel|`NAGFORTRAN_NUM_IMAGES=2 fpm test --compiler nagfor --flag "-O1 -coarray"`
 
 > (\*) Additional linker options might be required depending on platform. 
 On Linux, it may be necessary to prepend `-Wl,--start-group` to `--link-flag`, or manually add the libraries

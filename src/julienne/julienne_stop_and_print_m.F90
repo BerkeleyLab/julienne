@@ -3,9 +3,8 @@
 
 #include "language-support.F90"
 
-#if HAVE_STOP_AND_PRINT_SUPPORT
-
 module julienne_stop_and_print_m
+#if HAVE_STOP_AND_PRINT_SUPPORT
   !! Define a pure subroutine that formats and prints various data types during error termination
   use julienne_string_m, only : string_t
   implicit none
@@ -66,6 +65,7 @@ module julienne_stop_and_print_m
     end function
 
   end interface
-
-end module julienne_stop_and_print_m
+#else
+  EMPTY_MODULE_ANCESTOR
 #endif
+end module julienne_stop_and_print_m

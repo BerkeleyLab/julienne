@@ -46,7 +46,7 @@ contains
       if (associated(julienne_sync_all)) then
         call julienne_sync_all()
       else
-        ; ! assume single-image, no-op
+         ! assume single-image, no-op
         call_assert(internal_num_images() == 1)
       end if
 #   else 
@@ -61,7 +61,7 @@ contains
       if (associated(julienne_co_sum_integer)) then
         call julienne_co_sum_integer(a, result_image)
       else
-        ; ! assume single-image, no-op
+         ! assume single-image, no-op
         call_assert(internal_num_images() == 1)
       end if
 #   else 
@@ -79,7 +79,7 @@ contains
       if (associated(julienne_error_stop)) then
         call julienne_error_stop(stop_code_char)
       else
-        ; ! deliberate fall-thru
+        ! deliberate fall-thru
       end if
 #   endif
     error stop stop_code_char

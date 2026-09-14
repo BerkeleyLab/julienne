@@ -3,8 +3,8 @@
 
 #include "language-support.F90"
 
-#if HAVE_STOP_AND_PRINT_SUPPORT
 submodule(write_stuff_m) write_stuff_s
+#if HAVE_STOP_AND_PRINT_SUPPORT
   implicit none
 
 contains
@@ -16,6 +16,7 @@ contains
     write(unit,'(a)'     ) "}" // new_line('')
     iostat = 0
   end procedure
-
-end submodule
+#else
+  EMPTY_MODULE_SUBMODULE
 #endif
+end submodule
