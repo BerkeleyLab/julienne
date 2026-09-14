@@ -1,7 +1,7 @@
 ! Copyright (c) 2024, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
-#include "language-support.F90"
+#include "julienne-language-support.F90"
 
 ! We normally only test the JULIENNE_PARALLEL_CALLBACKS feature 
 ! when HAVE_MULTI_IMAGE_SUPPORT is also enabled, but this test

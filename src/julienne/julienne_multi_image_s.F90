@@ -1,7 +1,7 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
-#include "language-support.F90"
+#include "julienne-language-support.F90"
 #include "assert_macros.h"
 
 submodule(julienne_multi_image_m) julienne_multi_image_s
