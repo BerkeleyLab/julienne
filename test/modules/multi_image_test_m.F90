@@ -6,8 +6,8 @@
 ! We normally only test the JULIENNE_PARALLEL_CALLBACKS feature 
 ! when HAVE_MULTI_IMAGE_SUPPORT is also enabled, but this test
 ! can also be force-enabled via -DTEST_PARALLEL_CALLBACKS
-#if JULIENNE_PARALLEL_CALLBACKS && HAVE_MULTI_IMAGE_SUPPORT
-#define TEST_PARALLEL_CALLBACKS 1
+#ifndef TEST_PARALLEL_CALLBACKS
+#define TEST_PARALLEL_CALLBACKS (JULIENNE_PARALLEL_CALLBACKS && HAVE_MULTI_IMAGE_SUPPORT)
 #endif
 
 module multi_image_test_m

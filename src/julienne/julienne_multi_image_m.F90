@@ -51,7 +51,7 @@ module julienne_multi_image_m
         integer :: this_image_id
       end function
     end interface
-    procedure(julienne_this_image_interface), pointer :: julienne_this_image
+    procedure(julienne_this_image_interface), pointer :: julienne_this_image => null()
 
     abstract interface
       function julienne_num_images_interface() result(image_count)
@@ -59,14 +59,14 @@ module julienne_multi_image_m
         integer :: image_count
       end function
     end interface
-    procedure(julienne_num_images_interface), pointer :: julienne_num_images
+    procedure(julienne_num_images_interface), pointer :: julienne_num_images => null()
 
     abstract interface
       subroutine julienne_sync_all_interface()
         implicit none
       end subroutine
     end interface
-    procedure(julienne_sync_all_interface), pointer :: julienne_sync_all
+    procedure(julienne_sync_all_interface), pointer :: julienne_sync_all => null()
 
     abstract interface
       subroutine julienne_co_sum_integer_interface(a, result_image)
@@ -75,7 +75,7 @@ module julienne_multi_image_m
         integer, intent(in), optional :: result_image
       end subroutine
     end interface
-    procedure(julienne_co_sum_integer_interface), pointer :: julienne_co_sum_integer
+    procedure(julienne_co_sum_integer_interface), pointer :: julienne_co_sum_integer => null()
 
     abstract interface
       pure subroutine julienne_error_stop_interface(stop_code_char)
@@ -83,7 +83,7 @@ module julienne_multi_image_m
         character(len=*), intent(in) :: stop_code_char
       end subroutine
     end interface
-    procedure(julienne_error_stop_interface), pointer :: julienne_error_stop
+    procedure(julienne_error_stop_interface), pointer :: julienne_error_stop => null()
 #endif
 
 
