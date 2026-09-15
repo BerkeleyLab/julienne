@@ -1,11 +1,10 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
-#include "language-support.F90"
-
-#if HAVE_STOP_AND_PRINT_SUPPORT
+#include "julienne-language-support.F90"
 
 module character_stop_code_test_m
+#if HAVE_STOP_AND_PRINT_SUPPORT
   !! Check data partitioning across bins
   use julienne_m, only : &
      file_t &
@@ -557,6 +556,5 @@ contains
     write(unit,'(a)') "written stuff"
   end subroutine
 
-end module character_stop_code_test_m
-
 #endif
+end module character_stop_code_test_m

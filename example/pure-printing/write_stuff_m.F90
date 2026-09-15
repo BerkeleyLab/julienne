@@ -1,10 +1,10 @@
 ! Copyright (c) 2024-2026, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
-#include "language-support.F90"
+#include "julienne-language-support.F90"
 
-#if HAVE_STOP_AND_PRINT_SUPPORT
 module write_stuff_m
+#if HAVE_STOP_AND_PRINT_SUPPORT
   !! Demonstrate a derived type that is writable to a stop  via Julienne's stop_and_print utility
   use julienne_m, only : writable_t
   implicit none
@@ -27,6 +27,7 @@ module write_stuff_m
     end subroutine
 
   end interface
-
-end module
+#else
+  EMPTY_MODULE_ANCESTOR
 #endif
+end module

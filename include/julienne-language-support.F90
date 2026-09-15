@@ -63,4 +63,8 @@
 #  endif
 #endif
 
+! Incantation to allow a conforming empty module and submodule
+#define EMPTY_MODULE_ANCESTOR private ; interface ; module subroutine dummy ; end subroutine ; end interface
+#define EMPTY_MODULE_SUBMODULE contains ; module procedure dummy ; end procedure
+
 #endif

@@ -2,7 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 
 #include "julienne-assert-macros.h"
-#include "language-support.F90"
+#include "julienne-language-support.F90"
 
 program logical_assertion_failure_test
   !! Conditionally test an assertion that is hardwired to fail.

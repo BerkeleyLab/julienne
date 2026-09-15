@@ -3,7 +3,7 @@
 
 #include "julienne-assert-macros.h"
 #include "assert_macros.h"
-#include "language-support.F90"
+#include "julienne-language-support.F90"
 
 submodule(julienne_test_description_m) julienne_test_description_s
   use assert_m

@@ -1,7 +1,7 @@
 ! Copyright (c) 2024-2026, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
-#include "language-support.F90"
+#include "julienne-language-support.F90"
 
 program pure_stop_and_print
 #if HAVE_STOP_AND_PRINT_SUPPORT

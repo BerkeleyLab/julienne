@@ -65,6 +65,11 @@ jobs:
             container: snowstep/llvm:ubuntu-22.04-latest
 
           # https://hub.docker.com/r/phhargrove/llvm-flang/tags
+          - os: ubuntu-24.04-arm
+            compiler: flang
+            version: 23
+            container: phhargrove/llvm-flang:23.1.0-latest-arm64
+
           - os: ubuntu-24.04
             compiler: flang
             version: 23
@@ -133,10 +138,6 @@ jobs:
             compiler: lfortran
             version: 0.62.0
             container: phhargrove/lfortran:0.62.0-1
-          - os: ubuntu-24.04
-            compiler: lfortran
-            version: 0.63.0
-            container: phhargrove/lfortran:0.63.0-1
 
           # https://github.com/lfortran/lfortran/pkgs/container/lfortran
           - os: ubuntu-22.04
@@ -151,6 +152,10 @@ jobs:
             compiler: lfortran
             version: 0.65.0
             container: ghcr.io/lfortran/lfortran:v0.65.0
+          - os: ubuntu-22.04
+            compiler: lfortran
+            version: 0.66.0
+            container: ghcr.io/lfortran/lfortran:v0.66.0
           - os: ubuntu-22.04
             compiler: lfortran
             version: latest
@@ -248,12 +253,12 @@ jobs:
           echo "FPM_FC=ifx" >> "$GITHUB_ENV"
           if [[ "$COMPILER_VERSION" = "latest-coarray" ]] ; then
             echo "FOR_COARRAY_NUM_IMAGES=4" >> "$GITHUB_ENV"
-            echo "FFLAGS=-coarray -fpp -g -traceback $FFLAGS" >> "$GITHUB_ENV"
+            echo "FFLAGS=-coarray -g -traceback $FFLAGS" >> "$GITHUB_ENV"
             #echo "FOR_COARRAY_MPI_VERBOSE=1" >> "$GITHUB_ENV"
             #echo "FOR_COARRAY_DEBUG_STARTUP=1" >> "$GITHUB_ENV"
           else
             # issue #162: ifx coarray support is usually disabled because it hides runtime failures
-            echo "FFLAGS=-DHAVE_MULTI_IMAGE_SUPPORT=0 -fpp -g -traceback $FFLAGS" >> "$GITHUB_ENV"
+            echo "FFLAGS=-DHAVE_MULTI_IMAGE_SUPPORT=0 -g -traceback $FFLAGS" >> "$GITHUB_ENV"
           fi
         elif test "$FC" = "lfortran" ; then
           echo "FPM_FC=lfortran" >> "$GITHUB_ENV"
@@ -278,10 +283,11 @@ jobs:
       if: ${{ runner.os == 'Linux' && runner.arch == 'ARM64' }}
       run: |
         export FPM_VERSION=0.13.0
+        mkdir -p fpm-temp/bin
+        cd fpm-temp
         curl --retry 5 -LOsS https://github.com/fortran-lang/fpm/releases/download/v$FPM_VERSION/fpm-$FPM_VERSION.F90
-        mkdir fpm-temp
-        gfortran-14 -o fpm-temp/fpm fpm-$FPM_VERSION.F90
-        echo "PATH=`pwd`/fpm-temp:${PATH}" >> "$GITHUB_ENV"
+        gfortran-14 -o bin/fpm fpm-$FPM_VERSION.F90
+        echo "PATH=$PWD/bin:${PATH}" >> "$GITHUB_ENV"
 
     - name: Version info
       run: |

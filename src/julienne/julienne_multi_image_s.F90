@@ -1,7 +1,7 @@
 ! Copyright (c) 2024-2025, The Regents of the University of California and Sourcery Institute
 ! Terms of use are as specified in LICENSE.txt
 
-#include "language-support.F90"
+#include "julienne-language-support.F90"
 #include "assert_macros.h"
 
 submodule(julienne_multi_image_m) julienne_multi_image_s
@@ -46,7 +46,7 @@ contains
       if (associated(julienne_sync_all)) then
         call julienne_sync_all()
       else
-        ; ! assume single-image, no-op
+         ! assume single-image, no-op
         call_assert(internal_num_images() == 1)
       end if
 #   else 
@@ -61,7 +61,7 @@ contains
       if (associated(julienne_co_sum_integer)) then
         call julienne_co_sum_integer(a, result_image)
       else
-        ; ! assume single-image, no-op
+         ! assume single-image, no-op
         call_assert(internal_num_images() == 1)
       end if
 #   else 
@@ -79,7 +79,7 @@ contains
       if (associated(julienne_error_stop)) then
         call julienne_error_stop(stop_code_char)
       else
-        ; ! deliberate fall-thru
+        ! deliberate fall-thru
       end if
 #   endif
     error stop stop_code_char

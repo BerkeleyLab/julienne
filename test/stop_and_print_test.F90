@@ -2,7 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 
 #include "julienne-assert-macros.h"
-#include "language-support.F90"
+#include "julienne-language-support.F90"
 
 program stop_and_print_in_pure_procedure
 #if HAVE_STOP_AND_PRINT_SUPPORT
