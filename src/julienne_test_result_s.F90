@@ -2,7 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 
 #include "julienne-assert-macros.h"
-#include "language-support.F90"
+#include "julienne-language-support.F90"
 
 submodule(julienne_test_result_m) julienne_test_result_s
 #if ASSERTIONS
