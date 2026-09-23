@@ -455,6 +455,7 @@ contains
       test_passed = &
               "a,bc,def" == .csv. [string_t("a"), string_t("bc"), string_t("def")]    &
         .and. "abc,def"  == .csv. ["abc", "def"]                                      &
+        .and. ""         == .csv. [character(len=0)::]                                &
         .and. "do|re|mi" == (string_t(["do", "re", "mi"])         .sv.          "|" ) &
         .and. "dore|mi"  == (([string_t("dore"), string_t("mi")]) .sv. string_t("|")) &
         .and. "do|re|mi" == (         ["do", "re", "mi"]          .sv.          "|" ) &
