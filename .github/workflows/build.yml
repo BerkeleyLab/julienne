@@ -169,25 +169,48 @@ jobs:
       FC: ${{ matrix.compiler }}
       FFLAGS: ${{ matrix.extra_flags }}
       FPM_FLAGS:  --profile release --verbose
+      CURL_OPTIONS: --retry 10 --retry-all-errors --fail -L
+      BREW_WARNING_FILTER: 's/^[[:punct:]]*warning[[:punct:]]*(You are using macOS)/warn: \1/i'
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v6
 
+    - name: Install shell functions
+      run: |
+        mkdir -p ~/.bash_helpers
+        cat << 'EOF' > ~/.bash_helpers/custom_functions.sh
+        retry() {
+          local retry_cnt=0
+          local retry_delay
+          while ! "$@" ; do
+            retry_cnt=$(expr $retry_cnt + 1)
+            if [[ $retry_cnt > 5 ]] ; then exit 1 ; fi
+            ( set +x ;
+              echo "::warning::Command failed: <$@> Pausing before retry $retry_cnt..." );
+            retry_delay=$(( 5 ** retry_cnt ))
+            if [[ $retry_delay > 600 ]] ; then retry_delay=600 ; fi
+            sleep $retry_delay
+          done
+        }
+        EOF
+        # Register file in BASH_ENV so it automatically loads in all future steps
+        echo "BASH_ENV=~/.bash_helpers/custom_functions.sh" >> $GITHUB_ENV
+
     - name: Install Ubuntu Native Dependencies
       if: ${{ contains(matrix.os, 'ubuntu') && matrix.container == '' && matrix.compiler == 'gfortran' }}
       run: |
-        sudo apt-get update
+        retry sudo apt-get update
         #sudo apt list -a 'gfortran-*'
-        sudo apt install -y build-essential
+        retry sudo apt install -y build-essential
         if [[ ${COMPILER_VERSION} -lt 15 ]] || type -p gfortran-${COMPILER_VERSION} ; then
-          sudo apt install -y gfortran-${COMPILER_VERSION}
+          retry sudo apt install -y gfortran-${COMPILER_VERSION}
         else
-          curl -L https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o install-homebrew.sh
+          curl $CURL_OPTIONS https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o install-homebrew.sh
           chmod +x install-homebrew.sh
           env CI=1 ./install-homebrew.sh
           HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
-          ${HOMEBREW_PREFIX}/bin/brew install -v gcc@${COMPILER_VERSION} binutils
+          retry ${HOMEBREW_PREFIX}/bin/brew install -v gcc@${COMPILER_VERSION} binutils
           ls -al ${HOMEBREW_PREFIX}/bin
           echo "PATH=${HOMEBREW_PREFIX}/bin:${PATH}" >> "$GITHUB_ENV"
           : Homebrew GCC@15 needs binutils 2.44+
@@ -202,8 +225,8 @@ jobs:
     - name: Install Ubuntu Container Dependencies
       if: ${{ contains(matrix.os, 'ubuntu') && matrix.container != '' && !contains(matrix.container, 'phhargrove') }}
       run: |
-        apt update
-        apt install -y build-essential pkg-config make git curl
+        retry apt update
+        retry apt install -y build-essential pkg-config make git curl
         # Add container lfortran to PATH:
         if test "$FC" = "lfortran"; then
           echo "/app/bin" >> "$GITHUB_PATH"
@@ -215,7 +238,7 @@ jobs:
       if: ${{ contains(matrix.os, 'macos') }}
       run: |
         # silence Homebrew tap trust warnings:
-        (set +e ; brew untap -f aws/tap hashicorp/tap 2>&1 | perl -pe 's/#*.warning./warn: /' ; brew trust azure/bicep )
+        (set +e ; brew untap -f aws/tap hashicorp/tap 2>&1 | perl -pe 's/^::*//;s/^##*//' ; brew trust azure/bicep ; echo )
         # set some Homebrew knobs to accelerate installation
         # but only when we are not simulating the user environment brew-via-install workflow
         if [[ -z "${{ matrix.brew_via_install }}" ]] ; then
@@ -228,17 +251,20 @@ jobs:
     - name: Install macOS Dependencies
       if: contains(matrix.os, 'macos')
       run: |
-        brew update
+        retry brew update
         # fpm binary distribution for macOS requires gfortran shared libraries from gcc@12
-        brew install gcc@12
+        retry brew install gcc@12 \
+            2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
         if [[ ${{ matrix.compiler }} == 'gfortran' && ${COMPILER_VERSION} -gt 15 ]] ; then
-          brew install gcc@${COMPILER_VERSION}
+          retry brew install gcc@${COMPILER_VERSION} \
+            2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
         fi
 
     - name: Install LLVM flang on macOS
       if: contains(matrix.os, 'macos') && matrix.compiler == 'flang'
       run: |
-        brew install llvm@${COMPILER_VERSION} flang
+        retry brew install llvm@${COMPILER_VERSION} flang \
+            2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
         # workaround issue #228: clang cannot find homebrew flang's C header
         for p in /opt/homebrew /usr/local $(brew --prefix) ; do find $p/Cellar/flang -name ISO_Fortran_binding.h 2>/dev/null || true ; done
         echo "CFLAGS=-I$(dirname $(find $(brew --prefix)/Cellar/flang -name ISO_Fortran_binding.h | head -1)) ${CFLAGS}" >> "$GITHUB_ENV"
@@ -283,10 +309,15 @@ jobs:
       if: ${{ runner.os == 'Linux' && runner.arch == 'ARM64' }}
       run: |
         export FPM_VERSION=0.13.0
+        for suff in -14 -15 -16 "" -13 -12 ; do
+          GFORTRAN=gfortran$suff
+          if type -P $GFORTRAN ; then break ; fi
+        done
+        [[ -n "$GFORTRAN" ]]
         mkdir -p fpm-temp/bin
         cd fpm-temp
-        curl --retry 5 -LOsS https://github.com/fortran-lang/fpm/releases/download/v$FPM_VERSION/fpm-$FPM_VERSION.F90
-        gfortran-14 -o bin/fpm fpm-$FPM_VERSION.F90
+        curl $CURL_OPTIONS https://github.com/fortran-lang/fpm/releases/download/v$FPM_VERSION/fpm-$FPM_VERSION.F90 -o fpm.F90
+        $GFORTRAN -fopenmp -o bin/fpm fpm.F90
         echo "PATH=$PWD/bin:${PATH}" >> "$GITHUB_ENV"
 
     - name: Version info
