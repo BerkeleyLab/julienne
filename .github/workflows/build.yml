@@ -170,6 +170,7 @@ jobs:
       FFLAGS: ${{ matrix.extra_flags }}
       FPM_FLAGS:  --profile release --verbose
       CURL_OPTIONS: --retry 10 --retry-all-errors --fail -L
+      BREW_WARNING_FILTER: 's/^[[:punct:]]*warning[[:punct:]]*(You are using macOS)/warn: \1/i'
 
     steps:
     - name: Checkout code
@@ -252,15 +253,18 @@ jobs:
       run: |
         retry brew update
         # fpm binary distribution for macOS requires gfortran shared libraries from gcc@12
-        retry brew install gcc@12
+        retry brew install gcc@12 \
+            2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
         if [[ ${{ matrix.compiler }} == 'gfortran' && ${COMPILER_VERSION} -gt 15 ]] ; then
-          retry brew install gcc@${COMPILER_VERSION}
+          retry brew install gcc@${COMPILER_VERSION} \
+            2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
         fi
 
     - name: Install LLVM flang on macOS
       if: contains(matrix.os, 'macos') && matrix.compiler == 'flang'
       run: |
-        retry brew install llvm@${COMPILER_VERSION} flang
+        retry brew install llvm@${COMPILER_VERSION} flang \
+            2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
         # workaround issue #228: clang cannot find homebrew flang's C header
         for p in /opt/homebrew /usr/local $(brew --prefix) ; do find $p/Cellar/flang -name ISO_Fortran_binding.h 2>/dev/null || true ; done
         echo "CFLAGS=-I$(dirname $(find $(brew --prefix)/Cellar/flang -name ISO_Fortran_binding.h | head -1)) ${CFLAGS}" >> "$GITHUB_ENV"
