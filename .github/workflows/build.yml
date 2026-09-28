@@ -169,6 +169,7 @@ jobs:
       FC: ${{ matrix.compiler }}
       FFLAGS: ${{ matrix.extra_flags }}
       FPM_FLAGS:  --profile release --verbose
+      CURL_OPTIONS: --retry 10 --retry-all-errors --fail -L
 
     steps:
     - name: Checkout code
@@ -183,7 +184,7 @@ jobs:
         if [[ ${COMPILER_VERSION} -lt 15 ]] || type -p gfortran-${COMPILER_VERSION} ; then
           sudo apt install -y gfortran-${COMPILER_VERSION}
         else
-          curl -L https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o install-homebrew.sh
+          curl $CURL_OPTIONS https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o install-homebrew.sh
           chmod +x install-homebrew.sh
           env CI=1 ./install-homebrew.sh
           HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
@@ -283,10 +284,15 @@ jobs:
       if: ${{ runner.os == 'Linux' && runner.arch == 'ARM64' }}
       run: |
         export FPM_VERSION=0.13.0
+        for suff in -14 -15 -16 "" -13 -12 ; do
+          GFORTRAN=gfortran$suff
+          if type -P $GFORTRAN ; then break ; fi
+        done
+        [[ -n "$GFORTRAN" ]]
         mkdir -p fpm-temp/bin
         cd fpm-temp
-        curl --retry 5 -LOsS https://github.com/fortran-lang/fpm/releases/download/v$FPM_VERSION/fpm-$FPM_VERSION.F90
-        gfortran-14 -o bin/fpm fpm-$FPM_VERSION.F90
+        curl $CURL_OPTIONS https://github.com/fortran-lang/fpm/releases/download/v$FPM_VERSION/fpm-$FPM_VERSION.F90 -o fpm.F90
+        $GFORTRAN -fopenmp -o bin/fpm fpm.F90
         echo "PATH=$PWD/bin:${PATH}" >> "$GITHUB_ENV"
 
     - name: Version info
