@@ -129,6 +129,14 @@ jobs:
 
           # --- LFortran coverage ---
 
+          # https://github.com/fortran-lang/homebrew-fortran
+          - os: macos-15
+            compiler: lfortran
+            version: brew
+          - os: macos-26
+            compiler: lfortran
+            version: brew
+
           # https://hub.docker.com/r/phhargrove/lfortran/tags
           - os: ubuntu-24.04
             compiler: lfortran
@@ -270,6 +278,10 @@ jobs:
           retry brew install gcc@${COMPILER_VERSION} \
             2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
         fi
+        if [[ ${{ matrix.compiler }} == 'lfortran' ]] ; then
+          retry brew install fortran-lang/fortran/lfortran \
+            2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
+        fi  
 
     - name: Install LLVM flang on macOS
       if: contains(matrix.os, 'macos') && matrix.compiler == 'flang'
