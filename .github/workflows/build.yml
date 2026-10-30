@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ macos-14, macos-15, macos-15-intel, macos-26, macos-26-intel, ubuntu-24.04, ubuntu-26.04-arm ]
+        os: [ macos-15, macos-15-intel, macos-26, macos-26-intel, ubuntu-24.04, ubuntu-26.04-arm ]
         compiler: [ gfortran ]
         version: [ 13, 14, 15, 16 ]
         extra_flags: [ -g -O3 ]
@@ -129,6 +129,14 @@ jobs:
 
           # --- LFortran coverage ---
 
+          # https://github.com/fortran-lang/homebrew-fortran
+          - os: macos-15
+            compiler: lfortran
+            version: brew
+          - os: macos-26
+            compiler: lfortran
+            version: brew
+
           # https://hub.docker.com/r/phhargrove/lfortran/tags
           - os: ubuntu-24.04
             compiler: lfortran
@@ -158,6 +166,14 @@ jobs:
             container: ghcr.io/lfortran/lfortran:v0.66.0
           - os: ubuntu-22.04
             compiler: lfortran
+            version: 0.67.0
+            container: ghcr.io/lfortran/lfortran:v0.67.0
+          - os: ubuntu-22.04
+            compiler: lfortran
+            version: 0.68.0
+            container: ghcr.io/lfortran/lfortran:v0.68.0
+          - os: ubuntu-22.04
+            compiler: lfortran
             version: latest
             container: ghcr.io/lfortran/lfortran:latest
 
@@ -170,7 +186,7 @@ jobs:
       FFLAGS: ${{ matrix.extra_flags }}
       FPM_FLAGS:  --profile release --verbose
       CURL_OPTIONS: --retry 10 --retry-all-errors --fail -L
-      BREW_WARNING_FILTER: 's/^[[:punct:]]*warning[[:punct:]]*(You are using macOS)/warn: \1/i'
+      BREW_WARNING_FILTER: 's/^[[:punct:]]+warning[[:punct:]]+/warning: /i'
 
     steps:
     - name: Checkout code
@@ -210,7 +226,8 @@ jobs:
           chmod +x install-homebrew.sh
           env CI=1 ./install-homebrew.sh
           HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
-          retry ${HOMEBREW_PREFIX}/bin/brew install -v gcc@${COMPILER_VERSION} binutils
+          retry ${HOMEBREW_PREFIX}/bin/brew install -v gcc@${COMPILER_VERSION} binutils \
+              2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
           ls -al ${HOMEBREW_PREFIX}/bin
           echo "PATH=${HOMEBREW_PREFIX}/bin:${PATH}" >> "$GITHUB_ENV"
           : Homebrew GCC@15 needs binutils 2.44+
@@ -238,7 +255,8 @@ jobs:
       if: ${{ contains(matrix.os, 'macos') }}
       run: |
         # silence Homebrew tap trust warnings:
-        (set +e ; brew untap -f aws/tap hashicorp/tap 2>&1 | perl -pe 's/^::*//;s/^##*//' ; brew trust azure/bicep ; echo )
+        (set +e ; brew untap -f aws/tap hashicorp/tap ; brew trust azure/bicep ) \
+            2>&1 | perl -pe "$BREW_WARNING_FILTER"
         # set some Homebrew knobs to accelerate installation
         # but only when we are not simulating the user environment brew-via-install workflow
         if [[ -z "${{ matrix.brew_via_install }}" ]] ; then
@@ -251,7 +269,8 @@ jobs:
     - name: Install macOS Dependencies
       if: contains(matrix.os, 'macos')
       run: |
-        retry brew update
+        retry brew update \
+            2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
         # fpm binary distribution for macOS requires gfortran shared libraries from gcc@12
         retry brew install gcc@12 \
             2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
@@ -259,6 +278,10 @@ jobs:
           retry brew install gcc@${COMPILER_VERSION} \
             2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
         fi
+        if [[ ${{ matrix.compiler }} == 'lfortran' ]] ; then
+          retry brew install fortran-lang/fortran/lfortran \
+            2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
+        fi  
 
     - name: Install LLVM flang on macOS
       if: contains(matrix.os, 'macos') && matrix.compiler == 'flang'
