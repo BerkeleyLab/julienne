@@ -219,6 +219,7 @@ jobs:
         retry sudo apt-get update
         #sudo apt list -a 'gfortran-*'
         retry sudo apt install -y build-essential
+        [[ ${{ matrix.compiler }} == 'gfortran' ]] # assert no container means gfortran
         if [[ ${COMPILER_VERSION} -lt 15 ]] || type -p gfortran-${COMPILER_VERSION} ; then
           retry sudo apt install -y gfortran-${COMPILER_VERSION}
         else
@@ -233,9 +234,9 @@ jobs:
           : Homebrew GCC@15 needs binutils 2.44+
           HOMEBREW_BINUTILS=$(ls -d ${HOMEBREW_PREFIX}/Cellar/binutils/2.*/bin )
           ls -al ${HOMEBREW_BINUTILS}
-          echo "FFLAGS=$FFLAGS -B ${HOMEBREW_BINUTILS}" >> "$GITHUB_ENV"
-          echo "CFLAGS=$CFLAGS -B ${HOMEBREW_BINUTILS}" >> "$GITHUB_ENV"
-          echo "CXXFLAGS=$CXXFLAGS -B ${HOMEBREW_BINUTILS}" >> "$GITHUB_ENV"
+          echo "FFLAGS=$FFLAGS -B${HOMEBREW_BINUTILS}" >> "$GITHUB_ENV"
+          echo "CFLAGS=$CFLAGS -B${HOMEBREW_BINUTILS}" >> "$GITHUB_ENV"
+          echo "CXXFLAGS=$CXXFLAGS -B${HOMEBREW_BINUTILS}" >> "$GITHUB_ENV"
         fi
 
 
@@ -269,8 +270,9 @@ jobs:
     - name: Install macOS Dependencies
       if: contains(matrix.os, 'macos')
       run: |
-        retry brew update \
-            2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
+        # Brew update takes a VERY long time to do cleanup and we don't care
+        #retry brew update \
+        #    2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
         # fpm binary distribution for macOS requires gfortran shared libraries from gcc@12
         retry brew install gcc@12 \
             2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
@@ -336,7 +338,7 @@ jobs:
           GFORTRAN=gfortran$suff
           if type -P $GFORTRAN ; then break ; fi
         done
-        [[ -n "$GFORTRAN" ]]
+        type -p "$GFORTRAN"
         mkdir -p fpm-temp/bin
         cd fpm-temp
         curl $CURL_OPTIONS https://github.com/fortran-lang/fpm/releases/download/v$FPM_VERSION/fpm-$FPM_VERSION.F90 -o fpm.F90
