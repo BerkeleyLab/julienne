@@ -230,7 +230,7 @@ jobs:
           retry ${HOMEBREW_PREFIX}/bin/brew install -v gcc@${COMPILER_VERSION} binutils \
               2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
           ls -al ${HOMEBREW_PREFIX}/bin
-          echo "PATH=${HOMEBREW_PREFIX}/bin:${PATH}" >> "$GITHUB_ENV"
+          echo "${HOMEBREW_PREFIX}/bin" >> "$GITHUB_PATH"
           : Homebrew GCC@15 needs binutils 2.44+
           HOMEBREW_BINUTILS=$(ls -d ${HOMEBREW_PREFIX}/Cellar/binutils/2.*/bin )
           ls -al ${HOMEBREW_BINUTILS}
@@ -294,7 +294,7 @@ jobs:
         for p in /opt/homebrew /usr/local $(brew --prefix) ; do find $p/Cellar/flang -name ISO_Fortran_binding.h 2>/dev/null || true ; done
         echo "CFLAGS=-I$(dirname $(find $(brew --prefix)/Cellar/flang -name ISO_Fortran_binding.h | head -1)) ${CFLAGS}" >> "$GITHUB_ENV"
         # Prepend homebrew clang to PATH:
-        echo "PATH=$(brew --prefix)/opt/llvm/bin:${PATH}" >> "$GITHUB_ENV"
+        echo "$(brew --prefix)/opt/llvm/bin" >> "$GITHUB_PATH"
 
     - name: Setup Compilers
       run: |
@@ -343,7 +343,7 @@ jobs:
         cd fpm-temp
         curl $CURL_OPTIONS https://github.com/fortran-lang/fpm/releases/download/v$FPM_VERSION/fpm-$FPM_VERSION.F90 -o fpm.F90
         $GFORTRAN -fopenmp -o bin/fpm fpm.F90
-        echo "PATH=$PWD/bin:${PATH}" >> "$GITHUB_ENV"
+        echo "$PWD/bin" >> "$GITHUB_PATH"
 
     - name: Version info
       run: |
