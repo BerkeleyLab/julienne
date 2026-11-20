@@ -234,11 +234,11 @@ jobs:
           : Homebrew GCC@15 needs binutils 2.44+
           HOMEBREW_BINUTILS=$(ls -d ${HOMEBREW_PREFIX}/Cellar/binutils/2.*/bin )
           ls -al ${HOMEBREW_BINUTILS}
-          echo "FFLAGS=$FFLAGS -B${HOMEBREW_BINUTILS}" >> "$GITHUB_ENV"
-          echo "CFLAGS=$CFLAGS -B${HOMEBREW_BINUTILS}" >> "$GITHUB_ENV"
-          echo "CXXFLAGS=$CXXFLAGS -B${HOMEBREW_BINUTILS}" >> "$GITHUB_ENV"
+          echo "FFLAGS=${FFLAGS:+"$FFLAGS" }-B${HOMEBREW_BINUTILS}" >> "$GITHUB_ENV"
+          echo "CFLAGS=${CFLAGS:+"$CFLAGS" }-B${HOMEBREW_BINUTILS}" >> "$GITHUB_ENV"
+          echo "CXXFLAGS=${CXXFLAGS:+"$CXXFLAGS" }-B${HOMEBREW_BINUTILS}" >> "$GITHUB_ENV"
+          echo "LDFLAGS=${LDFLAGS:+"$LDFLAGS" }-B${HOMEBREW_BINUTILS}" >> "$GITHUB_ENV"
         fi
-
 
     - name: Install Ubuntu Container Dependencies
       if: ${{ contains(matrix.os, 'ubuntu') && matrix.container != '' && !contains(matrix.container, 'phhargrove') }}
