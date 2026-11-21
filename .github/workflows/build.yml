@@ -273,9 +273,6 @@ jobs:
         # Brew update takes a VERY long time to do cleanup and we don't care
         #retry brew update \
         #    2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
-        # fpm binary distribution for macOS requires gfortran shared libraries from gcc@12
-        retry brew install gcc@12 \
-            2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
         if [[ ${{ matrix.compiler }} == 'gfortran' && ${COMPILER_VERSION} -gt 15 ]] ; then
           retry brew install gcc@${COMPILER_VERSION} \
             2>&1 | perl -pe "$BREW_WARNING_FILTER" ; test ${PIPESTATUS[0]} = 0
@@ -324,16 +321,16 @@ jobs:
         fi
 
     - name: Setup FPM
-      if: ${{ !(runner.os == 'Linux' && runner.arch == 'ARM64') }}
+      if: true
       uses: fortran-lang/setup-fpm@main
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         fpm-version: latest
 
     - name: Build FPM
-      if: ${{ runner.os == 'Linux' && runner.arch == 'ARM64' }}
+      if: false
       run: |
-        export FPM_VERSION=0.13.0
+        export FPM_VERSION=0.14.0
         for suff in -14 -15 -16 "" -13 -12 ; do
           GFORTRAN=gfortran$suff
           if type -P $GFORTRAN ; then break ; fi
@@ -341,7 +338,12 @@ jobs:
         type -p "$GFORTRAN"
         mkdir -p fpm-temp/bin
         cd fpm-temp
-        curl $CURL_OPTIONS https://github.com/fortran-lang/fpm/releases/download/v$FPM_VERSION/fpm-$FPM_VERSION.F90 -o fpm.F90
+        if [[ $FPM_VERSION == 'current' ]] ; then
+          FPM_ASSET=current/fpm.F90
+        else
+          FPM_ASSET=v$FPM_VERSION/fpm-$FPM_VERSION.F90
+        fi
+        curl $CURL_OPTIONS https://github.com/fortran-lang/fpm/releases/download/$FPM_ASSET -o fpm.F90
         $GFORTRAN -fopenmp -o bin/fpm fpm.F90
         echo "$PWD/bin" >> "$GITHUB_PATH"
 
