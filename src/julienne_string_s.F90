@@ -116,7 +116,7 @@ contains
         sv = sv // strings(s) // separator
       end do
 
-      sv = sv // strings(num_elements)
+      if (num_elements > 0) sv = sv // strings(num_elements)
 
     end associate
 
